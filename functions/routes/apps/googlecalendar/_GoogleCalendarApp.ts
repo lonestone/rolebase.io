@@ -90,13 +90,17 @@ export default class GoogleCalendarApp
   }
 
   public async uninstall() {
-    // Disconnect all synchronized calendars
-    for (const calendar of this.config.orgsCalendars) {
-      await this.disconnectOrgCalendar(calendar)
+    try {
+      // Disconnect all synchronized calendars
+      for (const calendar of this.config.orgsCalendars) {
+        await this.disconnectOrgCalendar(calendar)
+      }
+      await this.auth.revokeCredentials()
+    } catch (error) {
+      console.error(error)
     }
 
     await super.uninstall()
-    await this.auth.revokeCredentials()
   }
 
   // List all user's calendars

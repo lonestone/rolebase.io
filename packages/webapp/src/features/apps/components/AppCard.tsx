@@ -208,7 +208,16 @@ export default function AppCard({ type, userApp }: Props) {
             </VStack>
           </>
         ) : (
-          <Text>{t(`AppCard.apps.${type}.description`)}</Text>
+          <Text
+            dangerouslySetInnerHTML={{
+              __html: t(`AppCard.apps.${type}.description`),
+            }}
+            sx={{
+              a: {
+                textDecoration: 'underline',
+              },
+            }}
+          />
         )}
       </CardBody>
 

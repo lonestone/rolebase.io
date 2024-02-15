@@ -79,9 +79,13 @@ export default class Office365App
   ]
 
   public async uninstall() {
-    // Disconnect all synchronized calendars
-    for (const calendar of this.config.orgsCalendars) {
-      await this.disconnectOrgCalendar(calendar)
+    try {
+      // Disconnect all synchronized calendars
+      for (const calendar of this.config.orgsCalendars) {
+        await this.disconnectOrgCalendar(calendar)
+      }
+    } catch (error) {
+      console.error(error)
     }
 
     await super.uninstall()

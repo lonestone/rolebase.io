@@ -52,7 +52,7 @@
       },
       "GoogleCalendar": {
         "title": "Google Calendar",
-        "description": "Synchronisez votre calendrier Rolebase avec Google Calendar.",
+        "description": "Synchronisez votre calendrier Rolebase avec Google Calendar. Cette app est conforme à la <a href=\"https://developers.google.com/terms/api-services-user-data-policy\">Politique d'utilisation des données utilisateur des services Google API</a>, y compris les exigences d'utilisation limitée.",
         "descriptionInstalled": "Sélectionnez les calendriers à prendre en compte pour vérifier votre disponibilité, ainsi que le calendrier avec lequel synchroniser vos réunions."
       }
     }
