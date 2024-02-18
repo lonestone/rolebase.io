@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
-import { MoveTransition } from '../../../helpers/createTransition'
-import { getTargetNodeData } from '../../../helpers/getTargetNodeData'
 import settings from '../../../settings'
 import { NodeData, NodesSelection, NodeType } from '../../../types'
+import { MoveTransition } from '../helpers/createTransition'
+import { getTargetNodeData } from '../helpers/getTargetNodeData'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
 const dragOrigin = { x: 0, y: 0 }
@@ -47,16 +47,16 @@ export class MouseCircleElement extends AbstractCircleElement {
 
       // Click
       .on('click', (event, d: NodeData) => {
-        if (d.data.type === NodeType.Circle) {
+        if (d.data.type === NodeType.Circle && d.data.entityId) {
           // Click on circle
-          events.onCircleClick?.(d.data.id)
+          events.onCircleClick?.(d.data.entityId)
         } else if (
           d.data.type === NodeType.Member &&
           d.data.parentId &&
-          d.data.memberId
+          d.data.entityId
         ) {
           // Click on member
-          events.onMemberClick?.(d.data.parentId, d.data.memberId)
+          events.onMemberClick?.(d.data.parentId, d.data.entityId)
         }
       })
 
@@ -64,7 +64,7 @@ export class MouseCircleElement extends AbstractCircleElement {
       .call(
         d3
           .drag<SVGGElement, NodeData>()
-          .filter(function (event) {
+          .filter(function (event, d) {
             return (
               // Disable when mousewheel is pressed
               event.button !== 1 &&
@@ -72,7 +72,10 @@ export class MouseCircleElement extends AbstractCircleElement {
               (event.ctrlKey || event.metaKey) &&
               // Disable when events are not provided
               events.onCircleMove &&
-              events.onMemberMove
+              events.onMemberMove &&
+              // Disable for invited circles (links)
+              (d.data.parentId === d.parent?.data.id ||
+                d.data.parentId === d.parent?.parent?.data.id)
             )
           })
           .on('start', function (event, dragNode) {
@@ -150,11 +153,14 @@ export class MouseCircleElement extends AbstractCircleElement {
                 dragNodes && that.resetDragNodes(dragNodes)
 
               const differentParent = dragNode.data.parentId !== targetCircleId
-              if (dragNode.data.type === NodeType.Circle) {
+              if (
+                dragNode.data.type === NodeType.Circle &&
+                dragNode.data.entityId
+              ) {
                 if (shiftKey) {
                   // Copy circle to another circle
                   events
-                    .onCircleCopy?.(dragNode.data.id, targetCircleId)
+                    .onCircleCopy?.(dragNode.data.entityId, targetCircleId)
                     .then((newCircleId) => {
                       if (newCircleId) {
                         focusTargetCircle()
@@ -163,7 +169,7 @@ export class MouseCircleElement extends AbstractCircleElement {
                 } else if (differentParent) {
                   // Move circle to another circle
                   events
-                    .onCircleMove?.(dragNode.data.id, targetCircleId)
+                    .onCircleMove?.(dragNode.data.entityId, targetCircleId)
                     .then(focusTargetCircle)
                     .catch(catchDragError)
                   actionMoved = true
@@ -171,11 +177,11 @@ export class MouseCircleElement extends AbstractCircleElement {
               } else if (
                 dragNode.data.type === NodeType.Member &&
                 dragNode.data.parentId &&
-                dragNode.data.memberId &&
+                dragNode.data.entityId &&
                 differentParent &&
                 targetCircleId
               ) {
-                const memberId = dragNode.data.memberId
+                const memberId = dragNode.data.entityId
                 if (shiftKey) {
                   // Copy member to another circle
                   events
@@ -185,7 +191,7 @@ export class MouseCircleElement extends AbstractCircleElement {
                   // Move member to another circle
                   events
                     .onMemberMove?.(
-                      dragNode.data.memberId,
+                      dragNode.data.entityId,
                       dragNode.data.parentId,
                       targetCircleId
                     )

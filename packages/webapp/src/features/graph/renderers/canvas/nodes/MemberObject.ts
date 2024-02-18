@@ -130,10 +130,10 @@ export class MemberObject extends NodeObject {
 
   protected onClick() {
     const {
-      data: { parentId, memberId },
+      data: { parentId, entityId },
     } = this.d
-    if (parentId && memberId) {
-      this.graph.params.events.onMemberClick?.(parentId, memberId)
+    if (parentId && entityId) {
+      this.graph.params.events.onMemberClick?.(parentId, entityId)
     }
   }
 }

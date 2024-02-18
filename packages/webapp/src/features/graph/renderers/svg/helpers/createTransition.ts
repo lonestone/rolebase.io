@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
-import settings from '../settings'
-import { Data } from '../types'
+import settings from '../../../settings'
+import { Data } from '../../../types'
 
 export function createMoveTransition() {
   return d3

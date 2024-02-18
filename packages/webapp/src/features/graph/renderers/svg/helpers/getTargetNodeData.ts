@@ -1,6 +1,6 @@
 import { D3DragEvent } from 'd3'
-import { Graph } from '../graphs/Graph'
-import { Data, NodeData, NodesSelection, NodeType } from '../types'
+import { Graph } from '../../../graphs/Graph'
+import { Data, NodeData, NodesSelection, NodeType } from '../../../types'
 import { isPointInsideCircle } from './isPointInsideCircle'
 
 export function getTargetNodeData(

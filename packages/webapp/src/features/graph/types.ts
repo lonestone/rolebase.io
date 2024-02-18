@@ -30,7 +30,7 @@ export type NodesSelection = Selection<SVGGElement, NodeData, BaseType, unknown>
 
 export interface Data {
   id: string
-  memberId?: string
+  entityId?: string
   parentId?: string | null
   name: string
   picture?: string | null

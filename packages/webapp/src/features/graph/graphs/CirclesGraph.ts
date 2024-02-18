@@ -3,6 +3,8 @@ import {
   getResizedImageUrl,
 } from '@/common/api/storage_images'
 import { CircleFullFragment } from '@gql'
+import { getCircleLeaders } from '@shared/helpers/getCircleLeaders'
+import { truthy } from '@shared/helpers/truthy'
 import { Participant } from '@shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
@@ -77,6 +79,7 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
         // Define circle data with role name
         const data: Data = {
           id: circle.id,
+          entityId: circle.id,
           parentId: circle.parentId,
           name: circle.role.name,
           type: NodeType.Circle,
@@ -88,40 +91,13 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
 
         // Add members in a circle to group them
         if (circle.members.length !== 0 || children.length === 0) {
-          children.push(this.memberstoD3Data(circle, data.colorHue))
+          children.push(this.membersToData(circle, data.colorHue))
         }
 
         // Add circle links
-        // if (circle.invitedCircleLinks.length !== 0) {
-        //   children.push(
-        //     ...circle.invitedCircleLinks
-        //       .map(({ invitedCircle: { id } }) => {
-        //         const invitedCircle = circles.find((c) => c.id === id)
-        //         if (!invitedCircle) return
-        //         return {
-        //           id: `${circle.id}_${id}`,
-        //           parentId: circle.id,
-        //           name: invitedCircle.role.name,
-        //           type: NodeType.Circle,
-        //           colorHue: invitedCircle.role.colorHue ?? undefined,
-        //           children: invitedCircle.participants?.map((p) => ({
-        //             id: `${circle.id}_${id}_${p.memberId}`,
-        //             parentId: `${circle.id}_${id}`,
-        //             name: p.member.name,
-        //             type: NodeType.Member,
-        //             memberId: p.memberId,
-        //             picture: getResizedImageUrl(
-        //               p.member.picture,
-        //               AVATAR_GRAPH_WIDTH
-        //             ),
-        //             value: settings.memberValue,
-        //             colorHue: invitedCircle.role.colorHue ?? undefined,
-        //           })),
-        //         }
-        //       })
-        //       .filter(truthy)
-        //   )
-        // }
+        if (circle.invitedCircleLinks.length !== 0) {
+          children.push(...this.circleLinksToData(circle, circles))
+        }
 
         // Set children if there is at least one
         if (children.length !== 0) {
@@ -136,10 +112,7 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       })
   }
 
-  protected memberstoD3Data(
-    circle: CircleFullFragment,
-    colorHue?: number
-  ): Data {
+  protected membersToData(circle: CircleFullFragment, colorHue?: number): Data {
     const node: Data = {
       id: `${circle.id}-members`,
       parentId: circle.id,
@@ -152,7 +125,7 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       node.children = circle.members.map(
         (entry): Data => ({
           id: entry.id,
-          memberId: entry.member.id,
+          entityId: entry.member.id,
           parentId: circle.id,
           name: textEllipsis(entry.member.name, 20),
           picture: getResizedImageUrl(entry.member.picture, AVATAR_GRAPH_WIDTH),
@@ -163,6 +136,41 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       )
     }
     return node
+  }
+
+  protected circleLinksToData(
+    circle: CircleFullFragment,
+    circles: CircleFullFragment[]
+  ): Data[] {
+    return circle.invitedCircleLinks
+      .map(({ invitedCircle: { id } }) => {
+        const invitedCircle = circles.find((c) => c.id === id)
+        if (!invitedCircle) return
+
+        const colorHue =
+          invitedCircle.role.colorHue ?? circle.role.colorHue ?? undefined
+        const leaders = getCircleLeaders(invitedCircle, circles)
+
+        return {
+          id: `${circle.id}_${id}`,
+          entityId: id,
+          parentId: invitedCircle.parentId,
+          name: invitedCircle.role.name,
+          type: NodeType.Circle,
+          colorHue,
+          children: leaders.map((p) => ({
+            id: `${circle.id}_${id}_${p.member.id}`,
+            entityId: p.member.id,
+            parentId: p.circleId,
+            name: p.member.name,
+            type: NodeType.Member,
+            picture: getResizedImageUrl(p.member.picture, AVATAR_GRAPH_WIDTH),
+            value: settings.memberValue,
+            colorHue,
+          })),
+        }
+      })
+      .filter(truthy)
   }
 
   private packData(data: Data) {
