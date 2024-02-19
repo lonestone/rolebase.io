@@ -211,8 +211,9 @@ export default function CirclesPage() {
         <Button
           size="sm"
           border={0}
+          opacity={beta ? 1 : 0}
+          _hover={{ opacity: 1 }}
           onClick={() => setBeta((v) => !v)}
-          {...buttonsStyleProps}
         >
           {beta ? 'Disable beta' : 'Try beta'}
         </Button>
