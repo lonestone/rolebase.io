@@ -141,6 +141,14 @@ export default class GoogleCalendarApp
     // Update/Create event
     const newEvent = await this.transformMeetingEvent(meetingEvent)
 
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] ${
+          existingEvent?.id ? 'Update' : 'Create'
+        } event ${existingEvent?.id} (meeting ${meetingEvent.id})`
+      )
+    }
+
     if (existingEvent?.id) {
       await this.calendar.events.update({
         calendarId: orgCalendar.calendarId,
@@ -278,7 +286,7 @@ export default class GoogleCalendarApp
     // Renew subscription if it's too old
     const days25 = 3600 * 24 * 25 * 1000
     if (+new Date(expiryDate) < Date.now() + days25) {
-      await this.renewSubscription(subscriptionId)
+      await this.renewSubscription(subscriptionId, newSyncToken || syncToken)
     }
 
     // Update syncToken
@@ -434,6 +442,14 @@ export default class GoogleCalendarApp
     }
 
     if (Object.keys(resetChanges).length > 0) {
+      if (debug) {
+        console.log(
+          `[App ${this.userApp.id}] Update event ${event.id} ${JSON.stringify(
+            resetChanges
+          )}`
+        )
+      }
+
       // Reset some props of event
       await this.calendar.events.patch({
         calendarId,
@@ -660,42 +676,50 @@ export default class GoogleCalendarApp
   }
 
   private async createSubscription(
-    calendarId: string
+    calendarId: string,
+    syncToken?: string
   ): Promise<GoogleCalendarSubscription | undefined> {
-    const { data: subscription } = await this.calendar.events.watch({
-      calendarId,
-      requestBody: {
-        id: randomUUID(),
-        token: this.userApp.id,
-        type: 'web_hook',
-        address: `${settings.functionsUrl}/routes/apps/googlecalendar/notify`,
-        params: {
-          ttl: '2592000', // Max expiration date (30 days)
+    try {
+      const { data: subscription } = await this.calendar.events.watch({
+        calendarId,
+        requestBody: {
+          id: randomUUID(),
+          token: this.userApp.id,
+          type: 'web_hook',
+          address: `${settings.functionsUrl}/routes/apps/googlecalendar/notify`,
+          params: {
+            ttl: '2592000', // Max expiration date (30 days)
+          },
         },
-      },
-    })
+      })
 
-    if (
-      !subscription.id ||
-      !subscription.resourceId ||
-      !subscription.expiration
-    ) {
-      throw new Error(
-        `Unable to create subscription for calendar ${calendarId}: ${JSON.stringify(
-          subscription
-        )}`
-      )
-    }
+      if (
+        !subscription.id ||
+        !subscription.resourceId ||
+        !subscription.expiration
+      ) {
+        throw new Error(
+          `Unable to create subscription for calendar ${calendarId}: ${JSON.stringify(
+            subscription
+          )}`
+        )
+      }
 
-    // Get nextSyncToken
-    const syncToken = await this.getNewSyncToken(calendarId)
+      // Get new sync token if not provided
+      if (syncToken) {
+        syncToken = await this.getNewSyncToken(calendarId)
+      }
 
-    return {
-      id: subscription.id,
-      calendarId,
-      resourceId: subscription.resourceId,
-      expiryDate: +subscription.expiration,
-      syncToken: syncToken || null,
+      return {
+        id: subscription.id,
+        calendarId,
+        resourceId: subscription.resourceId,
+        expiryDate: +subscription.expiration,
+        syncToken: syncToken || null,
+      }
+    } catch (error) {
+      console.error(error)
+      return
     }
   }
 
@@ -706,7 +730,8 @@ export default class GoogleCalendarApp
         data: { nextSyncToken, nextPageToken },
       } = await this.calendar.events.list({
         calendarId,
-        maxResults: 1,
+        maxResults: 2500,
+        fields: 'nextSyncToken,nextPageToken',
         pageToken,
       })
       if (nextSyncToken) {
@@ -717,7 +742,7 @@ export default class GoogleCalendarApp
   }
 
   // When subscription is too old, we recreate it
-  private async renewSubscription(subscriptionId: string) {
+  private async renewSubscription(subscriptionId: string, syncToken: string) {
     if (debug) {
       console.log(
         `[App ${this.userApp.id}] Subscription ${subscriptionId} renew`
@@ -729,7 +754,10 @@ export default class GoogleCalendarApp
 
     // Delete then recreate subscription
     await this.deleteSubscription(subscriptionConfig)
-    const subscription = await this.createSubscription(orgCalendar.calendarId)
+    const subscription = await this.createSubscription(
+      orgCalendar.calendarId,
+      syncToken
+    )
 
     // Update secret config
     if (subscription) {

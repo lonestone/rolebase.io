@@ -1,5 +1,4 @@
 import { RouteError, route } from '@utils/route'
-import { captureError } from '@utils/sentry'
 import { loadAppById } from '..'
 import GoogleCalendarApp from './_GoogleCalendarApp'
 
@@ -39,8 +38,8 @@ export default route(async (context) => {
     // Handle notification
     await app.onSubscriptionNotification(subscriptionId, expiryDate)
   } catch (error) {
-    console.error(error)
-    captureError(error)
+    // console.error(error)
+    // captureError(error)
   }
 
   return 'OK'

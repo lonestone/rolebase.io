@@ -19,7 +19,6 @@ export default route(async (context) => {
 
   // Instanciate app
   const app = await loadAppById(id).catch((e) => {
-    console.warn(e)
     throw new RouteError(400, 'App not found')
   })
 
