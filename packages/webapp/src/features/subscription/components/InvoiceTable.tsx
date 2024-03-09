@@ -11,7 +11,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { Invoice } from '@shared/model/subscription'
+import { Invoice } from '@rolebase/shared/model/subscription'
 import {
   Row,
   SortingState,

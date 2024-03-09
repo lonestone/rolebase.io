@@ -6,7 +6,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import { Subscription } from '@shared/model/subscription'
+import { Subscription } from '@rolebase/shared/model/subscription'
 import {
   SubscriptionPlan,
   SubscriptionPlanCardData,

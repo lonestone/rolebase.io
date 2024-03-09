@@ -1,5 +1,5 @@
-import { CalendarApp } from '@shared/model/user_app'
-import { fn } from '../../common/api/functions'
+import { fn } from '@/common/api/functions'
+import { CalendarApp } from '@rolebase/shared/model/user_app'
 
 // Invoke a function from an app
 const appsAction = fn<{ id: string; action: string; args?: Array<any> }, any>(

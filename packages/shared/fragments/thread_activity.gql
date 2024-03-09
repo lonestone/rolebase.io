@@ -1,0 +1,20 @@
+fragment ThreadActivity on thread_activity {
+  id
+  threadId
+  userId
+  createdAt
+  type
+  data
+  refThread {
+    ...Thread
+  }
+  refMeeting {
+    ...MeetingSummary
+  }
+  refTask {
+    ...Task
+  }
+  refDecision {
+    ...Decision
+  }
+}

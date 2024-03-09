@@ -1,7 +1,7 @@
 import { CircleFullFragment } from '@gql'
-import { getCircleLeaders } from '@shared/helpers/getCircleLeaders'
-import { groupParticipantsByMember } from '@shared/helpers/groupParticipantsByMember'
-import { ParticipantMember } from '@shared/model/member'
+import { getCircleLeaders } from '@rolebase/shared/helpers/getCircleLeaders'
+import { groupParticipantsByMember } from '@rolebase/shared/helpers/groupParticipantsByMember'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

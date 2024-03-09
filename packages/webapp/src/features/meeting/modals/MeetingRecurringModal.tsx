@@ -24,13 +24,13 @@ import {
   Wrap,
 } from '@chakra-ui/react'
 import { useMeetingRecurringSubscription } from '@gql'
-import { getScopeMemberIds } from '@shared/helpers/getScopeMemberIds'
+import { getScopeMemberIds } from '@rolebase/shared/helpers/getScopeMemberIds'
 import {
   excludeMeetingsFromRRule,
   getDateFromUTCDate,
-} from '@shared/helpers/rrule'
-import { truthy } from '@shared/helpers/truthy'
-import { ParticipantMember } from '@shared/model/member'
+} from '@rolebase/shared/helpers/rrule'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'

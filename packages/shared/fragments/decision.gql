@@ -1,0 +1,11 @@
+fragment Decision on decision {
+  id
+  orgId
+  circleId
+  memberId
+  title
+  description
+  archived
+  createdAt
+  private
+}

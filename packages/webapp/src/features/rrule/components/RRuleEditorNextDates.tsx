@@ -7,7 +7,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { getDateFromUTCDate } from '@shared/helpers/rrule'
+import { getDateFromUTCDate } from '@rolebase/shared/helpers/rrule'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React, { useMemo } from 'react'

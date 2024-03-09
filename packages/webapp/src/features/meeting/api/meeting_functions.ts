@@ -1,9 +1,5 @@
+import { fn } from '@/common/api/functions'
 import settings from 'src/settings'
-import { fn } from '../../common/api/functions'
-
-export const getMeetingsToken = fn<{ orgId: string }, string>(
-  'meetings/getMeetingsToken'
-)
 
 // Generate a meeting summary with AI
 export const generateMeetingSummary = fn<

@@ -18,8 +18,8 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { nameSchema, slugSchema } from '@shared/schemas'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
+import { nameSchema, slugSchema } from '@rolebase/shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

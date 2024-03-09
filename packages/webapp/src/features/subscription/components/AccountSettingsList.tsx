@@ -1,5 +1,5 @@
 import { StackProps, Text, VStack } from '@chakra-ui/react'
-import { Subscription } from '@shared/model/subscription'
+import { Subscription } from '@rolebase/shared/model/subscription'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'

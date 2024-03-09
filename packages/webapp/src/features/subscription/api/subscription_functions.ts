@@ -1,3 +1,4 @@
+import { fn } from '@/common/api/functions'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import {
   CustomerBillingDetails,
@@ -6,9 +7,8 @@ import {
   PromotionCode,
   Subscription,
   SubscriptionIntentResponse,
-} from '@shared/model/subscription'
+} from '@rolebase/shared/model/subscription'
 import { Address as StripeAddress } from '@stripe/stripe-js'
-import { fn } from '../../common/api/functions'
 
 export const subscribeOrg = fn<
   {

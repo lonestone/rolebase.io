@@ -1,0 +1,32 @@
+fragment Circle on circle {
+  id
+  orgId
+  roleId
+  parentId
+  archived
+}
+
+fragment CircleSummary on circle {
+  ...Circle
+  role {
+    ...RoleSummary
+  }
+}
+
+fragment CircleFull on circle {
+  ...CircleSummary
+  members(
+    where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
+  ) {
+    id
+    avgMinPerWeek
+    member {
+      ...MemberSummary
+    }
+  }
+  invitedCircleLinks {
+    invitedCircle {
+      id
+    }
+  }
+}

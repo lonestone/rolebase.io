@@ -2,7 +2,6 @@ import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import EditorController from '@/editor/components/EditorController'
 import useCreateLog from '@/log/hooks/useCreateLog'
-import { generateRole } from '@/role/api/role_functions'
 import {
   Alert,
   AlertDescription,
@@ -24,12 +23,13 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { RoleFragment, useUpdateRoleMutation } from '@gql'
-import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { getEntityChanges } from '@rolebase/shared/helpers/log/getEntityChanges'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { MagicIcon } from 'src/icons'
+import { trpc } from 'src/trpc'
 
 interface Props extends UseModalProps {
   role: RoleFragment
@@ -70,10 +70,11 @@ export default function RoleGeneratorModal({ id, role, ...modalProps }: Props) {
     setLoading(true)
     setError(undefined)
 
-    generateRole({
-      name: role.name,
-      lang: language,
-    })
+    trpc.ai.generateRole
+      .query({
+        name: role.name,
+        lang: language,
+      })
       .then((roleProps) => {
         // Update form
         for (const field of fields) {

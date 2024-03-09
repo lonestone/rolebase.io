@@ -1,0 +1,94 @@
+name = 'backend'
+command = ['npm', 'start']
+
+[image]
+image = 'registry.eu-central-1.nhost.run/94212868-126b-47d0-bc96-4a9ac670c2ea:1.0.3'
+
+[[environment]]
+name = 'WEBAPP_URL'
+value = 'https://rolebase.io'
+
+[[environment]]
+name = 'BACKEND_URL'
+value = 'https://api.rolebase.io'
+
+[[environment]]
+name = 'NHOST_ADMIN_SECRET'
+value = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
+
+[[environment]]
+name = 'HASURA_GRAPHQL_JWT_SECRET'
+value = '{{ secrets.HASURA_GRAPHQL_JWT_SECRET }}'
+
+[[environment]]
+name = 'NHOST_WEBHOOK_SECRET'
+value = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
+
+[[environment]]
+name = 'MAILJET_PUBIC_KEY'
+value = '{{ secrets.MAILJET_PUBIC_KEY }}'
+
+[[environment]]
+name = 'MAILJET_PRIVATE_KEY'
+value = '{{ secrets.MAILJET_PRIVATE_KEY }}'
+
+[[environment]]
+name = 'SECURITY_INVITATION_TOKEN'
+value = '{{ secrets.SECURITY_INVITATION_TOKEN }}'
+
+[[environment]]
+name = 'STRIPE_PRIVATE_KEY'
+value = '{{ secrets.STRIPE_PRIVATE_KEY }}'
+
+[[environment]]
+name = 'STRIPE_STARTUP_PLAN_PRICE_ID'
+value = '{{ secrets.STRIPE_STARTUP_PLAN_PRICE_ID }}'
+
+[[environment]]
+name = 'ALGOLIA_APP_ID'
+value = '{{ secrets.ALGOLIA_APP_ID }}'
+
+[[environment]]
+name = 'ALGOLIA_SEARCH_API_KEY'
+value = '{{ secrets.ALGOLIA_SEARCH_API_KEY }}'
+
+[[environment]]
+name = 'ALGOLIA_ADMIN_API_KEY'
+value = '{{ secrets.ALGOLIA_ADMIN_API_KEY }}'
+
+[[environment]]
+name = 'OPENAI_API_KEY'
+value = '{{ secrets.OPENAI_API_KEY }}'
+
+[[environment]]
+name = 'APPS_OFFICE365_CLIENT_ID'
+value = '{{ secrets.APPS_OFFICE365_CLIENT_ID }}'
+
+[[environment]]
+name = 'APPS_OFFICE365_CLIENT_SECRET'
+value = '{{ secrets.APPS_OFFICE365_CLIENT_SECRET }}'
+
+[[environment]]
+name = 'APPS_GOOGLECALENDAR_CLIENT_ID'
+value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_ID }}'
+
+[[environment]]
+name = 'APPS_GOOGLECALENDAR_CLIENT_SECRET'
+value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_SECRET }}'
+
+[[ports]]
+port = 8888
+type = 'http'
+publish = true
+
+[resources]
+replicas = 1
+
+[resources.compute]
+cpu = 312
+memory = 640
+
+[healthCheck]
+port = 8888
+initialDelaySeconds = 30
+probePeriodSeconds = 60

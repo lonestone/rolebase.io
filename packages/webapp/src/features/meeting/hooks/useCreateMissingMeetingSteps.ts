@@ -3,7 +3,7 @@ import {
   useCreateMeetingStepMutation,
   useGetRoleLazyQuery,
 } from '@gql'
-import { getDefaultMeetingStep } from '@shared/model/meeting_step'
+import { getDefaultMeetingStep } from '@rolebase/shared/model/meeting_step'
 import { useCallback, useContext } from 'react'
 import useOrgMember from '../../member/hooks/useOrgMember'
 import { MeetingContext } from '../contexts/MeetingContext'

@@ -1,0 +1,8 @@
+fragment CircleMember on circle_member {
+  id
+  circleId
+  memberId
+  avgMinPerWeek
+  createdAt
+  archived
+}

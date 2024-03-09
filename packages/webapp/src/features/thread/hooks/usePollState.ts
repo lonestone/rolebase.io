@@ -1,6 +1,6 @@
 import { ThreadPollAnswerFragment } from '@gql'
 import { useUserId } from '@nhost/react'
-import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
+import { ThreadActivityPollFragment } from '@rolebase/shared/model/thread_activity'
 import { useContext, useMemo } from 'react'
 import { ThreadContext } from '../contexts/ThreadContext'
 

@@ -8,6 +8,7 @@ import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
+import { setNullValuesToUndefined } from '@utils/setNullValuesToUndefined'
 import {
   createStripeCustomer,
   createStripeSubscription,
@@ -76,7 +77,13 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   }
 
   if (!customerId) {
-    customerId = (await createStripeCustomer(user.email, org.name, address)).id
+    customerId = (
+      await createStripeCustomer(
+        user.email,
+        org.name,
+        setNullValuesToUndefined(address)
+      )
+    ).id
   }
 
   const stripeSubscription = await createStripeSubscription(

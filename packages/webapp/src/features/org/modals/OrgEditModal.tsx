@@ -1,6 +1,7 @@
 import DurationSelect from '@/common/atoms/DurationSelect'
 import IconTextButton from '@/common/atoms/IconTextButton'
 import SwitchController from '@/common/atoms/SwitchController'
+import useCopyUrl from '@/common/hooks/useCopyUrl'
 import {
   Button,
   Flex,
@@ -23,15 +24,14 @@ import {
 } from '@chakra-ui/react'
 import { useUpdateOrgMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { nameSchema } from '@shared/schemas'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
+import { nameSchema } from '@rolebase/shared/schemas'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { CopyIcon, EditIcon } from 'src/icons'
 import settings from 'src/settings'
 import * as yup from 'yup'
-import useCopyUrl from '../../common/hooks/useCopyUrl'
 import useOrg from '../hooks/useOrg'
 import { useOrgId } from '../hooks/useOrgId'
 import OrgDeleteModal from './OrgDeleteModal'

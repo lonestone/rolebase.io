@@ -6,6 +6,7 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
+import { setNullValuesToUndefined } from '@utils/setNullValuesToUndefined'
 import { updateStripeCustomer } from '@utils/stripe'
 import * as yup from 'yup'
 
@@ -18,9 +19,10 @@ export default route(async (context): Promise<CustomerBillingDetails> => {
   guardAuth(context)
   const { orgId, billingDetails } = guardBodyParams(context, yupSchema)
 
-  if (!billingDetails) {
-    throw new RouteError(400, 'Invalid request')
-  }
+  const details = setNullValuesToUndefined({
+    ...billingDetails,
+    address: { ...setNullValuesToUndefined(billingDetails.address) },
+  })
 
   await guardOrg(orgId, Member_Role_Enum.Owner, context)
 
@@ -34,9 +36,9 @@ export default route(async (context): Promise<CustomerBillingDetails> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await updateStripeCustomer(stripeCustomerId, { ...billingDetails })
+  await updateStripeCustomer(stripeCustomerId, details)
 
-  return billingDetails
+  return details
 })
 
 const GET_ORG_SUBSCRIPTION_CUSTOMERID = gql(`

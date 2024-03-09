@@ -15,7 +15,7 @@ import {
   Portal,
   Tooltip,
 } from '@chakra-ui/react'
-import { ParticipantMember } from '@shared/model/member'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

@@ -10,7 +10,7 @@ import {
   Spacer,
   VStack,
 } from '@chakra-ui/react'
-import { ParticipantsCircleScope } from '@shared/model/participants'
+import { ParticipantsCircleScope } from '@rolebase/shared/model/participants'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiX } from 'react-icons/fi'

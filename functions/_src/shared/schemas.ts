@@ -31,7 +31,7 @@ export const addressSchema = yup
 
 export const billingDetailsSchema = yup.object().shape({
   name: yup.string().required(),
-  email: yup.string().optional(),
+  email: yup.string().nullable(),
   address: addressSchema,
 })
 

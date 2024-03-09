@@ -9,7 +9,7 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'

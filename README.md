@@ -277,3 +277,8 @@ Before sending your pull request, please:
 ## Help & issues
 
 If you're having an issue with Rolebase, feel free to [contact us](https://www.rolebase.io/contact) or to open an issue on this Github project.
+
+---
+
+TO ADD:
+nhost docker-credentials configure

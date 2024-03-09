@@ -15,7 +15,7 @@ import {
   Spacer,
   useColorMode,
 } from '@chakra-ui/react'
-import { getCircleChildren } from '@shared/helpers/getCircleChildren'
+import { getCircleChildren } from '@rolebase/shared/helpers/getCircleChildren'
 import { useStoreState } from '@store/hooks'
 import { downloadSvgAsPng } from '@utils/downloadSvgAsPng'
 import React, { useEffect, useMemo, useRef, useState } from 'react'

@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, BoxProps, chakra, HStack, Text } from '@chakra-ui/react'
 import { CircleFullFragment } from '@gql'
-import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
+import { getCircleAndParents } from '@rolebase/shared/helpers/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { CircleParentLinkIcon } from 'src/icons'

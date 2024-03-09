@@ -1,5 +1,5 @@
+import { fn } from '@/common/api/functions'
 import { Member_Role_Enum } from '@gql'
-import { fn } from '../../common/api/functions'
 
 export const inviteMember = fn<{
   memberId: string

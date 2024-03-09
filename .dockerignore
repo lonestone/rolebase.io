@@ -1,0 +1,25 @@
+node_modules
+.git
+.DS_Store
+*.local
+*.cache
+*.log
+.env
+.env.default
+.nhost
+.secrets
+
+# Project's parts
+.vscode
+functions
+nhost
+packages/*
+!packages/backend
+!packages/shared
+
+# Builds
+dist
+
+# Sentry Config File
+.env.sentry-build-plugin
+.sentryclirc

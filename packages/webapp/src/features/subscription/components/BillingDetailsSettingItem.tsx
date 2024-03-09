@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react'
-import { CustomerBillingDetails } from '@shared/model/subscription'
+import { CustomerBillingDetails } from '@rolebase/shared/model/subscription'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import UpdateBillingDetailsModal from '../modals/UpdateBillingDetailsModal'

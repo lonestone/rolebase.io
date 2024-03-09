@@ -8,11 +8,11 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 
-import { MeetingStepConfig, VideoConf } from '@shared/model/meeting'
-import { MeetingStepData } from '@shared/model/meeting_step'
-import { ParticipantsScope } from '@shared/model/participants'
-import { LogDisplay, EntitiesChanges } from '@shared/model/log'
-import { UserMetadata } from '@shared/model/user'
+import { MeetingStepConfig, VideoConf } from '@rolebase/shared/model/meeting'
+import { MeetingStepData } from '@rolebase/shared/model/meeting_step'
+import { ParticipantsScope } from '@rolebase/shared/model/participants'
+import { LogDisplay, EntitiesChanges } from '@rolebase/shared/model/log'
+import { UserMetadata } from '@rolebase/shared/model/user'
 
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */

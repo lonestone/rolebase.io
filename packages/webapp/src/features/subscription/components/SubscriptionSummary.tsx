@@ -18,7 +18,7 @@ import { Subscription_Plan_Type_Enum } from '@gql'
 import {
   CustomerBillingDetails,
   PricePreview,
-} from '@shared/model/subscription'
+} from '@rolebase/shared/model/subscription'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

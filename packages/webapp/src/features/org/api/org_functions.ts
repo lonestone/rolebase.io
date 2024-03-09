@@ -1,4 +1,4 @@
-import { fn } from '../../common/api/functions'
+import { fn } from '@/common/api/functions'
 
 export const createOrg = fn<{ name: string; slug: string }, string>(
   'orgs/createOrg'

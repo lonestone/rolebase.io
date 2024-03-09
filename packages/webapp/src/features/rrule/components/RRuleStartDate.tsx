@@ -1,5 +1,8 @@
 import { Input } from '@chakra-ui/react'
-import { getDateFromUTCDate, getUTCDateFromDate } from '@shared/helpers/rrule'
+import {
+  getDateFromUTCDate,
+  getUTCDateFromDate,
+} from '@rolebase/shared/helpers/rrule'
 import { getDateTimeLocal } from '@utils/dates'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

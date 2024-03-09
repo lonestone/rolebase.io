@@ -42,12 +42,12 @@ import {
   useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
+import { VideoConf, VideoConfTypes } from '@rolebase/shared/model/meeting'
 import {
   defaultParticipantsScope,
   ParticipantsScope,
-} from '@shared/model/participants'
-import { nameSchema, stepsConfigSchema } from '@shared/schemas'
+} from '@rolebase/shared/model/participants'
+import { nameSchema, stepsConfigSchema } from '@rolebase/shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo, useState } from 'react'

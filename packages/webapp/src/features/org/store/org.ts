@@ -5,9 +5,9 @@ import {
   OrgFullLightFragment,
   RoleSummaryFragment,
 } from '@gql'
-import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
-import { fixLostCircles } from '@shared/helpers/fixLostCircles'
-import { truthy } from '@shared/helpers/truthy'
+import { fixCirclesHue } from '@rolebase/shared/helpers/fixCirclesHue'
+import { fixLostCircles } from '@rolebase/shared/helpers/fixLostCircles'
+import { truthy } from '@rolebase/shared/helpers/truthy'
 import { omit } from '@utils/omit'
 import { Action, action } from 'easy-peasy'
 

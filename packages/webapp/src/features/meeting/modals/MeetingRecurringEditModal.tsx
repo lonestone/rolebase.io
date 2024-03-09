@@ -30,11 +30,11 @@ import {
   useUpdateMeetingRecurringMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
+import { VideoConf, VideoConfTypes } from '@rolebase/shared/model/meeting'
 import {
   defaultParticipantsScope,
   ParticipantsScope,
-} from '@shared/model/participants'
+} from '@rolebase/shared/model/participants'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

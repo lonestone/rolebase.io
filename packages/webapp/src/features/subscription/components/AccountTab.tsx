@@ -1,5 +1,5 @@
 import { Flex, FlexProps, Text } from '@chakra-ui/react'
-import { Subscription } from '@shared/model/subscription'
+import { Subscription } from '@rolebase/shared/model/subscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AccountSettingsList from './AccountSettingsList'

@@ -1,6 +1,6 @@
 import MeetingItem from '@/meeting/components/MeetingItem'
 import { Alert, AlertIcon, Text } from '@chakra-ui/react'
-import { ThreadActivityMeetingFragment } from '@shared/model/thread_activity'
+import { ThreadActivityMeetingFragment } from '@rolebase/shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadActivityLayout from './ThreadActivityLayout'

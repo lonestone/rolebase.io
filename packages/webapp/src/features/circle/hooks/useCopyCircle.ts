@@ -4,7 +4,11 @@ import {
   Circle_Insert_Input,
   useCreateCirclesMutation,
 } from '@gql'
-import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
+import {
+  EntitiesChanges,
+  EntityChangeType,
+  LogType,
+} from '@rolebase/shared/model/log'
 import { store } from '@store/index'
 import { omit } from '@utils/omit'
 import { pick } from '@utils/pick'

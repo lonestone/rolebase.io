@@ -9,7 +9,7 @@ import {
   RadioGroup,
   Stack,
 } from '@chakra-ui/react'
-import { VideoConfTypes } from '@shared/model/meeting'
+import { VideoConfTypes } from '@rolebase/shared/model/meeting'
 import React, { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

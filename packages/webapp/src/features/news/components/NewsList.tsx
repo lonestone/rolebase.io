@@ -1,5 +1,5 @@
 import { NewsFragment } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
+import { truthy } from '@rolebase/shared/helpers/truthy'
 import React from 'react'
 import NewsDecision from './NewsDecision'
 import NewsMeeting from './NewsMeeting'

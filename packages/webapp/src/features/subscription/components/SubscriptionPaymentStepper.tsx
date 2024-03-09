@@ -26,7 +26,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import { CustomerBillingDetails } from '@shared/model/subscription'
+import { CustomerBillingDetails } from '@rolebase/shared/model/subscription'
 import { Elements } from '@stripe/react-stripe-js'
 import {
   Stripe,

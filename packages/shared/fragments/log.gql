@@ -1,0 +1,17 @@
+fragment Log on log {
+  id
+  orgId
+  userId
+  memberId
+  memberName
+  meetingId
+  createdAt
+  display
+  changes
+  cancelLogId
+  cancelMemberId
+  cancelMemberName
+  canceled
+  threadId
+  taskId
+}

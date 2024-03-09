@@ -1,5 +1,5 @@
 import { HStack, Radio, RadioGroup, Select, Text } from '@chakra-ui/react'
-import { getDateFromUTCDate } from '@shared/helpers/rrule'
+import { getDateFromUTCDate } from '@rolebase/shared/helpers/rrule'
 import { range } from '@utils/range'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

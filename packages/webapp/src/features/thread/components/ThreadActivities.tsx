@@ -9,7 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { ThreadMemberStatusFragment, Thread_Activity_Type_Enum } from '@gql'
-import { ThreadActivityMeetingNoteFragment } from '@shared/model/thread_activity'
+import { ThreadActivityMeetingNoteFragment } from '@rolebase/shared/model/thread_activity'
 import { isSameDay } from 'date-fns'
 import React, {
   forwardRef,

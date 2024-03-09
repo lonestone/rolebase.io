@@ -7,7 +7,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { SubscriptionCard } from '@shared/model/subscription'
+import { SubscriptionCard } from '@rolebase/shared/model/subscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EditIcon, EmailIcon } from 'src/icons'

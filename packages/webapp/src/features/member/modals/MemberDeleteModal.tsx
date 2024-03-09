@@ -12,7 +12,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import useMember from '../hooks/useMember'

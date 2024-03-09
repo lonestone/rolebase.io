@@ -1,7 +1,7 @@
 import useCreateLog from '@/log/hooks/useCreateLog'
 import { useToast } from '@chakra-ui/react'
 import { TaskFragment, Task_Status_Enum, useUpdateTaskMutation } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 

@@ -1,0 +1,50 @@
+fragment Org on org {
+  id
+  name
+  archived
+  createdAt
+  defaultWorkedMinPerWeek
+  slug
+  shareOrg
+  shareMembers
+  protectGovernance
+}
+
+# This fragment is expensive, so we avoid using it in queries
+# and use OrgFullLight instead,
+# then we reconstruct OrgFull in store/org.ts
+fragment OrgFull on org {
+  ...Org
+  circles(where: { archived: { _eq: false } }) {
+    ...CircleFull
+  }
+  roles(where: { archived: { _eq: false }, base: { _eq: true } }) {
+    ...RoleSummary
+  }
+  members(where: { archived: { _eq: false } }) {
+    ...Member
+  }
+}
+
+fragment OrgFullLight on org {
+  ...Org
+  circles(where: { archived: { _eq: false } }) {
+    ...Circle
+    members(where: { archived: { _eq: false } }) {
+      id
+      memberId
+      avgMinPerWeek
+    }
+    invitedCircleLinks {
+      invitedCircle {
+        id
+      }
+    }
+  }
+  roles(where: { archived: { _eq: false } }) {
+    ...RoleSummary
+  }
+  members(where: { archived: { _eq: false } }) {
+    ...Member
+  }
+}

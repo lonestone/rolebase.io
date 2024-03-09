@@ -1,0 +1,13 @@
+fragment Task on task {
+  id
+  orgId
+  circleId
+  memberId
+  title
+  description
+  archived
+  createdAt
+  dueDate
+  status
+  private
+}

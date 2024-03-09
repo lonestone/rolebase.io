@@ -1,4 +1,4 @@
-import { fn } from '../../common/api/functions'
+import { fn } from '@/common/api/functions'
 
 export const searchReindexAll = fn('searchReindexAll')
 export const recomputeCircleParticipantCache = fn(

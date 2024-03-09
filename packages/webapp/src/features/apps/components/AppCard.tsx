@@ -16,7 +16,10 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { App_Type_Enum, UserAppFragment } from '@gql'
-import { AppCalendarConfig, OrgCalendarConfig } from '@shared/model/user_app'
+import {
+  AppCalendarConfig,
+  OrgCalendarConfig,
+} from '@rolebase/shared/model/user_app'
 import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -7,7 +7,7 @@ import {
   InputLeftElement,
   useButtonGroup,
 } from '@chakra-ui/react'
-import { SearchTypes } from '@shared/model/search'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { UseComboboxStateChange, useCombobox } from 'downshift'
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useSearch } from '../hooks/useSearch'

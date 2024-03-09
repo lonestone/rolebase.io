@@ -1,5 +1,5 @@
 import { useIdleCallback } from '@/common/hooks/useIdleCallback'
-import { SearchTypes } from '@shared/model/search'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { UseComboboxStateChange } from 'downshift'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

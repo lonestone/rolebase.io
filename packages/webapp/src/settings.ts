@@ -35,6 +35,8 @@ export default {
     ? 'https://jjvdhpoooerochuiusam.functions.eu-central-1.nhost.run/v1/'
     : 'https://fsudktxishllphxeibqs.functions.eu-central-1.nhost.run/v1/',
 
+  trpcUrl: isLocal ? 'http://localhost:8888/' : 'https://api.rolebase.io/',
+
   yjsCollab: {
     url: isLocal ? 'ws://localhost:1234' : 'wss://collab.rolebase.io',
   },

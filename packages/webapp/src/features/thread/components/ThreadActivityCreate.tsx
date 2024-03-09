@@ -27,7 +27,7 @@ import {
   Thread_Activity_Type_Enum,
   useCreateThreadActivityMutation,
 } from '@gql'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { cmdOrCtrlKey } from '@utils/env'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, {

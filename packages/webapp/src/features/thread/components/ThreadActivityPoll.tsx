@@ -16,7 +16,7 @@ import {
   useUpdateThreadPollAnswerMutation,
 } from '@gql'
 import { useUserId } from '@nhost/react'
-import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
+import { ThreadActivityPollFragment } from '@rolebase/shared/model/thread_activity'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import usePollState from '../hooks/usePollState'

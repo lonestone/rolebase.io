@@ -7,6 +7,7 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { RouteError, route } from '@utils/route'
+import { setNullValuesToUndefined } from '@utils/setNullValuesToUndefined'
 import { getPricePreview } from '@utils/stripe'
 import * as yup from 'yup'
 
@@ -36,7 +37,7 @@ export default route(async (context): Promise<PricePreview> => {
   const { coupon, price } = await getPricePreview(
     getPlanTypePriceId(planType),
     activeMembers,
-    address,
+    setNullValuesToUndefined(address),
     promotionCode
   )
 

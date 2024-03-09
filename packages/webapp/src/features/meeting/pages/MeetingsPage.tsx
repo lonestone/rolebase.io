@@ -31,14 +31,14 @@ import {
   EventInput,
 } from '@fullcalendar/core'
 import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
-import { circleColor } from '@shared/helpers/circleColor'
+import { circleColor } from '@rolebase/shared/helpers/circleColor'
 import {
   dateToTimeZone,
   excludeMeetingsFromRRule,
   getDateFromUTCDate,
   getUTCDateFromDate,
-} from '@shared/helpers/rrule'
-import { truthy } from '@shared/helpers/truthy'
+} from '@rolebase/shared/helpers/rrule'
+import { truthy } from '@rolebase/shared/helpers/truthy'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

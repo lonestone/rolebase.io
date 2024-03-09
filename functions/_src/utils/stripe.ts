@@ -254,12 +254,12 @@ export const retrievePromotionCode = async (
 
 export const updateStripeCustomer = async (
   stripeCustomerId: string,
-  ...fieldsToUpdate
+  fieldsToUpdate: Stripe.CustomerUpdateParams
 ): Promise<Stripe.Customer | Stripe.DeletedCustomer> => {
   try {
     const customer = await stripe.customers.update(
       stripeCustomerId,
-      ...fieldsToUpdate
+      fieldsToUpdate
     )
 
     return customer

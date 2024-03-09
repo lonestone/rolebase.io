@@ -1,0 +1,10 @@
+fragment RoleAI on role_ai {
+  id
+  name
+  purpose
+  domain
+  accountabilities
+  checklist
+  indicators
+  notes
+}

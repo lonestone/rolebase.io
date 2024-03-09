@@ -1,4 +1,4 @@
-import { SearchTypes } from '@shared/model/search'
+import { SearchTypes } from '@rolebase/shared/model/search'
 
 export type SearchItem = {
   id: string

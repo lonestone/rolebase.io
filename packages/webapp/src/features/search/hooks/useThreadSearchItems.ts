@@ -1,6 +1,6 @@
 import { ThreadFragment } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
-import { SearchTypes } from '@shared/model/search'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { useMemo } from 'react'
 import { SearchItem } from '../searchTypes'
 

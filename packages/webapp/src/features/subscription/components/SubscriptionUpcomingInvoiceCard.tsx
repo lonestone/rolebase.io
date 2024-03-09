@@ -7,7 +7,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { UpcomingInvoice } from '@shared/model/subscription'
+import { UpcomingInvoice } from '@rolebase/shared/model/subscription'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

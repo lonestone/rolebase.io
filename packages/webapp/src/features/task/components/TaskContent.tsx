@@ -27,6 +27,7 @@ import {
   Box,
   BoxProps,
   Button,
+  Center,
   Collapse,
   Flex,
   FormControl,
@@ -47,7 +48,7 @@ import {
   useUpdateTaskMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { nameSchema } from '@shared/schemas'
+import { nameSchema } from '@rolebase/shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
@@ -275,9 +276,10 @@ export default function TaskContent({
           <Tooltip
             label={t('TaskContent.privateTooltip', { role: circle?.role.name })}
             hasArrow
-            mr={2}
           >
-            <PrivacyIcon size={20} />
+            <Center mr={2}>
+              <PrivacyIcon size={20} />
+            </Center>
           </Tooltip>
         )}
 

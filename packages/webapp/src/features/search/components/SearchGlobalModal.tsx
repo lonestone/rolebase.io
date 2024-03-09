@@ -23,7 +23,7 @@ import {
   UseModalProps,
   useColorMode,
 } from '@chakra-ui/react'
-import { SearchTypes } from '@shared/model/search'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { UseComboboxStateChange, useCombobox } from 'downshift'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'

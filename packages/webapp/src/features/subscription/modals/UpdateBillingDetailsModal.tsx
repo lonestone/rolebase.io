@@ -17,7 +17,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import { CustomerBillingDetails } from '@shared/model/subscription'
+import { CustomerBillingDetails } from '@rolebase/shared/model/subscription'
 import { AddressElement, Elements } from '@stripe/react-stripe-js'
 import {
   StripeAddressElement,
