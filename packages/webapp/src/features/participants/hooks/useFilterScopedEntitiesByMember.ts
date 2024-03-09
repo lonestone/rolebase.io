@@ -1,5 +1,5 @@
-import filterScopedEntitiesByMember from '@shared/helpers/filterScopedEntitiesByMember'
-import { EntityWithScope } from '@shared/model/participants'
+import filterScopedEntitiesByMember from '@rolebase/shared/helpers/filterScopedEntitiesByMember'
+import { EntityWithScope } from '@rolebase/shared/model/participants'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

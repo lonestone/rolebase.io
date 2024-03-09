@@ -1,4 +1,4 @@
-import { defaultCircleColorHue } from '@shared/helpers/circleColor'
+import { defaultCircleColorHue } from '@rolebase/shared/helpers/circleColor'
 import { Actions } from 'pixi-actions'
 import * as PIXI from 'pixi.js'
 import settings from '../../../settings'

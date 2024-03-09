@@ -42,7 +42,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import {
   PollChoice,
   ThreadActivityPollFragment,
-} from '@shared/model/thread_activity'
+} from '@rolebase/shared/model/thread_activity'
 import { getDateTimeLocal } from '@utils/dates'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'

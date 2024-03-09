@@ -1,8 +1,10 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
 import {
+  fragmentsPath,
   getAddPlugin,
   getConfig,
-} from '@rolebase/functions/_src/shared/codegen'
+  schemaOverridesPath,
+} from '@rolebase/shared/codegenUtils'
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -15,9 +17,9 @@ const config: CodegenConfig = {
         },
       },
     },
-    '../../functions/_src/shared/schema-overrides.gql',
+    schemaOverridesPath,
   ],
-  documents: ['src/**/*.gql', '../../functions/_src/shared/fragments/*.gql'],
+  documents: ['src/**/*.gql', fragmentsPath],
   generates: {
     'src/graphql.generated.ts': {
       plugins: [

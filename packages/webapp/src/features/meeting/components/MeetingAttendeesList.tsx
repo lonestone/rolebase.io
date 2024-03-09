@@ -4,7 +4,7 @@ import {
   useDeleteMeetingAttendeeMutation,
   useUpdateMeetingAttendeeMutation,
 } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
+import { truthy } from '@rolebase/shared/helpers/truthy'
 import { useStoreState } from '@store/hooks'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

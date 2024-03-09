@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { useMeetingLogsSubscription } from '@gql'
-import { LogType } from '@shared/model/log'
+import { LogType } from '@rolebase/shared/model/log'
 import React, { useMemo } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'
 import LogsList from '../../log/components/LogsList'

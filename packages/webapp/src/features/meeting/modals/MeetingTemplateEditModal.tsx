@@ -22,7 +22,7 @@ import {
   useUpdateMeetingTemplateMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { nameSchema, stepsConfigSchema } from '@shared/schemas'
+import { nameSchema, stepsConfigSchema } from '@rolebase/shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

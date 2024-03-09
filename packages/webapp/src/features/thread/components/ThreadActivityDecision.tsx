@@ -1,6 +1,6 @@
 import DecisionItem from '@/decision/components/DecisionItem'
 import { Alert, AlertIcon, Text } from '@chakra-ui/react'
-import { ThreadActivityDecisionFragment } from '@shared/model/thread_activity'
+import { ThreadActivityDecisionFragment } from '@rolebase/shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadActivityLayout from './ThreadActivityLayout'

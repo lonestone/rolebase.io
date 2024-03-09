@@ -1,6 +1,6 @@
 import { HStack, Radio, RadioGroup, Select, Text } from '@chakra-ui/react'
-import { getDateFromUTCDate } from '@shared/helpers/rrule'
 import { range } from '@utils/range'
+import { zonedTimeToUtc } from 'date-fns-tz'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import useI18nDays from '../hooks/useI18nDays'
@@ -16,7 +16,10 @@ export default function RRuleMonthly({ options, onChange }: FormPartProps) {
   const { t } = useTranslation()
 
   const startDate = useMemo(
-    () => (options.dtstart ? getDateFromUTCDate(options.dtstart) : new Date()),
+    () =>
+      options.dtstart
+        ? zonedTimeToUtc(options.dtstart, options.tzid || 'UTC')
+        : new Date(),
     [options.dtstart]
   )
 

@@ -1,4 +1,4 @@
-import { defaultCircleColorHue } from '@shared/helpers/circleColor'
+import { defaultCircleColorHue } from '@rolebase/shared/helpers/circleColor'
 import { NodeData, NodesSelection, NodeType } from '../../../types'
 import { MoveTransition } from '../helpers/createTransition'
 import { AbstractCircleElement } from './AbstractCircleElement'

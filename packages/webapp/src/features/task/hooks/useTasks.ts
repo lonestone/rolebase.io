@@ -5,7 +5,7 @@ import {
   useTasksSubscription,
   useUpdateTaskViewMutation,
 } from '@gql'
-import { TasksViewTypes } from '@shared/model/task'
+import { TasksViewTypes } from '@rolebase/shared/model/task'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useOrgId } from '../../org/hooks/useOrgId'
 

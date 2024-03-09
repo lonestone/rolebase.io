@@ -4,7 +4,7 @@ import {
   Thread_Status_Enum,
   useUpdateThreadMutation,
 } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { useCallback, useEffect, useState } from 'react'
 
 export default function useThreadStatus(thread?: ThreadFragment) {

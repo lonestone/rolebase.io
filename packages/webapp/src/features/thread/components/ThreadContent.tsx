@@ -4,7 +4,6 @@ import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
 import Page404 from '@/common/pages/Page404'
-import useOrgMember from '@/member/hooks/useOrgMember'
 import ParticipantsNumber from '@/participants/components/ParticipantsNumber'
 import {
   Box,
@@ -47,7 +46,6 @@ export default function ThreadContent({
 }: Props) {
   const { t } = useTranslation()
   const [updateThread] = useUpdateThreadMutation()
-  const isMember = useOrgMember()
 
   // Load thread and activities
   const threadState = useThreadState(id)
@@ -98,12 +96,12 @@ export default function ThreadContent({
               <HStack spacing={2} align="center">
                 <ThreadStatusIcon
                   value={threadStatus}
-                  readOnly={!isMember}
+                  readOnly={!canEdit}
                   onChange={setStatus}
                 />
 
                 <Heading as="h1" size="md">
-                  {isMember ? (
+                  {canEdit ? (
                     <Link href="#" onClick={editModal.onOpen}>
                       {title}
                     </Link>
@@ -128,7 +126,7 @@ export default function ThreadContent({
                 )}
 
                 <Box>
-                  {isMember && threadStatus && !thread?.archived && (
+                  {canEdit && threadStatus && !thread?.archived && (
                     <ThreadStatusMenu
                       value={threadStatus}
                       onChange={setStatus}

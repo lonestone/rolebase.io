@@ -1,6 +1,6 @@
 import { RoleFragment } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
-import { SearchTypes } from '@shared/model/search'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem } from '../searchTypes'

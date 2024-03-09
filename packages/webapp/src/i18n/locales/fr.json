@@ -926,7 +926,7 @@
     "unsubscribeDate": "Votre abonnement prendra fin le {{date}}",
     "subscriptionResumed": "Votre abonnement à été réactiver",
     "noBillingAccount": "Vous n'avez aucun abonnement pour le moment",
-    "subscriptionSuccess": "C'est tout bon !",
+    "subscriptionSuccess": "Merci pour votre confiance !",
     "subscriptionCreated": "Votre abonnement a été créé 😀",
     "invoiceAvailable": "Votre facture de {{amount}}€ peut être téléchargée depuis l'onglet Factures",
     "free": {

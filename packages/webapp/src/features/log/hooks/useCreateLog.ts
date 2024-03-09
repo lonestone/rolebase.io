@@ -1,6 +1,6 @@
 import { LogFragment, useCreateLogMutation } from '@gql'
 import { useUserId } from '@nhost/react'
-import { Optional } from '@shared/model/types'
+import { Optional } from '@rolebase/shared/model/types'
 import { useStoreState } from '@store/hooks'
 import { store } from '@store/index'
 import { useCallback } from 'react'

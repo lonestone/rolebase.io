@@ -8,11 +8,11 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 
-import { MeetingStepConfig, VideoConf } from '@shared/model/meeting'
-import { MeetingStepData } from '@shared/model/meeting_step'
-import { ParticipantsScope } from '@shared/model/participants'
-import { LogDisplay, EntitiesChanges } from '@shared/model/log'
-import { UserMetadata } from '@shared/model/user'
+import { MeetingStepConfig, VideoConf } from '@rolebase/shared/model/meeting'
+import { MeetingStepData } from '@rolebase/shared/model/meeting_step'
+import { ParticipantsScope } from '@rolebase/shared/model/participants'
+import { LogDisplay, EntitiesChanges } from '@rolebase/shared/model/log'
+import { UserMetadata } from '@rolebase/shared/model/user'
 
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -14412,6 +14412,7 @@ export enum Subscription_Payment_Status_Enum {
   Incomplete = 'incomplete',
   IncompleteExpired = 'incomplete_expired',
   PastDue = 'past_due',
+  Paused = 'paused',
   Trialing = 'trialing',
   Unpaid = 'unpaid'
 }
@@ -20657,6 +20658,15 @@ export type UpdateOrgMutationVariables = Exact<{
 
 export type UpdateOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
+export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
+
+export type GetOrgSubscriptionQueryVariables = Exact<{
+  orgId: Scalars['uuid']['input'];
+}>;
+
+
+export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string }> };
+
 export type GetRoleQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
@@ -20712,15 +20722,6 @@ export type GetSearchResultsQueryVariables = Exact<{
 
 
 export type GetSearchResultsQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, name: string, picture?: string | null }>, circle: Array<{ __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } }>, thread: Array<{ __typename?: 'thread', id: string, circleId: string, title: string, createdAt: string }>, meeting: Array<{ __typename?: 'meeting', id: string, circleId: string, title: string, startDate: string }>, task: Array<{ __typename?: 'task', id: string, circleId: string, title: string, dueDate?: string | null }>, decision: Array<{ __typename?: 'decision', id: string, circleId: string, title: string, createdAt: string }> };
-
-export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
-
-export type GetOrgSubscriptionQueryVariables = Exact<{
-  orgId: Scalars['uuid']['input'];
-}>;
-
-
-export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string }> };
 
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -23562,6 +23563,44 @@ export function useUpdateOrgMutation(baseOptions?: Apollo.MutationHookOptions<Up
 export type UpdateOrgMutationHookResult = ReturnType<typeof useUpdateOrgMutation>;
 export type UpdateOrgMutationResult = Apollo.MutationResult<UpdateOrgMutation>;
 export type UpdateOrgMutationOptions = Apollo.BaseMutationOptions<UpdateOrgMutation, UpdateOrgMutationVariables>;
+export const GetOrgSubscriptionDocument = gql`
+    query getOrgSubscription($orgId: uuid!) {
+  org_subscription(where: {orgId: {_eq: $orgId}}) {
+    ...OrgSubscriptionFields
+  }
+}
+    ${OrgSubscriptionFieldsFragmentDoc}`;
+
+/**
+ * __useGetOrgSubscriptionQuery__
+ *
+ * To run a query within a React component, call `useGetOrgSubscriptionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrgSubscriptionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrgSubscriptionQuery({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *   },
+ * });
+ */
+export function useGetOrgSubscriptionQuery(baseOptions: Apollo.QueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
+      }
+export function useGetOrgSubscriptionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
+        }
+export type GetOrgSubscriptionQueryHookResult = ReturnType<typeof useGetOrgSubscriptionQuery>;
+export type GetOrgSubscriptionLazyQueryHookResult = ReturnType<typeof useGetOrgSubscriptionLazyQuery>;
+export type GetOrgSubscriptionQueryResult = Apollo.QueryResult<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>;
+export function refetchGetOrgSubscriptionQuery(variables: GetOrgSubscriptionQueryVariables) {
+      return { query: GetOrgSubscriptionDocument, variables: variables }
+    }
 export const GetRoleDocument = gql`
     query getRole($id: uuid!) {
   role_by_pk(id: $id) {
@@ -23838,44 +23877,6 @@ export type GetSearchResultsLazyQueryHookResult = ReturnType<typeof useGetSearch
 export type GetSearchResultsQueryResult = Apollo.QueryResult<GetSearchResultsQuery, GetSearchResultsQueryVariables>;
 export function refetchGetSearchResultsQuery(variables: GetSearchResultsQueryVariables) {
       return { query: GetSearchResultsDocument, variables: variables }
-    }
-export const GetOrgSubscriptionDocument = gql`
-    query getOrgSubscription($orgId: uuid!) {
-  org_subscription(where: {orgId: {_eq: $orgId}}) {
-    ...OrgSubscriptionFields
-  }
-}
-    ${OrgSubscriptionFieldsFragmentDoc}`;
-
-/**
- * __useGetOrgSubscriptionQuery__
- *
- * To run a query within a React component, call `useGetOrgSubscriptionQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrgSubscriptionQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOrgSubscriptionQuery({
- *   variables: {
- *      orgId: // value for 'orgId'
- *   },
- * });
- */
-export function useGetOrgSubscriptionQuery(baseOptions: Apollo.QueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
-      }
-export function useGetOrgSubscriptionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
-        }
-export type GetOrgSubscriptionQueryHookResult = ReturnType<typeof useGetOrgSubscriptionQuery>;
-export type GetOrgSubscriptionLazyQueryHookResult = ReturnType<typeof useGetOrgSubscriptionLazyQuery>;
-export type GetOrgSubscriptionQueryResult = Apollo.QueryResult<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>;
-export function refetchGetOrgSubscriptionQuery(variables: GetOrgSubscriptionQueryVariables) {
-      return { query: GetOrgSubscriptionDocument, variables: variables }
     }
 export const GetTaskDocument = gql`
     query getTask($id: uuid!) {

@@ -3,7 +3,7 @@ import {
   getResizedImageUrl,
 } from '@/common/api/storage_images'
 import { Avatar, AvatarProps, Center } from '@chakra-ui/react'
-import { SearchTypes } from '@shared/model/search'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import React from 'react'
 import {
   CircleIcon,

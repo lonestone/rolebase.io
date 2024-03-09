@@ -30,15 +30,14 @@ import {
   useUpdateMeetingRecurringMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
+import { VideoConf, VideoConfTypes } from '@rolebase/shared/model/meeting'
 import {
   defaultParticipantsScope,
   ParticipantsScope,
-} from '@shared/model/participants'
+} from '@rolebase/shared/model/participants'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { RRule } from 'rrule'
 import * as yup from 'yup'
 import MeetingTemplateIdFormControl from '../components/MeetingTemplateIdFormControl'
 import VideoConfFormControl, {
@@ -56,7 +55,7 @@ interface Props extends UseModalProps {
 interface Values extends VideoConfValues {
   circleId: string
   templateId: string
-  rrule: string
+  rrule: string | undefined
   duration: number // In minutes
 }
 
@@ -71,12 +70,6 @@ const resolver = yupResolver(
     })
     .concat(videoConfSchema)
 )
-
-export const getDefaultRRule = () =>
-  new RRule({
-    dtstart: new Date(),
-    freq: RRule.MONTHLY,
-  })
 
 export default function MeetingRecurringEditModal({
   meetingRecurring,
@@ -99,7 +92,7 @@ export default function MeetingRecurringEditModal({
       circleId: meetingRecurring?.circleId ?? (defaultCircleId || ''),
       scope: meetingRecurring?.scope ?? defaultParticipantsScope,
       templateId: meetingRecurring?.templateId ?? '',
-      rrule: meetingRecurring?.rrule ?? getDefaultRRule().toString(),
+      rrule: meetingRecurring?.rrule,
       duration: meetingRecurring?.duration ?? 30,
       videoConfType: meetingRecurring?.videoConf?.type ?? null,
       videoConfUrl:

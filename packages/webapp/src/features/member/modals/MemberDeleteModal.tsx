@@ -1,5 +1,4 @@
 import useCreateLog from '@/log/hooks/useCreateLog'
-import { archiveMember } from '@/member/api/member_functions'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -12,9 +11,10 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { trpc } from 'src/trpc'
 import useMember from '../hooks/useMember'
 
 interface Props
@@ -38,9 +38,7 @@ export default function MemberDeleteModal({
     if (!member) return
 
     try {
-      await archiveMember({
-        memberId: id,
-      })
+      await trpc.member.archiveMember.mutate({ memberId: id })
     } catch (error: any) {
       toast({
         title: t('common.error'),

@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react'
 import { ThreadActivityFragment, Thread_Activity_Type_Enum } from '@gql'
-import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
+import { ThreadActivityChangeStatusFragment } from '@rolebase/shared/model/thread_activity'
 import React, { memo } from 'react'
 import { ThreadActivityChangeStatus } from './ThreadActivityChangeStatus'
 import ThreadActivityDecision from './ThreadActivityDecision'

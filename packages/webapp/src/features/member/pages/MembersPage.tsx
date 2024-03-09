@@ -22,8 +22,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Member_Role_Enum } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
-import { SearchTypes } from '@shared/model/search'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

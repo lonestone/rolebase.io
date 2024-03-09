@@ -1,7 +1,6 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import Loading from '@/common/atoms/Loading'
 import { Title } from '@/common/atoms/Title'
-import { importOrg } from '@/org/api/org_functions'
 import {
   Box,
   Button,
@@ -20,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRightIcon, UploadIcon } from 'src/icons'
 import { nhost } from 'src/nhost'
+import { trpc } from 'src/trpc'
 
 enum ImportProviders {
   Holaspirit = 'Holaspirit',
@@ -120,7 +120,7 @@ export default function ImportPage() {
 
       // Import org with nhost function
       try {
-        const orgId = await importOrg({ provider, fileId })
+        const orgId = await trpc.org.importOrg.mutate({ provider, fileId })
         setNewOrgId(orgId)
         setStep(ImportSteps.Success)
       } catch (error: any) {

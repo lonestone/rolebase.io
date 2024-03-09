@@ -1,0 +1,8 @@
+{
+  "name": "@rolebase/collab",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env HOST=localhost PORT=1234 npx y-websocket"
+  }
+}

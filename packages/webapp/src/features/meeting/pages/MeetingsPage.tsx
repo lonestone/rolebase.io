@@ -31,19 +31,13 @@ import {
   EventInput,
 } from '@fullcalendar/core'
 import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
-import { circleColor } from '@shared/helpers/circleColor'
-import {
-  dateToTimeZone,
-  excludeMeetingsFromRRule,
-  getDateFromUTCDate,
-  getUTCDateFromDate,
-} from '@shared/helpers/rrule'
-import { truthy } from '@shared/helpers/truthy'
+import { RRuleUTC } from '@rolebase/shared/helpers/RRuleUTC'
+import { circleColor } from '@rolebase/shared/helpers/circleColor'
+import { truthy } from '@rolebase/shared/helpers/truthy'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { RRule } from 'rrule'
 import {
   AppsIcon,
   CopyIcon,
@@ -181,22 +175,15 @@ export default function MeetingsPage() {
         .concat(
           (meetingsRecurring || [])
             .map((mr): EventInput | undefined => {
-              const rruleOrig = RRule.fromString(mr.rrule)
-              const nextDate = rruleOrig.after(new Date())
-              const timezone = rruleOrig.options.tzid
-              if (!nextDate || !timezone) return undefined
+              const rrule = new RRuleUTC(mr.rrule)
+              const nextDate = rrule.after(new Date())
+              if (!nextDate) return undefined
 
               // Exclude dates of meetings from the serie
-              const rrule = excludeMeetingsFromRRule(
-                new RRule({
-                  ...rruleOrig.origOptions,
-                  // Change start date to next occurrence
-                  dtstart: getUTCDateFromDate(
-                    dateToTimeZone(getDateFromUTCDate(nextDate), timezone)
-                  ),
-                }),
-                mr.meetings
-              ).toString()
+              rrule.excludeDates(mr.meetings.map((m) => m.recurringDate))
+
+              // Only show occurrences after today
+              rrule.changeStartDate(nextDate)
 
               // Fix circle color (can be inherited from parents)
               const circle = circles?.find((c) => c.id === mr.circleId)
@@ -206,7 +193,7 @@ export default function MeetingsPage() {
               return {
                 id: mr.id,
                 title: `${mr.circle.role.name} - ${mr.template.title}`,
-                rrule,
+                rrule: rrule.toString(),
                 duration: {
                   minutes: mr.duration,
                 },

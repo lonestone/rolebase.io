@@ -2,7 +2,6 @@ import IconTextButton from '@/common/atoms/IconTextButton'
 import Markdown from '@/common/atoms/Markdown'
 import { EditorHandle } from '@/editor'
 import CollabEditor from '@/editor/components/CollabEditor'
-import { generateMeetingSummary } from '@/meeting/api/meeting_functions'
 import {
   Box,
   Button,
@@ -19,6 +18,7 @@ import { useUpdateMeetingMutation } from '@gql'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon, ChevronUpIcon, MagicIcon } from 'src/icons'
+import { trpc } from 'src/trpc'
 import { MeetingContext } from '../contexts/MeetingContext'
 
 export default function MeetingPanelEnded() {
@@ -64,7 +64,8 @@ export default function MeetingPanelEnded() {
 
     // Generate new summary
     setGenerating(true)
-    generateMeetingSummary({ meetingId: meeting.id, lang: language })
+    trpc.ai.generateMeetingSummary
+      .query({ meetingId: meeting.id, lang: language })
       .then((summary) => {
         editorRef.current?.setValue(summary)
         setGeneratedSummary(summary)

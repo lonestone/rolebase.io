@@ -13,7 +13,7 @@ import {
   SliderTrack,
   Tooltip,
 } from '@chakra-ui/react'
-import { defaultCircleColorHue } from '@shared/helpers/circleColor'
+import { defaultCircleColorHue } from '@rolebase/shared/helpers/circleColor'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'

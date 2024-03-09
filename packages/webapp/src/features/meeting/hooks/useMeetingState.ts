@@ -9,9 +9,9 @@ import {
   useUpdateMeetingAttendeeMutation,
   useUpdateMeetingMutation,
 } from '@gql'
-import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
-import { MeetingStepConfig } from '@shared/model/meeting'
-import { ParticipantMember } from '@shared/model/member'
+import getMeetingVideoConfUrl from '@rolebase/shared/helpers/getMeetingVideoConfUrl'
+import { MeetingStepConfig } from '@rolebase/shared/model/meeting'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import { isSameDay } from 'date-fns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { usePathInOrg } from '../../org/hooks/usePathInOrg'

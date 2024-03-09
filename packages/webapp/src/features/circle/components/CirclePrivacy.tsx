@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { MemberFragment, Member_Role_Enum } from '@gql'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +20,6 @@ import { ChevronDownIcon, ChevronUpIcon, PrivacyIcon } from 'src/icons'
 import MemberMenuItem from '../../member/components/MemberMenuItem'
 import { CircleContext } from '../contexts/CIrcleContext'
 import CircleMemberLink from './CircleMemberLink'
-import { ParticipantMember } from '/Users/godefroy/Projets/rolebase/functions/_src/shared/model/member'
 
 export default function CirclePrivacy() {
   const { t } = useTranslation()

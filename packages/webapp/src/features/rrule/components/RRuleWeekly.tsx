@@ -30,8 +30,9 @@ export default function RRuleWeekly({ options, onChange }: FormPartProps) {
             <Tooltip key={index} label={day} placement="top" hasArrow>
               <Button
                 value={index}
-                variant={active ? 'outline' : 'ghost'}
+                variant={active ? 'outline' : 'outline'}
                 fontWeight={active ? 'semibold' : 'normal'}
+                colorScheme={active ? 'blue' : 'gray'}
                 borderRadius="full"
                 onClick={toggleByWeekDay}
               >

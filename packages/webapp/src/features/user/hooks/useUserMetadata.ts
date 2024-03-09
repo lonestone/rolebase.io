@@ -1,6 +1,6 @@
 import { useChangeMetadataMutation } from '@gql'
 import { useUserData } from '@nhost/react'
-import { UserMetadata } from '@shared/model/user'
+import { UserMetadata } from '@rolebase/shared/model/user'
 import { useCallback, useEffect, useState } from 'react'
 import { nhost } from 'src/nhost'
 

@@ -890,7 +890,7 @@
     "unsubscribeDate": "Your subscription will end on {{date}}",
     "subscriptionResumed": "Your subscription has been resumed",
     "noBillingAccount": "You do not have any billing account yet",
-    "subscriptionSuccess": "That's a wrap!",
+    "subscriptionSuccess": "Thank you for your trust!",
     "subscriptionCreated": "Your subscription has been successfully created 😀",
     "invoiceAvailable": "Your €{{amount}} invoice can be downloaded from the Invoices tab",
     "free": {

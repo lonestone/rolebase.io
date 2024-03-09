@@ -1,6 +1,6 @@
 import CircleMemberLink from '@/circle/components/CircleMemberLink'
 import { BoxProps, ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
-import { truthy } from '@shared/helpers/truthy'
+import { truthy } from '@rolebase/shared/helpers/truthy'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -6,7 +6,7 @@ import {
   Task_Status_Enum,
   useCreateTaskMutation,
 } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 

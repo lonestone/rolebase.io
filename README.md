@@ -54,7 +54,7 @@ nhost login
 nhost up
 ```
 
-2.  Run webapp with Vite + Codegen watcher:
+2.  Run webapp + backend with watch:
 
 ```
 npm run dev
@@ -158,21 +158,23 @@ The server config is localized in `functions/_src/utils/settings.ts`. You can ed
 
 **Note:** Like previous configuration, do avoid editing values for local environment. You should also not edit configurations using environment variables those are to be configured in `.env`).
 
-## Export functions to test webhooks
+## Test webhooks by exposing backend port
 
-Expose functions on a port:
-
-```
-nhost up --functions-port=8123
-```
-
-Then you can forward the port with VSCode or ngrok.
+You can forward the port with VSCode or ngrok.
 
 With VSCode:
 
 - Open "Port" panel (next to "Terminal")
-- Add 8123 port
+- Add 8888 port
 - Click right, "Port visibility" > "Public"
+
+Set resulting URL in `.secrets` (only locally):
+
+```
+BACKEND_URL = 'https://XXXXX.devtunnels.ms'
+```
+
+Finally, restart local server (`yarn dev`).
 
 ## Email templates
 
@@ -238,6 +240,7 @@ npm run build-emails-icons
 - GraphQL API
 - Storage
 - Functions
+- Run: @rolebase/backend (docker)
 
 ## Upgrade Nhost
 

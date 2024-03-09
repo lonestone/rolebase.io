@@ -21,7 +21,7 @@ import {
   useUpdateThreadActivityMutation,
 } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
-import { ThreadActivityDataMeetingNote } from '@shared/model/thread_activity'
+import { ThreadActivityDataMeetingNote } from '@rolebase/shared/model/thread_activity'
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadItem from '../../thread/components/ThreadItem'

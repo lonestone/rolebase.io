@@ -1,4 +1,3 @@
-import { calendarAppFactory } from '@/apps/api/user_app_functions'
 import Loading from '@/common/atoms/Loading'
 import Switch from '@/common/atoms/Switch'
 import { useAsyncMemo } from '@/common/hooks/useAsyncMemo'
@@ -16,10 +15,14 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { App_Type_Enum, UserAppFragment } from '@gql'
-import { AppCalendarConfig, OrgCalendarConfig } from '@shared/model/user_app'
+import {
+  AppCalendarConfig,
+  OrgCalendarConfig,
+} from '@rolebase/shared/model/user_app'
 import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { trpc } from 'src/trpc'
 import appsParams from '../appsParams'
 import AppCalendarOrgSelect from './AppCalendarOrgSelect'
 
@@ -35,16 +38,13 @@ export default function AppCard({ type, userApp }: Props) {
 
   const { confirm, confirmElement } = useConfirmModal()
 
-  // Instanciate calendar app
-  const calendarApp = useMemo(
-    () => userApp && calendarAppFactory(userApp.id),
-    [userApp?.id]
-  )
-
   // Fetch calendars
   const calendars = useAsyncMemo(
-    () => calendarApp?.listCalendars(),
-    [calendarApp],
+    async () => {
+      if (!userApp) return undefined
+      return trpc.apps.listCalendars.query({ id: userApp?.id })
+    },
+    [userApp?.id],
     undefined
   )
 
@@ -56,7 +56,8 @@ export default function AppCard({ type, userApp }: Props) {
 
   // Uninstall app
   const handleUninstall = async () => {
-    await calendarApp?.uninstall()
+    if (!userApp) return undefined
+    await trpc.apps.listCalendars.query({ id: userApp?.id })
   }
 
   // Calendars
@@ -77,20 +78,23 @@ export default function AppCard({ type, userApp }: Props) {
           availabilityCalendars: string[],
           orgsCalendars: OrgCalendarConfig[]
         ) => {
-          await calendarApp?.selectCalendars(
+          if (!userApp) return undefined
+
+          await trpc.apps.selectCalendars.mutate({
+            id: userApp?.id,
             // Filter calendars that are not available anymore
-            availabilityCalendars.filter(
+            availabilityCalendars: availabilityCalendars.filter(
               (id) => calendars?.find((calendar) => calendar.id === id)
             ),
-            orgsCalendars.filter(
+            orgsCalendars: orgsCalendars.filter(
               ({ calendarId }) =>
                 calendars?.find((calendar) => calendar.id === calendarId)
-            )
-          )
+            ),
+          })
         },
         2000
       ),
-    [calendarApp, calendars]
+    [userApp?.id, calendars]
   )
 
   const handleToggleAvailabilityCalendar = (calendarId: string) => {

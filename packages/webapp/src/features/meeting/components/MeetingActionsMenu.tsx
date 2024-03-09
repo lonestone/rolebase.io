@@ -1,4 +1,5 @@
 import useCopyUrl from '@/common/hooks/useCopyUrl'
+import useOrgMember from '@/member/hooks/useOrgMember'
 import {
   IconButton,
   IconButtonProps,
@@ -36,6 +37,7 @@ export default function MeetingActionsMenu({
 }: Props) {
   const { t } = useTranslation()
   const [updateMeeting] = useUpdateMeetingMutation()
+  const isMember = useOrgMember()
 
   const {
     meeting,
@@ -110,9 +112,11 @@ export default function MeetingActionsMenu({
           </>
         )}
 
-        <MenuItem icon={<CopyIcon size={20} />} onClick={onDuplicate}>
-          {t('common.duplicate')}
-        </MenuItem>
+        {isMember && (
+          <MenuItem icon={<CopyIcon size={20} />} onClick={onDuplicate}>
+            {t('common.duplicate')}
+          </MenuItem>
+        )}
 
         <MenuItem icon={<LinkIcon size={20} />} onClick={handleCopyLink}>
           {t('common.copyLink')}

@@ -1,4 +1,4 @@
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import useCurrentOrg from './useCurrentOrg'
 import { useOrgId } from './useOrgId'
 

@@ -20,7 +20,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
-import { threadStatusList } from '@shared/model/thread'
+import { threadStatusList } from '@rolebase/shared/model/thread'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon, CreateIcon } from 'src/icons'

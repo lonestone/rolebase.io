@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { CircleFullFragment } from '@gql'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'

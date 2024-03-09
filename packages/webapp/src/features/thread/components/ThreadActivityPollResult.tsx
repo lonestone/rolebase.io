@@ -1,6 +1,6 @@
 import { Box, Stack, StackItem, Tooltip, useColorMode } from '@chakra-ui/react'
 import { ThreadPollAnswerFragment } from '@gql'
-import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
+import { ThreadActivityPollFragment } from '@rolebase/shared/model/thread_activity'
 import { useStoreState } from '@store/hooks'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

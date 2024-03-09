@@ -6,7 +6,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { OrgCalendarConfig } from '@shared/model/user_app'
+import { OrgCalendarConfig } from '@rolebase/shared/model/user_app'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

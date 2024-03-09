@@ -1,6 +1,6 @@
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import { MemberFragment } from '@gql'
-import { SearchTypes } from '@shared/model/search'
+import { SearchTypes } from '@rolebase/shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem } from '../searchTypes'

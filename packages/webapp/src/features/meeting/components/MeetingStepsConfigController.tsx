@@ -1,3 +1,4 @@
+import SortableList from '@/common/atoms/SortableList'
 import {
   Alert,
   AlertDescription,
@@ -13,13 +14,12 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import { Meeting_Step_Type_Enum } from '@gql'
-import { MeetingStepConfig } from '@shared/model/meeting'
+import { MeetingStepConfig } from '@rolebase/shared/model/meeting'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon, CreateIcon, InfoTooltipIcon } from 'src/icons'
-import SortableList from '../../common/atoms/SortableList'
 import MeetingStepSortableItem from './MeetingStepSortableItem'
 import { stepsAndIcons } from './stepTypes'
 
