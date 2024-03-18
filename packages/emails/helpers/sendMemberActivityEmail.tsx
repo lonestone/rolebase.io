@@ -23,7 +23,7 @@ export default async function sendMemberActivityEmail({
   picture,
   ctaUrl,
 }: Params) {
-  const subject = i18n.t(`MemberActivity.${type}.subject`, {
+  const subject = i18n.t(`emails:MemberActivity.${type}.subject`, {
     lng: lang,
     replace,
   })

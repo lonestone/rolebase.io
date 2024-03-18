@@ -6,13 +6,10 @@ dotenv.config({
   path: path.join(__dirname + '/../../../.secrets'),
 })
 
-// REMOVE AFTER TEST
-console.log('Env:', process.env)
-
 export default {
   port: 8888,
-  url: process.env.WEBAPP_URL || 'https://rolebase.io',
-  backendUrl: process.env.BACKEND_URL || 'https://api.rolebase.io',
+  url: process.env.WEBAPP_URL || 'http://localhost:3000',
+  backendUrl: process.env.BACKEND_URL || 'http://localhost:8888',
 
   defaultTimezone: 'Europe/Paris',
 

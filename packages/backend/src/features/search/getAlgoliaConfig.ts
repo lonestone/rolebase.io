@@ -1,17 +1,17 @@
 import { AlgoliaConfig } from '@rolebase/shared/model/search'
 import algoliasearch from 'algoliasearch'
 import * as yup from 'yup'
-import { authedProcedure } from '../../authedProcedure'
 import { Member_Role_Enum } from '../../gql'
+import { guardOrg } from '../../guards/guardOrg'
 import settings from '../../settings'
-import { guardOrg } from '../../utils/guardOrg'
+import { authedProcedure } from '../../trpc/authedProcedure'
 
-const yupSchema = yup.object().shape({
-  orgId: yup.string().required(),
-})
-
-export const getAlgoliaConfig = authedProcedure
-  .input(yupSchema)
+export default authedProcedure
+  .input(
+    yup.object().shape({
+      orgId: yup.string().required(),
+    })
+  )
   .query(async (opts): Promise<AlgoliaConfig> => {
     const { orgId } = opts.input
 

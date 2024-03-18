@@ -1,32 +1,8 @@
-import i18next from 'i18next'
+import i18n from '@rolebase/backend/src/i18n'
 import en from './locales/en.json'
 import fr from './locales/fr.json'
 
-export const defaultLang = 'fr'
-export const resources = {
-  fr: {
-    translation: fr,
-  },
-  en: {
-    translation: en,
-  },
-}
+i18n.addResourceBundle('fr', 'emails', fr)
+i18n.addResourceBundle('en', 'emails', en)
 
-// Full typing
-// https://www.i18next.com/overview/typescript#custom-type-options
-declare module 'i18next' {
-  interface CustomTypeOptions {
-    resources: (typeof resources)['fr']
-  }
-}
-
-i18next.init({
-  lng: defaultLang,
-  resources,
-  interpolation: {
-    escapeValue: false,
-  },
-})
-
-export default i18next
-export const locales = resources
+export default i18n

@@ -1,12 +1,7 @@
-import { TRPCError } from '@trpc/server'
-import {
-  fastifyTRPCPlugin,
-  FastifyTRPCPluginOptions,
-} from '@trpc/server/adapters/fastify'
 import fastify from 'fastify'
-import { createContext } from './context'
-import { BackendRouter, backendRouter } from './features'
+import { registerRest } from './rest/registerRest'
 import settings from './settings'
+import { registerTrpc } from './trpc/registerTrpc'
 
 // Create Fastify server
 const server = fastify()
@@ -26,19 +21,11 @@ server.addHook('preHandler', async (req, res) => {
   }
 })
 
-// Register tRPC plugin
-server.register(fastifyTRPCPlugin, {
-  prefix: '',
-  trpcOptions: {
-    router: backendRouter,
-    createContext,
-    onError({ path, error }) {
-      if (!(error instanceof TRPCError)) {
-        console.error(`[Error] ${path}:`, error)
-      }
-    },
-  } satisfies FastifyTRPCPluginOptions<BackendRouter>['trpcOptions'],
-})
+// Register tRPC
+registerTrpc(server)
+
+// Register REST routes
+registerRest(server)
 
 // Start server
 server

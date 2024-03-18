@@ -25,10 +25,7 @@ import {
 } from '@chakra-ui/react'
 import { useMeetingRecurringSubscription } from '@gql'
 import { getScopeMemberIds } from '@rolebase/shared/helpers/getScopeMemberIds'
-import {
-  excludeMeetingsFromRRule,
-  getDateFromUTCDate,
-} from '@rolebase/shared/helpers/rrule'
+import { RRuleUTC } from '@rolebase/shared/helpers/RRuleUTC'
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import { ParticipantMember } from '@rolebase/shared/model/member'
 import { useStoreState } from '@store/hooks'
@@ -89,10 +86,8 @@ export default function MeetingRecurringModal({
     if (!meetingRecurring) return
 
     // Exclude meetings from rrule
-    const rrule = excludeMeetingsFromRRule(
-      meetingRecurring.rrule,
-      meetingRecurring.meetings
-    )
+    const rrule = new RRuleUTC(meetingRecurring.rrule)
+    rrule.excludeDates(meetingRecurring.meetings.map((m) => m.recurringDate))
 
     // After and before dates
     const after = new Date()
@@ -101,7 +96,7 @@ export default function MeetingRecurringModal({
 
     return rrule
       .between(after, before, true, (date, i) => i < 10)
-      .map((date) => getDateFromUTCDate(date).toISOString())
+      .map((date) => date.toISOString())
   }, [meetingRecurring])
 
   // Additional date

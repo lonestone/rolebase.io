@@ -16,6 +16,7 @@ nhost
 packages/*
 !packages/backend
 !packages/shared
+!packages/emails
 
 # Builds
 dist

@@ -1,7 +1,6 @@
 import { Column, Img, Row, Section, Text } from '@react-email/components'
 import settings from '@rolebase/backend/src/settings'
-import { dateToTimeZone } from '@rolebase/shared/helpers/rrule'
-import { format } from 'date-fns'
+import { formatInTimeZone } from 'date-fns-tz'
 import React from 'react'
 import i18n from '../../i18n'
 import { getDateLocale } from '../../i18n/getDateLocale'
@@ -29,20 +28,16 @@ export default function Meeting({
   endDate = '2023-12-30T16:30:00+00:00',
 }: MeetingEmailProps) {
   const t = (key: string) =>
-    i18n.t(`Meeting.${key}`, {
+    i18n.t(`emails:Meeting.${key}`, {
       lng: lang,
       replace: { title, role },
     })
 
   const dateLocale = getDateLocale(lang)
   const getDate = (date: string) =>
-    format(dateToTimeZone(new Date(date), timezone), 'PPPP', {
-      locale: dateLocale,
-    })
+    formatInTimeZone(new Date(date), timezone, 'PPPP', { locale: dateLocale })
   const getHour = (date: string) =>
-    format(dateToTimeZone(new Date(date), timezone), 'HH:mm', {
-      locale: dateLocale,
-    })
+    formatInTimeZone(new Date(date), timezone, 'HH:mm', { locale: dateLocale })
 
   return (
     <Layout preview={t('preview')}>

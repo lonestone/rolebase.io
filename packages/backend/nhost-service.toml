@@ -10,7 +10,7 @@ value = 'https://rolebase.io'
 
 [[environment]]
 name = 'BACKEND_URL'
-value = 'https://api.rolebase.io'
+value = '{{ secrets.BACKEND_URL }}'
 
 [[environment]]
 name = 'NHOST_ADMIN_SECRET'

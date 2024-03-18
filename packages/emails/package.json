@@ -12,6 +12,7 @@
     "@react-email/components": "^0.0.7",
     "@react-email/html": "^0.0.4",
     "date-fns": "^2.29.3",
+    "date-fns-tz": "^2.0.1",
     "dotenv": "^16.0.3",
     "i18next": "^21.6.16",
     "node-mailjet": "^5.1.1",

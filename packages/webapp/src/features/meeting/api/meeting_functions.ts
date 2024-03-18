@@ -13,5 +13,5 @@ export function getMeetingsIcalUrl(
   lang: string,
   memberId: string
 ): string {
-  return `${settings.functionsUrl}routes/meetingsIcal?token=${token}&lang=${lang}&orgId=${orgId}&memberId=${memberId}`
+  return `${settings.backendUrl}/meeting/ical?token=${token}&lang=${lang}&orgId=${orgId}&memberId=${memberId}`
 }

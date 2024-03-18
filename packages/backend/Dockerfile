@@ -6,6 +6,7 @@ COPY ../../package-lock.json ./
 COPY ../../package.json ./
 COPY ../../packages/backend/package.json ./packages/backend/
 COPY ../../packages/shared/package.json ./packages/shared/
+COPY ../../packages/emails/package.json ./packages/emails/
 
 RUN npm install --max-old-space-size=2048
 

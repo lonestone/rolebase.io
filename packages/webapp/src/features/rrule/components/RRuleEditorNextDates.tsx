@@ -7,7 +7,6 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { getDateFromUTCDate } from '@rolebase/shared/helpers/rrule'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React, { useMemo } from 'react'
@@ -33,9 +32,7 @@ export default function RRuleEditorNextDates({ rrule, count = 3 }: Props) {
     const before = new Date()
     before.setFullYear(before.getFullYear() + 5)
 
-    return rrule
-      .between(after, before, true, (_, i) => i < count)
-      .map((date) => getDateFromUTCDate(date))
+    return rrule.between(after, before, true, (_, i) => i < count)
   }, [rrule])
 
   return (

@@ -7,8 +7,7 @@ import {
   Text,
 } from '@react-email/components'
 import settings from '@rolebase/backend/src/settings'
-import { dateToTimeZone } from '@rolebase/shared/helpers/rrule'
-import { format } from 'date-fns'
+import { formatInTimeZone } from 'date-fns-tz'
 import React, { Fragment } from 'react'
 import i18n from '../../i18n'
 import { getDateLocale } from '../../i18n/getDateLocale'
@@ -136,7 +135,7 @@ export default function Digest({
   orgDigests = testOrgDigests,
 }: Props) {
   const t = (key: string, replace?: Record<string, string | number>) =>
-    i18n.t(`Digest.${key}`, {
+    i18n.t(`emails:Digest.${key}`, {
       lng: lang,
       count: typeof replace?.count === 'number' ? replace.count : undefined,
       replace,
@@ -211,12 +210,11 @@ export default function Digest({
                         </a>
                       </Text>
                       <Text className="text-sm text-gray-400 m-0">
-                        {format(
-                          dateToTimeZone(new Date(meeting.date), timezone),
+                        {formatInTimeZone(
+                          new Date(meeting.date),
+                          timezone,
                           'PPPP, HH:mm',
-                          {
-                            locale: dateLocale,
-                          }
+                          { locale: dateLocale }
                         )}
                       </Text>
                     </Column>

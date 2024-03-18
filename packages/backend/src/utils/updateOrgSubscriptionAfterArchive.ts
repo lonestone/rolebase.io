@@ -1,6 +1,6 @@
-import { Context } from '../../src/context'
+import { guardAuth } from '../guards/guardAuth'
+import { Context } from '../trpc/context'
 import { getOrgSubscriptionAndActiveMembers } from './getOrgSubscriptionAndActiveMembers'
-import { guardAuth } from './guardAuth'
 import { isSubscriptionActive } from './isSubscriptionActive'
 import { updateStripeSubscription } from './stripe'
 

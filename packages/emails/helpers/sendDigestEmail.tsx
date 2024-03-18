@@ -19,7 +19,7 @@ export default async function sendDigestEmail({
   timezone,
   orgDigests,
 }: Params) {
-  const subject = i18n.t('Digest.subject', { lng: lang })
+  const subject = i18n.t('emails:Digest.subject', { lng: lang })
 
   // Render email to HTML
   const emailHTML = render(

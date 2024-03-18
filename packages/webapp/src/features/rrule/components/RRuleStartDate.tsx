@@ -1,9 +1,6 @@
 import { Input } from '@chakra-ui/react'
-import {
-  getDateFromUTCDate,
-  getUTCDateFromDate,
-} from '@rolebase/shared/helpers/rrule'
 import { getDateTimeLocal } from '@utils/dates'
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
@@ -15,14 +12,21 @@ export default function RRuleStartDate({ options, onChange }: FormPartProps) {
   const value = useMemo(
     () =>
       options.dtstart
-        ? getDateTimeLocal(getDateFromUTCDate(options.dtstart))
+        ? getDateTimeLocal(
+            zonedTimeToUtc(options.dtstart, options.tzid || 'UTC')
+          )
         : '',
     [options.dtstart, options.tzid]
   )
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange({ dtstart: getUTCDateFromDate(new Date(event.target.value)) })
+      onChange({
+        dtstart: utcToZonedTime(
+          new Date(event.target.value),
+          options.tzid || 'UTC'
+        ),
+      })
     },
     []
   )

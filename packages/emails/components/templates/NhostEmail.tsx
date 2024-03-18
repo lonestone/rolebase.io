@@ -14,7 +14,8 @@ export default function NhostEmail({
   type = 'email-confirm-change',
   lang = 'en',
 }: Props) {
-  const t = (key: string) => i18n.t(`NhostEmail.${type}.${key}`, { lng: lang })
+  const t = (key: string) =>
+    i18n.t(`emails:NhostEmail.${type}.${key}`, { lng: lang })
 
   return (
     <Layout preview={t('description')}>

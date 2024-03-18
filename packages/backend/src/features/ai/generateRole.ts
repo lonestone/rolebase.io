@@ -1,9 +1,9 @@
 import { nameSchema } from '@rolebase/shared/schemas'
 import { Configuration, OpenAIApi } from 'openai'
 import * as yup from 'yup'
-import { authedProcedure } from '../../authedProcedure'
 import { RoleAiFragment, gql } from '../../gql'
 import settings from '../../settings'
+import { authedProcedure } from '../../trpc/authedProcedure'
 import { adminRequest } from '../../utils/adminRequest'
 
 const configuration = new Configuration({
@@ -64,13 +64,13 @@ const prefixes: Partial<RoleAiFragment> = {
   checklist: '[ ] ',
 }
 
-const yupSchema = yup.object().shape({
-  name: nameSchema.required(),
-  lang: yup.string().required(),
-})
-
 export const generateRole = authedProcedure
-  .input(yupSchema)
+  .input(
+    yup.object().shape({
+      name: nameSchema.required(),
+      lang: yup.string().required(),
+    })
+  )
   .query(async (opts): Promise<RoleAiFragment> => {
     const { name, lang } = opts.input
 
@@ -97,7 +97,6 @@ export const generateRole = authedProcedure
       function_call: { name: 'suggestRole' },
       temperature: 0,
     })
-    console.log('test3')
 
     const roleProperties = JSON.parse(
       response.data.choices[0]?.message?.function_call?.arguments || ''

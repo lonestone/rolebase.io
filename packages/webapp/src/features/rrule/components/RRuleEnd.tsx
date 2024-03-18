@@ -6,11 +6,8 @@ import {
   InputRightAddon,
   Select,
 } from '@chakra-ui/react'
-import {
-  getDateFromUTCDate,
-  getUTCDateFromDate,
-} from '@rolebase/shared/helpers/rrule'
 import { getDateTimeLocal } from '@utils/dates'
+import { utcToZonedTime } from 'date-fns-tz'
 import React, { ChangeEventHandler, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
@@ -37,21 +34,26 @@ export default function RRuleEnd({ options, onChange }: FormPartProps) {
       case EndTypes.UNTIL:
         onChange({
           count: undefined,
-          until: options.until || getUTCDateFromDate(new Date()),
+          until:
+            options.until || utcToZonedTime(new Date(), options.tzid || 'UTC'),
         })
         break
     }
   }, [])
 
   const untilValue = useMemo(
-    () =>
-      options.until ? getDateTimeLocal(getDateFromUTCDate(options.until)) : '',
+    () => (options.until ? getDateTimeLocal(options.until) : ''),
     [options.until, options.tzid]
   )
 
   const handleUntilChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange({ until: getUTCDateFromDate(new Date(event.target.value)) })
+      onChange({
+        until: utcToZonedTime(
+          new Date(event.target.value),
+          options.tzid || 'UTC'
+        ),
+      })
     },
     []
   )

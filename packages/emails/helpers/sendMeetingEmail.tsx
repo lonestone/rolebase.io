@@ -10,7 +10,7 @@ export default async function sendMeetingEmail(
   emailProps: MeetingEmailProps,
   recipients: SendEmailV3_1.IEmailAddressTo[]
 ) {
-  const subject = i18n.t(`Meeting.subject`, {
+  const subject = i18n.t(`emails:Meeting.subject`, {
     lng: emailProps.lang,
     replace: {
       title: emailProps.title,

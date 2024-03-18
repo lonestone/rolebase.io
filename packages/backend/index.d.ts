@@ -1,1 +1,1 @@
-export { type BackendRouter } from './src/features'
+export { type TrpcRouter } from './src/features'

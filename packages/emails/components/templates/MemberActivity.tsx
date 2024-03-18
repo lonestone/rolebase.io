@@ -25,7 +25,7 @@ export default function MemberActivity({
   },
 }: Props) {
   const t = (key: string) =>
-    i18n.t(`MemberActivity.${type}.${key}`, { lng: lang, replace })
+    i18n.t(`emails:MemberActivity.${type}.${key}`, { lng: lang, replace })
 
   return (
     <Layout preview={t('preview')}>
