@@ -34,7 +34,7 @@ export interface MeetingEvent {
 }
 
 export function formatDate(date: Date, timezone: string): string {
-  return formatInTimeZone(date, timezone, 'yyyy-MM-dd HH:mm:ss')
+  return formatInTimeZone(date, timezone, "yyyy-MM-dd'T'HH:mm:ss")
 }
 
 export default abstract class AbstractCalendarApp<

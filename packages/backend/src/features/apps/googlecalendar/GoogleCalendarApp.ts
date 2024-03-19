@@ -19,7 +19,6 @@ import AbstractCalendarApp, {
 } from '../AbstractCalendarApp'
 import { dateTimeToDate } from './dates/dateTimeToDate'
 import { isDateTimeEqual } from './dates/isDateTimeEqual'
-import { isRecurrenceEqual } from './dates/isRecurrenceEqual'
 
 type GoogleEvent = calendar_v3.Schema$Event
 
@@ -356,16 +355,21 @@ export default class GoogleCalendarApp
       if (recurringMeetingEvent.summary !== event.summary) {
         resetChanges.summary = recurringMeetingEvent.summary
       }
-      if (
-        !isRecurrenceEqual(recurringMeetingEvent.recurrence, event.recurrence)
-      ) {
-        resetChanges.recurrence = recurringMeetingEvent.recurrence
-      }
+      // We don't update recurrence here but after start/end,
+      // because isRecurrenceEqual doesn't compare exdates
+      // if (
+      //   !isRecurrenceEqual(recurringMeetingEvent.recurrence, event.recurrence)
+      // ) {
+      //   resetChanges.recurrence = recurringMeetingEvent.recurrence
+      // }
       if (!isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
         resetChanges.start = recurringMeetingEvent.start
       }
       if (!isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
         resetChanges.end = recurringMeetingEvent.end
+      }
+      if (resetChanges.start || resetChanges.end) {
+        resetChanges.recurrence = recurringMeetingEvent.recurrence
       }
     } else if (event.recurringEventId) {
       // Get recurring meeting from database
