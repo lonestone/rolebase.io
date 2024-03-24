@@ -64,7 +64,7 @@ const prefixes: Partial<RoleAiFragment> = {
   checklist: '[ ] ',
 }
 
-export const generateRole = authedProcedure
+export default authedProcedure
   .input(
     yup.object().shape({
       name: nameSchema.required(),

@@ -13,6 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query getMeetingContent($meetingId: uuid!) {\n    meeting_by_pk(id: $meetingId) {\n      orgId\n      title\n      circle {\n        role {\n          name\n        }\n      }\n      stepsConfig\n      steps {\n        stepConfigId\n        type\n        data\n        notes\n      }\n    }\n  }": types.GetMeetingContentDocument,
+    "\n  query getThreadsWithMeetingNotes($meetingId: uuid!, $threadsIds: [uuid!]!) {\n    thread(where:{id: {_in: $threadsIds}}) {\n      title\n      activities(\n        where: {\n          _and: { type: { _eq: MeetingNote }, refMeetingId: { _eq: $meetingId } }\n        }\n      ) {\n        type\n        data\n      }\n    }\n  }": types.GetThreadsWithMeetingNotesDocument,
     "\n  query getRoleAI($name: String!, $lang: String!) {\n    role_ai(where: { name: { _eq: $name }, lang: { _eq: $lang } }, limit: 1) {\n      ...RoleAI\n    }\n  }": types.GetRoleAiDocument,
     "\n  mutation insertRoleAI($role: role_ai_insert_input!) {\n    insert_role_ai_one(object: $role) {\n      ...RoleAI\n    }\n  }": types.InsertRoleAiDocument,
     "\n  mutation updateUserApp($id: uuid!, $values: user_app_set_input!) {\n    update_user_app_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n": types.UpdateUserAppDocument,
@@ -33,6 +35,40 @@ const documents = {
     "\n  mutation updateUserMetadata($userId: uuid!, $metadata: jsonb!) {\n    updateUser(pk_columns: { id: $userId }, _set: { metadata: $metadata }) {\n      id\n    }\n  }\n": types.UpdateUserMetadataDocument,
     "\n  query getUserDigestData($userId: uuid!, $date: timestamptz!) {\n    user(id: $userId) {\n      metadata\n    }\n    member(\n      where: {\n        userId: { _eq: $userId }\n        archived: { _eq: false }\n        org: { archived: { _eq: false } }\n      }\n    ) {\n      id\n      org {\n        ...Org\n\n        # Threads to include in the digest\n        threads(\n          where: {\n            _and: [\n              {\n                _or: [\n                  # New threads\n                  { createdAt: { _gt: $date } }\n                  # New activities in threads\n                  { activities: { createdAt: { _gt: $date } } }\n                ]\n              }\n              {\n                _or: [\n                  {\n                    circle: { participants: { member: { id: { _eq: $userId } } } }\n                  }\n                  { extra_members: { member: { id: { _eq: $userId } } } }\n                ]\n              }\n              { archived: { _eq: false } }\n            ]\n          }\n        ) {\n          ...Thread\n          circle {\n            id\n            role {\n              name\n              colorHue\n            }\n          }\n          activities(where: { createdAt: { _gt: $date } }) {\n            ...ThreadActivity\n          }\n        }\n\n        # Meetings to include in the digest\n        meetings(\n          where: {\n            endDate: { _gt: $date }\n            ended: { _eq: true }\n            _or: [\n              { private: { _eq: false } }\n              { circle: { participants: { member: { id: { _eq: $userId } } } } }\n              { meeting_attendees: { member: { id: { _eq: $userId } } } }\n            ]\n            archived: { _eq: false }\n          }\n          order_by: { endDate: desc }\n        ) {\n          ...MeetingSummary\n          circle {\n            id\n            role {\n              name\n              colorHue\n            }\n          }\n        }\n      }\n    }\n  }\n": types.GetUserDigestDataDocument,
     "\n  query getOrgMeetingsForIcal($orgId: uuid!, $memberId: uuid) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      slug\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      meetings(\n        where: {\n          archived: { _eq: false }\n          meeting_attendees: { memberId: { _eq: $memberId } }\n        }\n        order_by: { startDate: asc }\n      ) {\n        ...Meeting\n        circle {\n          role {\n            name\n          }\n        }\n      }\n      meetings_recurring {\n        ...MeetingRecurring\n        meetings {\n          recurringDate\n        }\n      }\n    }\n  }\n": types.GetOrgMeetingsForIcalDocument,
+    "\n  query checkOrgUser($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: { userId: { _eq: $userId } }) {\n        id\n      }\n    }\n  }\n": types.CheckOrgUserDocument,
+    "\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n": types.GetOrgAndMemberDocument,
+    "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n": types.GetMemberDocument,
+    "\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n": types.UpdateMemberDocument,
+    "\n    query getOrgSubscriptionStripeStatus($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }": types.GetOrgSubscriptionStripeStatusDocument,
+    "\n  mutation archiveOrg($orgId: uuid!) {\n    update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {\n      id\n    }\n  }": types.ArchiveOrgDocument,
+    "\n  query getUser($id: uuid!) {\n    user(id: $id) {\n      id\n      displayName\n    }\n  }": types.GetUserDocument,
+    "\n  mutation createOrg($name: String!, $slug: String!, $userId: uuid!, $memberName: String!) {\n    insert_org_one(object: {\n      name: $name\n      slug: $slug\n      defaultWorkedMinPerWeek: 2100\n      members: {\n        data: [\n          {\n            userId: $userId\n            name: $memberName\n            role: Owner\n          }\n        ]\n      }\n    }) {\n      id\n    }\n  }": types.CreateOrgDocument,
+    "\n  mutation createRole($orgId: uuid!, $name: String!) {\n    insert_role_one(object: {\n      orgId: $orgId\n      name: $name\n    }) {\n      id\n    }\n  }": types.CreateRoleDocument,
+    "\n  mutation createRoles($roles: [role_insert_input!]!) {\n    insert_role(objects: $roles) {\n      returning {\n        id\n      }\n    }\n  }": types.CreateRolesDocument,
+    "\n  mutation createCircle($orgId: uuid!, $roleId: uuid!) {\n    insert_circle_one(object: {\n      orgId: $orgId\n      roleId: $roleId\n    }) {\n      id\n    }\n  }": types.CreateCircleDocument,
+    "\n  query getUserImport($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n      displayName\n    }\n  }": types.GetUserImportDocument,
+    "\n  mutation createOrgImport($name: String!) {\n    insert_org_one(object: {\n      name: $name\n      defaultWorkedMinPerWeek: 2100\n    }) {\n      id\n    }\n  }": types.CreateOrgImportDocument,
+    "\n  mutation createMembersImport( $members: [member_insert_input!]!) {\n    insert_member(objects: $members) {\n      returning {\n        id\n        inviteEmail\n      }\n    }\n  }": types.CreateMembersImportDocument,
+    "\n  mutation createRolesImport($roles: [role_insert_input!]!) {\n    insert_role(objects: $roles) {\n      returning {\n        ...Role\n      }\n    }\n  }": types.CreateRolesImportDocument,
+    "\n  mutation createCirclesImport($circles: [circle_insert_input!]!) {\n    insert_circle(objects: $circles) {\n      returning {\n        id\n      }\n    }\n  }": types.CreateCirclesImportDocument,
+    "\n  mutation createCirclesMembersImport($circleMembers: [circle_member_insert_input!]!) {\n    insert_circle_member(objects: $circleMembers) {\n      returning {\n        id\n      }\n    }\n  }": types.CreateCirclesMembersImportDocument,
+    "\n  mutation createDecisionsImport($decisions: [decision_insert_input!]!) {\n    insert_decision(objects: $decisions) {\n      returning {\n        id\n      }\n    }\n  }": types.CreateDecisionsImportDocument,
+    "\n  mutation createTasksImport($tasks: [task_insert_input!]!) {\n    insert_task(objects: $tasks) {\n      returning {\n        id\n      }\n    }\n  }": types.CreateTasksImportDocument,
+    "\n      query GetFileByName($name: String!) {\n        files(where: { name: { _eq: $name } }) {\n          id\n        }\n      }\n    ": types.GetFileByNameDocument,
+    "\n  mutation updateOrgSlug($id: uuid!, $slug: String!) {\n    update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {\n      id\n    }\n  }": types.UpdateOrgSlugDocument,
+    "\n    query getOrgSubscriptionDetails($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        stripeCustomerId\n        status\n        type\n      }\n    }": types.GetOrgSubscriptionDetailsDocument,
+    "\n    query getOrgSubscriptionStripeIds($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        stripeCustomerId\n      }\n    }": types.GetOrgSubscriptionStripeIdsDocument,
+    "\n  mutation updateOrgSubscriptionStatusByStripeSubId($stripeSubscriptionId: String!, $status: subscription_payment_status_enum!) {\n    update_org_subscription(where: {stripeSubscriptionId: {_eq: $stripeSubscriptionId}}, _set: {status: $status}) {\n      returning {\n        id\n      }\n    }\n  }": types.UpdateOrgSubscriptionStatusByStripeSubIdDocument,
+    "\n  mutation updateActiveMembersToMembers ($ids: [uuid!]){\n    update_member_many(updates: {where: {id: {_in: $ids}}, _set: {userId: null}}) {\n      returning {\n        id\n      }\n    }\n  }\n": types.UpdateActiveMembersToMembersDocument,
+    "\n  query getOrgMembersWithRolesFromSubscriptionId($subscriptionId: String!) {\n    org(where: {org_subscription: {stripeSubscriptionId: {_eq: $subscriptionId}}}) {\n      id\n      members {\n        id\n        userId\n        role\n      }\n    }\n  }\n": types.GetOrgMembersWithRolesFromSubscriptionIdDocument,
+    "\n  query getUserEmail($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n    }\n  }": types.GetUserEmailDocument,
+    "\n  query getOrgId($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members {\n        id\n        userId\n      }\n    }\n  }": types.GetOrgIdDocument,
+    "\n  mutation createOrgSubscription($orgId: uuid!, $customerId: String!, $subscriptionId: String!, $type: subscription_plan_type_enum!) {\n    insert_org_subscription_one(object: {\n      orgId: $orgId\n      stripeCustomerId: $customerId\n      stripeSubscriptionId: $subscriptionId\n      type: $type\n    }) {\n      id\n    }\n  }": types.CreateOrgSubscriptionDocument,
+    "\n  mutation updateOrgSubscriptionStripeSubId($orgId: uuid!, $stripeSubscriptionId: String!, $type: subscription_plan_type_enum!) {\n    update_org_subscription(where: {orgId: {_eq: $orgId}}, _set: {stripeSubscriptionId: $stripeSubscriptionId, type: $type}) {\n      returning {\n        id\n      }\n    }\n  }": types.UpdateOrgSubscriptionStripeSubIdDocument,
+    "\n  query getOrgSubscriptionStatus($orgId: uuid!) {\n    org_subscription(where: {orgId: {_eq: $orgId}}) {\n      id\n      status\n      stripeCustomerId\n      stripeSubscriptionId\n      type\n    }\n  }": types.GetOrgSubscriptionStatusDocument,
+    "\n    query getOrgSubscriptionStripeId($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }": types.GetOrgSubscriptionStripeIdDocument,
+    "\n    query getOrgSubscriptionStripeCustomerId($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeCustomerId\n      }\n    }": types.GetOrgSubscriptionStripeCustomerIdDocument,
+    "\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n": types.GetOrgSubscriptionAndActiveMembersDocument,
     "\n        query getAllParticipantsForRecompute {\n          circle_participant(where: {\n            circle: {\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n    ": types.GetAllParticipantsForRecomputeDocument,
     "\n        query getOrgParticipantsForRecompute($orgId: uuid!) {\n          circle_participant(where: {\n            circle: {\n              orgId: { _eq: $orgId },\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n      ": types.GetOrgParticipantsForRecomputeDocument,
     "\n        query getOrgIdForRecompute($circleId: uuid!) {\n          circle_by_pk(id: $circleId) {\n            orgId\n          }\n        }\n      ": types.GetOrgIdForRecomputeDocument,
@@ -64,9 +100,6 @@ const documents = {
     "\n        query GetThreadsForSearch {\n          thread(where: { archived: { _eq: false } }) {\n            ...ThreadSearch\n          }\n        }\n      ": types.GetThreadsForSearchDocument,
     "\n  query getOrgMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n    id\n    members(where: {role: {_eq: Owner}}) {\n      id\n    }\n  }\n}": types.GetOrgMembersDocument,
     "\n  query getUserRoleInOrg($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: {userId: {_eq: $userId}}) {\n        role\n      }\n    }\n  }": types.GetUserRoleInOrgDocument,
-    "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n": types.GetMemberDocument,
-    "\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n": types.GetOrgSubscriptionAndActiveMembersDocument,
-    "\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n": types.UpdateMemberDocument,
     "fragment Circle on circle {\n  id\n  orgId\n  roleId\n  parentId\n  archived\n}\n\nfragment CircleSummary on circle {\n  ...Circle\n  role {\n    ...RoleSummary\n  }\n}\n\nfragment CircleFull on circle {\n  ...CircleSummary\n  members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {\n    id\n    avgMinPerWeek\n    member {\n      ...MemberSummary\n    }\n  }\n  invitedCircleLinks {\n    invitedCircle {\n      id\n    }\n  }\n}": types.CircleFragmentDoc,
     "fragment CircleLink on circle_link {\n  id\n  parentId\n  circleId\n  createdAt\n}": types.CircleLinkFragmentDoc,
     "fragment CircleMember on circle_member {\n  id\n  circleId\n  memberId\n  avgMinPerWeek\n  createdAt\n  archived\n}": types.CircleMemberFragmentDoc,
@@ -102,6 +135,14 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getMeetingContent($meetingId: uuid!) {\n    meeting_by_pk(id: $meetingId) {\n      orgId\n      title\n      circle {\n        role {\n          name\n        }\n      }\n      stepsConfig\n      steps {\n        stepConfigId\n        type\n        data\n        notes\n      }\n    }\n  }"): (typeof documents)["\n  query getMeetingContent($meetingId: uuid!) {\n    meeting_by_pk(id: $meetingId) {\n      orgId\n      title\n      circle {\n        role {\n          name\n        }\n      }\n      stepsConfig\n      steps {\n        stepConfigId\n        type\n        data\n        notes\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getThreadsWithMeetingNotes($meetingId: uuid!, $threadsIds: [uuid!]!) {\n    thread(where:{id: {_in: $threadsIds}}) {\n      title\n      activities(\n        where: {\n          _and: { type: { _eq: MeetingNote }, refMeetingId: { _eq: $meetingId } }\n        }\n      ) {\n        type\n        data\n      }\n    }\n  }"): (typeof documents)["\n  query getThreadsWithMeetingNotes($meetingId: uuid!, $threadsIds: [uuid!]!) {\n    thread(where:{id: {_in: $threadsIds}}) {\n      title\n      activities(\n        where: {\n          _and: { type: { _eq: MeetingNote }, refMeetingId: { _eq: $meetingId } }\n        }\n      ) {\n        type\n        data\n      }\n    }\n  }"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -182,6 +223,142 @@ export function gql(source: "\n  query getUserDigestData($userId: uuid!, $date: 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query getOrgMeetingsForIcal($orgId: uuid!, $memberId: uuid) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      slug\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      meetings(\n        where: {\n          archived: { _eq: false }\n          meeting_attendees: { memberId: { _eq: $memberId } }\n        }\n        order_by: { startDate: asc }\n      ) {\n        ...Meeting\n        circle {\n          role {\n            name\n          }\n        }\n      }\n      meetings_recurring {\n        ...MeetingRecurring\n        meetings {\n          recurringDate\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgMeetingsForIcal($orgId: uuid!, $memberId: uuid) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      slug\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      meetings(\n        where: {\n          archived: { _eq: false }\n          meeting_attendees: { memberId: { _eq: $memberId } }\n        }\n        order_by: { startDate: asc }\n      ) {\n        ...Meeting\n        circle {\n          role {\n            name\n          }\n        }\n      }\n      meetings_recurring {\n        ...MeetingRecurring\n        meetings {\n          recurringDate\n        }\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query checkOrgUser($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: { userId: { _eq: $userId } }) {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query checkOrgUser($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: { userId: { _eq: $userId } }) {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n"): (typeof documents)["\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query getOrgSubscriptionStripeStatus($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }"): (typeof documents)["\n    query getOrgSubscriptionStripeStatus($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation archiveOrg($orgId: uuid!) {\n    update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation archiveOrg($orgId: uuid!) {\n    update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getUser($id: uuid!) {\n    user(id: $id) {\n      id\n      displayName\n    }\n  }"): (typeof documents)["\n  query getUser($id: uuid!) {\n    user(id: $id) {\n      id\n      displayName\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createOrg($name: String!, $slug: String!, $userId: uuid!, $memberName: String!) {\n    insert_org_one(object: {\n      name: $name\n      slug: $slug\n      defaultWorkedMinPerWeek: 2100\n      members: {\n        data: [\n          {\n            userId: $userId\n            name: $memberName\n            role: Owner\n          }\n        ]\n      }\n    }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation createOrg($name: String!, $slug: String!, $userId: uuid!, $memberName: String!) {\n    insert_org_one(object: {\n      name: $name\n      slug: $slug\n      defaultWorkedMinPerWeek: 2100\n      members: {\n        data: [\n          {\n            userId: $userId\n            name: $memberName\n            role: Owner\n          }\n        ]\n      }\n    }) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createRole($orgId: uuid!, $name: String!) {\n    insert_role_one(object: {\n      orgId: $orgId\n      name: $name\n    }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation createRole($orgId: uuid!, $name: String!) {\n    insert_role_one(object: {\n      orgId: $orgId\n      name: $name\n    }) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createRoles($roles: [role_insert_input!]!) {\n    insert_role(objects: $roles) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation createRoles($roles: [role_insert_input!]!) {\n    insert_role(objects: $roles) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createCircle($orgId: uuid!, $roleId: uuid!) {\n    insert_circle_one(object: {\n      orgId: $orgId\n      roleId: $roleId\n    }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation createCircle($orgId: uuid!, $roleId: uuid!) {\n    insert_circle_one(object: {\n      orgId: $orgId\n      roleId: $roleId\n    }) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getUserImport($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n      displayName\n    }\n  }"): (typeof documents)["\n  query getUserImport($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n      displayName\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createOrgImport($name: String!) {\n    insert_org_one(object: {\n      name: $name\n      defaultWorkedMinPerWeek: 2100\n    }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation createOrgImport($name: String!) {\n    insert_org_one(object: {\n      name: $name\n      defaultWorkedMinPerWeek: 2100\n    }) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createMembersImport( $members: [member_insert_input!]!) {\n    insert_member(objects: $members) {\n      returning {\n        id\n        inviteEmail\n      }\n    }\n  }"): (typeof documents)["\n  mutation createMembersImport( $members: [member_insert_input!]!) {\n    insert_member(objects: $members) {\n      returning {\n        id\n        inviteEmail\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createRolesImport($roles: [role_insert_input!]!) {\n    insert_role(objects: $roles) {\n      returning {\n        ...Role\n      }\n    }\n  }"): (typeof documents)["\n  mutation createRolesImport($roles: [role_insert_input!]!) {\n    insert_role(objects: $roles) {\n      returning {\n        ...Role\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createCirclesImport($circles: [circle_insert_input!]!) {\n    insert_circle(objects: $circles) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation createCirclesImport($circles: [circle_insert_input!]!) {\n    insert_circle(objects: $circles) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createCirclesMembersImport($circleMembers: [circle_member_insert_input!]!) {\n    insert_circle_member(objects: $circleMembers) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation createCirclesMembersImport($circleMembers: [circle_member_insert_input!]!) {\n    insert_circle_member(objects: $circleMembers) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createDecisionsImport($decisions: [decision_insert_input!]!) {\n    insert_decision(objects: $decisions) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation createDecisionsImport($decisions: [decision_insert_input!]!) {\n    insert_decision(objects: $decisions) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createTasksImport($tasks: [task_insert_input!]!) {\n    insert_task(objects: $tasks) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation createTasksImport($tasks: [task_insert_input!]!) {\n    insert_task(objects: $tasks) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      query GetFileByName($name: String!) {\n        files(where: { name: { _eq: $name } }) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      query GetFileByName($name: String!) {\n        files(where: { name: { _eq: $name } }) {\n          id\n        }\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation updateOrgSlug($id: uuid!, $slug: String!) {\n    update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation updateOrgSlug($id: uuid!, $slug: String!) {\n    update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query getOrgSubscriptionDetails($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        stripeCustomerId\n        status\n        type\n      }\n    }"): (typeof documents)["\n    query getOrgSubscriptionDetails($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        stripeCustomerId\n        status\n        type\n      }\n    }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query getOrgSubscriptionStripeIds($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        stripeCustomerId\n      }\n    }"): (typeof documents)["\n    query getOrgSubscriptionStripeIds($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        stripeCustomerId\n      }\n    }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation updateOrgSubscriptionStatusByStripeSubId($stripeSubscriptionId: String!, $status: subscription_payment_status_enum!) {\n    update_org_subscription(where: {stripeSubscriptionId: {_eq: $stripeSubscriptionId}}, _set: {status: $status}) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation updateOrgSubscriptionStatusByStripeSubId($stripeSubscriptionId: String!, $status: subscription_payment_status_enum!) {\n    update_org_subscription(where: {stripeSubscriptionId: {_eq: $stripeSubscriptionId}}, _set: {status: $status}) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation updateActiveMembersToMembers ($ids: [uuid!]){\n    update_member_many(updates: {where: {id: {_in: $ids}}, _set: {userId: null}}) {\n      returning {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation updateActiveMembersToMembers ($ids: [uuid!]){\n    update_member_many(updates: {where: {id: {_in: $ids}}, _set: {userId: null}}) {\n      returning {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getOrgMembersWithRolesFromSubscriptionId($subscriptionId: String!) {\n    org(where: {org_subscription: {stripeSubscriptionId: {_eq: $subscriptionId}}}) {\n      id\n      members {\n        id\n        userId\n        role\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgMembersWithRolesFromSubscriptionId($subscriptionId: String!) {\n    org(where: {org_subscription: {stripeSubscriptionId: {_eq: $subscriptionId}}}) {\n      id\n      members {\n        id\n        userId\n        role\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getUserEmail($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n    }\n  }"): (typeof documents)["\n  query getUserEmail($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getOrgId($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members {\n        id\n        userId\n      }\n    }\n  }"): (typeof documents)["\n  query getOrgId($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members {\n        id\n        userId\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation createOrgSubscription($orgId: uuid!, $customerId: String!, $subscriptionId: String!, $type: subscription_plan_type_enum!) {\n    insert_org_subscription_one(object: {\n      orgId: $orgId\n      stripeCustomerId: $customerId\n      stripeSubscriptionId: $subscriptionId\n      type: $type\n    }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation createOrgSubscription($orgId: uuid!, $customerId: String!, $subscriptionId: String!, $type: subscription_plan_type_enum!) {\n    insert_org_subscription_one(object: {\n      orgId: $orgId\n      stripeCustomerId: $customerId\n      stripeSubscriptionId: $subscriptionId\n      type: $type\n    }) {\n      id\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation updateOrgSubscriptionStripeSubId($orgId: uuid!, $stripeSubscriptionId: String!, $type: subscription_plan_type_enum!) {\n    update_org_subscription(where: {orgId: {_eq: $orgId}}, _set: {stripeSubscriptionId: $stripeSubscriptionId, type: $type}) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation updateOrgSubscriptionStripeSubId($orgId: uuid!, $stripeSubscriptionId: String!, $type: subscription_plan_type_enum!) {\n    update_org_subscription(where: {orgId: {_eq: $orgId}}, _set: {stripeSubscriptionId: $stripeSubscriptionId, type: $type}) {\n      returning {\n        id\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getOrgSubscriptionStatus($orgId: uuid!) {\n    org_subscription(where: {orgId: {_eq: $orgId}}) {\n      id\n      status\n      stripeCustomerId\n      stripeSubscriptionId\n      type\n    }\n  }"): (typeof documents)["\n  query getOrgSubscriptionStatus($orgId: uuid!) {\n    org_subscription(where: {orgId: {_eq: $orgId}}) {\n      id\n      status\n      stripeCustomerId\n      stripeSubscriptionId\n      type\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query getOrgSubscriptionStripeId($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }"): (typeof documents)["\n    query getOrgSubscriptionStripeId($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query getOrgSubscriptionStripeCustomerId($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeCustomerId\n      }\n    }"): (typeof documents)["\n    query getOrgSubscriptionStripeCustomerId($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeCustomerId\n      }\n    }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -306,18 +483,6 @@ export function gql(source: "\n  query getOrgMembers($orgId: uuid!) {\n    org_b
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query getUserRoleInOrg($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: {userId: {_eq: $userId}}) {\n        role\n      }\n    }\n  }"): (typeof documents)["\n  query getUserRoleInOrg($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: {userId: {_eq: $userId}}) {\n        role\n      }\n    }\n  }"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n"): (typeof documents)["\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

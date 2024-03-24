@@ -1,4 +1,3 @@
-import { fn } from '@/common/api/functions'
 import { App_Type_Enum } from '@gql'
 import React from 'react'
 import settings from 'src/settings'
@@ -40,7 +39,7 @@ const appsParams: Record<App_Type_Enum, AppParams> = {
 interface AppParams {
   icon: React.ElementType
   authUrl: string
-  redirectFunction: ReturnType<typeof fn<{ code: string }>>
+  redirectFunction: (input: { code: string }) => Promise<void>
 }
 
 export default appsParams

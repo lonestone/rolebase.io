@@ -14409,6 +14409,7 @@ export enum Subscription_Payment_Status_Enum {
   Incomplete = 'incomplete',
   IncompleteExpired = 'incomplete_expired',
   PastDue = 'past_due',
+  Paused = 'paused',
   Trialing = 'trialing',
   Unpaid = 'unpaid'
 }

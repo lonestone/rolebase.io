@@ -74,6 +74,7 @@ export default {
 
   stripe: {
     privateKey: process.env.STRIPE_PRIVATE_KEY || '',
+    endpointSecret: process.env.STRIPE_ENDPOINT_SECRET || '',
     startupPlanPriceId: process.env.STRIPE_STARTUP_PLAN_PRICE_ID || '',
   },
 

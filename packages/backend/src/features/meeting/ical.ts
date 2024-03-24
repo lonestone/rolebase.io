@@ -12,7 +12,7 @@ import i18n from '../../i18n'
 import { route } from '../../rest/route'
 import settings from '../../settings'
 import { adminRequest } from '../../utils/adminRequest'
-import { generateMeetingToken } from '../../utils/generateMeetingToken'
+import { generateMeetingToken } from './generateMeetingToken'
 
 const yupSchema = yup.object().shape({
   orgId: yup.string().required(),

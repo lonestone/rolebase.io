@@ -1,4 +1,3 @@
-import { archiveOrg } from '@/org/api/org_functions'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,6 +12,7 @@ import {
 import React, { useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { trpc } from 'src/trpc'
 import useOrg from '../hooks/useOrg'
 
 interface Props
@@ -30,7 +30,7 @@ export default function OrgDeleteModal({ id, ...alertProps }: Props) {
   // Archive org and set loading=true while waiting for org to disappear
   const handleDelete = async () => {
     setLoading(true)
-    await archiveOrg({
+    await trpc.org.archiveOrg.mutate({
       orgId: org?.id ?? '',
     })
 

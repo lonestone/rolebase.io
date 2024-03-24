@@ -1,4 +1,3 @@
-import { updateOrgSlug } from '@/org/api/org_functions'
 import {
   Button,
   FormControl,
@@ -24,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import slugify from 'slugify'
 import settings from 'src/settings'
+import { trpc } from 'src/trpc'
 import * as yup from 'yup'
 import useOrg from '../hooks/useOrg'
 
@@ -69,7 +69,7 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
     if (!slug) return
     try {
       setLoading(true)
-      await updateOrgSlug({ orgId: id, slug })
+      await trpc.org.updateOrgSlug.mutate({ orgId: id, slug })
 
       // Redirect to new path
       navigate(`/${slug}`)

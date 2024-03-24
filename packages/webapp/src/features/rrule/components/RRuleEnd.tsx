@@ -6,8 +6,11 @@ import {
   InputRightAddon,
   Select,
 } from '@chakra-ui/react'
+import {
+  getDateFromUTCDate,
+  getUTCDateFromDate,
+} from '@rolebase/shared/helpers/RRuleUTC'
 import { getDateTimeLocal } from '@utils/dates'
-import { utcToZonedTime } from 'date-fns-tz'
 import React, { ChangeEventHandler, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
@@ -22,40 +25,40 @@ enum EndTypes {
 export default function RRuleEnd({ options, onChange }: FormPartProps) {
   const { t } = useTranslation()
 
-  const toggleEnd: ChangeEventHandler<HTMLSelectElement> = useCallback((e) => {
-    const endType = e.target.value as EndTypes
-    switch (endType) {
-      case EndTypes.NEVER:
-        onChange({ count: undefined, until: undefined })
-        break
-      case EndTypes.COUNT:
-        onChange({ count: 1, until: undefined })
-        break
-      case EndTypes.UNTIL:
-        onChange({
-          count: undefined,
-          until:
-            options.until || utcToZonedTime(new Date(), options.tzid || 'UTC'),
-        })
-        break
-    }
-  }, [])
+  const toggleEnd: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => {
+      const endType = e.target.value as EndTypes
+      switch (endType) {
+        case EndTypes.NEVER:
+          onChange({ count: undefined, until: undefined })
+          break
+        case EndTypes.COUNT:
+          onChange({ count: 1, until: undefined })
+          break
+        case EndTypes.UNTIL:
+          onChange({
+            count: undefined,
+            until: options.until || getDateFromUTCDate(new Date()),
+          })
+          break
+      }
+    },
+    [onChange]
+  )
 
   const untilValue = useMemo(
-    () => (options.until ? getDateTimeLocal(options.until) : ''),
+    () =>
+      options.until ? getDateTimeLocal(getDateFromUTCDate(options.until)) : '',
     [options.until, options.tzid]
   )
 
   const handleUntilChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onChange({
-        until: utcToZonedTime(
-          new Date(event.target.value),
-          options.tzid || 'UTC'
-        ),
+        until: getUTCDateFromDate(new Date(event.target.value)),
       })
     },
-    []
+    [onChange]
   )
 
   return (

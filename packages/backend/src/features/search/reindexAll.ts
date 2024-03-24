@@ -1,6 +1,6 @@
 import { adminProcedure } from '../../trpc/adminProcedure'
-import getAlgoliaIndex from '../../utils/getAlgoliaClient'
 import { indexTables } from '../trigger/entities'
+import getAlgoliaIndex from './utils/getAlgoliaClient'
 
 export default adminProcedure.mutation(async () => {
   const index = getAlgoliaIndex()

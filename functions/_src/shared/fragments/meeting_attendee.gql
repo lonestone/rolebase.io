@@ -1,7 +1,0 @@
-fragment MeetingAttendee on meeting_attendee {
-  id
-  meetingId
-  memberId
-  present
-  startNotified
-}

@@ -28,13 +28,13 @@ export enum InvoiceStatus {
 }
 
 export type UpcomingInvoice = {
-  nextPayment: Date
+  nextPayment: string
   totalInCents: number
 }
 
 export type Invoice = {
-  createdAt: Date
-  pdfUrl: string | null | undefined
+  createdAt: string
+  pdfUrl?: string | null | undefined
   totalInCents: number
   status: InvoiceStatus
 }
@@ -55,7 +55,7 @@ export type CustomerBillingDetails = {
 export type Subscription = {
   card: SubscriptionCard | null
   upcomingInvoice: UpcomingInvoice | null
-  expiresAt: Date | null
+  expiresAt: string | null
   billingDetails: CustomerBillingDetails | null
 } & Pick<Org_Subscription, 'status' | 'orgId' | 'type'>
 

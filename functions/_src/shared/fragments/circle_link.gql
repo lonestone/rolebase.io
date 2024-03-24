@@ -1,6 +1,0 @@
-fragment CircleLink on circle_link {
-  id
-  parentId
-  circleId
-  createdAt
-}

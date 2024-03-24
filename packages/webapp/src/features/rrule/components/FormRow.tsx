@@ -12,7 +12,7 @@ export function FormRow({ label, children }: Props) {
       <FormLabel mr={0} pt={2}>
         {label}
       </FormLabel>
-      <Box w="60%">{children}</Box>
+      <Box w="70%">{children}</Box>
     </FormControl>
   )
 }

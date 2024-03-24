@@ -7,9 +7,8 @@ import DurationSelect from '@/common/atoms/DurationSelect'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import EditorController from '@/editor/components/EditorController'
 import useCreateLog from '@/log/hooks/useCreateLog'
-import { inviteMember, updateMemberRole } from '@/member/api/member_functions'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
-import SubscriptionReachedMemberLimitModal from '@/subscription/modals/SubscriptionReachedMemberLimitModal'
+import SubscriptionReachedMemberLimitModal from '@/orgSubscription/modals/SubscriptionReachedMemberLimitModal'
 import {
   Alert,
   AlertIcon,
@@ -42,6 +41,7 @@ import { format } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { trpc } from 'src/trpc'
 import * as yup from 'yup'
 import useMember from '../hooks/useMember'
 import useOrgAdmin from '../hooks/useOrgAdmin'
@@ -143,13 +143,13 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         if (newRole !== member.role) {
           if (member.userId) {
             // Update role
-            await updateMemberRole({
+            await trpc.member.updateMemberRole.mutate({
               memberId: id,
               role: newRole,
             })
           } else if (newRole && inviteEmail) {
             // Invite member
-            await inviteMember({
+            await trpc.member.inviteMember.mutate({
               memberId: member.id,
               role: newRole,
               email: inviteEmail,
@@ -185,7 +185,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     if (!member?.inviteEmail || !member.role) return
     setLoading(true)
     try {
-      await inviteMember({
+      await trpc.member.inviteMember.mutate({
         memberId: member.id,
         role: member.role,
         email: member.inviteEmail,
@@ -211,7 +211,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const handleRevokeInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
     setLoading(true)
-    await updateMemberRole({
+    await trpc.member.updateMemberRole.mutate({
       memberId: member.id,
     })
     setLoading(false)

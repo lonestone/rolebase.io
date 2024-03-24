@@ -1,6 +1,8 @@
 import { router } from '../../trpc'
-import { generateRole } from './generateRole'
+import generateMeetingSummary from './generateMeetingSummary'
+import generateRole from './generateRole'
 
 export default router({
+  generateMeetingSummary,
   generateRole,
 })

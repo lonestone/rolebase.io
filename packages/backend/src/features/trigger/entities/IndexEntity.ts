@@ -1,7 +1,7 @@
 import { SearchDoc } from '@rolebase/shared/model/search'
 import { RestError } from '../../../rest/route'
-import getAlgoliaIndex from '../../../utils/getAlgoliaClient'
 import { HasuraEvent } from '../../../utils/nhost'
+import getAlgoliaIndex from '../../search/utils/getAlgoliaClient'
 
 export abstract class IndexEntity<
   Entity extends { id: string; archived?: boolean },

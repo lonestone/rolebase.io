@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { Member_Role_Enum } from '../../gql'
 import { guardOrg } from '../../guards/guardOrg'
 import { authedProcedure } from '../../trpc/authedProcedure'
-import { generateMeetingToken } from '../../utils/generateMeetingToken'
+import { generateMeetingToken } from './generateMeetingToken'
 
 export default authedProcedure
   .input(

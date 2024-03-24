@@ -17,22 +17,19 @@ export const slugSchema = yup
 
 export const roleSchema = yup.string().oneOf(Object.values(Member_Role_Enum))
 
-export const addressSchema = yup
-  .object()
-  .shape({
-    city: yup.string().required(),
-    country: yup.string().required(),
-    line1: yup.string().required(),
-    line2: yup.string().nullable(),
-    postal_code: yup.string().required(),
-    state: yup.string().nullable(),
-  })
-  .required()
+export const addressSchema = yup.object().shape({
+  city: yup.string().nullable().default(null),
+  country: yup.string().nullable().default(null),
+  line1: yup.string().nullable().default(null),
+  line2: yup.string().nullable().default(null),
+  postal_code: yup.string().nullable().default(null),
+  state: yup.string().nullable().default(null),
+})
 
 export const billingDetailsSchema = yup.object().shape({
-  name: yup.string().required(),
+  name: yup.string().nullable(),
   email: yup.string().nullable(),
-  address: addressSchema,
+  address: addressSchema.nullable().optional(),
 })
 
 export const subscriptionPlanTypeSchema = yup

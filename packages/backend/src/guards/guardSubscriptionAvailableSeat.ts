@@ -1,7 +1,7 @@
 import { SubscriptionLimits } from '@rolebase/shared/model/subscription'
 import { TRPCError } from '@trpc/server'
-import { getOrgSubscriptionAndActiveMembers } from '../utils/getOrgSubscriptionAndActiveMembers'
-import { isSubscriptionActive } from '../utils/isSubscriptionActive'
+import { getOrgSubscriptionAndActiveMembers } from '../features/orgSubscription/utils/getOrgSubscriptionAndActiveMembers'
+import { isSubscriptionActive } from '../features/orgSubscription/utils/isSubscriptionActive'
 
 export async function guardSubscriptionAvailableSeat(orgId: string) {
   const { subscription, activeMembers } =

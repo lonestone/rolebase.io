@@ -19,7 +19,7 @@ const config: CodegenConfig = {
     },
     schemaOverridesPath,
   ],
-  documents: [fragmentsPath, '_src/**/*.ts', '!graphql/**/*'],
+  documents: [fragmentsPath, '**/*.ts', '!graphql/**/*'],
   generates: {
     'graphql/': {
       preset: 'gql-tag-operations-preset',
