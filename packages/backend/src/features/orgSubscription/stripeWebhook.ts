@@ -15,50 +15,55 @@ const stripe = new Stripe(settings.stripe.privateKey ?? '', {
 })
 
 export default async (app: FastifyInstance) => {
-  // Get raw body
-  app.addContentTypeParser(
-    'application/json',
-    { parseAs: 'buffer' },
-    function (req, body, done) {
-      done(null, body)
-    }
-  )
+  // Scope raw body parser to this route with register
+  app.register(async (app) => {
+    // Get raw body
+    app.addContentTypeParser(
+      'application/json',
+      { parseAs: 'buffer' },
+      function (req, body, done) {
+        done(null, body)
+      }
+    )
 
-  app.post('/orgSubscription/stripeWebhook', async (req, res) => {
-    // Immediately sending status as per Stripe doc
-    res.send('OK')
+    app.post('/orgSubscription/stripeWebhook', async (req, res) => {
+      // Immediately sending status as per Stripe doc
+      res.send('OK')
 
-    const event = validateEvent(req)
+      const event = validateEvent(req)
 
-    // Handle webhook event (https://stripe.com/docs/billing/subscriptions/webhooks)
-    switch (event.type) {
-      case 'invoice.paid':
-        // Payment has been successfull
-        // Send an email ?
-        break
-      case 'invoice.upcoming':
-        // Customer will be charged in a few days, should we send an email ?
-        break
-      case 'invoice.payment_failed':
-        // Payment failed
-        // Send an email ?
-        break
-      case 'customer.subscription.created':
-      case 'customer.subscription.updated':
-        await updateSubscription(event.data.object as Stripe.Subscription)
-        break
-      case 'customer.subscription.deleted':
-        await deleteSubscription((event.data.object as Stripe.Subscription).id)
-        break
-      case 'payment_method.attached':
-        await updateDefaultPaymentMethod(
-          event.data.object as Stripe.PaymentMethod
-        )
-        break
-      default:
-        console.log(`[STRIPE WEBHOOK]: Unhandled event type ${event.type}`)
-        break
-    }
+      // Handle webhook event (https://stripe.com/docs/billing/subscriptions/webhooks)
+      switch (event.type) {
+        case 'invoice.paid':
+          // Payment has been successfull
+          // Send an email ?
+          break
+        case 'invoice.upcoming':
+          // Customer will be charged in a few days, should we send an email ?
+          break
+        case 'invoice.payment_failed':
+          // Payment failed
+          // Send an email ?
+          break
+        case 'customer.subscription.created':
+        case 'customer.subscription.updated':
+          await updateSubscription(event.data.object as Stripe.Subscription)
+          break
+        case 'customer.subscription.deleted':
+          await deleteSubscription(
+            (event.data.object as Stripe.Subscription).id
+          )
+          break
+        case 'payment_method.attached':
+          await updateDefaultPaymentMethod(
+            event.data.object as Stripe.PaymentMethod
+          )
+          break
+        default:
+          console.log(`[STRIPE WEBHOOK]: Unhandled event type ${event.type}`)
+          break
+      }
+    })
   })
 }
 

@@ -10,32 +10,30 @@ export function redirectToBackend(path: string) {
     const url = new URL(
       path +
         // Query string
-        req.url.replace(/[^\?]*(?=\?)/, ''),
+        req.url.replace(/[^\?]*(?=\?|$)/, ''),
       process.env.BACKEND_URL
     ).toString()
 
-    console.log('url', url)
+    // Get request headers
     const reqHeaders: Record<string, string> = {}
     for (const header in req.headers) {
-      if (/^x-goog-/.test(header)) {
-        reqHeaders[header] = req.headers[header] as string
-      }
+      if (header === 'host') continue
+      reqHeaders[header] = req.headers[header] as string
     }
-    console.log('reqHeaders', reqHeaders)
 
+    // Forward request to backend
     const response = await fetch(url, {
       method: req.method,
       headers: reqHeaders,
-      // body: req.method === 'POST' ? req.body : undefined,
+      body: req.method === 'POST' ? (req as any).rawBody : undefined,
     })
 
-    console.log('status', response.status)
-    // console.log('data', await response.text())
-
+    // Get response headers
     for (const header of response.headers) {
       res.header(header[0], header[1])
     }
 
+    // Get response body
     const body = await response.text()
 
     // Send status and body to client
