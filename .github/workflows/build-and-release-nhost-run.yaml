@@ -1,0 +1,74 @@
+# Copy of https://github.com/nhost-actions/workflows/blob/main/.github/workflows/build-and-release-nhost-run.yaml
+# with Dockerfile path
+
+---
+name: 'Release Workflow'
+on:
+  workflow_call:
+    inputs:
+      IMAGE:
+        description: Image to build and push
+        type: string
+        required: true
+      SERVICE_ID:
+        description: Service ID to deploy to
+        type: string
+        required: true
+      DOCKER_CONTEXT:
+        description: Path to folder where to build the docker image
+        type: string
+        required: false
+        default: .
+      DOCKER_FILE:
+        description: Path to Dockerfile
+        type: string
+        required: false
+        default: ./Dockerfile
+    secrets:
+      PAT:
+        description: Nhost PAT. See https://github.com/nhost-actions/authenticate#creating-a-pat
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v3
+
+      - name: Install Nhost CLI
+        id: install-nhost-cli
+        uses: nhost-actions/install-nhost-cli@v1
+
+      - name: Authenticate with Nhost
+        uses: nhost-actions/authenticate@v1
+        with:
+          pat: ${{ secrets.PAT }}
+
+      - name: Configure docker credentials
+        uses: nhost-actions/configure-container-registry@v1
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ${{ inputs.DOCKER_FILE }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ inputs.IMAGE }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy service configuration
+        uses: nhost-actions/nhost-run-config-deploy@v1
+        with:
+          configuration_file: nhost-service.toml
+          service_id: ${{ inputs.SERVICE_ID }}
+          image: ${{ inputs.IMAGE }}

@@ -1,0 +1,41 @@
+---
+name: 'Test and Release'
+on:
+  workflow_call:
+    inputs:
+      IMAGE:
+        type: string
+        required: true
+      SERVICE_ID:
+        type: string
+        required: true
+    secrets:
+      PAT:
+        required: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm run test
+
+  # Deploy backend
+  deploy:
+    needs: [test]
+    uses: ./build-and-release-nhost-run.yaml@v1
+    with:
+      IMAGE: ${{ inputs.IMAGE }}
+      SERVICE_ID: ${{ inputs.SERVICE_ID }}
+      DOCKER_FILE: ./packages/backend/Dockerfile
+    secrets:
+      PAT: ${{ secrets.PAT }}

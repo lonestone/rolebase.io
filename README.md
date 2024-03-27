@@ -54,7 +54,7 @@ nhost login
 nhost up
 ```
 
-2.  Run webapp with Vite + Codegen watcher:
+2.  Run webapp + backend with watch:
 
 ```
 npm run dev
@@ -240,6 +240,7 @@ npm run build-emails-icons
 - GraphQL API
 - Storage
 - Functions
+- Run: @rolebase/backend (docker)
 
 ## Upgrade Nhost
 
@@ -279,8 +280,3 @@ Before sending your pull request, please:
 ## Help & issues
 
 If you're having an issue with Rolebase, feel free to [contact us](https://www.rolebase.io/contact) or to open an issue on this Github project.
-
----
-
-TO ADD:
-nhost docker-credentials configure

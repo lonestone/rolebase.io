@@ -2,7 +2,7 @@ name = 'backend'
 command = ['npm', 'start']
 
 [image]
-image = 'registry.eu-central-1.nhost.run/94212868-126b-47d0-bc96-4a9ac670c2ea:1.0.3'
+image = 'registry.eu-central-1.nhost.run/94212868-126b-47d0-bc96-4a9ac670c2ea:1.0.10'
 
 [[environment]]
 name = 'WEBAPP_URL'
@@ -80,6 +80,9 @@ value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_SECRET }}'
 port = 8888
 type = 'http'
 publish = true
+
+[[ports.ingresses]]
+fqdn = ['api.rolebase.io']
 
 [resources]
 replicas = 1
