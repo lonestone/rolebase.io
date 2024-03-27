@@ -1,0 +1,29 @@
+{
+  "name": "@rolebase/emails",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "email dev --dir ./components/templates --port 8090",
+    "build": "tsx ./build.ts",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@react-email/button": "^0.0.10",
+    "@react-email/components": "^0.0.7",
+    "@react-email/html": "^0.0.4",
+    "date-fns": "^2.29.3",
+    "date-fns-tz": "^2.0.1",
+    "dotenv": "^16.0.3",
+    "i18next": "^21.6.16",
+    "node-mailjet": "^5.1.1",
+    "react": "^18.2.0",
+    "react-email": "^1.9.4"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^18.8.3",
+    "@types/react": "^18.2.21",
+    "tsx": "^4.7.1",
+    "typescript": "^5.2.2"
+  }
+}

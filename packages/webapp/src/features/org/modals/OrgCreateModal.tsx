@@ -1,6 +1,5 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import TextError from '@/common/atoms/TextError'
-import { createOrg } from '@/org/api/org_functions'
 import {
   Box,
   Button,
@@ -18,8 +17,8 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { nameSchema, slugSchema } from '@shared/schemas'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
+import { nameSchema, slugSchema } from '@rolebase/shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -27,6 +26,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import slugify from 'slugify'
 import { ChevronRightIcon } from 'src/icons'
 import settings from 'src/settings'
+import { trpc } from 'src/trpc'
 import * as yup from 'yup'
 import useOrg from '../hooks/useOrg'
 
@@ -74,7 +74,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
     setError(undefined)
     try {
       // Create org
-      const orgId = await createOrg({ name, slug })
+      const orgId = await trpc.org.createOrg.mutate({ name, slug })
       setOrgId(orgId)
     } catch (e: any) {
       setLoading(false)

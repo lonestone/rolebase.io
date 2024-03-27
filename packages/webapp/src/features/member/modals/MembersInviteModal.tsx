@@ -1,4 +1,3 @@
-import { inviteMember } from '@/member/api/member_functions'
 import {
   Box,
   Button,
@@ -29,6 +28,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EmailIcon } from 'src/icons'
+import { trpc } from 'src/trpc'
 import MemberButton from '../components/MemberButton'
 import {
   getEmailFromName,
@@ -129,7 +129,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       for (const member of notInvitedMembers) {
         const memberState = state[member.id]
         if (memberState && memberState.email && memberState.selected) {
-          await inviteMember({
+          await trpc.member.inviteMember.mutate({
             memberId: member.id,
             role,
             email: memberState.email,

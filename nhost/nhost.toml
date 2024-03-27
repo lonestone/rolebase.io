@@ -55,6 +55,10 @@ value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_ID }}'
 name = 'APPS_GOOGLECALENDAR_CLIENT_SECRET'
 value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_SECRET }}'
 
+[[global.environment]]
+name = 'BACKEND_URL'
+value = '{{ secrets.BACKEND_URL }}'
+
 [hasura]
 version = 'v2.33.4-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'

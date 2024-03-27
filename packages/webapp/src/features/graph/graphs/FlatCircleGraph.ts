@@ -1,5 +1,5 @@
 import { CircleFullFragment } from '@gql'
-import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
+import { getCircleParticipants } from '@rolebase/shared/helpers/getCircleParticipants'
 import { omit } from '@utils/omit'
 import { HierarchyNode } from 'd3-hierarchy'
 import { Data, GraphParams, RootElement } from '../types'

@@ -33,8 +33,8 @@ import {
   useUpdateDecisionMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { EntityChangeType, LogType } from '@shared/model/log'
-import { nameSchema } from '@shared/schemas'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
+import { nameSchema } from '@rolebase/shared/schemas'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

@@ -21,7 +21,7 @@ import { Route, Routes, useParams } from 'react-router-dom'
 // Lazy pages
 const MeetingsPage = lazy(() => import('@/meeting/pages/MeetingsPage'))
 const SubscriptionPage = lazy(
-  () => import('@/subscription/pages/SubscriptionPage')
+  () => import('@/orgSubscription/pages/SubscriptionPage')
 )
 const CircleExportPage = lazy(() => import('@/circle/pages/CircleExportPage'))
 

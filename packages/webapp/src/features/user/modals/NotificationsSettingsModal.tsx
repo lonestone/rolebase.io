@@ -15,7 +15,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useUserData } from '@nhost/react'
-import { getDefaultDigestRRule } from '@shared/model/notifications'
+import { getDefaultDigestRRule } from '@rolebase/shared/model/notifications'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import useUserMetadata from '../hooks/useUserMetadata'

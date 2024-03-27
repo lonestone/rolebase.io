@@ -6,7 +6,10 @@ import {
   InputRightAddon,
   Select,
 } from '@chakra-ui/react'
-import { getDateFromUTCDate, getUTCDateFromDate } from '@shared/helpers/rrule'
+import {
+  getDateFromUTCDate,
+  getUTCDateFromDate,
+} from '@rolebase/shared/helpers/RRuleUTC'
 import { getDateTimeLocal } from '@utils/dates'
 import React, { ChangeEventHandler, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,23 +25,26 @@ enum EndTypes {
 export default function RRuleEnd({ options, onChange }: FormPartProps) {
   const { t } = useTranslation()
 
-  const toggleEnd: ChangeEventHandler<HTMLSelectElement> = useCallback((e) => {
-    const endType = e.target.value as EndTypes
-    switch (endType) {
-      case EndTypes.NEVER:
-        onChange({ count: undefined, until: undefined })
-        break
-      case EndTypes.COUNT:
-        onChange({ count: 1, until: undefined })
-        break
-      case EndTypes.UNTIL:
-        onChange({
-          count: undefined,
-          until: options.until || getUTCDateFromDate(new Date()),
-        })
-        break
-    }
-  }, [])
+  const toggleEnd: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => {
+      const endType = e.target.value as EndTypes
+      switch (endType) {
+        case EndTypes.NEVER:
+          onChange({ count: undefined, until: undefined })
+          break
+        case EndTypes.COUNT:
+          onChange({ count: 1, until: undefined })
+          break
+        case EndTypes.UNTIL:
+          onChange({
+            count: undefined,
+            until: options.until || getDateFromUTCDate(new Date()),
+          })
+          break
+      }
+    },
+    [onChange]
+  )
 
   const untilValue = useMemo(
     () =>
@@ -48,9 +54,11 @@ export default function RRuleEnd({ options, onChange }: FormPartProps) {
 
   const handleUntilChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange({ until: getUTCDateFromDate(new Date(event.target.value)) })
+      onChange({
+        until: getUTCDateFromDate(new Date(event.target.value)),
+      })
     },
-    []
+    [onChange]
   )
 
   return (

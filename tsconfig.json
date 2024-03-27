@@ -6,6 +6,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "strictNullChecks": false
+    "strictNullChecks": true
   }
 }

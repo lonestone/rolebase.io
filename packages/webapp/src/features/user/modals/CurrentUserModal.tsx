@@ -19,7 +19,7 @@ import {
 import { useChangeDisplayNameMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useUserDisplayName, useUserEmail, useUserId } from '@nhost/react'
-import { emailSchema, nameSchema } from '@shared/schemas'
+import { emailSchema, nameSchema } from '@rolebase/shared/schemas'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

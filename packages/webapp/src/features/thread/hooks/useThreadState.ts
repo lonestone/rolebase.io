@@ -1,6 +1,5 @@
 import useCircle from '@/circle/hooks/useCircle'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
-import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import useCircleParticipants from '@/participants/hooks/useCircleParticipants'
 import {
@@ -13,8 +12,8 @@ import {
   useThreadSubscription,
   useUpsertThreadMemberStatusMutation,
 } from '@gql'
-import { ParticipantMember } from '@shared/model/member'
-import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
+import { ParticipantMember } from '@rolebase/shared/model/member'
+import { ThreadActivityChangeStatusFragment } from '@rolebase/shared/model/thread_activity'
 import { useCallback, useEffect, useMemo } from 'react'
 import { usePathInOrg } from '../../org/hooks/usePathInOrg'
 import useExtraParticipants from '../../participants/hooks/useExtraParticipants'
@@ -44,7 +43,6 @@ export interface ThreadState {
 export default function useThreadState(threadId: string): ThreadState {
   const currentMember = useCurrentMember()
   const isMember = useOrgMember()
-  const isAdmin = useOrgAdmin()
   const [upsertThreadMemberStatus] = useUpsertThreadMemberStatusMutation()
 
   // Subscribe to thread
@@ -93,8 +91,8 @@ export default function useThreadState(threadId: string): ThreadState {
   const isParticipant = currentMember
     ? participants.some((p) => p.member.id === currentMember.id)
     : false
-  const canEdit = isMember && (isParticipant || isAdmin)
-  const canParticipate = isMember
+  const canEdit = isParticipant || (thread?.private === false && isMember)
+  const canParticipate = canEdit
 
   // Scroll to an activity
   const handleScrollToActivity = useCallback((stepId: string) => {

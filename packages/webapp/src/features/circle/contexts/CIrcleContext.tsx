@@ -5,7 +5,7 @@ import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import useCircleLeaders from '@/participants/hooks/useCircleLeaders'
 import useCircleParticipants from '@/participants/hooks/useCircleParticipants'
 import { CircleFullFragment, RoleSummaryFragment } from '@gql'
-import { ParticipantMember } from '@shared/model/member'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import React, { ReactNode, createContext } from 'react'
 import useCircle from '../hooks/useCircle'
 

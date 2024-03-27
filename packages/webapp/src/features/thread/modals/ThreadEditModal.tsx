@@ -37,7 +37,7 @@ import {
   useUpdateThreadMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { nameSchema } from '@shared/schemas'
+import { nameSchema } from '@rolebase/shared/schemas'
 import React, { useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

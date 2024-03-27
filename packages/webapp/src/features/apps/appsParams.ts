@@ -1,7 +1,7 @@
-import { fn } from '@/common/api/functions'
 import { App_Type_Enum } from '@gql'
 import React from 'react'
 import settings from 'src/settings'
+import { trpc } from 'src/trpc'
 import GoogleCalendarIcon from './images/googlecalendar.svg'
 import Office365Icon from './images/office365.svg'
 
@@ -19,7 +19,7 @@ const appsParams: Record<App_Type_Enum, AppParams> = {
     ].join(' ')}&client_id=${
       settings.apps.office365.clientId
     }&redirect_uri=${appsUrl}/office365-auth-redirect`,
-    redirectFunction: fn('apps/office365/auth-redirect'),
+    redirectFunction: trpc.apps.office365.authRedirect.mutate,
   },
 
   // Google Calendar
@@ -32,14 +32,14 @@ const appsParams: Record<App_Type_Enum, AppParams> = {
     ].join(' ')}&prompt=consent&access_type=offline&client_id=${
       settings.apps.googlecalendar.clientId
     }&redirect_uri=${appsUrl}/googlecalendar-auth-redirect`,
-    redirectFunction: fn('apps/googlecalendar/auth-redirect'),
+    redirectFunction: trpc.apps.googlecalendar.authRedirect.mutate,
   },
 }
 
 interface AppParams {
   icon: React.ElementType
   authUrl: string
-  redirectFunction: ReturnType<typeof fn<{ code: string }>>
+  redirectFunction: (input: { code: string }) => Promise<void>
 }
 
 export default appsParams

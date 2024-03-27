@@ -1,10 +1,10 @@
 import { Title } from '@/common/atoms/Title'
+import Page404 from '@/common/pages/Page404'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { Container } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import Page404 from '../../common/pages/Page404'
 import MeetingRecurringModal from '../modals/MeetingRecurringModal'
 
 type Params = {

@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'
-import { emailSchema, nameSchema } from '@shared/schemas'
+import { emailSchema, nameSchema } from '@rolebase/shared/schemas'
 import { getTimeZone } from '@utils/dates'
 import React from 'react'
 import { useForm } from 'react-hook-form'

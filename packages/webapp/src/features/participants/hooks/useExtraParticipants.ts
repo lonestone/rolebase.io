@@ -1,5 +1,5 @@
-import { truthy } from '@shared/helpers/truthy'
-import { ParticipantMember } from '@shared/model/member'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

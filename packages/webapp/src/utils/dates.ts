@@ -8,3 +8,7 @@ export function getDateTimeLocal(date: Date) {
 export function getTimeZone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
+
+export function listTimeZones(): string[] {
+  return Intl.supportedValuesOf('timeZone')
+}

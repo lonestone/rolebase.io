@@ -1,11 +1,11 @@
-import { VStack } from '@chakra-ui/react'
+import { Collapse, VStack } from '@chakra-ui/react'
 import { getTimeZone } from '@utils/dates'
 import { pick } from '@utils/pick'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { RRule } from 'rrule'
 import { Frequency, ParsedOptions } from 'rrule/dist/esm/types'
-import RRuleEditorNextDates from './RRuleEditorNextDates'
 import RRuleMonthly from './RRuleMonthly'
+import RRuleNextDates from './RRuleNextDates'
 import RRuleRepeat from './RRuleRepeat'
 import RRuleStartDate from './RRuleStartDate'
 import RRuleWeekly from './RRuleWeekly'
@@ -24,6 +24,7 @@ export interface FormPartProps {
 
 const rruleParams: Array<keyof ParsedOptions> = [
   'freq',
+  'tzid',
   'dtstart',
   'interval',
   'count',
@@ -40,8 +41,6 @@ export default function RRuleEditor({
   hideStartDate,
   onChange,
 }: RRuleEditorProps) {
-  const tzid = useMemo(() => getTimeZone(), [])
-
   // Build RRule from value
   const rrule = useMemo(
     () => (typeof value === 'string' ? RRule.fromString(value) : undefined),
@@ -53,9 +52,9 @@ export default function RRuleEditor({
     if (!rrule) {
       // Default options
       return {
-        freq: 1,
+        freq: RRule.WEEKLY,
         interval: 1,
-        tzid,
+        tzid: getTimeZone(),
       }
     }
     return pick(rrule.options, ...rruleParams)
@@ -74,32 +73,39 @@ export default function RRuleEditor({
         o.bymonth = undefined
       }
 
-      // Set timezone
-      if (!o.tzid) {
-        o.tzid = tzid
-      }
-
       onChange(new RRule(o).toString())
     },
     [options]
   )
+
+  // Force tzid
+  useEffect(() => {
+    if (!options.tzid) {
+      changeOptions({ tzid: getTimeZone() })
+    }
+  }, [options])
 
   const bind = { options, onChange: changeOptions }
 
   return (
     <VStack align="stretch">
       {!hideStartDate && <RRuleStartDate {...bind} />}
-      <RRuleRepeat {...bind} />
 
-      {options.freq === Frequency.YEARLY && <RRuleYearly {...bind} />}
-      {options.freq === Frequency.MONTHLY && <RRuleMonthly {...bind} />}
-      {options.freq === Frequency.WEEKLY && <RRuleWeekly {...bind} />}
+      <Collapse in={!!options.dtstart}>
+        <VStack align="stretch">
+          <RRuleRepeat {...bind} />
 
-      {/* Disabled because we don't need it and it can cause bugs
-        <RRuleEnd {...bind} />
-      */}
+          {options.freq === Frequency.YEARLY && <RRuleYearly {...bind} />}
+          {options.freq === Frequency.MONTHLY && <RRuleMonthly {...bind} />}
+          {options.freq === Frequency.WEEKLY && <RRuleWeekly {...bind} />}
 
-      {rrule && <RRuleEditorNextDates rrule={rrule} />}
+          {/* Disabled because we don't need it and it can cause bugs
+          <RRuleEnd {...bind} />
+          */}
+
+          {rrule && <RRuleNextDates rrule={rrule} />}
+        </VStack>
+      </Collapse>
     </VStack>
   )
 }

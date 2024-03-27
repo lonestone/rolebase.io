@@ -11,17 +11,6 @@
     "isolatedModules": true,
     "strictNullChecks": true,
     "downlevelIteration": true,
-    "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-      "@emails/*": ["_src/emails/*"],
-      "@gql": ["_src/graphql/exports.ts"],
-      "@i18n": ["_src/i18n/index.ts"],
-      "@i18n/*": ["_src/i18n/*"],
-      "@search/*": ["_src/search/*"],
-      "@shared/*": ["_src/shared/*"],
-      "@settings": ["_src/settings.ts"],
-      "@utils/*": ["_src/utils/*"]
-    }
+    "baseUrl": "."
   }
 }

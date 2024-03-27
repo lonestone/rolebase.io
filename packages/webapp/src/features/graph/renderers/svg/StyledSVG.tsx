@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { circleColor } from '@shared/helpers/circleColor'
+import { circleColor } from '@rolebase/shared/helpers/circleColor'
 import { ColorModeProps, mode } from '@utils/colorMode'
 import { CirclesGraphViews } from '../../types'
 

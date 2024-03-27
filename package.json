@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "license": "MIT",
   "workspaces": [
-    "functions",
     "packages/*"
   ],
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "postinstall": "patch-package && cd functions && npm i --package-lock-only --workspaces false",
-    "lint": "eslint ./packages --ext .jsx,.js,.ts,.tsx",
+    "test": "turbo run test",
+    "postinstall": "patch-package",
+    "lint": "eslint ./packages ./functions --ext .jsx,.js,.ts,.tsx",
     "lint:fix": "eslint ./packages ./functions --ext .jsx,.js,.ts,.tsx --fix",
     "lint:format": "prettier --loglevel warn --write \"./{packages,functions}/**/*.{js,jsx,ts,tsx,css,md,json}\" "
   },

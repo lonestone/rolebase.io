@@ -42,12 +42,12 @@ import {
   useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
+import { VideoConf, VideoConfTypes } from '@rolebase/shared/model/meeting'
 import {
   defaultParticipantsScope,
   ParticipantsScope,
-} from '@shared/model/participants'
-import { nameSchema, stepsConfigSchema } from '@shared/schemas'
+} from '@rolebase/shared/model/participants'
+import { nameSchema, stepsConfigSchema } from '@rolebase/shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -182,9 +182,7 @@ export default function MeetingEditModal({
   // Submit
   const onSubmit = handleSubmit(
     async ({ startDate, duration, videoConfType, videoConfUrl, ...data }) => {
-      console.log('1')
       if (!orgId || !currentMember || !circle) return
-      console.log('2')
       const startDateDate = new Date(startDate)
 
       const videoConf: VideoConf | null =
@@ -207,7 +205,6 @@ export default function MeetingEditModal({
         ).toISOString(),
         videoConf,
       }
-      console.log('3')
 
       if (meeting && !duplicate) {
         // Reset meeting when date is in the future

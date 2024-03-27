@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useResetPassword } from '@nhost/react'
-import { emailSchema } from '@shared/schemas'
+import { emailSchema } from '@rolebase/shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

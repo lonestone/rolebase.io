@@ -1,4 +1,4 @@
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { store } from '../../../store'

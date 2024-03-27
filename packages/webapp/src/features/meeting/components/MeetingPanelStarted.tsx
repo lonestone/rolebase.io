@@ -22,7 +22,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Thread_Activity_Type_Enum } from '@gql'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import React, { MouseEvent, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowDown, FiArrowRight } from 'react-icons/fi'

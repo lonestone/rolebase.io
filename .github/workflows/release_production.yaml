@@ -1,0 +1,15 @@
+---
+name: 'Release to production'
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  test-and-deploy:
+    uses: ./.github/workflows/wf_test_and_release.yaml
+    with:
+      IMAGE: ${{ vars.BACKEND_IMAGE_PRODUCTION }}:${{ github.sha }}
+      SERVICE_ID: ${{ vars.BACKEND_SERVICE_ID_PRODUCTION }}
+    secrets:
+      PAT: ${{ secrets.NHOST_PAT }}

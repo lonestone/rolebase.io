@@ -1,5 +1,5 @@
 import { ThreadFragment } from '@gql'
-import filterThreadsByMember from '@shared/helpers/filterThreadsByMember'
+import filterThreadsByMember from '@rolebase/shared/helpers/filterThreadsByMember'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

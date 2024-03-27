@@ -1,5 +1,5 @@
 import { Alert, AlertIcon, Text } from '@chakra-ui/react'
-import { ThreadActivityThreadFragment } from '@shared/model/thread_activity'
+import { ThreadActivityThreadFragment } from '@rolebase/shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadActivityLayout from './ThreadActivityLayout'

@@ -1,5 +1,5 @@
 import { ColorMode } from '@chakra-ui/react'
-import { Participant } from '@shared/model/member'
+import { Participant } from '@rolebase/shared/model/member'
 import { BaseType, HierarchyCircularNode, Selection } from 'd3'
 
 export interface GraphParams {

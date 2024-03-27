@@ -1,7 +1,11 @@
 import useCreateLog from '@/log/hooks/useCreateLog'
 import { useArchiveCirclesMutation } from '@gql'
-import { getCircleChildren } from '@shared/helpers/getCircleChildren'
-import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
+import { getCircleChildren } from '@rolebase/shared/helpers/getCircleChildren'
+import {
+  EntitiesChanges,
+  EntityChangeType,
+  LogType,
+} from '@rolebase/shared/model/log'
 import { store } from '@store/index'
 import { useCallback } from 'react'
 

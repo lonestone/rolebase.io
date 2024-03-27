@@ -1,7 +1,7 @@
 import useCreateLog from '@/log/hooks/useCreateLog'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import { useCreateMemberMutation } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { useCallback } from 'react'
 
 export default function useCreateMember() {

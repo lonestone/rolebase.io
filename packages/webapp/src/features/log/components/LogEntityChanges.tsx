@@ -1,5 +1,5 @@
 import { Box, Tag, Text } from '@chakra-ui/react'
-import { EntityChange, EntityChangeType } from '@shared/model/log'
+import { EntityChange, EntityChangeType } from '@rolebase/shared/model/log'
 import React, { Suspense, lazy } from 'react'
 
 // Lazy loading because it's using the editor

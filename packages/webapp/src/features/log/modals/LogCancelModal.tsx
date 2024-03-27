@@ -18,7 +18,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { LogFragment } from '@gql'
-import { EntitiesChanges, EntityChange } from '@shared/model/log'
+import { EntitiesChanges, EntityChange } from '@rolebase/shared/model/log'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'

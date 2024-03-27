@@ -19,8 +19,12 @@ import {
   useCreateRoleMutation,
   useDeleteCircleLinkMutation,
 } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
-import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import {
+  EntitiesChanges,
+  EntityChangeType,
+  LogType,
+} from '@rolebase/shared/model/log'
 import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
 import React, { useCallback, useContext, useMemo } from 'react'

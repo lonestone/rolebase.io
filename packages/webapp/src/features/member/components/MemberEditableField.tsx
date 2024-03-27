@@ -2,7 +2,7 @@ import { EditableField } from '@/common/atoms/EditableField'
 import useCreateLog from '@/log/hooks/useCreateLog'
 import { BoxProps } from '@chakra-ui/react'
 import { MemberFragment, useUpdateMemberMutation } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import React from 'react'
 
 interface Props extends BoxProps {

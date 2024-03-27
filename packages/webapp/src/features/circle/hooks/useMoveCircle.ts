@@ -1,6 +1,6 @@
 import useCreateLog from '@/log/hooks/useCreateLog'
 import { useUpdateCircleMutation } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { store } from '@store/index'
 import { useCallback } from 'react'
 

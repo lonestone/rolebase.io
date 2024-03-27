@@ -2,7 +2,7 @@ import useEscKey from '@/common/hooks/useEscKey'
 import SimpleEditor from '@/editor/components/SimpleEditor'
 import { Box, Button } from '@chakra-ui/react'
 import { useUpdateThreadActivityMutation } from '@gql'
-import { ThreadActivityDataMessage } from '@shared/model/thread_activity'
+import { ThreadActivityDataMessage } from '@rolebase/shared/model/thread_activity'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 

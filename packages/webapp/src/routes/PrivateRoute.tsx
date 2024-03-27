@@ -11,7 +11,6 @@ import Onboarding from '@/onboarding/components/Onboarding'
 import ImportPage from '@/org/pages/ImportPage'
 import MemberInvitationPage from '@/org/pages/MemberInvitationPage'
 import OrgsPage from '@/org/pages/OrgsPage'
-import { replaceOldIds } from '@/user/api/user_functions'
 import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import VerifyEmailModal from '@/user/modals/VerifiyEmailModal'
 import UserInfoPage from '@/user/pages/UserInfoPage'
@@ -20,13 +19,12 @@ import { useUserId, useUserLocale } from '@nhost/react'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { langs, locales } from 'src/i18n'
 import OrgRoute from './OrgRoute'
 
 export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
-  const navigate = useNavigate()
   const userId = useUserId()
   const {
     i18n: { changeLanguage },
@@ -58,18 +56,6 @@ export default function PrivateRoute() {
       error: result.error,
     })
   }, [result])
-
-  // Redirect old urls
-  // TODO: Delete this block in 2023
-  useEffect(() => {
-    const path = window.location.pathname + window.location.search
-    // If path contains a Firebase id
-    if (/[/=][a-zA-Z0-9]{20}([/&]|$)/.test(path)) {
-      replaceOldIds({ text: path }).then((newPath) => {
-        navigate(newPath)
-      })
-    }
-  }, [])
 
   return (
     <LoggedLayout>

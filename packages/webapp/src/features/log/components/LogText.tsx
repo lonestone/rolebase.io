@@ -7,7 +7,7 @@ import TaskStatusTag from '@/task/components/TaskStatusTag'
 import ThreadLink from '@/thread/components/ThreadLink'
 import ThreadStatusTag from '@/thread/components/ThreadStatusTag'
 import { LogFragment } from '@gql'
-import { LogType } from '@shared/model/log'
+import { LogType } from '@rolebase/shared/model/log'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

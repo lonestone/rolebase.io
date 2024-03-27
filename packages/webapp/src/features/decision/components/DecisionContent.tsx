@@ -10,6 +10,7 @@ import useOrgMember from '@/member/hooks/useOrgMember'
 import {
   Box,
   BoxProps,
+  Center,
   Flex,
   Heading,
   Spacer,
@@ -81,9 +82,10 @@ export default function DecisionContent({
               role: circle?.role.name,
             })}
             hasArrow
-            mr={2}
           >
-            <PrivacyIcon size={20} />
+            <Center mr={2}>
+              <PrivacyIcon size={20} />
+            </Center>
           </Tooltip>
         )}
 

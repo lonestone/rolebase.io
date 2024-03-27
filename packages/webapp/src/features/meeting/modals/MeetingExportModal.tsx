@@ -2,10 +2,8 @@ import IconTextButton from '@/common/atoms/IconTextButton'
 import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import useCallbackState from '@/common/hooks/useCallbackState'
-import {
-  getMeetingsIcalUrl,
-  getMeetingsToken,
-} from '@/meeting/api/meeting_functions'
+import useCopyUrl from '@/common/hooks/useCopyUrl'
+import { getMeetingsIcalUrl } from '@/meeting/api/ical'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import {
@@ -31,7 +29,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
 import { CopyIcon } from 'src/icons'
-import useCopyUrl from '../../common/hooks/useCopyUrl'
+import { trpc } from 'src/trpc'
 
 export default function MeetingExportModal(modalProps: UseModalProps) {
   const {
@@ -49,7 +47,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
     error,
   } = useCallbackState(async () => {
     if (!orgId) return
-    return getMeetingsToken({ orgId })
+    return trpc.meeting.getMeetingsToken.query({ orgId })
   })
 
   useEffect(() => {

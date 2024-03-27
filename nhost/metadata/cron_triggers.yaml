@@ -1,5 +1,5 @@
 - name: end-old-meetings
-  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/cron/endOldMeetings'
+  webhook: '{{BACKEND_URL}}/cron.endOldMeetings'
   schedule: 45 * * * *
   include_in_metadata: true
   payload: {}
@@ -8,15 +8,16 @@
       value_from_env: NHOST_WEBHOOK_SECRET
   comment: ""
 - name: recurring-meetings
-  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/cron/createNextRecurringMeetings'
+  webhook: '{{BACKEND_URL}}/cron.createNextRecurringMeetings'
   schedule: 0 * * * *
   include_in_metadata: true
   payload: {}
   headers:
     - name: x-nhost-webhook-secret
       value_from_env: NHOST_WEBHOOK_SECRET
+  comment: ""
 - name: send-digest-emails
-  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/cron/sendDigestEmails'
+  webhook: '{{BACKEND_URL}}/cron.sendDigestEmails'
   schedule: 30 * * * *
   include_in_metadata: true
   payload: {}

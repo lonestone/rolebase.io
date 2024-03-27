@@ -1,0 +1,9 @@
+{
+  "meeting": {
+    "ical": {
+      "title": "{{role}} - {{title}}",
+      "description": "Notes: {{url}}",
+      "description_videoConf": "Notes: {{url}}\nVideoconf: {{videoConf}}"
+    }
+  }
+}

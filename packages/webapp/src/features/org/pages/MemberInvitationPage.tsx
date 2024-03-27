@@ -1,11 +1,11 @@
 import Loading from '@/common/atoms/Loading'
 import useQueryParams from '@/common/hooks/useQueryParams'
-import { acceptMemberInvitation } from '@/member/api/member_functions'
 import { useToast } from '@chakra-ui/react'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useParams } from 'react-router'
+import { trpc } from 'src/trpc'
 import useOrg from '../hooks/useOrg'
 
 type Params = {
@@ -25,7 +25,8 @@ export default function MemberInvitationPage() {
   useEffect(() => {
     if (!memberId || !token) return
     setTimeout(() => {
-      acceptMemberInvitation({ memberId, token })
+      trpc.member.acceptMemberInvitation
+        .mutate({ memberId, token })
         .then(() => {
           toast({
             title: t('MemberInvitationPage.toastSuccess'),

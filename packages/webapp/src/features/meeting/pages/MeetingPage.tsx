@@ -1,7 +1,7 @@
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
+import Page404 from '@/common/pages/Page404'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import Page404 from '../../common/pages/Page404'
 import MeetingContainer from '../components/MeetingContainer'
 
 type Params = {

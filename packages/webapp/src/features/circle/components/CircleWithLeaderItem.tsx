@@ -1,7 +1,7 @@
 import MemberAvatar from '@/member/components/MemberAvatar'
 import { Box, BoxProps, Flex, Icon, Tooltip } from '@chakra-ui/react'
 import { CircleSummaryFragment } from '@gql'
-import { ParticipantMember } from '@shared/model/member'
+import { ParticipantMember } from '@rolebase/shared/model/member'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleParentLinkIcon } from 'src/icons'

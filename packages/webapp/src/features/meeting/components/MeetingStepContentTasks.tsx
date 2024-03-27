@@ -1,9 +1,9 @@
 import TasksModule from '@/task/components/TasksModule'
 import { Box } from '@chakra-ui/react'
 import { Task_Status_Enum, useUpdateMeetingStepMutation } from '@gql'
-import { LogType } from '@shared/model/log'
-import { MeetingStepTasksFragment } from '@shared/model/meeting_step'
-import { TasksViewTypes } from '@shared/model/task'
+import { LogType } from '@rolebase/shared/model/log'
+import { MeetingStepTasksFragment } from '@rolebase/shared/model/meeting_step'
+import { TasksViewTypes } from '@rolebase/shared/model/task'
 import throttle from 'lodash.throttle'
 import React, {
   useCallback,

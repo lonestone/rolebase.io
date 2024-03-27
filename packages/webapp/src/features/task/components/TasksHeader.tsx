@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Task_Status_Enum } from '@gql'
-import { TasksViewTypes } from '@shared/model/task'
+import { TasksViewTypes } from '@rolebase/shared/model/task'
 import React, { ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon, KanbanIcon, TasksListIcon } from 'src/icons'

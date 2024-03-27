@@ -1,7 +1,7 @@
 import { Button, HStack } from '@chakra-ui/react'
 import { TaskFragment, Task_Status_Enum } from '@gql'
 import { DragDropContext, Draggable, DropResult } from '@hello-pangea/dnd'
-import { taskStatusList } from '@shared/model/task'
+import { taskStatusList } from '@rolebase/shared/model/task'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { taskStatusColors } from 'src/theme'

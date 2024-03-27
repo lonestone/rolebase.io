@@ -17,9 +17,9 @@ import {
   useUpdateTaskMutation,
   useUpdateThreadMutation,
 } from '@gql'
-import { cancelLogChanges } from '@shared/helpers/log/cancelLogChanges'
-import { detectRecentEntitiesChanges } from '@shared/helpers/log/detectRecentEntitiesChanges'
-import { EntitiesMethods } from '@shared/model/log'
+import { cancelLogChanges } from '@rolebase/shared/helpers/log/cancelLogChanges'
+import { detectRecentEntitiesChanges } from '@rolebase/shared/helpers/log/detectRecentEntitiesChanges'
+import { EntitiesMethods } from '@rolebase/shared/model/log'
 import { useCallback } from 'react'
 import useCreateLog from './useCreateLog'
 

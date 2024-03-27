@@ -1,12 +1,16 @@
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { getAlgoliaConfig } from '@/search/api/search_functions'
 import { GetSearchResultsQuery, useGetSearchResultsLazyQuery } from '@gql'
-import { truthy } from '@shared/helpers/truthy'
-import { AlgoliaConfig, SearchDoc, SearchTypes } from '@shared/model/search'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import {
+  AlgoliaConfig,
+  SearchDoc,
+  SearchTypes,
+} from '@rolebase/shared/model/search'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import algoliasearch from 'algoliasearch'
 import debounce from 'lodash.debounce'
 import { useMemo, useState } from 'react'
+import { trpc } from 'src/trpc'
 import { SearchItem } from '../searchTypes'
 
 async function getConfig(orgId: string): Promise<AlgoliaConfig> {
@@ -19,7 +23,7 @@ async function getConfig(orgId: string): Promise<AlgoliaConfig> {
   }
 
   // Query function to get Algolia config
-  const config = await getAlgoliaConfig({ orgId })
+  const config = await trpc.search.getAlgoliaConfig.query({ orgId })
   localStorage.setItem(key, JSON.stringify(config))
   return config
 }

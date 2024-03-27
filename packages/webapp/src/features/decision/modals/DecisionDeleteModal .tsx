@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { DecisionFragment, useArchiveDecisionMutation } from '@gql'
-import { EntityChangeType, LogType } from '@shared/model/log'
+import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

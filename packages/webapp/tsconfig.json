@@ -23,7 +23,6 @@
       "@/*": ["src/features/*"],
       "@gql": ["src/graphql.generated.ts"],
       "@images/*": ["src/images/*"],
-      "@shared/*": ["../../functions/_src/shared/*"],
       "@store/*": ["src/store/*"],
       "@utils/*": ["src/utils/*"]
     }

@@ -3,9 +3,9 @@ import {
   getResizedImageUrl,
 } from '@/common/api/storage_images'
 import { CircleFullFragment } from '@gql'
-import { getCircleLeaders } from '@shared/helpers/getCircleLeaders'
-import { truthy } from '@shared/helpers/truthy'
-import { Participant } from '@shared/model/member'
+import { getCircleLeaders } from '@rolebase/shared/helpers/getCircleLeaders'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { Participant } from '@rolebase/shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
 import { HierarchyNode } from 'd3'

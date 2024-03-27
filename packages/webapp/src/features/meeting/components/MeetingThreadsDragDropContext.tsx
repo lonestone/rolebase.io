@@ -6,8 +6,8 @@ import {
   useUpdateMeetingStepMutation,
 } from '@gql'
 import { DragDropContext, DropResult } from '@hello-pangea/dnd'
-import { truthy } from '@shared/helpers/truthy'
-import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import { MeetingStepThreadsFragment } from '@rolebase/shared/model/meeting_step'
 import { shuffleArray } from '@utils/shuffleArray'
 import React, {
   createContext,
