@@ -7,7 +7,7 @@ on:
 
 jobs:
   test-and-deploy:
-    uses: ./.github/workflows/wf_test_and_release.yaml
+    uses: ./.github/workflows/test_and_release.yaml
     with:
       IMAGE: ${{ vars.BACKEND_IMAGE_PRODUCTION }}:${{ github.sha }}
       SERVICE_ID: ${{ vars.BACKEND_SERVICE_ID_PRODUCTION }}

@@ -32,7 +32,7 @@ jobs:
   # Deploy backend
   deploy:
     needs: [test]
-    uses: ./build-and-release-nhost-run.yaml@v1
+    uses: ./.github/workflows/build-and-release-nhost-run.yaml
     with:
       IMAGE: ${{ inputs.IMAGE }}
       SERVICE_ID: ${{ inputs.SERVICE_ID }}
