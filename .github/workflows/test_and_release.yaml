@@ -13,21 +13,22 @@ on:
       PAT:
         required: true
 
+env:
+  NODE_VERSION: 20
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm run test
+          node-version: ${{ env.NODE_VERSION }}
+      - run: |
+          npm install
+          npm run test
 
   # Deploy backend
   deploy:
