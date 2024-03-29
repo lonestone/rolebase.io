@@ -38,5 +38,6 @@ jobs:
       IMAGE: ${{ inputs.IMAGE }}
       SERVICE_ID: ${{ inputs.SERVICE_ID }}
       DOCKER_FILE: ./packages/backend/Dockerfile
+      NHOST_SERVICE_CONFIG: ./packages/backend/nhost-service.toml
     secrets:
       PAT: ${{ secrets.PAT }}

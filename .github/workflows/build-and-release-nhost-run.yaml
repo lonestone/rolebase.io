@@ -24,6 +24,11 @@ on:
         type: string
         required: false
         default: ./Dockerfile
+      NHOST_SERVICE_CONFIG:
+        description: Path to Nhost service configuration file
+        type: string
+        required: false
+        default: ./nhost-service.toml
     secrets:
       PAT:
         description: Nhost PAT. See https://github.com/nhost-actions/authenticate#creating-a-pat
@@ -69,6 +74,6 @@ jobs:
       - name: Deploy service configuration
         uses: nhost-actions/nhost-run-config-deploy@v1
         with:
-          configuration_file: nhost-service.toml
+          configuration_file: ${{ inputs.NHOST_SERVICE_CONFIG }}
           service_id: ${{ inputs.SERVICE_ID }}
           image: ${{ inputs.IMAGE }}
