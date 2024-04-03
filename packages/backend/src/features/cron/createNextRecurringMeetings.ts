@@ -2,15 +2,12 @@ import { RRuleUTC } from '@rolebase/shared/helpers/RRuleUTC'
 import { getScopeMemberIds } from '@rolebase/shared/helpers/getScopeMemberIds'
 import { add } from 'date-fns'
 import { gql } from '../../gql'
-import { guardWebhookSecret } from '../../guards/guardWebhookSecret'
-import { publicProcedure } from '../../trpc'
+import { webhookProcedure } from '../../trpc/webhookProcedure'
 import { adminRequest } from '../../utils/adminRequest'
 
 const maxAheadTime = 14 * 24 * 60 * 60 * 1000 // 2 weeks
 
-export default publicProcedure.mutation(async (opts): Promise<void> => {
-  guardWebhookSecret(opts.ctx)
-
+export default webhookProcedure.mutation(async () => {
   const { meeting_recurring } = await adminRequest(GET_RECURRING_MEETINGS)
 
   for (const { id, rrule, meetings } of meeting_recurring) {

@@ -6,14 +6,11 @@ import { getDefaultDigestRRule } from '@rolebase/shared/model/notifications'
 import { UserMetadata } from '@rolebase/shared/model/user'
 import { RRule } from 'rrule'
 import { ThreadActivityFragment, ThreadFragment, gql } from '../../gql'
-import { guardWebhookSecret } from '../../guards/guardWebhookSecret'
 import settings from '../../settings'
-import { publicProcedure } from '../../trpc'
+import { webhookProcedure } from '../../trpc/webhookProcedure'
 import { adminRequest } from '../../utils/adminRequest'
 
-export default publicProcedure.mutation(async (opts): Promise<void> => {
-  guardWebhookSecret(opts.ctx)
-
+export default webhookProcedure.mutation(async () => {
   const { users } = await adminRequest(GET_USERS)
 
   for (const user of users) {

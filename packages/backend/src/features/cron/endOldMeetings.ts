@@ -1,13 +1,10 @@
 import { gql } from '../../gql'
-import { guardWebhookSecret } from '../../guards/guardWebhookSecret'
-import { publicProcedure } from '../../trpc'
+import { webhookProcedure } from '../../trpc/webhookProcedure'
 import { adminRequest } from '../../utils/adminRequest'
 
 const timeAfterEndDate = 6 * 60 * 60 * 1000
 
-export default publicProcedure.mutation(async (opts): Promise<void> => {
-  guardWebhookSecret(opts.ctx)
-
+export default webhookProcedure.mutation(async () => {
   await adminRequest(END_OLD_MEETINGS, {
     before: new Date(Date.now() - timeAfterEndDate).toISOString(),
   })

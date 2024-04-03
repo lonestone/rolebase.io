@@ -1,12 +1,9 @@
 import { TRPCError } from '@trpc/server'
-import { guardWebhookSecret } from '../../guards/guardWebhookSecret'
-import { publicProcedure } from '../../trpc'
+import { webhookProcedure } from '../../trpc/webhookProcedure'
 import { HasuraEvent } from '../../utils/nhost'
 import { indexTables } from './entities'
 
-export default publicProcedure.mutation(async (opts) => {
-  guardWebhookSecret(opts.ctx)
-
+export default webhookProcedure.mutation(async (opts) => {
   const event = JSON.parse(opts.ctx.req.body as string) as HasuraEvent
 
   if (!event || !event.table) {
