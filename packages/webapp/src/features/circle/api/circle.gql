@@ -38,6 +38,34 @@ query getPublicCircles($orgId: uuid!) {
   }
 }
 
+query getCirclesStats($circlesIds: [uuid!]!) {
+  thread_aggregate(where: { circleId: { _in: $circlesIds } }) {
+    aggregate {
+      count
+    }
+  }
+  meeting_aggregate(where: { circleId: { _in: $circlesIds } }) {
+    aggregate {
+      count
+    }
+  }
+  meeting_recurring_aggregate(where: { circleId: { _in: $circlesIds } }) {
+    aggregate {
+      count
+    }
+  }
+  task_aggregate(where: { circleId: { _in: $circlesIds } }) {
+    aggregate {
+      count
+    }
+  }
+  decision_aggregate(where: { circleId: { _in: $circlesIds } }) {
+    aggregate {
+      count
+    }
+  }
+}
+
 mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
   insert_circle_one(
     object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
@@ -78,6 +106,11 @@ mutation archiveCircles($circlesIds: [uuid!]!, $rolesIds: [uuid!]!) {
     }
   }
   update_role(where: { id: { _in: $rolesIds } }, _set: { archived: true }) {
+    returning {
+      id
+    }
+  }
+  delete_meeting_recurring(where: { circleId: { _in: $circlesIds } }) {
     returning {
       id
     }

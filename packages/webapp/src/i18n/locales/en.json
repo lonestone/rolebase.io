@@ -94,7 +94,19 @@
   },
   "CircleDeleteModal": {
     "heading": "Delete role",
-    "info": "Are you sure you want to delete the role <b>{{name}}</b>?"
+    "info": "Are you sure you want to delete the role <b>{{name}}</b>?",
+    "confirmButton": "Delete {{name}}",
+    "recurringMeetings": "{{count}} recurring meetings will be deleted.",
+    "recurringMeetings_one": "1 recurring meeting will be deleted.",
+    "entities": "This role and its sub-roles contain items that will remain accessible:",
+    "threads": "{{count}} topics",
+    "threads_one": "1 topic",
+    "meetings": "{{count}} meetings",
+    "meetings_one": "1 meeting",
+    "tasks": "{{count}} tasks",
+    "tasks_one": "1 task",
+    "decisions": "{{count}} decisions",
+    "decisions_one": "1 decision"
   },
   "CircleExportPage": {
     "heading": "Export a capture",

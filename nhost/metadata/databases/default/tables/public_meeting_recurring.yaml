@@ -83,6 +83,7 @@ select_permissions:
                   members:
                     userId:
                       _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
   - role: user
     permission:

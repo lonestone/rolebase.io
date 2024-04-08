@@ -19,6 +19,13 @@ array_relationships:
         table:
           name: circle
           schema: public
+  - name: decisions
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: decision
+          schema: public
   - name: hostCircleLinks
     using:
       foreign_key_constraint_on:
@@ -42,6 +49,20 @@ array_relationships:
         remote_table:
           name: circle_leader
           schema: public
+  - name: meetings
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: meeting
+          schema: public
+  - name: meetings_recurring
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: meeting_recurring
+          schema: public
   - name: members
     using:
       foreign_key_constraint_on:
@@ -57,6 +78,20 @@ array_relationships:
         insertion_order: null
         remote_table:
           name: circle_participant_cache
+          schema: public
+  - name: tasks
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: task
+          schema: public
+  - name: threads
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: thread
           schema: public
 insert_permissions:
   - role: user

@@ -2414,6 +2414,10 @@ export type Circle = {
   /** An aggregate relationship */
   children_aggregate: Circle_Aggregate;
   /** An array relationship */
+  decisions: Array<Decision>;
+  /** An aggregate relationship */
+  decisions_aggregate: Decision_Aggregate;
+  /** An array relationship */
   hostCircleLinks: Array<Circle_Link>;
   /** An aggregate relationship */
   hostCircleLinks_aggregate: Circle_Link_Aggregate;
@@ -2426,6 +2430,14 @@ export type Circle = {
   leaders: Array<Circle_Leader>;
   /** An aggregate relationship */
   leaders_aggregate: Circle_Leader_Aggregate;
+  /** An array relationship */
+  meetings: Array<Meeting>;
+  /** An aggregate relationship */
+  meetings_aggregate: Meeting_Aggregate;
+  /** An array relationship */
+  meetings_recurring: Array<Meeting_Recurring>;
+  /** An aggregate relationship */
+  meetings_recurring_aggregate: Meeting_Recurring_Aggregate;
   /** An array relationship */
   members: Array<Circle_Member>;
   /** An aggregate relationship */
@@ -2443,6 +2455,14 @@ export type Circle = {
   /** An object relationship */
   role: Role;
   roleId: Scalars['uuid']['output'];
+  /** An array relationship */
+  tasks: Array<Task>;
+  /** An aggregate relationship */
+  tasks_aggregate: Task_Aggregate;
+  /** An array relationship */
+  threads: Array<Thread>;
+  /** An aggregate relationship */
+  threads_aggregate: Thread_Aggregate;
 };
 
 
@@ -2463,6 +2483,26 @@ export type CircleChildren_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Circle_Order_By>>;
   where?: InputMaybe<Circle_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleDecisionsArgs = {
+  distinct_on?: InputMaybe<Array<Decision_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Decision_Order_By>>;
+  where?: InputMaybe<Decision_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleDecisions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Decision_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Decision_Order_By>>;
+  where?: InputMaybe<Decision_Bool_Exp>;
 };
 
 
@@ -2527,6 +2567,46 @@ export type CircleLeaders_AggregateArgs = {
 
 
 /** columns and relationships of "circle" */
+export type CircleMeetingsArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Order_By>>;
+  where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleMeetings_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Order_By>>;
+  where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleMeetings_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleMeetings_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
 export type CircleMembersArgs = {
   distinct_on?: InputMaybe<Array<Circle_Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2563,6 +2643,46 @@ export type CircleParticipants_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
   where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleTasksArgs = {
+  distinct_on?: InputMaybe<Array<Task_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Task_Order_By>>;
+  where?: InputMaybe<Task_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleTasks_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Task_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Task_Order_By>>;
+  where?: InputMaybe<Task_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleThreadsArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Order_By>>;
+  where?: InputMaybe<Thread_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleThreads_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Order_By>>;
+  where?: InputMaybe<Thread_Bool_Exp>;
 };
 
 /** aggregated selection of "circle" */
@@ -2636,6 +2756,8 @@ export type Circle_Bool_Exp = {
   archived?: InputMaybe<Boolean_Comparison_Exp>;
   children?: InputMaybe<Circle_Bool_Exp>;
   children_aggregate?: InputMaybe<Circle_Aggregate_Bool_Exp>;
+  decisions?: InputMaybe<Decision_Bool_Exp>;
+  decisions_aggregate?: InputMaybe<Decision_Aggregate_Bool_Exp>;
   hostCircleLinks?: InputMaybe<Circle_Link_Bool_Exp>;
   hostCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -2643,6 +2765,10 @@ export type Circle_Bool_Exp = {
   invitedCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Bool_Exp>;
   leaders?: InputMaybe<Circle_Leader_Bool_Exp>;
   leaders_aggregate?: InputMaybe<Circle_Leader_Aggregate_Bool_Exp>;
+  meetings?: InputMaybe<Meeting_Bool_Exp>;
+  meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
+  meetings_recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Bool_Exp>;
   members?: InputMaybe<Circle_Member_Bool_Exp>;
   members_aggregate?: InputMaybe<Circle_Member_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -2653,6 +2779,10 @@ export type Circle_Bool_Exp = {
   participants_aggregate?: InputMaybe<Circle_Participant_Cache_Aggregate_Bool_Exp>;
   role?: InputMaybe<Role_Bool_Exp>;
   roleId?: InputMaybe<Uuid_Comparison_Exp>;
+  tasks?: InputMaybe<Task_Bool_Exp>;
+  tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
+  threads?: InputMaybe<Thread_Bool_Exp>;
+  threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "circle" */
@@ -2665,10 +2795,13 @@ export enum Circle_Constraint {
 export type Circle_Insert_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
   children?: InputMaybe<Circle_Arr_Rel_Insert_Input>;
+  decisions?: InputMaybe<Decision_Arr_Rel_Insert_Input>;
   hostCircleLinks?: InputMaybe<Circle_Link_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   invitedCircleLinks?: InputMaybe<Circle_Link_Arr_Rel_Insert_Input>;
   leaders?: InputMaybe<Circle_Leader_Arr_Rel_Insert_Input>;
+  meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
+  meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Circle_Member_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
@@ -2677,6 +2810,8 @@ export type Circle_Insert_Input = {
   participants?: InputMaybe<Circle_Participant_Cache_Arr_Rel_Insert_Input>;
   role?: InputMaybe<Role_Obj_Rel_Insert_Input>;
   roleId?: InputMaybe<Scalars['uuid']['input']>;
+  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
+  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
 };
 
 /** columns and relationships of "circle_leader" */
@@ -3465,10 +3600,13 @@ export type Circle_On_Conflict = {
 export type Circle_Order_By = {
   archived?: InputMaybe<Order_By>;
   children_aggregate?: InputMaybe<Circle_Aggregate_Order_By>;
+  decisions_aggregate?: InputMaybe<Decision_Aggregate_Order_By>;
   hostCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   invitedCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Order_By>;
   leaders_aggregate?: InputMaybe<Circle_Leader_Aggregate_Order_By>;
+  meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
+  meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Circle_Member_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
@@ -3477,6 +3615,8 @@ export type Circle_Order_By = {
   participants_aggregate?: InputMaybe<Circle_Participant_Cache_Aggregate_Order_By>;
   role?: InputMaybe<Role_Order_By>;
   roleId?: InputMaybe<Order_By>;
+  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
+  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
 };
 
 /** columns and relationships of "circle_participant" */
@@ -20232,6 +20372,13 @@ export type GetPublicCirclesQueryVariables = Exact<{
 
 export type GetPublicCirclesQuery = { __typename?: 'query_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, role: Array<{ __typename?: 'role', id: string, orgId: string, base: boolean, name: string, purpose: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null }>, member: Array<{ __typename?: 'member', id: string, orgId: string, name: string, picture?: string | null }> };
 
+export type GetCirclesStatsQueryVariables = Exact<{
+  circlesIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+}>;
+
+
+export type GetCirclesStatsQuery = { __typename?: 'query_root', thread_aggregate: { __typename?: 'thread_aggregate', aggregate?: { __typename?: 'thread_aggregate_fields', count: number } | null }, meeting_aggregate: { __typename?: 'meeting_aggregate', aggregate?: { __typename?: 'meeting_aggregate_fields', count: number } | null }, meeting_recurring_aggregate: { __typename?: 'meeting_recurring_aggregate', aggregate?: { __typename?: 'meeting_recurring_aggregate_fields', count: number } | null }, task_aggregate: { __typename?: 'task_aggregate', aggregate?: { __typename?: 'task_aggregate_fields', count: number } | null }, decision_aggregate: { __typename?: 'decision_aggregate', aggregate?: { __typename?: 'decision_aggregate_fields', count: number } | null } };
+
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid']['input'];
   roleId: Scalars['uuid']['input'];
@@ -20262,7 +20409,7 @@ export type ArchiveCirclesMutationVariables = Exact<{
 }>;
 
 
-export type ArchiveCirclesMutation = { __typename?: 'mutation_root', update_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string }> } | null, update_role?: { __typename?: 'role_mutation_response', returning: Array<{ __typename?: 'role', id: string }> } | null };
+export type ArchiveCirclesMutation = { __typename?: 'mutation_root', update_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string }> } | null, update_role?: { __typename?: 'role_mutation_response', returning: Array<{ __typename?: 'role', id: string }> } | null, delete_meeting_recurring?: { __typename?: 'meeting_recurring_mutation_response', returning: Array<{ __typename?: 'meeting_recurring', id: string }> } | null };
 
 export type CreateCircleLinkMutationVariables = Exact<{
   parentId: Scalars['uuid']['input'];
@@ -21569,6 +21716,66 @@ export type GetPublicCirclesQueryResult = Apollo.QueryResult<GetPublicCirclesQue
 export function refetchGetPublicCirclesQuery(variables: GetPublicCirclesQueryVariables) {
       return { query: GetPublicCirclesDocument, variables: variables }
     }
+export const GetCirclesStatsDocument = gql`
+    query getCirclesStats($circlesIds: [uuid!]!) {
+  thread_aggregate(where: {circleId: {_in: $circlesIds}}) {
+    aggregate {
+      count
+    }
+  }
+  meeting_aggregate(where: {circleId: {_in: $circlesIds}}) {
+    aggregate {
+      count
+    }
+  }
+  meeting_recurring_aggregate(where: {circleId: {_in: $circlesIds}}) {
+    aggregate {
+      count
+    }
+  }
+  task_aggregate(where: {circleId: {_in: $circlesIds}}) {
+    aggregate {
+      count
+    }
+  }
+  decision_aggregate(where: {circleId: {_in: $circlesIds}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCirclesStatsQuery__
+ *
+ * To run a query within a React component, call `useGetCirclesStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCirclesStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCirclesStatsQuery({
+ *   variables: {
+ *      circlesIds: // value for 'circlesIds'
+ *   },
+ * });
+ */
+export function useGetCirclesStatsQuery(baseOptions: Apollo.QueryHookOptions<GetCirclesStatsQuery, GetCirclesStatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCirclesStatsQuery, GetCirclesStatsQueryVariables>(GetCirclesStatsDocument, options);
+      }
+export function useGetCirclesStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCirclesStatsQuery, GetCirclesStatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCirclesStatsQuery, GetCirclesStatsQueryVariables>(GetCirclesStatsDocument, options);
+        }
+export type GetCirclesStatsQueryHookResult = ReturnType<typeof useGetCirclesStatsQuery>;
+export type GetCirclesStatsLazyQueryHookResult = ReturnType<typeof useGetCirclesStatsLazyQuery>;
+export type GetCirclesStatsQueryResult = Apollo.QueryResult<GetCirclesStatsQuery, GetCirclesStatsQueryVariables>;
+export function refetchGetCirclesStatsQuery(variables: GetCirclesStatsQueryVariables) {
+      return { query: GetCirclesStatsDocument, variables: variables }
+    }
 export const CreateCircleDocument = gql`
     mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
   insert_circle_one(object: {orgId: $orgId, roleId: $roleId, parentId: $parentId}) {
@@ -21693,6 +21900,11 @@ export const ArchiveCirclesDocument = gql`
     }
   }
   update_role(where: {id: {_in: $rolesIds}}, _set: {archived: true}) {
+    returning {
+      id
+    }
+  }
+  delete_meeting_recurring(where: {circleId: {_in: $circlesIds}}) {
     returning {
       id
     }

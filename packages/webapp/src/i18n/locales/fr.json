@@ -94,7 +94,19 @@
   },
   "CircleDeleteModal": {
     "heading": "Supprimer un rôle",
-    "info": "Êtes-vous sûr(e) de vouloir supprimer le rôle <b>{{name}}</b> ?"
+    "info": "Êtes-vous sûr(e) de vouloir supprimer le rôle <b>{{name}}</b> ?",
+    "confirmButton": "Supprimer {{name}}",
+    "recurringMeetings": "{{count}} réunions récurrentes seront supprimées.",
+    "recurringMeetings_one": "1 réunion récurrente sera supprimée.",
+    "entities": "Ce rôle et ses sous-rôles contiennent des éléments qui resteront accessibles :",
+    "threads": "{{count}} sujets",
+    "threads_one": "1 sujet",
+    "meetings": "{{count}} réunions",
+    "meetings_one": "1 réunion",
+    "tasks": "{{count}} tâches",
+    "tasks_one": "1 tâche",
+    "decisions": "{{count}} décisions",
+    "decisions_one": "1 décision"
   },
   "CircleExportPage": {
     "heading": "Exporter une capture",
