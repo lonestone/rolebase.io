@@ -118,7 +118,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel>{t('common.name')}</FormLabel>
+                <FormLabel>{t('CurrentUserModal.name')}</FormLabel>
                 <Input
                   {...register('name')}
                   autoFocus

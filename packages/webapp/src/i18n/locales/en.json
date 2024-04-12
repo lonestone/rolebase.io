@@ -215,6 +215,7 @@
   },
   "CurrentUserModal": {
     "heading": "My personal information",
+    "name": "First and last name",
     "email": "Email",
     "emailPlaceholder": "Email address...",
     "password": "Change password",
