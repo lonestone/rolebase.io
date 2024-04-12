@@ -210,10 +210,8 @@ const GET_USER_DIGEST_DATA = gql(`
               }
               {
                 _or: [
-                  {
-                    circle: { participants: { member: { id: { _eq: $userId } } } }
-                  }
-                  { extra_members: { member: { id: { _eq: $userId } } } }
+                  { circle: { participants: { member: { userId: { _eq: $userId } } } } }
+                  { extra_members: { member: { userId: { _eq: $userId } } } }
                 ]
               }
               { archived: { _eq: false } }
@@ -240,8 +238,8 @@ const GET_USER_DIGEST_DATA = gql(`
             ended: { _eq: true }
             _or: [
               { private: { _eq: false } }
-              { circle: { participants: { member: { id: { _eq: $userId } } } } }
-              { meeting_attendees: { member: { id: { _eq: $userId } } } }
+              { circle: { participants: { member: { userId: { _eq: $userId } } } } }
+              { meeting_attendees: { member: { userId: { _eq: $userId } } } }
             ]
             archived: { _eq: false }
           }
