@@ -21718,12 +21718,12 @@ export function refetchGetPublicCirclesQuery(variables: GetPublicCirclesQueryVar
     }
 export const GetCirclesStatsDocument = gql`
     query getCirclesStats($circlesIds: [uuid!]!) {
-  thread_aggregate(where: {circleId: {_in: $circlesIds}}) {
+  thread_aggregate(where: {circleId: {_in: $circlesIds}, archived: {_eq: false}}) {
     aggregate {
       count
     }
   }
-  meeting_aggregate(where: {circleId: {_in: $circlesIds}}) {
+  meeting_aggregate(where: {circleId: {_in: $circlesIds}, archived: {_eq: false}}) {
     aggregate {
       count
     }
@@ -21733,12 +21733,14 @@ export const GetCirclesStatsDocument = gql`
       count
     }
   }
-  task_aggregate(where: {circleId: {_in: $circlesIds}}) {
+  task_aggregate(where: {circleId: {_in: $circlesIds}, archived: {_eq: false}}) {
     aggregate {
       count
     }
   }
-  decision_aggregate(where: {circleId: {_in: $circlesIds}}) {
+  decision_aggregate(
+    where: {circleId: {_in: $circlesIds}, archived: {_eq: false}}
+  ) {
     aggregate {
       count
     }
