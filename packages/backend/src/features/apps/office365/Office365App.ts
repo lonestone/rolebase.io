@@ -865,6 +865,7 @@ export default class Office365App
             ...request,
             headers: {
               'Content-Type': 'application/json',
+              Prefer: `outlook.timezone="${this.timezone}"`,
             },
           })),
         }),
