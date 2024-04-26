@@ -57,7 +57,7 @@ export default function AppCard({ type, userApp }: Props) {
   // Uninstall app
   const handleUninstall = async () => {
     if (!userApp) return undefined
-    await trpc.apps.listCalendars.query({ id: userApp?.id })
+    await trpc.apps.uninstall.mutate({ id: userApp?.id })
   }
 
   // Calendars
