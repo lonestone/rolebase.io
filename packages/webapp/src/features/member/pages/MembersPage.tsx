@@ -138,7 +138,7 @@ export default function MembersPage() {
                 </Button>
 
                 <Button
-                  size="sm"
+                  size="md"
                   colorScheme="blue"
                   leftIcon={<CreateIcon size={20} />}
                   ml={2}

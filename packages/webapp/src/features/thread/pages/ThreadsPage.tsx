@@ -142,10 +142,10 @@ export default function ThreadsPage() {
             {isMember && (
               <Button
                 className="userflow-threads-create"
-                size="sm"
+                size="md"
                 colorScheme="blue"
                 ml={5}
-                my={2}
+                my={1}
                 leftIcon={<CreateIcon size={20} />}
                 onClick={onCreateOpen}
               >

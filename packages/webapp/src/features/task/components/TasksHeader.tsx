@@ -94,9 +94,9 @@ export default function TasksHeader({
       {isMember && (
         <Button
           className="userflow-tasks-create"
-          size="sm"
+          size="md"
           colorScheme="blue"
-          my={2}
+          my={1}
           leftIcon={<CreateIcon size={20} />}
           onClick={modal.onOpen}
         >
