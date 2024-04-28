@@ -46,15 +46,22 @@ export default function OrgSwitch(props: MenuButtonProps) {
         as={Button}
         variant="ghost"
         fontWeight="bold"
-        display="block"
+        justifyContent="left"
         h="auto"
         py={3}
-        px={5}
+        pl={5}
+        pr={2}
         textAlign="left"
-        whiteSpace="normal"
         borderRadius="xl"
         opacity={showName ? 1 : 0}
         rightIcon={<UpDownIcon pt={1} opacity={0.6} />}
+        sx={{
+          'span:first-child': {
+            flex: 1,
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+          },
+        }}
         _hover={{
           bg: 'whiteAlpha.600',
         }}
