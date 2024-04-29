@@ -1,4 +1,3 @@
-import BrandLogo from '@/common/atoms/BrandLogo'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import useOrgOwner from '@/member/hooks/useOrgOwner'
 import OrgSwitch from '@/org/components/OrgSwitch'
@@ -19,14 +18,13 @@ import { cmdOrCtrlKey } from '@utils/env'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as ReachLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import {
   BackIcon,
   HelpIcon,
   MeetingsIcon,
   MembersIcon,
   MenuIcon,
-  NewsIcon,
   OrgChartIcon,
   SearchIcon,
   SubscriptionIcon,
@@ -42,6 +40,10 @@ import {
 } from '../contexts/SidebarContext'
 import SidebarItem from './SidebarItem'
 import SidebarItemLink from './SidebarItemLink'
+import SidebarMeetings from './SidebarMeetings'
+import SidebarResizeHandle from './SidebarResizeHandle'
+import SidebarTasks from './SidebarTasks'
+import SidebarThreads from './SidebarThreads'
 import SidebarTopIcon from './SidebarTopIcon'
 import SidebarTopIconLink from './SidebarTopIconLink'
 import UserMenu from './UserMenu'
@@ -53,6 +55,7 @@ const logoContainerHeight = 65
 
 export default function Sidebar() {
   const { t } = useTranslation()
+  const location = useLocation()
   const isAuthenticated = useAuthenticated()
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
@@ -67,6 +70,11 @@ export default function Sidebar() {
   if (!context) {
     throw new Error('SidebarContext not found in Sidebar')
   }
+
+  // Close menu (mobile) on location change
+  useEffect(() => {
+    context.expand.onClose()
+  }, [location.pathname])
 
   // Links
   const rootPath = usePathInOrg('')
@@ -139,6 +147,8 @@ export default function Sidebar() {
         },
       }}
     >
+      <SidebarResizeHandle />
+
       <Flex
         h={`${context.height || logoContainerHeight}px`}
         px={isMobile ? 3 : 5}
@@ -147,35 +157,17 @@ export default function Sidebar() {
         {isMobile ? (
           /* Mobile: top bar with logo and icons */
           <>
-            <BrandIcon width={26} height={26} />
+            <BrandIcon width={24} height={24} />
             <OrgSwitch flex={1} />
 
             {!context.expand.isOpen && orgId && (
               <>
                 <SidebarTopIconLink
-                  className="userflow-sidebar-dashboard"
-                  to={rootPath}
-                  exact
-                  icon={NewsIcon}
-                >
-                  {t('Sidebar.dashboard')}
-                </SidebarTopIconLink>
-
-                <SidebarTopIconLink
                   className="userflow-sidebar-roles"
                   to={`${rootPath}roles`}
-                  exact
                   icon={OrgChartIcon}
                 >
                   {t('Sidebar.roles')}
-                </SidebarTopIconLink>
-
-                <SidebarTopIconLink
-                  className="userflow-sidebar-threads"
-                  to={`${rootPath}threads?member=${currentMember?.id || ''}`}
-                  icon={ThreadsIcon}
-                >
-                  {t('Sidebar.threads')}
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
@@ -185,6 +177,14 @@ export default function Sidebar() {
                   alert={!!currentMeetingId}
                 >
                   {t('Sidebar.meetings')}
+                </SidebarTopIconLink>
+
+                <SidebarTopIconLink
+                  className="userflow-sidebar-threads"
+                  to={`${rootPath}threads?member=${currentMember?.id || ''}`}
+                  icon={ThreadsIcon}
+                >
+                  {t('Sidebar.threads')}
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
@@ -206,11 +206,10 @@ export default function Sidebar() {
             </SidebarTopIcon>
           </>
         ) : (
-          <Box ml={3}>
-            <ReachLink to="/" tabIndex={-1}>
-              <BrandLogo size="sm" />
-            </ReachLink>
-          </Box>
+          <Flex w="100%" align="center" ml={3} role="group">
+            <BrandIcon width={24} height={24} />
+            <OrgSwitch flex={1} />
+          </Flex>
         )}
       </Flex>
 
@@ -218,8 +217,8 @@ export default function Sidebar() {
         /* Desktop: Sidebar content */
         <Flex
           flex={1}
-          px={5}
-          pt={isMobile ? 5 : 0}
+          px={4}
+          pt={isMobile ? 5 : 3}
           align="stretch"
           flexDirection="column"
           alignItems="stretch"
@@ -228,64 +227,6 @@ export default function Sidebar() {
           overflowX="clip"
         >
           {orgId ? (
-            <>
-              {!isMobile && <OrgSwitch mt={3} mb={7} />}
-
-              <SidebarItemLink
-                className="userflow-sidebar-dashboard"
-                to={rootPath}
-                exact
-                icon={NewsIcon}
-              >
-                {t('Sidebar.dashboard')}
-              </SidebarItemLink>
-
-              <SidebarItemLink
-                className="userflow-sidebar-roles"
-                to={`${rootPath}roles`}
-                exact
-                icon={OrgChartIcon}
-              >
-                {t('Sidebar.roles')}
-              </SidebarItemLink>
-
-              <SidebarItemLink
-                className="userflow-sidebar-threads"
-                to={`${rootPath}threads?member=${currentMember?.id || ''}`}
-                icon={ThreadsIcon}
-              >
-                {t('Sidebar.threads')}
-              </SidebarItemLink>
-
-              <SidebarItemLink
-                className="userflow-sidebar-meetings"
-                to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
-                icon={MeetingsIcon}
-                alert={!!currentMeetingId}
-              >
-                {t('Sidebar.meetings')}
-              </SidebarItemLink>
-
-              <SidebarItemLink
-                className="userflow-sidebar-tasks"
-                to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
-                icon={TasksIcon}
-              >
-                {t('Sidebar.tasks')}
-              </SidebarItemLink>
-            </>
-          ) : (
-            !orgLoading &&
-            window.location.pathname !== '/' && (
-              <SidebarItemLink to="/" exact icon={BackIcon}>
-                {t('Sidebar.orgs')}
-              </SidebarItemLink>
-            )
-          )}
-
-          <Spacer />
-
-          {orgId && (
             <>
               <Tooltip
                 label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
@@ -301,6 +242,58 @@ export default function Sidebar() {
                 </SidebarItem>
               </Tooltip>
 
+              <SidebarItemLink
+                className="userflow-sidebar-roles"
+                to={`${rootPath}roles`}
+                icon={OrgChartIcon}
+              >
+                {t('Sidebar.roles')}
+              </SidebarItemLink>
+
+              <SidebarItemLink
+                className="userflow-sidebar-meetings"
+                to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
+                icon={MeetingsIcon}
+                alert={!!currentMeetingId}
+              >
+                {t('Sidebar.meetings')}
+              </SidebarItemLink>
+
+              <SidebarMeetings max={3} />
+
+              <SidebarItemLink
+                className="userflow-sidebar-threads"
+                to={`${rootPath}threads?member=${currentMember?.id || ''}`}
+                icon={ThreadsIcon}
+              >
+                {t('Sidebar.threads')}
+              </SidebarItemLink>
+
+              <SidebarThreads />
+
+              <SidebarItemLink
+                className="userflow-sidebar-tasks"
+                to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
+                icon={TasksIcon}
+              >
+                {t('Sidebar.tasks')}
+              </SidebarItemLink>
+
+              <SidebarTasks />
+            </>
+          ) : (
+            !orgLoading &&
+            window.location.pathname !== '/' && (
+              <SidebarItemLink to="/" icon={BackIcon}>
+                {t('Sidebar.orgs')}
+              </SidebarItemLink>
+            )
+          )}
+
+          <Spacer />
+
+          {orgId && (
+            <>
               <SidebarItemLink
                 className="userflow-sidebar-members"
                 to={`${rootPath}members`}

@@ -1,8 +1,20 @@
 import { useDisclosure } from '@chakra-ui/react'
+import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { createContext, useMemo, useState } from 'react'
 
-export const defaultSidebarWidth = 250 // Side bar
-export const defaultSidebarHeight = 50 // Top bar on small screen
+const retrievedSidebarWidth = localStorage.getItem(
+  UserLocalStorageKeys.SidebarWidth
+)
+
+// Width of sidebar
+export const defaultSidebarWidth = retrievedSidebarWidth
+  ? parseInt(retrievedSidebarWidth, 0)
+  : 336
+export const sidebarMinWidth = 250
+export const sidebarMaxWidth = 600
+
+// Top bar height on mobile
+export const defaultSidebarHeight = 50
 
 interface SidebarContextValue {
   expand: ReturnType<typeof useDisclosure>

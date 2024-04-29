@@ -131,6 +131,9 @@
     "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
     "action4": "Drop it in the desired role."
   },
+  "CircleNews": {
+    "empty": "The latest activities will appear here: new topics, completed meetings, decisions made, etc."
+  },
   "CirclePrivacy": {
     "tooltip": "Security",
     "role": "Who can modify the role {{role}}:",
@@ -780,6 +783,7 @@
     "canCreate": "Type to create or search"
   },
   "Sidebar": {
+    "close": "Close sidebar",
     "orgs": "Organizations",
     "menu": "Menu",
     "dashboard": "News",

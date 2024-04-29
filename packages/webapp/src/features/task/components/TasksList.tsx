@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react'
+import { Box, BoxProps, Text } from '@chakra-ui/react'
 import { TaskFragment } from '@gql'
 import {
   DragDropContext,
@@ -12,15 +12,21 @@ import TaskItem from './TaskItem'
 
 interface Props {
   tasks: TaskFragment[]
+  noModal?: boolean
   showCircle?: boolean
   showMember?: boolean
+  showDueDate?: boolean
+  itemProps?: BoxProps
   onOrderChange?(tasksIds: string[]): void
 }
 
 export default function TasksList({
   tasks,
+  noModal,
   showCircle,
   showMember,
+  showDueDate,
+  itemProps,
   onOrderChange,
 }: Props) {
   const { t } = useTranslation()
@@ -69,9 +75,12 @@ export default function TasksList({
                     key={task.id}
                     ref={provided.innerRef}
                     task={task}
+                    noModal={noModal}
                     showCircle={showCircle}
                     showMember={showMember}
+                    showDueDate={showDueDate}
                     isDragging={snapshot.isDragging}
+                    {...itemProps}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   />

@@ -1,15 +1,24 @@
-import { Button, ButtonProps, forwardRef } from '@chakra-ui/react'
+import { BoxProps, Button, ButtonProps, forwardRef } from '@chakra-ui/react'
 import { Icon } from 'iconsax-react'
 import React from 'react'
 import SidebarIcon from './SidebarIcon'
 
 export interface SidebarItemProps extends ButtonProps {
   icon: Icon
+  isPathExact?: boolean
+  isPathStart?: boolean
   alert?: boolean
 }
 
 export default forwardRef(function SidebarItem(
-  { icon, alert, isActive, children, ...buttonProps }: SidebarItemProps,
+  {
+    icon,
+    isPathExact,
+    isPathStart,
+    alert,
+    children,
+    ...buttonProps
+  }: SidebarItemProps,
   ref
 ) {
   return (
@@ -39,17 +48,39 @@ export default forwardRef(function SidebarItem(
           bg: 'whiteAlpha.100',
         },
       }}
-      isActive={isActive}
+      isActive={isPathExact}
       {...buttonProps}
     >
       <SidebarIcon
         icon={icon}
-        isActive={isActive}
+        isActive={isPathStart}
         alert={alert}
-        ml={5}
+        ml={4}
         mr={3}
       />
       {children}
     </Button>
   )
 })
+
+export const sidebarSubItemProps: BoxProps = {
+  pl: '50.25px',
+  borderRadius: 'md',
+
+  _hover: { bg: 'whiteAlpha.600' },
+  _dark: {
+    color: 'whiteAlpha.800',
+    _hover: {
+      bg: 'whiteAlpha.50',
+    },
+    _active: {
+      color: 'white',
+      bg: 'whiteAlpha.100',
+    },
+  },
+  sx: {
+    '&.active': {
+      bg: 'white',
+    },
+  },
+}

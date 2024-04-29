@@ -13,8 +13,13 @@ export default forwardRef(function SidebarTopIconLink(
 ) {
   return (
     <SidebarLink to={to} exact={exact}>
-      {(isActive) => (
-        <SidebarTopIcon ref={ref} isActive={isActive} {...buttonProps} />
+      {(isExact, isStart) => (
+        <SidebarTopIcon
+          ref={ref}
+          isPathExact={isExact}
+          isPathStart={isStart}
+          {...buttonProps}
+        />
       )}
     </SidebarLink>
   )

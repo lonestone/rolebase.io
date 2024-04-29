@@ -124,6 +124,9 @@
     "heading": "Supprimer le rôle d'un membre",
     "info": "Êtes-vous sûr(e) de vouloir retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
   },
+  "CircleNews": {
+    "empty": "Les dernières activités apparaitront ici : nouveau sujets, réunions terminées, décisions prises, etc."
+  },
   "CircleMoveModal": {
     "heading": "Déplacer un rôle",
     "action1": "Ouvrez l'Organigramme.",

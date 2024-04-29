@@ -54,7 +54,7 @@ import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { PrivacyIcon } from 'src/icons'
+import { ChevronDownIcon, ChevronUpIcon, PrivacyIcon } from 'src/icons'
 import settings from 'src/settings'
 import * as yup from 'yup'
 import useCreateTask from '../hooks/useCreateTask'
@@ -114,6 +114,7 @@ export default function TaskContent({
   const updateTaskStatus = useUpdateTaskStatus()
   const createTask = useCreateTask()
   const [updateTask] = useUpdateTaskMutation()
+  const showLogs = useDisclosure()
   const { preventClose, allowClose } = usePreventClose()
 
   const { data, loading, error } = useTaskSubscription({
@@ -379,11 +380,10 @@ export default function TaskContent({
               {t('TaskContent.dueDate')}
             </Switch>
             <Collapse in={!!dueDate}>
-              <Box mt={5} pl={10}>
+              <Box mt={4} mb={2} pl={10}>
                 <Input
                   {...register('dueDate')}
                   type="datetime-local"
-                  size="sm"
                   w="250px"
                   readOnly={!isMember}
                 />
@@ -426,15 +426,30 @@ export default function TaskContent({
         </Collapse>
 
         {id && (
-          <TaskLogs
-            taskId={id}
-            header={
-              <Heading as="h2" size="md" mt={10} mb={2}>
-                {t('TaskContent.logs')}
-              </Heading>
-            }
-          />
+          <Box>
+            <Button
+              variant="link"
+              leftIcon={
+                showLogs.isOpen ? (
+                  <ChevronUpIcon size="1em" />
+                ) : (
+                  <ChevronDownIcon size="1em" />
+                )
+              }
+              onClick={showLogs.onToggle}
+            >
+              {showLogs.isOpen ? (
+                <Heading as="h2" size="md">
+                  {t('TaskContent.logs')}
+                </Heading>
+              ) : (
+                t('TaskContent.logs')
+              )}
+            </Button>
+            {showLogs.isOpen && <TaskLogs taskId={id} mt={2} />}
+          </Box>
         )}
+
         {!id && isMember && (
           <Box w="100%" textAlign="right">
             <Button

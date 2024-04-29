@@ -5,21 +5,20 @@ import { SidebarContext } from '../contexts/SidebarContext'
 export interface SidebarLinkProps {
   to: string
   exact?: boolean
-  children: (isActive: boolean) => React.ReactNode
+  children: (isExact: boolean, isStart: boolean) => React.ReactNode
 }
 
-export default function SidebarLink({ to, exact, children }: SidebarLinkProps) {
+export default function SidebarLink({ to, children }: SidebarLinkProps) {
   const location = useLocation()
   const sidebarContext = useContext(SidebarContext)
 
   const toPathname = to.match(/^[^?]*/)![0]
-  const isActive = exact
-    ? location.pathname === toPathname
-    : location.pathname.startsWith(toPathname)
+  const isExact = location.pathname === toPathname
+  const isStart = location.pathname.startsWith(toPathname)
 
   return (
     <Link to={to} tabIndex={-1} onClick={sidebarContext?.expand.onClose}>
-      {children(isActive)}
+      {children(isExact, isStart)}
     </Link>
   )
 }

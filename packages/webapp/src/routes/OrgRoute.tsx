@@ -2,7 +2,6 @@ import CirclesPage from '@/circle/pages/CirclesPage'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import Page404 from '@/common/pages/Page404'
-import DashboardPage from '@/dashboard/pages/DashboardPage'
 import DecisionPage from '@/decision/pages/DecisionPage '
 import LogsPage from '@/log/pages/LogsPage'
 import MeetingPage from '@/meeting/pages/MeetingPage'
@@ -16,7 +15,7 @@ import ThreadsPage from '@/thread/pages/ThreadsPage'
 import { useOrgBySlugSubscription, useOrgSubscription } from '@gql'
 import { useStoreActions } from '@store/hooks'
 import React, { Suspense, lazy, useEffect } from 'react'
-import { Route, Routes, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@/meeting/pages/MeetingsPage'))
@@ -99,7 +98,7 @@ export default function OrgRoute() {
         <Page404 />
       ) : (
         <Routes>
-          <Route index element={<DashboardPage />} />
+          <Route index element={<Navigate to="roles" replace />} />
           <Route path="roles" element={<CirclesPage />} />
           <Route path="members" element={<MembersPage />} />
           <Route path="threads/:threadId" element={<ThreadPage />} />

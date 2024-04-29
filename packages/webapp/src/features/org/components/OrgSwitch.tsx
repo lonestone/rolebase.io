@@ -49,14 +49,14 @@ export default function OrgSwitch(props: MenuButtonProps) {
         justifyContent="left"
         h="auto"
         py={3}
-        pl={5}
+        pl={3}
         pr={2}
         textAlign="left"
         borderRadius="xl"
         opacity={showName ? 1 : 0}
         rightIcon={<UpDownIcon pt={1} opacity={0.6} />}
         sx={{
-          'span:first-child': {
+          'span:first-of-type': {
             flex: 1,
             textOverflow: 'ellipsis',
             overflow: 'hidden',

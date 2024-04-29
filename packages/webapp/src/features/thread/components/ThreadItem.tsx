@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { ThreadFragment } from '@gql'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink, useLocation } from 'react-router-dom'
 import { PrivacyIcon } from 'src/icons'
 import useThreadStatus from '../hooks/useThreadStatus'
 import ThreadModal from '../modals/ThreadModal'
@@ -26,7 +26,9 @@ import ThreadStatusIcon from './ThreadStatusIcon'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
+  noModal?: boolean
   unread?: boolean
+  showIcon?: boolean
   showCircle?: boolean
   showMember?: boolean
   isDragging?: boolean
@@ -37,7 +39,9 @@ const ThreadItem = forwardRef<Props, 'div'>(
   (
     {
       thread,
+      noModal,
       unread,
+      showIcon,
       showCircle,
       showMember,
       isDragging,
@@ -59,49 +63,57 @@ const ThreadItem = forwardRef<Props, 'div'>(
     // Thread status
     const { threadStatus, setStatus } = useThreadStatus(thread)
 
+    // Is active?
+    const location = useLocation()
+    const isActive = location.pathname === path
+
     return (
       <>
         <LinkBox
           ref={ref}
           p={1}
           boxShadow={isDragging ? 'lg' : 'none'}
-          bg={isDragging ? 'gray.100' : undefined}
-          _dark={
-            isDragging ? { bg: isDragging ? 'gray.700' : undefined } : undefined
-          }
+          bg={isDragging ? 'gray.50' : undefined}
+          _dark={{ bg: isDragging ? 'gray.700' : undefined }}
           _hover={hover}
           {...linkBoxProps}
           tabIndex={
             // Remove tabIndex because it's redundant with link
             undefined
           }
+          className={isActive ? 'active' : undefined}
         >
           <HStack align="center">
-            <Center zIndex="2" position="relative">
-              <ThreadStatusIcon
-                value={threadStatus}
-                readOnly={!isMember}
-                onChange={setStatus}
-              />
-              {unread && (
-                <Circle
-                  size="8px"
-                  position="absolute"
-                  top="-1px"
-                  right="-1px"
-                  bg="red.400"
-                  _dark={{ bg: 'red.600' }}
+            {showIcon && (
+              <Center zIndex="2" position="relative">
+                <ThreadStatusIcon
+                  value={threadStatus}
+                  readOnly={!isMember}
+                  onChange={setStatus}
                 />
-              )}
-            </Center>
+                {unread && (
+                  <Circle
+                    size="8px"
+                    position="absolute"
+                    top="-1px"
+                    right="-1px"
+                    bg="red.400"
+                    _dark={{ bg: 'red.600' }}
+                  />
+                )}
+              </Center>
+            )}
 
             <LinkOverlay
               as={ReachLink}
               flex={1}
               to={path}
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
               fontWeight={unread ? 'bold' : undefined}
               {...labelProps}
-              onClick={handleOpen}
+              onClick={noModal ? undefined : handleOpen}
             >
               {thread.title}
             </LinkOverlay>

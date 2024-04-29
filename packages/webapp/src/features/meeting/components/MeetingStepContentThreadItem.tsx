@@ -107,6 +107,7 @@ export default function MeetingStepContentThreadItem({
             <>
               <ThreadItem
                 thread={thread}
+                showIcon
                 showMember
                 isDragging={snapshot.isDragging}
                 mb={2}

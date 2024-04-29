@@ -19,7 +19,13 @@ export default function NewsThread({ thread }: Props) {
       date={thread.createdAt}
       memberId={thread.initiatorMemberId}
     >
-      <ThreadItem thread={thread} showCircle fontWeight="medium" my={3} />
+      <ThreadItem
+        thread={thread}
+        showIcon
+        showCircle
+        fontWeight="medium"
+        my={3}
+      />
 
       {firstMessage && (
         <ExpandableText p={2} pt={0} noOfLines={4}>

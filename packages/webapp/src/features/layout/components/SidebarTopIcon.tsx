@@ -5,24 +5,32 @@ import SidebarIcon from './SidebarIcon'
 
 export interface SidebarTopIconProps extends ButtonProps {
   icon: Icon
-  isActive?: boolean
+  isPathExact?: boolean
+  isPathStart?: boolean
   alert?: boolean
   children: string
 }
 
 export default forwardRef(function SidebarTopIcon(
-  { isActive, icon, alert, children, ...buttonProps }: SidebarTopIconProps,
+  {
+    icon,
+    isPathExact,
+    isPathStart,
+    alert,
+    children,
+    ...buttonProps
+  }: SidebarTopIconProps,
   ref
 ) {
   return (
     <IconButton
       ref={ref}
       aria-label={children}
-      icon={<SidebarIcon icon={icon} isActive={isActive} alert={alert} />}
+      icon={<SidebarIcon icon={icon} isActive={isPathStart} alert={alert} />}
       variant="unstyled"
       display="flex"
       align="center"
-      isActive={isActive}
+      isActive={isPathExact}
       _hover={{ bg: 'whiteAlpha.600' }}
       _active={{ bg: 'white' }}
       _dark={{

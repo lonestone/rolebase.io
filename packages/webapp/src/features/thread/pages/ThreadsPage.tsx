@@ -160,7 +160,12 @@ export default function ThreadsPage() {
           <TextErrors errors={[error]} />
 
           {filteredThreads && (
-            <ThreadsList threads={filteredThreads} showCircle />
+            <ThreadsList
+              threads={filteredThreads}
+              showIcon
+              showCircle
+              showMember
+            />
           )}
         </Container>
       </ScrollableLayout>

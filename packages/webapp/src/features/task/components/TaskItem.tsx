@@ -19,7 +19,7 @@ import {
 import { Task_Status_Enum, TaskFragment } from '@gql'
 import { formatRelative } from 'date-fns'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink, useLocation } from 'react-router-dom'
 import { PrivacyIcon, TaskIcon } from 'src/icons'
 import useUpdateTaskStatus from '../hooks/useUpdateTaskStatus'
 import TaskModal from '../modals/TaskModal'
@@ -28,9 +28,11 @@ import TaskStatusTag from './TaskStatusTag'
 
 interface Props extends LinkBoxProps {
   task: TaskFragment
+  noModal?: boolean
   showCircle?: boolean
   showMember?: boolean
   showIcon?: boolean
+  showDueDate?: boolean
   isDragging?: boolean
 }
 
@@ -38,9 +40,11 @@ const TaskItem = forwardRef<Props, 'div'>(
   (
     {
       task,
+      noModal,
       showCircle,
       showMember,
       showIcon,
+      showDueDate,
       isDragging,
       children,
       ...linkBoxProps
@@ -60,22 +64,25 @@ const TaskItem = forwardRef<Props, 'div'>(
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
 
+    // Is active?
+    const location = useLocation()
+    const isActive = location.pathname === path
+
     return (
       <>
         <LinkBox
           ref={ref}
           p={1}
           boxShadow={isDragging ? 'lg' : 'none'}
-          bg={isDragging ? 'gray.100' : undefined}
-          _dark={
-            isDragging ? { bg: isDragging ? 'gray.700' : undefined } : undefined
-          }
+          bg={isDragging ? 'gray.50' : undefined}
+          _dark={{ bg: isDragging ? 'gray.700' : undefined }}
           _hover={hover}
           {...linkBoxProps}
           tabIndex={
             // Remove tabIndex because it's redondant with link
             undefined
           }
+          className={isActive ? 'active' : undefined}
         >
           <HStack align="center">
             {showIcon && (
@@ -84,11 +91,19 @@ const TaskItem = forwardRef<Props, 'div'>(
               </Center>
             )}
 
-            <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
+            <LinkOverlay
+              as={ReachLink}
+              flex={1}
+              to={path}
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              onClick={noModal ? undefined : handleOpen}
+            >
               {task.title}
             </LinkOverlay>
 
-            {task.dueDate && (
+            {showDueDate && task.dueDate && (
               <Text
                 fontSize="sm"
                 color="gray.500"

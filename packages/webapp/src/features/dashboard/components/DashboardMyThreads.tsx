@@ -45,7 +45,9 @@ export default function DashboardMyThreads() {
     >
       <TextErrors errors={[error]} />
 
-      {filteredThreads && <ThreadsList threads={filteredThreads} showCircle />}
+      {filteredThreads && (
+        <ThreadsList threads={filteredThreads} showIcon showCircle showMember />
+      )}
 
       {createModal.isOpen && (
         <ThreadEditModal isOpen onClose={createModal.onClose} />

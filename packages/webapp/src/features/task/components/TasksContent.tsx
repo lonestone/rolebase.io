@@ -66,6 +66,7 @@ export default function TasksContent({
             onOrderChange={isMember ? changeOrder : undefined}
             showMember={!memberId}
             showCircle={!circleId}
+            showDueDate
           />
         </Container>
       )}

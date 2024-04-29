@@ -43,7 +43,7 @@ export default function CircleThreads({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {threads && <ThreadsList threads={threads} />}
+      {threads && <ThreadsList threads={threads} showIcon showMember />}
 
       {isCreateOpen && (
         <ThreadEditModal

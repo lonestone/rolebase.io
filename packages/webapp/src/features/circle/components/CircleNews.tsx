@@ -24,7 +24,7 @@ export default function CircleNews({ circleId }: Props) {
     <>
       {news?.length === 0 && (
         <Text fontStyle="italic" textAlign="center">
-          {t('DashboardNews.empty')}
+          {t('CircleNews.empty')}
         </Text>
       )}
 

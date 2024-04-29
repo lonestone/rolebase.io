@@ -17,12 +17,13 @@ import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink, useLocation } from 'react-router-dom'
 import { MeetingIcon, PrivacyIcon } from 'src/icons'
 import MeetingModal from '../modals/MeetingModal'
 
 interface Props extends LinkBoxProps {
   meeting: MeetingSummaryFragment
+  noModal?: boolean
   showCircle?: boolean
   showIcon?: boolean
   showDate?: boolean
@@ -33,6 +34,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
   (
     {
       meeting,
+      noModal,
       showCircle,
       showIcon,
       showDate,
@@ -49,7 +51,10 @@ const MeetingItem = forwardRef<Props, 'div'>(
     const hover = useHoverItemStyle()
     const dateLocale = useDateLocale()
     const startDate = new Date(meeting.startDate)
-    const endDate = new Date(meeting.endDate)
+
+    // Is active?
+    const location = useLocation()
+    const isActive = location.pathname === path
 
     return (
       <>
@@ -62,6 +67,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
             // Remove tabIndex because it's redondant with link
             undefined
           }
+          className={isActive ? 'active' : undefined}
         >
           <HStack align="center">
             {showIcon && <MeetingIcon />}
@@ -77,12 +83,18 @@ const MeetingItem = forwardRef<Props, 'div'>(
             {showTime && (
               <Text pr={1} color="gray.500" _dark={{ color: 'gray.300' }}>
                 {format(startDate, 'p', { locale: dateLocale })}
-                {' - '}
-                {format(endDate, 'p', { locale: dateLocale })}
               </Text>
             )}
 
-            <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
+            <LinkOverlay
+              as={ReachLink}
+              flex={1}
+              to={path}
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              onClick={noModal ? undefined : handleOpen}
+            >
               {t('MeetingItem.title', { title: meeting.title })}
             </LinkOverlay>
 

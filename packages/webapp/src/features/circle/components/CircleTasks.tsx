@@ -63,6 +63,7 @@ export default function CircleTasks({ circleId }: Props) {
         tasks={tasks}
         onOrderChange={isMember ? changeOrder : undefined}
         showMember
+        showDueDate
       />
 
       {isCreateOpen && (
