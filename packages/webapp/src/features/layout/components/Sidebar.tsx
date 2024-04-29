@@ -32,7 +32,6 @@ import {
   ThreadsIcon,
 } from 'src/icons'
 import BrandIcon from 'src/images/icon.svg'
-import userflow from 'userflow.js'
 import {
   SidebarContext,
   defaultSidebarHeight,
@@ -79,17 +78,15 @@ export default function Sidebar() {
   // Links
   const rootPath = usePathInOrg('')
 
-  // Open/close Userflow and Crisp
+  // Open/close Crisp
   const handleHelp = () => {
-    if (userflow.getResourceCenterState()?.isOpen) {
-      // Close Userflow if open
-      userflow.closeResourceCenter()
-    } else if (Crisp.chat.isVisible()) {
-      // Hide Crisp if open
+    if (Crisp.chat.isVisible()) {
+      // Hide Crisp
       Crisp.chat.hide()
     } else {
-      // Open Userflow
-      userflow.openResourceCenter()
+      // Open Crisp
+      Crisp.chat.show()
+      Crisp.chat.open()
     }
   }
 

@@ -3,7 +3,6 @@ import OAuthRedirectPage from '@/apps/pages/OAuthRedirectPage'
 import CrispSetUser from '@/common/atoms/CrispSetUser'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
-import useInitUserflow from '@/common/hooks/useInitUserflow'
 import Page404 from '@/common/pages/Page404'
 import SuperAdminPage from '@/common/pages/SuperAdminPage'
 import LoggedLayout from '@/layout/components/LoggedLayout'
@@ -29,9 +28,6 @@ export default function PrivateRoute() {
   const {
     i18n: { changeLanguage },
   } = useTranslation()
-
-  // Init Userflow
-  useInitUserflow()
 
   // Update translation language with user's locale in DB
   const userLocale = useUserLocale()

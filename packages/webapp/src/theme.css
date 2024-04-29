@@ -10,7 +10,3 @@ body {
 .cui-steps__step-icon-container:not([aria-current='step']) {
   border: 1px solid var(--chakra-colors-gray-200) !important;
 }
-
-#userflow-ui iframe {
-  z-index: 1000 !important;
-}
