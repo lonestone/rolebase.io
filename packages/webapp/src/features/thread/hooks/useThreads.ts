@@ -11,13 +11,6 @@ export interface ThreadWithStatus extends ThreadFragment {
   read: boolean
 }
 
-const statusOrder = {
-  [Thread_Status_Enum.Active]: 1,
-  [Thread_Status_Enum.Preparation]: 2,
-  [Thread_Status_Enum.Blocked]: 3,
-  [Thread_Status_Enum.Closed]: 4,
-}
-
 export default function useThreads(filters?: {
   circleId?: string
   archived?: boolean
@@ -70,9 +63,6 @@ export default function useThreads(filters?: {
           return { ...thread, read }
         })
         .sort((a, b) => {
-          if (a.status !== b.status) {
-            return statusOrder[a.status] - statusOrder[b.status]
-          }
           // Show unread threads first
           if (a.read !== b.read) {
             return a.read ? 1 : -1
