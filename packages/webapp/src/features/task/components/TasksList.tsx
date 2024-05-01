@@ -1,4 +1,4 @@
-import { Box, BoxProps, Text } from '@chakra-ui/react'
+import { Box, HTMLChakraProps, Text } from '@chakra-ui/react'
 import { TaskFragment } from '@gql'
 import {
   DragDropContext,
@@ -16,7 +16,7 @@ interface Props {
   showCircle?: boolean
   showMember?: boolean
   showDueDate?: boolean
-  itemProps?: BoxProps
+  itemProps?: HTMLChakraProps<any>
   onOrderChange?(tasksIds: string[]): void
 }
 

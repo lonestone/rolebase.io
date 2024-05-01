@@ -1,5 +1,5 @@
 import DayLabel from '@/common/atoms/DayLabel'
-import { BoxProps, Text } from '@chakra-ui/react'
+import { BoxProps, HTMLChakraProps, Text } from '@chakra-ui/react'
 import { MeetingSummaryFragment } from '@gql'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,7 @@ interface Props {
   meetings: MeetingSummaryFragment[]
   noModal?: boolean
   showCircle?: boolean
-  itemProps?: BoxProps
+  itemProps?: HTMLChakraProps<any>
   dayLabelProps?: BoxProps
 }
 

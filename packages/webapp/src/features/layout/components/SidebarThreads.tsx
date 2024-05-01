@@ -24,6 +24,7 @@ export default function SidebarThreads() {
         <ThreadsList
           threads={filteredThreads}
           noModal
+          max={5}
           itemProps={sidebarSubItemProps}
         />
       )}

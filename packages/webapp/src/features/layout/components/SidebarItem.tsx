@@ -1,4 +1,9 @@
-import { BoxProps, Button, ButtonProps, forwardRef } from '@chakra-ui/react'
+import {
+  Button,
+  ButtonProps,
+  HTMLChakraProps,
+  forwardRef,
+} from '@chakra-ui/react'
 import { Icon } from 'iconsax-react'
 import React from 'react'
 import SidebarIcon from './SidebarIcon'
@@ -63,7 +68,7 @@ export default forwardRef(function SidebarItem(
   )
 })
 
-export const sidebarSubItemProps: BoxProps = {
+export const sidebarSubItemProps: HTMLChakraProps<any> = {
   pl: '50.25px',
   borderRadius: 'md',
 
@@ -73,14 +78,14 @@ export const sidebarSubItemProps: BoxProps = {
     _hover: {
       bg: 'whiteAlpha.50',
     },
-    _active: {
-      color: 'white',
-      bg: 'whiteAlpha.100',
-    },
   },
   sx: {
     '&.active': {
       bg: 'white',
+      _dark: {
+        color: 'white',
+        bg: 'whiteAlpha.100',
+      },
     },
   },
 }
