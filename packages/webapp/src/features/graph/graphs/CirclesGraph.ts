@@ -3,7 +3,7 @@ import {
   getResizedImageUrl,
 } from '@/common/api/storage_images'
 import { CircleFullFragment } from '@gql'
-import { getCircleLeaders } from '@rolebase/shared/helpers/getCircleLeaders'
+import { getCircleParticipants } from '@rolebase/shared/helpers/getCircleParticipants'
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import { Participant } from '@rolebase/shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
@@ -22,6 +22,7 @@ export interface CircleData extends CircleFullFragment {
 
 export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
   public renderer: Renderer
+  public origCircles: CircleFullFragment[] = []
 
   constructor(
     public element: RootElement,
@@ -49,6 +50,8 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
     this.element = undefined
     // @ts-ignore
     this.params = undefined
+    // @ts-ignore
+    this.origCircles = undefined
 
     super.destroy()
   }
@@ -60,6 +63,7 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
   ): number
 
   protected prepareData(circles: CircleFullFragment[]): Data {
+    this.origCircles = circles
     return {
       id: 'root',
       parentId: null,
@@ -89,14 +93,14 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
         // Add sub-circles to children
         const children: Data[] = this.prepareDataInternal(circles, circle.id)
 
+        // Add circle links
+        if (circle.invitedCircleLinks.length !== 0) {
+          children.push(...this.circleLinksToData(circle, this.origCircles))
+        }
+
         // Add members in a circle to group them
         if (circle.members.length !== 0 || children.length === 0) {
           children.push(this.membersToData(circle, data.colorHue))
-        }
-
-        // Add circle links
-        if (circle.invitedCircleLinks.length !== 0) {
-          children.push(...this.circleLinksToData(circle, circles))
         }
 
         // Set children if there is at least one
@@ -119,9 +123,7 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       name: '',
       type: NodeType.MembersCircle,
     }
-    if (circle.members.length === 0) {
-      node.value = settings.memberValue
-    } else {
+    if (circle.members.length !== 0) {
       node.children = circle.members.map(
         (entry): Data => ({
           id: entry.id,
@@ -129,7 +131,6 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
           parentId: circle.id,
           name: textEllipsis(entry.member.name, 20),
           picture: getResizedImageUrl(entry.member.picture, AVATAR_GRAPH_WIDTH),
-          value: settings.memberValue,
           type: NodeType.Member,
           colorHue,
         })
@@ -143,31 +144,31 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
     circles: CircleFullFragment[]
   ): Data[] {
     return circle.invitedCircleLinks
-      .map(({ invitedCircle: { id } }) => {
+      .map(({ invitedCircle: { id } }): Data | undefined => {
         const invitedCircle = circles.find((c) => c.id === id)
         if (!invitedCircle) return
 
         const colorHue =
           invitedCircle.role.colorHue ?? circle.role.colorHue ?? undefined
-        const leaders = getCircleLeaders(invitedCircle, circles)
+        const participants = getCircleParticipants(invitedCircle, circles)
 
         return {
           id: `${circle.id}_${id}`,
           entityId: id,
-          parentId: invitedCircle.parentId,
+          parentId: circle.id,
           name: invitedCircle.role.name,
           type: NodeType.Circle,
           colorHue,
-          children: leaders.map((p) => ({
-            id: `${circle.id}_${id}_${p.member.id}`,
-            entityId: p.member.id,
-            parentId: p.circleId,
-            name: p.member.name,
-            type: NodeType.Member,
-            picture: getResizedImageUrl(p.member.picture, AVATAR_GRAPH_WIDTH),
-            value: settings.memberValue,
-            colorHue,
-          })),
+          participants,
+          // Add empty children for padding
+          children: [
+            {
+              id: `${circle.id}_${id}-members`,
+              parentId: circle.id,
+              name: '',
+              type: NodeType.MembersCircle,
+            },
+          ],
         }
       })
       .filter(truthy)
@@ -184,12 +185,12 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       .radius(() => settings.memberValue)
       .padding((d) => {
         // Circle
-        const multipleChildren = (d.data.children?.length || 0) > 1
         if (d.data.type === NodeType.Circle) {
           const hasSubCircles = d.data.children?.some(
             (c) => c.type === NodeType.Circle
           )
           if (!hasSubCircles) return settings.padding.circleWithoutSubCircle
+          const multipleChildren = (d.data.children?.length || 0) > 1
           return multipleChildren
             ? settings.padding.circleWithSubCircles
             : settings.padding.circleWithSingleSubCircle

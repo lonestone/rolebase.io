@@ -4,8 +4,8 @@ import { NodeData, NodesSelection, NodeType } from '../../../types'
 import { MoveTransition } from '../helpers/createTransition'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
-const radiusRatio = 0.3
-const paddingRatio = 0.05
+const radiusRatio = 0.4
+const paddingRatio = 0.03
 
 export class ParticipantsCircleElement extends AbstractCircleElement {
   prevParticipants = d3.local<number>()

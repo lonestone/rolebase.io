@@ -1,6 +1,7 @@
 import * as d3 from 'd3'
 
 export default {
+  // Determines size of the circle
   memberValue: 10,
   padding: {
     circleWithoutSubCircle: 3,
