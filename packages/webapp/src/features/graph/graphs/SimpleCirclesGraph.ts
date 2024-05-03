@@ -50,6 +50,7 @@ export class SimpleCirclesGraph extends CirclesGraph {
             : {
                 ...c,
                 members: [],
+                invitedCircleLinks: [],
                 participants: getCircleParticipants(c.id, circles),
               }
         )

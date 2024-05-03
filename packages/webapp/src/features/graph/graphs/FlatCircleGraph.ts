@@ -34,6 +34,7 @@ export class FlatCircleGraph extends CirclesGraph {
         ...circle,
         parentId: null,
         members: [],
+        invitedCircleLinks: [],
         participants: getCircleParticipants(circle.id, circles),
       }))
   }
