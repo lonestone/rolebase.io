@@ -263,7 +263,7 @@ export abstract class Graph<InputData = any> extends EventEmitter {
     adaptScale?: boolean,
     instant?: boolean
   ) {
-    this.once('data', () => this.focusNodeId(nodeId, adaptScale, instant))
+    this.once('nodesData', () => this.focusNodeId(nodeId, adaptScale, instant))
   }
 }
 
