@@ -73,7 +73,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
             {showIcon && <MeetingIcon />}
 
             {showDate && (
-              <Text pr={1} color="gray.500" _dark={{ color: 'gray.300' }}>
+              <Text pr={1} color="gray.500" _dark={{ color: 'gray.400' }}>
                 {capitalizeFirstLetter(
                   format(startDate, 'eeee P', { locale: dateLocale })
                 )}
@@ -81,7 +81,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
             )}
 
             {showTime && (
-              <Text pr={1} color="gray.500" _dark={{ color: 'gray.300' }}>
+              <Text pr={1} color="gray.500" _dark={{ color: 'gray.400' }}>
                 {format(startDate, 'p', { locale: dateLocale })}
               </Text>
             )}

@@ -1,4 +1,4 @@
-import { BoxProps, Text, chakra } from '@chakra-ui/react'
+import { BoxProps, Text } from '@chakra-ui/react'
 import { format, isSameDay, isToday, isTomorrow } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +19,8 @@ export default function DayLabel({
 
   const date = new Date(dateStr)
   const prevDate = prevDateStr ? new Date(prevDateStr) : undefined
+  const currentDate = new Date()
+  const currentYear = currentDate.getFullYear()
 
   // Show nothing if the date is the same as the previous one
   if (prevDate && isSameDay(date, prevDate)) {
@@ -26,15 +28,23 @@ export default function DayLabel({
   }
 
   return (
-    <Text pl={2} fontSize="sm" {...boxProps}>
-      <chakra.span fontWeight="medium" textTransform="uppercase" mr={2}>
-        {isToday(date)
-          ? t('common.dates.today')
-          : isTomorrow(date)
-          ? t('common.dates.tomorrow')
-          : format(date, 'eeee', { locale: dateLocale })}
-      </chakra.span>
-      {format(date, 'P', { locale: dateLocale })}
+    <Text
+      pl={2}
+      fontSize="sm"
+      textTransform="uppercase"
+      color="gray.500"
+      _dark={{ color: 'gray.400' }}
+      {...boxProps}
+    >
+      {isToday(date)
+        ? t('common.dates.today')
+        : isTomorrow(date)
+        ? t('common.dates.tomorrow')
+        : format(
+            date,
+            date.getFullYear() !== currentYear ? 'eeee P' : 'eeee dd/MM',
+            { locale: dateLocale }
+          )}
     </Text>
   )
 }
