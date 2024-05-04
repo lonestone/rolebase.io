@@ -15,7 +15,7 @@ export default function DashboardMyRoles() {
       title={t('DashboardMyRoles.title')}
       path={`roles?memberId=${member.id}`}
     >
-      <MemberRoles member={member} mx={-2} mt={2} mb={-4} />
+      <MemberRoles member={member} iconRightArrow mx={-2} mt={2} mb={-4} />
     </DashboardMyInfosItem>
   )
 }

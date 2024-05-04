@@ -25,6 +25,7 @@ import {
   MeetingsIcon,
   MembersIcon,
   MenuIcon,
+  NewsIcon,
   OrgChartIcon,
   SearchIcon,
   SubscriptionIcon,
@@ -160,6 +161,14 @@ export default function Sidebar() {
             {!context.expand.isOpen && orgId && (
               <>
                 <SidebarTopIconLink
+                  className="userflow-sidebar-news"
+                  to={`${rootPath}news`}
+                  icon={NewsIcon}
+                >
+                  {t('Sidebar.news')}
+                </SidebarTopIconLink>
+
+                <SidebarTopIconLink
                   className="userflow-sidebar-roles"
                   to={`${rootPath}roles`}
                   icon={OrgChartIcon}
@@ -238,6 +247,14 @@ export default function Sidebar() {
                   {t('Sidebar.search')}
                 </SidebarItem>
               </Tooltip>
+
+              <SidebarItemLink
+                className="userflow-sidebar-news"
+                to={`${rootPath}news`}
+                icon={NewsIcon}
+              >
+                {t('Sidebar.news')}
+              </SidebarItemLink>
 
               <SidebarItemLink
                 className="userflow-sidebar-roles"

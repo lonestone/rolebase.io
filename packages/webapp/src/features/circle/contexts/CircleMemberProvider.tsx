@@ -1,6 +1,7 @@
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { useDisclosure } from '@chakra-ui/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import CircleMemberModal from '../modals/CircleMemberModal'
 import {
   CircleMemberContext,
@@ -24,14 +25,14 @@ export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
 }
 
 interface Props {
-  stateOnly?: boolean
   children: React.ReactNode
 }
 
-export function CircleMemberProvider({ stateOnly, children }: Props) {
+export function CircleMemberProvider({ children }: Props) {
   const navigateOrg = useNavigateOrg()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [state, setState] = useState<State>({})
+  const location = useLocation()
 
   const value: CircleMemberContextValue = useMemo(
     () => ({
@@ -45,15 +46,14 @@ export function CircleMemberProvider({ stateOnly, children }: Props) {
   )
 
   useEffect(() => {
-    if (stateOnly) return
     if (!state.circleId && !state.memberId) return
 
     // Detect if at least one modal is open
     const hasModal = !!document.getElementsByClassName(
       'chakra-modal__content'
     )[0]
-    const hasGraph = !!document.querySelector('#circles-graph') // FIXME
-    if (hasModal || !hasGraph) {
+    const isGraphPage = /\/(roles|news)$/.test(location.pathname)
+    if (hasModal || !isGraphPage) {
       // Open modal
       onOpen()
       return
@@ -65,7 +65,7 @@ export function CircleMemberProvider({ stateOnly, children }: Props) {
     )
     // Reset state
     setState({})
-  }, [state, stateOnly])
+  }, [state])
 
   const handleModalClose = useCallback(() => {
     onClose()

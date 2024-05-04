@@ -2,6 +2,7 @@ import CirclesPage from '@/circle/pages/CirclesPage'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import Page404 from '@/common/pages/Page404'
+import DashboardPage from '@/dashboard/pages/DashboardPage'
 import DecisionPage from '@/decision/pages/DecisionPage '
 import LogsPage from '@/log/pages/LogsPage'
 import MeetingPage from '@/meeting/pages/MeetingPage'
@@ -98,8 +99,9 @@ export default function OrgRoute() {
         <Page404 />
       ) : (
         <Routes>
-          <Route index element={<Navigate to="roles" replace />} />
+          <Route index element={<Navigate to="news" replace />} />
           <Route path="roles" element={<CirclesPage />} />
+          <Route path="news" element={<DashboardPage />} />
           <Route path="members" element={<MembersPage />} />
           <Route path="threads/:threadId" element={<ThreadPage />} />
           <Route path="threads" element={<ThreadsPage />} />

@@ -1,13 +1,11 @@
 import { Title } from '@/common/atoms/Title'
-import DashboardMyMeetings from '@/dashboard/components/DashboardMyMeetings'
 import DashboardMyRoles from '@/dashboard/components/DashboardMyRoles'
-import DashboardMyTasks from '@/dashboard/components/DashboardMyTasks'
-import DashboardMyThreads from '@/dashboard/components/DashboardMyThreads'
 import DashboardNews from '@/dashboard/components/DashboardNews'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import DashboardOrgChart from '../components/DashboardOrgChart'
 
 const margin = 10
 
@@ -38,9 +36,7 @@ const DashboardPage = () => {
         />
 
         <VStack spacing={margin} align="stretch" w={{ lg: '500px' }}>
-          <DashboardMyMeetings />
-          <DashboardMyTasks />
-          <DashboardMyThreads />
+          <DashboardOrgChart />
           <DashboardMyRoles />
         </VStack>
       </Flex>

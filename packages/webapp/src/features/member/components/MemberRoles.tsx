@@ -18,11 +18,13 @@ import MemberRoleItem from './MemberRoleItem'
 interface Props extends BoxProps {
   member: MemberFragment
   selectedCircleId?: string
+  iconRightArrow?: boolean
 }
 
 export default function MemberRoles({
   member,
   selectedCircleId,
+  iconRightArrow,
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
@@ -107,6 +109,7 @@ export default function MemberRoles({
             key={circle.id}
             memberId={member.id}
             circle={circle}
+            iconRightArrow={iconRightArrow}
           />
         ))}
       </Accordion>

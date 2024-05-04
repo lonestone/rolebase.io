@@ -23,14 +23,20 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ChevronRightIcon } from 'src/icons'
 import useOrgMember from '../hooks/useOrgMember'
 
 interface Props {
   memberId: string
   circle: CircleFullFragment
+  iconRightArrow?: boolean
 }
 
-export default function MemberRoleItem({ memberId, circle }: Props) {
+export default function MemberRoleItem({
+  memberId,
+  circle,
+  iconRightArrow,
+}: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const [updateCircleMember] = useUpdateCircleMemberMutation()
@@ -90,7 +96,11 @@ export default function MemberRoleItem({ memberId, circle }: Props) {
             _dark={{ _hover: { bg: 'whiteAlpha.100' } }}
           >
             <CircleAndParentsLinks circle={circle} flex={1} />
-            <AccordionIcon />
+            {iconRightArrow ? (
+              <ChevronRightIcon size={18} />
+            ) : (
+              <AccordionIcon />
+            )}
           </AccordionButton>
           <AccordionPanel
             pt={3}
