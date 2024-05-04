@@ -25,7 +25,13 @@ export default function CircleAndMemberFilters({
   const { t } = useTranslation()
 
   return (
-    <ButtonGroup size="sm" variant="outline" spacing={2} {...boxProps}>
+    <ButtonGroup
+      size="sm"
+      variant="outline"
+      spacing={2}
+      flexWrap="wrap"
+      {...boxProps}
+    >
       {onCircleChange &&
         (circleId ? (
           <CircleSearchInput

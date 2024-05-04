@@ -53,7 +53,7 @@ export default function MeetingContentEmpty() {
   }
 
   return (
-    <HStack spacing={5} align="center" py={10}>
+    <HStack spacing={5} align="center" py={10} flexWrap="wrap">
       <Button colorScheme="blue" onClick={handleNew}>
         {t('MeetingContentEmpty.new')}
       </Button>
