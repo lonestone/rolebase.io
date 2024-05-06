@@ -1,0 +1,45 @@
+table:
+  name: thread_activity_reaction
+  schema: public
+object_relationships:
+  - name: activity
+    using:
+      foreign_key_constraint_on: activityId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        activity:
+          thread:
+            org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
+                  - role:
+                      _neq: Readonly
+      set:
+        userId: x-hasura-User-Id
+      columns:
+        - activityId
+        - shortcode
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - activityId
+        - createdAt
+        - id
+        - shortcode
+        - userId
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+    comment: ""

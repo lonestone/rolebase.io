@@ -746,6 +746,9 @@
     "feedback": "Merci ! Avez-vous des suggestions ? Est-ce qu'on peut vous aider ?",
     "helpButton": "Parler à un humain"
   },
+  "ReactionAddButton": {
+    "tooltip": "Ajouter une réaction…"
+  },
   "RoleEditableField": {
     "baseRoleInfo": "La modification s'appliquera à tous les Rôles {{role}} de l'organisation car c'est une rôle de base."
   },
@@ -1155,6 +1158,7 @@
     "copyLink": "Copier le lien",
     "toastCopied": "URL copiée",
     "none": "Aucun",
+    "you": "Vous",
     "errorOccurred": "Une erreur s'est produite.",
     "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",

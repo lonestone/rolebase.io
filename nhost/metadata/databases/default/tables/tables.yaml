@@ -39,6 +39,7 @@
 - "!include public_task_view.yaml"
 - "!include public_thread.yaml"
 - "!include public_thread_activity.yaml"
+- "!include public_thread_activity_reaction.yaml"
 - "!include public_thread_activity_type.yaml"
 - "!include public_thread_extra_member.yaml"
 - "!include public_thread_member_status.yaml"

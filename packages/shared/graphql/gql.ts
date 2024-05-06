@@ -29,7 +29,8 @@ const documents = {
     "fragment RoleAI on role_ai {\n  id\n  name\n  purpose\n  domain\n  accountabilities\n  checklist\n  indicators\n  notes\n}": types.RoleAiFragmentDoc,
     "fragment Task on task {\n  id\n  orgId\n  circleId\n  memberId\n  title\n  description\n  archived\n  createdAt\n  dueDate\n  status\n  private\n}": types.TaskFragmentDoc,
     "fragment Thread on thread {\n  id\n  orgId\n  circleId\n  initiatorMemberId\n  title\n  createdAt\n  archived\n  status\n  private\n  extra_members {\n    ...ThreadExtraMember\n  }\n}\n\nfragment ThreadMemberStatus on thread_member_status {\n  lastReadActivityId\n  lastReadDate\n}\n\nfragment ThreadWithFirstActivity on thread {\n  ...Thread\n  activities(where: {type: {_eq: Message}}, order_by: {createdAt: asc}, limit: 1) {\n    ...ThreadActivity\n  }\n}": types.ThreadFragmentDoc,
-    "fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}": types.ThreadActivityFragmentDoc,
+    "fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  reactions {\n    ...ThreadActivityReaction\n  }\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}": types.ThreadActivityFragmentDoc,
+    "fragment ThreadActivityReaction on thread_activity_reaction {\n  id\n  userId\n  shortcode\n}": types.ThreadActivityReactionFragmentDoc,
     "fragment ThreadExtraMember on thread_extra_member {\n  id\n  threadId\n  memberId\n}": types.ThreadExtraMemberFragmentDoc,
     "fragment UserApp on user_app {\n  id\n  userId\n  type\n  config\n}\n\nfragment UserAppFull on user_app {\n  id\n  userId\n  type\n  secretConfig\n  config\n  tmpData\n  createdAt\n  user {\n    metadata\n  }\n}": types.UserAppFragmentDoc,
 };
@@ -115,7 +116,11 @@ export function gql(source: "fragment Thread on thread {\n  id\n  orgId\n  circl
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}"): (typeof documents)["fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}"];
+export function gql(source: "fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  reactions {\n    ...ThreadActivityReaction\n  }\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}"): (typeof documents)["fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  reactions {\n    ...ThreadActivityReaction\n  }\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "fragment ThreadActivityReaction on thread_activity_reaction {\n  id\n  userId\n  shortcode\n}"): (typeof documents)["fragment ThreadActivityReaction on thread_activity_reaction {\n  id\n  userId\n  shortcode\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

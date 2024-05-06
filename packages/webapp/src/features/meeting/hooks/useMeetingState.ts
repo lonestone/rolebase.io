@@ -61,19 +61,11 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const [updateMeeting] = useUpdateMeetingMutation()
 
   // Subscribe meeting
-  const {
-    data,
-    loading,
-    error: queryError,
-  } = useMeetingSubscription({
+  const { data, loading, error } = useMeetingSubscription({
     variables: { id: meetingId },
   })
   const meeting = data?.meeting_by_pk || undefined
   const steps = meeting?.steps
-
-  const error =
-    queryError ||
-    (meeting || loading ? undefined : new Error('Thread not found'))
 
   // Meeting page path
   const path = usePathInOrg(`meetings/${meeting?.id}`)

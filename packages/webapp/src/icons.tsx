@@ -24,6 +24,7 @@ import {
   Diagram,
   DocumentText1,
   Edit2,
+  EmojiHappy,
   ExportCurve,
   ExportSquare,
   Eye,
@@ -139,6 +140,7 @@ export const PlayIcon = Play
 export const PollIcon = Chart2
 export const PrivacyIcon = Lock1
 export const RandomIcon = Shuffle
+export const ReactionIcon = EmojiHappy
 export const RestoreIcon = ArchiveBox
 export const RoleIcon = Record
 export const RotateLeftIcon = ArrowRotateLeft

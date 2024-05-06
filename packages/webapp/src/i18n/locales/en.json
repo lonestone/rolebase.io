@@ -712,6 +712,9 @@
     "feedback": "Thank you! Do you have any suggestions? Can we help you?",
     "helpButton": "Talk to a human"
   },
+  "ReactionAddButton": {
+    "tooltip": "Add reaction…"
+  },
   "RoleEditableField": {
     "baseRoleInfo": "The modification will apply to all {{role}} roles of the organization because it is a basic role."
   },
@@ -1124,6 +1127,7 @@
     "copyLink": "Copy link",
     "toastCopied": "URL copied",
     "none": "None",
+    "you": "You",
     "errorOccurred": "An error occurred.",
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",

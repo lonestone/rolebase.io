@@ -69,10 +69,7 @@ export default function useThreadState(threadId: string): ThreadState {
 
   // Error and loading
   const loading = threadResult.loading || activitiesLogsResult.loading
-  const error =
-    threadResult.error ||
-    activitiesLogsResult.error ||
-    (thread || loading ? undefined : new Error('Thread not found'))
+  const error = threadResult.error || activitiesLogsResult.error
 
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)

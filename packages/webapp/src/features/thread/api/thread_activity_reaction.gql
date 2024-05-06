@@ -1,0 +1,13 @@
+mutation createThreadActivityReaction(
+  $values: thread_activity_reaction_insert_input!
+) {
+  insert_thread_activity_reaction_one(object: $values) {
+    ...ThreadActivityReaction
+  }
+}
+
+mutation deleteThreadActivityReaction($id: uuid!) {
+  delete_thread_activity_reaction_by_pk(id: $id) {
+    id
+  }
+}

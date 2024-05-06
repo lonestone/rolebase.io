@@ -1,0 +1,5 @@
+fragment ThreadActivityReaction on thread_activity_reaction {
+  id
+  userId
+  shortcode
+}

@@ -30,8 +30,7 @@ export default function DayLabel({
   return (
     <Text
       pl={2}
-      fontSize="sm"
-      textTransform="uppercase"
+      textTransform="capitalize"
       color="gray.500"
       _dark={{ color: 'gray.400' }}
       {...boxProps}

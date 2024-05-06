@@ -1,3 +1,4 @@
+import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import Page404 from '@/common/pages/Page404'
 import React from 'react'
 import { useParams } from 'react-router-dom'
@@ -8,6 +9,7 @@ type Params = {
 }
 
 export default function ThreadPage() {
+  useOverflowHidden()
   const threadId = useParams<Params>().threadId
   if (!threadId) return <Page404 />
 

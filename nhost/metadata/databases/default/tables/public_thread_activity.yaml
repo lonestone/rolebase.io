@@ -44,6 +44,14 @@ object_relationships:
   - name: user
     using:
       foreign_key_constraint_on: userId
+array_relationships:
+  - name: reactions
+    using:
+      foreign_key_constraint_on:
+        column: activityId
+        table:
+          name: thread_activity_reaction
+          schema: public
 insert_permissions:
   - role: user
     permission:

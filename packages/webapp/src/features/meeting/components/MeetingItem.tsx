@@ -88,8 +88,9 @@ const MeetingItem = forwardRef<Props, 'div'>(
 
             <LinkOverlay
               as={ReachLink}
-              flex={1}
               to={path}
+              flex={1}
+              w="0"
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"

@@ -44,7 +44,16 @@ const DecisionItem = forwardRef<Props, 'div'>(
           <HStack align="center">
             {showIcon && <DecisionIcon />}
 
-            <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
+            <LinkOverlay
+              as={ReachLink}
+              to={path}
+              flex={1}
+              w="0"
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              onClick={handleOpen}
+            >
               {decision.title}
             </LinkOverlay>
 

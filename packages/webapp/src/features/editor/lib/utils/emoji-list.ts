@@ -1,16 +1,26 @@
-/* eslint-disable */
+import emojiData, { EmojiMartData } from '@emoji-mart/data'
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
+/*
+We are using emoji-mart as an emoji picker elsewhere,
+which includes its own emoji data.
+So we are just converting the emoji data to a format
+that can be used by the editor.
+*/
 
+export default Object.entries((emojiData as EmojiMartData).emojis).map(
+  ([id, emoji]) => ({
+    description: emoji.name,
+    emoji: emoji.skins[0]?.native,
+    aliases: [id],
+    tags: emoji.keywords,
+  })
+)
+
+// Original emoji list
 // This list was sourced from Github (MIT License)
 // https://github.com/github/gemoji/blob/master/db/emoji.json
 
+/*
 export default [
   {
     description: 'grinning face',
@@ -16613,3 +16623,4 @@ export default [
     ios_version: '12.1',
   },
 ];
+*/

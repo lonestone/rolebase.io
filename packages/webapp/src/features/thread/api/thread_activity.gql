@@ -1,13 +1,3 @@
-query getLastThreadActivity($threadId: uuid!) {
-  thread_activity(
-    where: { threadId: { _eq: $threadId } }
-    order_by: { createdAt: desc }
-    limit: 1
-  ) {
-    ...ThreadActivity
-  }
-}
-
 subscription threadActivitiesLogs($id: uuid!) {
   thread_by_pk(id: $id) {
     activities {
