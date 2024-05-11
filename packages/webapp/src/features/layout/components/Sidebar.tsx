@@ -134,7 +134,7 @@ export default function Sidebar() {
       alignItems="stretch"
       top={0}
       left={0}
-      zIndex={isMobile ? 1000 : undefined}
+      zIndex={1000}
       w={isMobile ? '100%' : `${context.width}px`}
       h={isMobile && !context.expand.isOpen ? context.height + 1 : '100vh'}
       bg="menulight"

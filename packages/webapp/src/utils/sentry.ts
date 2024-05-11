@@ -14,6 +14,7 @@ export function configureSentry() {
         tracePropagationTargets: [
           // Functions and Hasura urls of the Nhost project
           settings.functionsUrl,
+          settings.backendUrl,
         ],
       }),
       new Sentry.Replay(),
