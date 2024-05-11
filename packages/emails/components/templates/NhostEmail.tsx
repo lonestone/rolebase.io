@@ -18,7 +18,7 @@ export default function NhostEmail({
     i18n.t(`emails:NhostEmail.${type}.${key}`, { lng: lang })
 
   return (
-    <Layout preview={t('description')}>
+    <Layout preview={t('description')} clientUrl="${clientUrl}">
       <Card title={t('title')}>
         <Section className="px-5">
           <Text>{t('description')}</Text>

@@ -14,10 +14,15 @@ import React, { ReactNode } from 'react'
 
 interface Props {
   preview?: string
+  clientUrl?: string
   children: ReactNode
 }
 
-export default function Layout({ preview, children }: Props) {
+export default function Layout({
+  preview,
+  clientUrl = settings.url,
+  children,
+}: Props) {
   return (
     <Html>
       <Head>
@@ -25,7 +30,7 @@ export default function Layout({ preview, children }: Props) {
           fontFamily="Basiercircle"
           fallbackFontFamily="Arial"
           webFont={{
-            url: `${settings.url}/emails/basiercircle-regular-webfont.woff2`,
+            url: `${clientUrl}/emails/basiercircle-regular-webfont.woff2`,
             format: 'woff2',
           }}
           fontWeight={400}
@@ -34,7 +39,7 @@ export default function Layout({ preview, children }: Props) {
           fontFamily="Basiercircle"
           fallbackFontFamily="Arial"
           webFont={{
-            url: `${settings.url}/emails/basiercircle-medium-webfont.woff2`,
+            url: `${clientUrl}/emails/basiercircle-medium-webfont.woff2`,
             format: 'woff2',
           }}
           fontWeight={500}
@@ -43,7 +48,7 @@ export default function Layout({ preview, children }: Props) {
           fontFamily="Basiercircle"
           fallbackFontFamily="Arial"
           webFont={{
-            url: `${settings.url}/emails/basiercircle-semibold-webfont.woff2`,
+            url: `${clientUrl}/emails/basiercircle-semibold-webfont.woff2`,
             format: 'woff2',
           }}
           fontWeight={600}
@@ -67,9 +72,9 @@ export default function Layout({ preview, children }: Props) {
             style={{ backgroundColor: '#f9f6f3' }}
           >
             <Section>
-              <a href={settings.url}>
+              <a href={clientUrl}>
                 <Img
-                  src={`${settings.url}/logo.png`}
+                  src={`${clientUrl}/logo.png`}
                   width="150"
                   alt="Rolebase"
                   className="my-0 mx-auto"

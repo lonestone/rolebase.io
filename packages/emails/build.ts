@@ -25,7 +25,7 @@ for (const lang of langs) {
 
     // Prepare content icon to SVG string
     const body = render(createElement(NhostEmail, { type, lang }))
-    const subject = i18n.t(`NhostEmail.${type}.subject`, { lng: lang })
+    const subject = i18n.t(`emails:NhostEmail.${type}.subject`, { lng: lang })
 
     // Write files
     fs.writeFileSync(path.join(folder, 'body.html'), body, 'utf8')
