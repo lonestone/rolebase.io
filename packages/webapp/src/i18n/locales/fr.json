@@ -175,6 +175,9 @@
   "CirclesPage": {
     "title": "Organigramme de {{org}}"
   },
+  "CirclePickerModal": {
+    "selectBtn": "Sélectionner"
+  },
   "CirclesShareModal": {
     "heading": "Partager l'organigramme",
     "headingEnable": "Activer le partage",
@@ -1204,6 +1207,9 @@
       "Closed": "Terminé",
       "NotClosed": "Non terminé"
     }
+  },
+  "useCirclePicker": {
+    "pickCircle": "Sélectionner dans l'organigramme"
   },
   "useCreateTask": {
     "toast": "Tâche créée !"

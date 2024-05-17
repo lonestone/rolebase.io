@@ -17,6 +17,7 @@ import SearchResultsList from './SearchResultsList'
 export interface SearchButtonProps extends Omit<ButtonProps, 'onSelect'> {
   children: string
   items: SearchItem[]
+  additionalTopItems?: SearchItem[]
   onSelect(id: string): void
   onCreate?(name: string): Promise<string | void>
 }
@@ -24,6 +25,7 @@ export interface SearchButtonProps extends Omit<ButtonProps, 'onSelect'> {
 export default function SearchButton({
   children,
   items,
+  additionalTopItems,
   onSelect,
   onCreate,
   ...buttonProps
@@ -31,6 +33,7 @@ export default function SearchButton({
   const { filteredItems, onInputValueChange } = useSearch(
     items,
     false,
+    additionalTopItems,
     !!onCreate
   )
 

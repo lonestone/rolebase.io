@@ -1,5 +1,6 @@
 import { CircleFragment } from '@gql'
 import React from 'react'
+import useCirclePicker from '../hooks/useCirclePicker'
 import { useCircleSearchItems } from '../hooks/useCircleSearchItems'
 import SearchInput, { SearchInputProps } from './SearchInput'
 
@@ -16,5 +17,19 @@ export default function CircleSearchInput({
   ...props
 }: Props) {
   const items = useCircleSearchItems(circles, excludeIds, singleMember)
-  return <SearchInput {...props} items={items} />
+  const { pickerModal, additionalTopItems, handleChange } = useCirclePicker(
+    props.onChange
+  )
+
+  return (
+    <>
+      <SearchInput
+        {...props}
+        items={items}
+        onChange={handleChange}
+        additionalTopItems={additionalTopItems}
+      />
+      {pickerModal}
+    </>
+  )
 }

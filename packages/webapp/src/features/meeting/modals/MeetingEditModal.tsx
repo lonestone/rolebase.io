@@ -392,7 +392,7 @@ export default function MeetingEditModal({
                   </Flex>
                 </Box>
 
-                <CircleFormController singleMember={false} />
+                <CircleFormController />
 
                 <Collapse in={canEditParticipantsScope}>
                   <FormControl>

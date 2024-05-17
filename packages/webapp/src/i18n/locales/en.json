@@ -175,6 +175,9 @@
   "CirclesPage": {
     "title": "{{org}}'s org chart"
   },
+  "CirclePickerModal": {
+    "selectBtn": "Select"
+  },
   "CirclesShareModal": {
     "heading": "Share your org chart",
     "headingEnable": "Enable sharing",
@@ -1173,6 +1176,9 @@
       "Closed": "Done",
       "NotClosed": "Not done"
     }
+  },
+  "useCirclePicker": {
+    "pickCircle": "Select in org chart"
   },
   "useCreateTask": {
     "toast": "Task created!"

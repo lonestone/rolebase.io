@@ -22,6 +22,7 @@ export interface SearchInputProps
   extends Omit<InputProps, 'value' | 'onChange'> {
   value?: string // Item id
   items: SearchItem[]
+  additionalTopItems?: SearchItem[]
   onChange(value: string): void
   onClear?(): void
   onCreate?(name: string): Promise<string | void>
@@ -30,6 +31,7 @@ export interface SearchInputProps
 export default function SearchInput({
   value,
   items,
+  additionalTopItems,
   onChange,
   onClear,
   onCreate,
@@ -39,6 +41,7 @@ export default function SearchInput({
   const { filteredItems, onInputValueChange } = useSearch(
     items,
     false,
+    additionalTopItems,
     !!onCreate
   )
 

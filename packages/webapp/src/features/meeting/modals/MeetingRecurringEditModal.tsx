@@ -250,7 +250,7 @@ export default function MeetingRecurringEditModal({
                   </InputGroup>
                 </FormControl>
 
-                <CircleFormController singleMember={false} />
+                <CircleFormController />
 
                 <Collapse in={!!circleId}>
                   <FormControl>

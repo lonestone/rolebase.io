@@ -9,17 +9,24 @@ export function useElementSize(ref: RefObject<HTMLElement>): Size | undefined {
   const [size, setSize] = useState<Size | undefined>()
 
   useEffect(() => {
-    const box = ref.current
-    if (!box) return
-
     // Observe content size to detect scrollHeight change
     const observer = new ResizeObserver(() => {
-      setSize({
-        width: box.offsetWidth,
-        height: box.offsetHeight,
-      })
+      if (ref.current) {
+        setSize({
+          width: ref.current.offsetWidth,
+          height: ref.current.offsetHeight,
+        })
+      }
     })
-    observer.observe(box)
+    if (ref.current) {
+      observer.observe(ref.current)
+    } else {
+      setTimeout(() => {
+        if (ref.current) {
+          observer.observe(ref.current)
+        }
+      }, 100)
+    }
     return () => observer.disconnect()
   }, [])
 

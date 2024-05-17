@@ -7,6 +7,7 @@ import { SearchTypes } from '@rolebase/shared/model/search'
 import React from 'react'
 import {
   CircleIcon,
+  CirclePick,
   DecisionIcon,
   MeetingIcon,
   MemberIcon,
@@ -29,6 +30,7 @@ export const searchIcons = {
   Meeting: MeetingIcon,
   Task: TaskIcon,
   Decision: DecisionIcon,
+  PickCircle: CirclePick,
 }
 
 export default function SearchResultIcon({ item, size }: Props) {

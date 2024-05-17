@@ -95,6 +95,7 @@ export const ChevronUpIcon = ArrowUp2
 export const CircleIcon = RecordCircle
 export const CircleLinkIcon = Link2
 export const CircleParentLinkIcon = Link
+export const CirclePick = MouseCircle
 export const CopyIcon = Copy
 export const CreateIcon = AddSquare
 export const CurrentMemberIcon = UserSquare

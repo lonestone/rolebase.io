@@ -9,6 +9,7 @@ import { SearchItem } from '../searchTypes'
 export function useSearch(
   items: SearchItem[],
   defaultEmpty: boolean,
+  additionalTopItems?: SearchItem[],
   createItem?: boolean
 ) {
   const { t } = useTranslation()
@@ -36,6 +37,10 @@ export function useSearch(
           name: searchText,
         }) as string,
       })
+    }
+
+    if (additionalTopItems && searchText === '') {
+      searchItems.unshift(...additionalTopItems)
     }
 
     return searchItems

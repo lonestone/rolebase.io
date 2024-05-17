@@ -16,6 +16,7 @@ export interface SearchDoc {
 
 export enum SearchTypes {
   CreateAction = 'CreateAction',
+  PickCircle = 'PickCircle',
   Member = 'Member',
   Role = 'Role',
   Circle = 'Circle',

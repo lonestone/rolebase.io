@@ -32,6 +32,7 @@ interface Props {
 
 const satisfyingWidth = 250
 const satisfyingMinHeight = 250
+const satisfyingMaxHeight = 500
 
 export default function SearchResultsList({
   items,
@@ -53,9 +54,12 @@ export default function SearchResultsList({
     minW: `${inputBounds ? inputBounds.width : 0}px`,
     maxH: `${
       inputBounds
-        ? Math.max(
-            windowSize.height - inputBounds.bottom - 15,
-            satisfyingMinHeight
+        ? Math.min(
+            Math.max(
+              windowSize.height - inputBounds.bottom - 15,
+              satisfyingMinHeight
+            ),
+            satisfyingMaxHeight
           )
         : satisfyingMinHeight
     }px`,
