@@ -49,8 +49,6 @@ export default function CirclePickerModal({ onSelect, ...modalProps }: Props) {
     <Modal size="4xl" blockScrollOnMount={false} isCentered {...modalProps}>
       <ModalOverlay />
       <ModalContent border="3px solid">
-        <ModalCloseButton />
-
         <ModalBody ref={boxRef} p={0} position="relative">
           {circles && boxSize && (
             <CirclesSVGGraph
@@ -99,6 +97,8 @@ export default function CirclePickerModal({ onSelect, ...modalProps }: Props) {
             </Flex>
           )}
         </ModalBody>
+
+        <ModalCloseButton />
       </ModalContent>
     </Modal>
   )
