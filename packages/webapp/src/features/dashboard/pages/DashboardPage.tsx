@@ -24,21 +24,25 @@ const DashboardPage = () => {
         minH="100%"
         px={{ base: 3, md: margin }}
         py={margin}
-        flexDirection={{ base: 'column-reverse', lg: 'row' }}
         justifyContent="center"
         bg="menulight"
         _dark={{ bg: 'menudark' }}
       >
-        <DashboardNews
-          w={{ lg: '600px' }}
-          mr={{ base: 0, lg: margin }}
-          mt={{ base: margin, lg: 0 }}
-        />
+        <Flex
+          w={{ base: '100%', xl: '1200px' }}
+          flexDirection={{ base: 'column-reverse', xl: 'row' }}
+        >
+          <DashboardNews
+            w={{ xl: '65%' }}
+            mr={{ base: 0, xl: margin }}
+            mt={{ base: margin, xl: 0 }}
+          />
 
-        <VStack spacing={margin} align="stretch" w={{ lg: '500px' }}>
-          <DashboardOrgChart />
-          <DashboardMyRoles />
-        </VStack>
+          <VStack spacing={margin} align="stretch" w={{ xl: '45%' }}>
+            <DashboardOrgChart />
+            <DashboardMyRoles />
+          </VStack>
+        </Flex>
       </Flex>
     </>
   )
