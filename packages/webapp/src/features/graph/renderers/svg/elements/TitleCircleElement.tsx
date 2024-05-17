@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 import { NodeData, NodesSelection, NodeType } from '../../../types'
 import { MoveTransition } from '../helpers/createTransition'
 import { AbstractCircleElement } from './AbstractCircleElement'
@@ -8,10 +9,22 @@ export class TitleCircleElement extends AbstractCircleElement {
     selection
       .filter((d) => d.data.type === NodeType.Circle)
       .append('text')
+      .each(function (d) {
+        const text = d3.select(this)
+        // Split name into lines
+        splitName(d.data.name).forEach((line, i, lines) => {
+          text
+            .append('tspan')
+            .text(line)
+            .attr('x', 0)
+            .attr('dy', i == 0 ? 0 : 8)
+            .attr(
+              'alignment-baseline',
+              lines.length === 1 ? 'hanging' : 'middle'
+            )
+        })
+      })
       .attr('class', 'circle-title')
-      .text((d) => d.data.name)
-      .attr('cursor', 'var(--circle-cursor)')
-      .attr('alignment-baseline', 'hanging')
       .attr('pointer-events', 'none')
       .attr('font-size', this.getTopFontSize)
       .attr('opacity', this.getTopNameOpacity)
@@ -26,7 +39,42 @@ export class TitleCircleElement extends AbstractCircleElement {
     // Update circle name
     selection
       .select<SVGTextElement>('.circle-title')
-      .text((d) => d.data.name)
+      .each(function (d) {
+        const text = d3.select(this)
+        const lines = splitName(d.data.name)
+        let count = 0
+
+        // Update existing lines
+        text.selectAll('tspan').each(function (d, i) {
+          const tspan = d3.select(this)
+          if (i < lines.length) {
+            tspan
+              .text(lines[i])
+              .attr(
+                'alignment-baseline',
+                lines.length === 1 ? 'hanging' : 'middle'
+              )
+            count++
+          } else {
+            tspan.remove()
+          }
+        })
+
+        // Add new lines
+        if (count < lines.length) {
+          lines.slice(count).forEach((line, i) => {
+            text
+              .append('tspan')
+              .text(line)
+              .attr('x', 0)
+              .attr('dy', 8)
+              .attr(
+                'alignment-baseline',
+                lines.length === 1 ? 'hanging' : 'middle'
+              )
+          })
+        }
+      })
       .transition(transition)
       .attr('y', (d) => -d.r + 2)
       .attr('font-size', this.getTopFontSize)
@@ -61,4 +109,27 @@ export class TitleCircleElement extends AbstractCircleElement {
   private getTopFontSize() {
     return `calc(12px / var(--zoom-scale) + var(--zoom-scale) * 1px)`
   }
+}
+
+function splitName(name: string): string[] {
+  if (name.length < 15) {
+    return [name]
+  }
+
+  const halfLength = Math.ceil(name.length / 2)
+  const i = name.indexOf(' ', halfLength)
+  const j = name.lastIndexOf(' ', halfLength)
+
+  if (i === -1 && j === -1) {
+    return [name]
+  } else if (i === -1) {
+    return cutName(name, j)
+  } else if (j === -1) {
+    return cutName(name, i)
+  }
+  return cutName(name, i - halfLength < halfLength - j ? i : j)
+}
+
+function cutName(name: string, index: number): string[] {
+  return [name.slice(0, index), name.slice(index + 1)]
 }

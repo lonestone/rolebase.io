@@ -4,6 +4,9 @@ import { CirclesGraph } from './graphs/CirclesGraph'
 import useCirclesGraph, { CirclesGraphProps } from './hooks/useCirclesGraph'
 import { StyledSVG } from './renderers/svg/StyledSVG'
 
+// Force reset with fast refresh
+// @refresh reset
+
 export default forwardRef<CirclesGraph | undefined, CirclesGraphProps>(
   function CirclesSVGGraph(props, ref) {
     const { colorMode } = useColorMode()
