@@ -135,6 +135,13 @@ const theme = extendTheme({
         },
       },
     },
+    Popover: {
+      baseStyle: {
+        popper: {
+          zIndex: 3000,
+        },
+      },
+    },
   },
 })
 
