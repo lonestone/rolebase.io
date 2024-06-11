@@ -66,9 +66,12 @@ export default function SearchResultsList({
   }
 
   // Position props
-  const positionProps: PositionProps = {
-    top: `${inputBounds?.bottom || 0}px`,
-  }
+  const inputTop = inputBounds?.top || 0
+  const inputBottom = inputBounds?.bottom || 0
+  const positionProps: PositionProps =
+    windowSize.height - inputBottom > Math.min(inputTop, 200)
+      ? { top: `${inputBottom}px` }
+      : { bottom: `${windowSize.height - inputTop}px` }
 
   // Determine alignment -> position + width
   if (inputBounds) {
