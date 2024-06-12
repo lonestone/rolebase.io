@@ -1,5 +1,5 @@
 import { TypedDocumentNode } from '@graphql-typed-document-node/core'
-import { Variables as GraphQLVariables } from '@nhost/graphql-js/dist/types'
+import { Variables as GraphQLVariables } from '@nhost/nhost-js/node_modules/@nhost/graphql-js/dist/types'
 import { nhost } from './nhost'
 
 export async function adminRequest<Result, Variables extends GraphQLVariables>(

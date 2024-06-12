@@ -60,6 +60,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
         createdAt: new Date().toISOString(),
         type: Thread_Activity_Type_Enum.MeetingNote,
         refMeeting: meetingState.meeting,
+        reactions: [],
         data: {
           notes: '',
         },

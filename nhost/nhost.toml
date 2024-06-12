@@ -214,6 +214,7 @@ version = '14.6-20231031-1'
 
 [postgres.resources]
 replicas = 1
+enablePublicAccess = true
 
 [postgres.resources.compute]
 cpu = 1000
