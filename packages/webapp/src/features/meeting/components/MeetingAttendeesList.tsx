@@ -14,8 +14,8 @@ import { MeetingContext } from '../contexts/MeetingContext'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
 export default function MeetingAttendeesList(boxProps: BoxProps) {
-  const { meeting, isEnded, canEdit } = useContext(MeetingContext)!
-  const editable = canEdit && !isEnded
+  const { meeting, isEnded, canEdit, forceEdit } = useContext(MeetingContext)!
+  const editable = canEdit && (!isEnded || forceEdit)
   const members = useStoreState((state) => state.org.members)
   const { t } = useTranslation()
   const [createAttendee] = useCreateMeetingAttendeeMutation()
