@@ -20,7 +20,13 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
   const windowSize = useWindowSize()
 
   return (
-    <Modal size="3xl" isCentered autoFocus={false} {...modalProps}>
+    <Modal
+      size="3xl"
+      isCentered
+      blockScrollOnMount={false}
+      autoFocus={false}
+      {...modalProps}
+    >
       <ModalOverlay />
       <ModalContent borderRadius="lg" overflow="hidden">
         <ThreadContent

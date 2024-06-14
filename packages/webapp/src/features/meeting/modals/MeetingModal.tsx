@@ -20,7 +20,12 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
   const windowSize = useWindowSize()
 
   return (
-    <Modal size="4xl" autoFocus={false} {...modalProps}>
+    <Modal
+      size="4xl"
+      autoFocus={false}
+      blockScrollOnMount={false}
+      {...modalProps}
+    >
       <ModalOverlay />
       <ModalContent borderRadius="lg" overflow="hidden">
         <MeetingContainer
