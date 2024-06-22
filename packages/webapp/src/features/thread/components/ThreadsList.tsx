@@ -1,8 +1,8 @@
 import {
   Button,
+  Collapse,
   HTMLChakraProps,
   Text,
-  VStack,
   useDisclosure,
 } from '@chakra-ui/react'
 import React from 'react'
@@ -71,7 +71,7 @@ export default function ThreadsList({
   }
 
   return (
-    <VStack spacing={0} align="stretch">
+    <>
       {threads.length === 0 && (
         <Text fontStyle="italic" textAlign="center">
           {t('ThreadsList.empty')}
@@ -85,9 +85,11 @@ export default function ThreadsList({
           <Button
             variant="link"
             justifyContent="start"
+            w="100%"
             p={1}
             {...itemProps}
             pl="28px"
+            fontSize="inherit"
             leftIcon={
               expanded.isOpen ? (
                 <ChevronUpIcon size="1em" />
@@ -100,9 +102,9 @@ export default function ThreadsList({
             {expanded.isOpen ? t('common.seeLess') : t('common.seeMore')}
           </Button>
 
-          {expanded.isOpen && tailItems}
+          <Collapse in={expanded.isOpen}>{tailItems}</Collapse>
         </>
       )}
-    </VStack>
+    </>
   )
 }

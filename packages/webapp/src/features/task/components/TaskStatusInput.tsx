@@ -28,7 +28,7 @@ export default function TaskStatusInput({
   const { t } = useTranslation()
 
   return (
-    <Menu>
+    <Menu isLazy>
       <MenuButton
         as={Tag}
         tabIndex={0}

@@ -715,7 +715,9 @@
     "already-exists": "Cette URL est déjà utilisée."
   },
   "OrgSwitch": {
-    "create": "Créer une organisation"
+    "orgs": "Organisations",
+    "create": "Créer une organisation",
+    "signout": "Déconnexion"
   },
   "OrgsPage": {
     "heading": "Mes Organisations"
@@ -821,17 +823,24 @@
   "SearchResultsList": {
     "canCreate": "Tapez pour créer ou chercher"
   },
+  "SettingsMenu": {
+    "member": "Ma fiche membre",
+    "user": "Informations personnelles",
+    "notifications": "Notifications",
+    "subscription": "Abonnement",
+    "apps": "Intégrations",
+    "members": "Membres",
+    "superAdmin": "Admin"
+  },
   "Sidebar": {
     "orgs": "Organisations",
     "menu": "Menu",
+    "settings": "Paramètres",
     "news": "Actualités",
     "roles": "Organigramme",
     "threads": "Sujets",
     "meetings": "Réunions",
     "tasks": "Tâches",
-    "members": "Membres",
-    "superAdmin": "Admin",
-    "subscription": "Abonnement",
     "search": "Rechercher",
     "help": "Aide"
   },
@@ -1021,6 +1030,9 @@
     "auth/email-already-in-use": "Cette adresse email est déjà utilisée.",
     "auth/weak-password": "Ce mot de passe est trop faible. Merci d'en choisir un plus long."
   },
+  "ThemeSwitch": {
+    "tooltip": "Thème clair/sombre"
+  },
   "ThreadActivities": {
     "emptyTitle": "Sujet créé",
     "emptyDescription": "Vous pouvez envoyer un premier message 👇"
@@ -1098,15 +1110,6 @@
   "ThreadsPage": {
     "heading": "Sujets",
     "create": "Nouveau sujet"
-  },
-  "UserMenu": {
-    "member": "Ma fiche membre",
-    "user": "Informations personnelles",
-    "notifications": "Notifications",
-    "apps": "Intégrations",
-    "theme": "Thème clair/sombre",
-    "lang": "Langue",
-    "signout": "Déconnexion"
   },
   "VacantRolesModal": {
     "heading": "Rôles vacants",

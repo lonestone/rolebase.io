@@ -18,6 +18,7 @@ import {
 import { CircleFullFragment } from '@gql'
 import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
+import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -51,6 +52,7 @@ export default function OrgsPage() {
       onCircleClick: (circleId) => {
         const org = orgs?.find((org) => org.circles[0]?.id === circleId)
         if (!org) return
+        localStorage.setItem(UserLocalStorageKeys.DefaultOrgId, org.id)
         navigate(`${getOrgPath(org)}/`)
       },
       onMemberClick: () => {},
@@ -62,13 +64,25 @@ export default function OrgsPage() {
   const createModal = useDisclosure()
 
   useEffect(() => {
-    if (orgs?.length === 0) {
+    if (!orgs) return
+    if (orgs.length === 0) {
       createModal.onOpen()
       return
     }
 
+    // Use default org from local storage
+    const defaultOrgId = localStorage.getItem(UserLocalStorageKeys.DefaultOrgId)
+    if (defaultOrgId) {
+      const org = orgs.find((org) => org.id === defaultOrgId)
+      if (org) {
+        navigate(`${getOrgPath(org)}/`)
+      } else {
+        localStorage.removeItem(UserLocalStorageKeys.DefaultOrgId)
+      }
+    }
+
     // Redirect to org when there is only one org
-    if (orgs?.length === 1) {
+    if (orgs.length === 1) {
       navigate(`${getOrgPath(orgs[0])}/`)
       return
     }

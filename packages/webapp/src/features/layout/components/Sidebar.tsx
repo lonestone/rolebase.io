@@ -1,5 +1,4 @@
 import useCurrentMember from '@/member/hooks/useCurrentMember'
-import useOrgOwner from '@/member/hooks/useOrgOwner'
 import OrgSwitch from '@/org/components/OrgSwitch'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
@@ -7,7 +6,8 @@ import SearchGlobalModal from '@/search/components/SearchGlobalModal'
 import {
   Box,
   Flex,
-  Spacer,
+  Menu,
+  MenuButton,
   Tooltip,
   useDisclosure,
   useMediaQuery,
@@ -23,12 +23,11 @@ import {
   BackIcon,
   HelpIcon,
   MeetingsIcon,
-  MembersIcon,
   MenuIcon,
   NewsIcon,
   OrgChartIcon,
   SearchIcon,
-  SubscriptionIcon,
+  SettingsIcon,
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
@@ -38,6 +37,7 @@ import {
   defaultSidebarHeight,
   defaultSidebarWidth,
 } from '../contexts/SidebarContext'
+import SettingsMenuList from './SettingsMenuList'
 import SidebarItem from './SidebarItem'
 import SidebarItemLink from './SidebarItemLink'
 import SidebarMeetings from './SidebarMeetings'
@@ -46,7 +46,6 @@ import SidebarTasks from './SidebarTasks'
 import SidebarThreads from './SidebarThreads'
 import SidebarTopIcon from './SidebarTopIcon'
 import SidebarTopIconLink from './SidebarTopIconLink'
-import UserMenu from './UserMenu'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -60,7 +59,6 @@ export default function Sidebar() {
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
-  const isOwner = useOrgOwner()
   const currentMeetingId = useStoreState(
     (state) => state.memberStatus.currentMeetingId
   )
@@ -221,33 +219,70 @@ export default function Sidebar() {
 
       {(!isMobile || context.expand.isOpen) && (
         /* Desktop: Sidebar content */
-        <Flex
+        <Box
           flex={1}
-          px={4}
-          pt={isMobile ? 5 : 3}
-          align="stretch"
-          flexDirection="column"
-          alignItems="stretch"
-          overflowY="auto"
-          // No X scrollbar, required because UserMenu uses a invisible placeholder that can go beyond the frame
-          overflowX="clip"
+          pl={{ base: 0, md: 4 }}
+          pr={{ base: 1, md: 2 }}
+          pt={{ base: 2, md: 0 }}
+          pb={3}
+          overflowY={{
+            base: 'auto',
+            md: 'hidden', // Hide scrollbar on desktop
+          }}
+          _hover={{
+            // Show scrollbar on hover
+            overflowY: 'auto',
+          }}
         >
           {orgId ? (
-            <>
-              <Tooltip
-                label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
-                placement="right"
-                hasArrow
+            <Tooltip
+              label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
+              placement="right"
+              hasArrow
+            >
+              <SidebarItem
+                className="userflow-sidebar-search"
+                icon={SearchIcon}
+                py={1}
+                onClick={searchModal.onOpen}
               >
-                <SidebarItem
-                  className="userflow-sidebar-search"
-                  icon={SearchIcon}
-                  onClick={searchModal.onOpen}
-                >
-                  {t('Sidebar.search')}
-                </SidebarItem>
-              </Tooltip>
+                {t('Sidebar.search')}
+              </SidebarItem>
+            </Tooltip>
+          ) : (
+            !orgLoading &&
+            window.location.pathname !== '/' && (
+              <SidebarItemLink to="/" icon={BackIcon}>
+                {t('Sidebar.orgs')}
+              </SidebarItemLink>
+            )
+          )}
 
+          <Menu>
+            <MenuButton
+              as={SidebarItem}
+              className="userflow-sidebar-settings"
+              icon={SettingsIcon}
+              py={1}
+            >
+              {t('Sidebar.settings')}
+            </MenuButton>
+            <SettingsMenuList />
+          </Menu>
+
+          <SidebarItem
+            className="userflow-sidebar-help"
+            icon={HelpIcon}
+            py={1}
+            onClick={handleHelp}
+          >
+            {t('Sidebar.help')}
+          </SidebarItem>
+
+          <Box h={10} />
+
+          {orgId && (
+            <>
               <SidebarItemLink
                 className="userflow-sidebar-news"
                 to={`${rootPath}news`}
@@ -295,54 +330,8 @@ export default function Sidebar() {
 
               <SidebarTasks />
             </>
-          ) : (
-            !orgLoading &&
-            window.location.pathname !== '/' && (
-              <SidebarItemLink to="/" icon={BackIcon}>
-                {t('Sidebar.orgs')}
-              </SidebarItemLink>
-            )
           )}
-
-          <Spacer />
-
-          {orgId && (
-            <>
-              <SidebarItemLink
-                className="userflow-sidebar-members"
-                to={`${rootPath}members`}
-                icon={MembersIcon}
-              >
-                {t('Sidebar.members')}
-              </SidebarItemLink>
-
-              {isOwner && (
-                <SidebarItemLink
-                  className="userflow-sidebar-subscription"
-                  to={`${rootPath}subscription`}
-                  icon={SubscriptionIcon}
-                >
-                  {t('Sidebar.subscription')}
-                </SidebarItemLink>
-              )}
-            </>
-          )}
-
-          <SidebarItem
-            className="userflow-sidebar-help"
-            icon={HelpIcon}
-            onClick={handleHelp}
-          >
-            {t('Sidebar.help')}
-          </SidebarItem>
-
-          <UserMenu
-            className="userflow-sidebar-member"
-            isMobile={isMobile}
-            mt={7}
-            mb={2}
-          />
-        </Flex>
+        </Box>
       )}
 
       {searchModal.isOpen && (

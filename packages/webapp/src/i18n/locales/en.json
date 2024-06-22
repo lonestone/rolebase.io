@@ -681,7 +681,9 @@
     "already-exists": "This URL is already used."
   },
   "OrgSwitch": {
-    "create": "Create an organization"
+    "orgs": "Organizations",
+    "create": "Create an organization",
+    "signout": "Logout"
   },
   "OrgsPage": {
     "heading": "My Organizations"
@@ -788,18 +790,26 @@
   "SearchResultsList": {
     "canCreate": "Type to create or search"
   },
+  "SettingsMenu": {
+    "label": "Settings",
+    "member": "My member record",
+    "user": "Personal information",
+    "notifications": "Notifications",
+    "subscription": "Subscription",
+    "apps": "Integrations",
+    "members": "Members",
+    "superAdmin": "Admin"
+  },
   "Sidebar": {
     "close": "Close sidebar",
     "orgs": "Organizations",
+    "settings": "Settings",
     "menu": "Menu",
     "news": "News",
     "roles": "Org chart",
     "threads": "Topics",
     "meetings": "Meetings",
     "tasks": "Tasks",
-    "members": "Members",
-    "superAdmin": "Admin",
-    "subscription": "Subscription",
     "search": "Search",
     "help": "Help"
   },
@@ -986,6 +996,9 @@
     "auth/email-already-in-use": "This email address is already in use.",
     "auth/weak-password": "This password is too weak. Please choose a longer one."
   },
+  "ThemeSwitch": {
+    "tooltip": "Light/dark theme"
+  },
   "ThreadActivities": {
     "emptyTitle": "Topic created",
     "emptyDescription": "You can send a first message 👇"
@@ -1081,16 +1094,6 @@
     "jitsi": "Jitsi",
     "url": "URL (Meet, Zoom, Teams, etc)",
     "urlError": "URL invalide"
-  },
-  "UserMenu": {
-    "tooltip": "My settings",
-    "member": "My member record",
-    "user": "Personal information",
-    "notifications": "Notifications",
-    "apps": "Integrations",
-    "theme": "Light/dark theme",
-    "lang": "Language",
-    "signout": "Logout"
   },
   "common": {
     "save": "Save",

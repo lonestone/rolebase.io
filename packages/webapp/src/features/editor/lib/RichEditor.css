@@ -476,14 +476,14 @@ span.editor-image {
   letter-spacing: -2px;
 }
 
-hr {
+.ContentEditable hr {
   padding: 2px 2px;
   border: none;
   margin: 1em 0;
   cursor: pointer;
 }
 
-hr:after {
+.ContentEditable hr:after {
   content: '';
   display: block;
   height: 2px;
@@ -491,7 +491,7 @@ hr:after {
   line-height: 2px;
 }
 
-hr.selected {
+.ContentEditable hr.selected {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }

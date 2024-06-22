@@ -117,7 +117,7 @@ const TaskItem = forwardRef<Props, 'div'>(
               </Text>
             )}
 
-            {task?.private && <PrivacyIcon size={20} />}
+            {task?.private && <PrivacyIcon size={18} />}
 
             {showCircle && <CircleByIdButton id={task.circleId} size="xs" />}
 

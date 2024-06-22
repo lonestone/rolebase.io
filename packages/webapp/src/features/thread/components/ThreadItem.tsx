@@ -119,7 +119,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
               {thread.title}
             </LinkOverlay>
 
-            {thread?.private && <PrivacyIcon size={20} />}
+            {thread?.private && <PrivacyIcon size={18} />}
 
             {showMember && threadInitiator && (
               <MemberByIdAvatar

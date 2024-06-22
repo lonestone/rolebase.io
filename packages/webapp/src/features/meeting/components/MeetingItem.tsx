@@ -99,7 +99,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
               {t('MeetingItem.title', { title: meeting.title })}
             </LinkOverlay>
 
-            {meeting?.private && <PrivacyIcon size={20} />}
+            {meeting?.private && <PrivacyIcon size={18} />}
 
             {showCircle && <CircleByIdButton id={meeting.circleId} size="xs" />}
 

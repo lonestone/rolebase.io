@@ -96,6 +96,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
     onInputValueChange,
     onSelectedItemChange,
   })
+  const noResult = !loading && inputValue !== '' && items.length === 0
 
   // Update search when type changes
   useEffect(() => {
@@ -108,7 +109,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
   return (
     <Modal size="lg" closeOnEsc {...modalProps}>
       <ModalOverlay />
-      <ModalContent bg={colorMode === 'light' ? 'white' : 'gray.800'}>
+      <ModalContent p={5} bg="white" _dark={{ bg: 'gray.800' }}>
         <Box {...getComboboxProps()}>
           <InputGroup size="lg">
             <InputLeftElement pointerEvents="none">
@@ -132,7 +133,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
           </InputGroup>
         </Box>
 
-        <HStack py={2} px={5}>
+        <HStack mt={2}>
           <Text>{t('SearchGlobalModal.in')}</Text>
           <Menu>
             <MenuButton
@@ -164,50 +165,38 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
           </Menu>
         </HStack>
 
-        <List
-          overflow="hidden"
-          mt="1px"
-          pt={3}
-          pb={2}
-          borderBottomRadius="md"
-          {...getMenuProps()}
-        >
-          {!loading &&
-            items.slice(0, maxDisplayedItems).map((item, index) => (
-              <ListItem key={index} mb={1}>
-                <SearchResultItem
-                  item={item}
-                  highlighted={index === highlightedIndex}
-                  size="sm"
-                  w="100%"
-                  h="auto"
-                  whiteSpace="break-spaces"
-                  py={2}
-                  px={5}
-                  bg="transparent"
-                  borderRadius="none"
-                  _active={{
-                    bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
-                  }}
-                  {...getItemProps({ item, index })}
-                />
-              </ListItem>
-            ))}
-
-          {loading && (
-            <ListItem>
-              <Loading active size="sm" />
-            </ListItem>
-          )}
-
-          {!loading && inputValue !== '' && items.length === 0 && (
-            <ListItem>
-              <Box pb={2} color="gray.500" fontSize="sm" textAlign="center">
-                {t('SearchGlobalModal.noResults')}
-              </Box>
-            </ListItem>
-          )}
-        </List>
+        {loading ? (
+          <Loading active size="sm" />
+        ) : noResult ? (
+          <Text color="gray.500" fontSize="sm" textAlign="center" mt={3}>
+            {t('SearchGlobalModal.noResults')}
+          </Text>
+        ) : (
+          items.length > 0 && (
+            <List mt={3} mx={-5} {...getMenuProps()}>
+              {items.slice(0, maxDisplayedItems).map((item, index) => (
+                <ListItem key={index} mb={1}>
+                  <SearchResultItem
+                    item={item}
+                    highlighted={index === highlightedIndex}
+                    size="sm"
+                    w="100%"
+                    h="auto"
+                    whiteSpace="break-spaces"
+                    py={2}
+                    px={5}
+                    bg="transparent"
+                    borderRadius="none"
+                    _active={{
+                      bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
+                    }}
+                    {...getItemProps({ item, index })}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          )
+        )}
       </ModalContent>
     </Modal>
   )

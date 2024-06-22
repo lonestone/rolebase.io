@@ -80,7 +80,7 @@ const TaskCard = forwardRef<Props, 'div'>(
           )}
 
           <HStack align="center" justifyContent="end" mt={1}>
-            {task?.private && <PrivacyIcon size={20} />}
+            {task?.private && <PrivacyIcon size={18} />}
 
             {showCircle && <CircleByIdButton id={task.circleId} size="xs" />}
 

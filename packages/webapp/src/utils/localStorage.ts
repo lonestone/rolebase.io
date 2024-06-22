@@ -2,6 +2,7 @@ export enum UserLocalStorageKeys {
   AlgoliaConfig = 'algolia-config-{id}',
   ThreadDrafts = 'thread-draft-{id}',
   SidebarWidth = 'sidebar-width',
+  DefaultOrgId = 'default-org-id',
 }
 
 export function resetUserLocalStorage() {

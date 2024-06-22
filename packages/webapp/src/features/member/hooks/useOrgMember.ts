@@ -9,5 +9,5 @@ export default function useOrgMember(): boolean {
     userRole === Member_Role_Enum.Admin ||
     userRole === Member_Role_Enum.Owner
   const isSuperAdmin = useSuperAdmin()
-  return isMember || isSuperAdmin
+  return !!userRole && (isMember || isSuperAdmin)
 }

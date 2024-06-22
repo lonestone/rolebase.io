@@ -57,7 +57,7 @@ const DecisionItem = forwardRef<Props, 'div'>(
               {decision.title}
             </LinkOverlay>
 
-            {decision?.private && <PrivacyIcon size={20} />}
+            {decision?.private && <PrivacyIcon size={18} />}
 
             {showCircle && (
               <CircleByIdButton id={decision.circleId} size="xs" />

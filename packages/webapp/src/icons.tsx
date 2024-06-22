@@ -83,6 +83,7 @@ import { IoSearchOutline } from 'react-icons/io5'
 
 export const ArchiveIcon = ArchiveBox
 export const AppsIcon = ArrangeHorizontalSquare
+export const ArrowRightIcon = ArrowRight
 export const BackIcon = ArrowSquareLeft
 export const CancelIcon = ArrowRotateLeft
 export const CenterIcon = Maximize1
