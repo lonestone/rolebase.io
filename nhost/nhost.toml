@@ -56,11 +56,15 @@ name = 'APPS_GOOGLECALENDAR_CLIENT_SECRET'
 value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_SECRET }}'
 
 [[global.environment]]
+name = 'WEBAPP_URL'
+value = '{{ secrets.WEBAPP_URL }}'
+
+[[global.environment]]
 name = 'BACKEND_URL'
 value = '{{ secrets.BACKEND_URL }}'
 
 [hasura]
-version = 'v2.33.4-ce'
+version = 'v2.38.0-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
 webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
 
@@ -94,7 +98,7 @@ memory = 1536
 version = 18
 
 [auth]
-version = '0.20.1'
+version = '0.32.0'
 
 [auth.resources]
 replicas = 1
@@ -104,7 +108,7 @@ cpu = 250
 memory = 256
 
 [auth.redirections]
-clientUrl = 'https://rolebase.io'
+clientUrl = '{{ secrets.WEBAPP_URL}}'
 
 [auth.signUp]
 enabled = true
@@ -116,7 +120,7 @@ allowed = ['user', 'me']
 
 [auth.user.locale]
 default = 'en'
-allowed = ['en']
+allowed = ['en', 'fr']
 
 [auth.user.gravatar]
 enabled = false
@@ -210,7 +214,7 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.6-20231031-1'
+version = '14.11-20240515-1'
 
 [postgres.resources]
 replicas = 1
@@ -222,7 +226,7 @@ memory = 2048
 
 [provider]
 [provider.smtp]
-user = '62097712e48bf474678465f967d7f832'
+user = '{{ secrets.MAILJET_PUBIC_KEY}}'
 password = '{{ secrets.MAILJET_SMTP_PASSWORD }}'
 sender = 'contact@rolebase.io'
 host = 'in-v3.mailjet.com'
