@@ -108,7 +108,7 @@ cpu = 250
 memory = 256
 
 [auth.redirections]
-clientUrl = '{{ secrets.WEBAPP_URL}}'
+clientUrl = '{{ secrets.WEBAPP_URL }}'
 
 [auth.signUp]
 enabled = true
@@ -226,13 +226,13 @@ memory = 2048
 
 [provider]
 [provider.smtp]
-user = '{{ secrets.MAILJET_PUBIC_KEY}}'
+user = '{{ secrets.MAILJET_PUBIC_KEY }}'
 password = '{{ secrets.MAILJET_SMTP_PASSWORD }}'
 sender = 'contact@rolebase.io'
 host = 'in-v3.mailjet.com'
 port = 465
 secure = true
-method = 'LOGIN'
+method = 'PLAIN'
 
 [storage]
 version = '0.6.0'
