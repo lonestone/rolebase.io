@@ -125,7 +125,7 @@ export default function useThreadState(threadId: string): ThreadState {
   // Scroll to next unread activity when activities are loaded
   useEffect(() => {
     const activityId = memberStatus?.lastReadActivityId
-    if (!activityId || !activities || !thread) return
+    if (!activityId || !activities) return
     const activityIndex = activities.findIndex((a) => a.id === activityId)
     if (activityIndex === -1) return
     const nextActivityId = activities[activityIndex + 1]?.id
@@ -136,9 +136,7 @@ export default function useThreadState(threadId: string): ThreadState {
 
   // Update member status when there is a new activity
   useEffect(() => {
-    if (!activities || !thread || !currentMember) {
-      return
-    }
+    if (!activities || !thread || !currentMember) return
 
     // Already up to date?
     const lastActivityId = activities[activities.length - 1]?.id || null
@@ -157,7 +155,7 @@ export default function useThreadState(threadId: string): ThreadState {
         },
       },
     })
-  }, [activities])
+  }, [!thread, activities])
 
   const threadLogsActivity = useMemo(() => {
     if (!thread || !threadLogs) {

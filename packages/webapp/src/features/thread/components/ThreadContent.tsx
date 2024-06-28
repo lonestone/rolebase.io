@@ -52,7 +52,6 @@ export default function ThreadContent({
 
   const {
     thread,
-    memberStatus,
     path,
     loading,
     error,
@@ -170,7 +169,7 @@ export default function ThreadContent({
         }
       >
         {loading && <Loading active center />}
-        <ThreadActivities memberStatus={memberStatus} />
+        <ThreadActivities />
       </ScrollableLayout>
 
       {editModal.isOpen && (
