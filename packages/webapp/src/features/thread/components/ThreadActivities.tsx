@@ -80,7 +80,7 @@ export default forwardRef(function ThreadActivities(
       // Reset
       setLastReadActivityId(undefined)
     }
-  }, [thread?.id, activities?.[0].threadId])
+  }, [thread?.id, activities?.[0]?.threadId])
 
   // Update read mark when last read activity changes
   useEffect(() => {
