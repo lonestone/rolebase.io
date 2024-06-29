@@ -67,7 +67,7 @@ export default forwardRef(function ThreadActivities(
 
   // Update read mark at first load
   useEffect(() => {
-    if (!thread || !activities || thread.id !== activities[0].threadId) {
+    if (!thread || !activities || thread.id !== activities[0]?.threadId) {
       return
     }
     const lastActivityId = activities[activities.length - 1]?.id
