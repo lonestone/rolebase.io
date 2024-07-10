@@ -2,7 +2,7 @@ name = 'backend'
 command = ['npm', 'start']
 
 [image]
-image = 'registry.eu-central-1.nhost.run/94212868-126b-47d0-bc96-4a9ac670c2ea:1.0.10'
+image = 'registry.eu-central-1.nhost.run/94212868-126b-47d0-bc96-4a9ac670c2ea:edbd7938d19bdda5436bfc016240ed66fc4d76de'
 
 [[environment]]
 name = 'WEBAPP_URL'
@@ -39,6 +39,10 @@ value = '{{ secrets.SECURITY_INVITATION_TOKEN }}'
 [[environment]]
 name = 'STRIPE_PRIVATE_KEY'
 value = '{{ secrets.STRIPE_PRIVATE_KEY }}'
+
+[[environment]]
+name = 'STRIPE_ENDPOINT_SECRET'
+value = '{{ secrets.STRIPE_ENDPOINT_SECRET }}'
 
 [[environment]]
 name = 'STRIPE_STARTUP_PLAN_PRICE_ID'
