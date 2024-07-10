@@ -207,7 +207,11 @@ update_permissions:
 event_triggers:
   - name: index-role
     definition:
+      delete:
+        columns: '*'
       enable_manual: false
+      insert:
+        columns: '*'
       update:
         columns: '*'
     retry_conf:

@@ -123,7 +123,8 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                   {...register('name')}
                   autoFocus
                   autoComplete="off"
-                  data-lpignore="true"
+                  data-lpignore
+                  data-1p-ignore
                 />
               </FormControl>
 
@@ -134,7 +135,8 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                   type="email"
                   placeholder={t('CurrentUserModal.emailPlaceholder')}
                   autoComplete="off"
-                  data-lpignore="true"
+                  data-lpignore
+                  data-1p-ignore
                 />
               </FormControl>
 

@@ -42,3 +42,17 @@ i18n
 export default i18n
 export const locales = resources
 export const langs = Object.keys(locales) as Array<keyof typeof locales>
+
+export function getLocale(lang: string) {
+  if (lang in locales) {
+    return locales[lang as keyof typeof locales]
+  }
+  const shortLang = lang.split('-')[0]
+  if (shortLang in locales) {
+    return locales[shortLang as keyof typeof locales]
+  }
+  return {
+    emoji: '',
+    name: 'Language',
+  }
+}

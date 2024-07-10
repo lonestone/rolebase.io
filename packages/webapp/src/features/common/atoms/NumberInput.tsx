@@ -1,18 +1,23 @@
 import {
   NumberInput as NbInput,
+  NumberInputProps as NbInputProps,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInputField,
-  NumberInputProps,
   NumberInputStepper,
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'
 
-interface Props extends Omit<NumberInputProps, 'onChange'> {
+export interface NumberInputProps extends Omit<NbInputProps, 'onChange'> {
   onChange(value: number): void
 }
 
-export default function NumberInput({ onChange, value, ...inputProps }: Props) {
+export default function NumberInput({
+  onChange,
+  value,
+  ...inputProps
+}: NumberInputProps) {
   const [tmpValue, setTmpValue] = useState<string | number | undefined>(value)
 
   useEffect(() => {
@@ -26,12 +31,18 @@ export default function NumberInput({ onChange, value, ...inputProps }: Props) {
     }
   }
 
+  const iconSize = inputProps.size === 'sm' ? 12 : 16
+
   return (
     <NbInput value={tmpValue} onChange={handleChange} {...inputProps}>
       <NumberInputField />
       <NumberInputStepper>
-        <NumberIncrementStepper />
-        <NumberDecrementStepper />
+        <NumberIncrementStepper>
+          <ChevronUpIcon size={iconSize} />
+        </NumberIncrementStepper>
+        <NumberDecrementStepper>
+          <ChevronDownIcon size={iconSize} />
+        </NumberDecrementStepper>
       </NumberInputStepper>
     </NbInput>
   )

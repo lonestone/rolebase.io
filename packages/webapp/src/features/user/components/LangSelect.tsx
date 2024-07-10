@@ -12,7 +12,7 @@ import { useChangeLocaleMutation } from '@gql'
 import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { langs, locales } from 'src/i18n'
+import { getLocale, langs, locales } from 'src/i18n'
 import { ChevronDownIcon } from 'src/icons'
 import { nhost } from 'src/nhost'
 
@@ -21,22 +21,21 @@ export default function LangSelect(styleProps: StyleProps) {
     i18n: { language, changeLanguage },
   } = useTranslation()
   const userId = useUserId()
-  const currentLocale = locales[language as keyof typeof locales] || {
-    emoji: '❓',
-    name: 'Language',
-  }
+  const currentLocale = getLocale(language)
 
   // Mutations
   const [changeLocale] = useChangeLocaleMutation()
 
   const handleClick = async (locale: string) => {
-    if (!userId) return
     // Change i18n locale
     changeLanguage(locale)
-    // Change user locale in DB
-    await changeLocale({ variables: { userId, locale } })
-    // Refresh user data
-    await nhost.auth.refreshSession()
+
+    if (userId) {
+      // Change user locale in DB
+      await changeLocale({ variables: { userId, locale } })
+      // Refresh user data
+      await nhost.auth.refreshSession()
+    }
   }
 
   return (
