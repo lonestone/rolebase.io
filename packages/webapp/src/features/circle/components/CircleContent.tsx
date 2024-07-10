@@ -81,7 +81,7 @@ export default function CircleContent({ changeTitle, headerIcons }: Props) {
 
       <Tabs isLazy display="flex" flexDirection="column" h="100%">
         <Flex p={2} pl={6} bg="menulight" _dark={{ bg: 'menudark' }}>
-          <CircleAndParentsLinks circle={circle} size="md" />
+          <CircleAndParentsLinks circle={circle} size="md" overflow="hidden" />
           <Spacer />
 
           <Box mr={1}>
