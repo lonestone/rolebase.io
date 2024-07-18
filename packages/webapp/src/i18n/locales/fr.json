@@ -833,6 +833,8 @@
     "superAdmin": "Admin"
   },
   "Sidebar": {
+    "close": "Fermer la barre latérale",
+    "lock": "Garder la barre latérale ouverte",
     "orgs": "Organisations",
     "menu": "Menu",
     "settings": "Paramètres",

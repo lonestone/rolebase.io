@@ -1,5 +1,5 @@
 import PasswordInput from '@/common/atoms/PasswordInput'
-import TextErrors from '@/common/atoms/TextErrors'
+import TextError from '@/common/atoms/TextError'
 import { Title } from '@/common/atoms/Title'
 import {
   Button,
@@ -92,7 +92,9 @@ export default function LoginForm({ defaultEmail }: Props) {
           </Link>
         </FormControl>
 
-        <TextErrors errors={[error]} />
+        {error && error.error !== 'invalid-refresh-token' && (
+          <TextError error={error} />
+        )}
 
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('LoginForm.submit')}

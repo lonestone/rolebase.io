@@ -802,6 +802,7 @@
   },
   "Sidebar": {
     "close": "Close sidebar",
+    "lock": "Lock sidebar open",
     "orgs": "Organizations",
     "settings": "Settings",
     "menu": "Menu",

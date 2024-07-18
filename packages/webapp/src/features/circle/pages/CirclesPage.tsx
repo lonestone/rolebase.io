@@ -8,6 +8,7 @@ import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
 import { CirclesGraphViews } from '@/graph/types'
+import { SidebarContext } from '@/layout/contexts/SidebarContext'
 import MemberContent from '@/member/components/MemberContent'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
@@ -19,7 +20,14 @@ import {
   useColorMode,
 } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import CircleContent from '../components/CircleContent'
 import CirclesSettings from '../components/CirclesSettings'
@@ -39,6 +47,8 @@ enum Panels {
 
 const buttonsStyleProps = {
   variant: 'outline',
+  size: 'sm',
+  border: 0,
   bg: 'white',
   _hover: {
     bg: 'gray.100',
@@ -60,6 +70,7 @@ const buttonsStyleProps = {
 export default function CirclesPage() {
   useOverflowHidden()
   const { t } = useTranslation()
+  const sidebarContext = useContext(SidebarContext)
 
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
@@ -190,7 +201,12 @@ export default function CirclesPage() {
         <Title>{t('CirclesPage.title', { org: org?.name })}</Title>
       )}
 
-      <HStack p={2}>
+      <HStack
+        p={2}
+        pl={
+          sidebarContext?.minimize.isOpen && !sidebarContext?.isMobile ? 12 : 2
+        }
+      >
         <Box>
           <GraphViewsSelect
             className="userflow-graph-views"
@@ -203,8 +219,6 @@ export default function CirclesPage() {
           <CirclesSettings
             className="userflow-settings"
             showText
-            size="sm"
-            border={0}
             {...buttonsStyleProps}
           />
         </Box>

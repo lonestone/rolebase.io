@@ -1,12 +1,6 @@
 import { Box, BoxProps } from '@chakra-ui/react'
-import { UserLocalStorageKeys } from '@utils/localStorage'
-import debounce from 'lodash.debounce'
 import React, { useContext } from 'react'
-import {
-  SidebarContext,
-  sidebarMaxWidth,
-  sidebarMinWidth,
-} from '../contexts/SidebarContext'
+import { SidebarContext } from '../contexts/SidebarContext'
 
 export default function SidebarResizeHandle(boxProps: BoxProps) {
   // Get Sidebar context
@@ -17,16 +11,6 @@ export default function SidebarResizeHandle(boxProps: BoxProps) {
 
   const { width, setWidth } = context
 
-  const saveWidth = debounce((width: number) => {
-    localStorage.setItem(UserLocalStorageKeys.SidebarWidth, `${width}`)
-  }, 500)
-
-  const changeWidth = (width: number) => {
-    width = Math.max(sidebarMinWidth, Math.min(sidebarMaxWidth, width))
-    setWidth(width)
-    saveWidth(width)
-  }
-
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
     const startX = e.clientX
@@ -34,7 +18,7 @@ export default function SidebarResizeHandle(boxProps: BoxProps) {
 
     const handleMouseMove = (e: MouseEvent) => {
       const diff = e.clientX - startX
-      changeWidth(startWidth + diff)
+      setWidth(startWidth + diff)
     }
 
     const handleMouseUp = () => {
@@ -53,7 +37,7 @@ export default function SidebarResizeHandle(boxProps: BoxProps) {
 
     const handleTouchMove = (e: TouchEvent) => {
       const diff = e.touches[0].clientX - startX
-      changeWidth(startWidth + diff)
+      setWidth(startWidth + diff)
     }
 
     const handleTouchEnd = () => {

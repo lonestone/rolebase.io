@@ -31,6 +31,7 @@ import {
   EyeSlash,
   GalleryImport,
   Gift,
+  HambergerMenu,
   IconProps,
   Import,
   ImportSquare,
@@ -47,7 +48,6 @@ import {
   Maximize1,
   Maximize3,
   MedalStar,
-  Menu,
   MessageQuestion,
   MessageText1,
   Moon,
@@ -131,7 +131,7 @@ export const MeetingRecurringIcon = RepeateMusic
 export const MeetingsIcon = Calendar2
 export const MemberIcon = Profile
 export const MembersIcon = Profile2User
-export const MenuIcon = Menu
+export const MenuIcon = HambergerMenu
 export const MoreIcon = More
 export const MoveIcon = ArrowRight
 export const NewsIcon = Activity

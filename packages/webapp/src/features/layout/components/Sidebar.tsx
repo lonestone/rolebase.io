@@ -6,11 +6,12 @@ import SearchGlobalModal from '@/search/components/SearchGlobalModal'
 import {
   Box,
   Flex,
+  IconButton,
   Menu,
   MenuButton,
+  Spacer,
   Tooltip,
   useDisclosure,
-  useMediaQuery,
 } from '@chakra-ui/react'
 import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
@@ -18,9 +19,9 @@ import { cmdOrCtrlKey } from '@utils/env'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
 import {
   BackIcon,
+  ChevronLeftIcon,
   HelpIcon,
   MeetingsIcon,
   MenuIcon,
@@ -32,14 +33,11 @@ import {
   ThreadsIcon,
 } from 'src/icons'
 import BrandIcon from 'src/images/icon.svg'
-import {
-  SidebarContext,
-  defaultSidebarHeight,
-  defaultSidebarWidth,
-} from '../contexts/SidebarContext'
+import { SidebarContext } from '../contexts/SidebarContext'
 import SettingsMenuList from './SettingsMenuList'
 import SidebarItem from './SidebarItem'
 import SidebarItemLink from './SidebarItemLink'
+import SidebarLayout from './SidebarLayout'
 import SidebarMeetings from './SidebarMeetings'
 import SidebarResizeHandle from './SidebarResizeHandle'
 import SidebarTasks from './SidebarTasks'
@@ -54,7 +52,6 @@ const logoContainerHeight = 65
 
 export default function Sidebar() {
   const { t } = useTranslation()
-  const location = useLocation()
   const isAuthenticated = useAuthenticated()
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
@@ -68,11 +65,7 @@ export default function Sidebar() {
   if (!context) {
     throw new Error('SidebarContext not found in Sidebar')
   }
-
-  // Close menu (mobile) on location change
-  useEffect(() => {
-    context.expand.onClose()
-  }, [location.pathname])
+  const { isMobile, expand, minimize, height } = context
 
   // Links
   const rootPath = usePathInOrg('')
@@ -88,22 +81,6 @@ export default function Sidebar() {
       Crisp.chat.open()
     }
   }
-
-  // Show different layout for small screens
-  // Options are then hidden by default
-  const [isMobile] = useMediaQuery('(max-width: 768px)')
-
-  // Switch between small/large screen
-  useEffect(() => {
-    const width = isMobile ? 0 : defaultSidebarWidth
-    const height = isMobile ? defaultSidebarHeight : 0
-    if (context.width !== width) {
-      context.setWidth(width)
-    }
-    if (context.height !== height) {
-      context.setHeight(height)
-    }
-  }, [isMobile])
 
   // Search
   const searchModal = useDisclosure()
@@ -125,28 +102,11 @@ export default function Sidebar() {
   if (!isAuthenticated) return null
 
   return (
-    <Box
-      position="fixed"
-      display="flex"
-      flexDirection="column"
-      alignItems="stretch"
-      top={0}
-      left={0}
-      zIndex={1000}
-      w={isMobile ? '100%' : `${context.width}px`}
-      h={isMobile && !context.expand.isOpen ? context.height + 1 : '100vh'}
-      bg="menulight"
-      _dark={{ bg: 'menudark' }}
-      sx={{
-        '@media print': {
-          display: 'none',
-        },
-      }}
-    >
+    <SidebarLayout>
       <SidebarResizeHandle />
 
       <Flex
-        h={`${context.height || logoContainerHeight}px`}
+        h={`${height || logoContainerHeight}px`}
         px={isMobile ? 3 : 5}
         align="center"
       >
@@ -156,7 +116,7 @@ export default function Sidebar() {
             <BrandIcon width={24} height={24} />
             <OrgSwitch flex={1} />
 
-            {!context.expand.isOpen && orgId && (
+            {!expand.isOpen && orgId && (
               <>
                 <SidebarTopIconLink
                   className="userflow-sidebar-news"
@@ -203,8 +163,8 @@ export default function Sidebar() {
 
             <SidebarTopIcon
               icon={MenuIcon}
-              isActive={context.expand.isOpen}
-              onClick={context.expand.onToggle}
+              isActive={expand.isOpen}
+              onClick={expand.onToggle}
             >
               {t('Sidebar.menu')}
             </SidebarTopIcon>
@@ -212,12 +172,23 @@ export default function Sidebar() {
         ) : (
           <Flex w="100%" align="center" ml={3} role="group">
             <BrandIcon width={24} height={24} />
-            <OrgSwitch flex={1} />
+            <OrgSwitch />
+            <Spacer />
+            {!minimize.isOpen && (
+              <Tooltip label={t('Sidebar.close')} placement="right">
+                <IconButton
+                  aria-label=""
+                  variant="ghost"
+                  icon={<ChevronLeftIcon size={18} />}
+                  onClick={minimize.onToggle}
+                />
+              </Tooltip>
+            )}
           </Flex>
         )}
       </Flex>
 
-      {(!isMobile || context.expand.isOpen) && (
+      {(!isMobile || expand.isOpen) && (
         /* Desktop: Sidebar content */
         <Box
           flex={1}
@@ -339,10 +310,10 @@ export default function Sidebar() {
           isOpen
           onClose={() => {
             searchModal.onClose()
-            context.expand.onClose()
+            expand.onClose()
           }}
         />
       )}
-    </Box>
+    </SidebarLayout>
   )
 }
