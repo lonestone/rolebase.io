@@ -1,11 +1,11 @@
 import { Button, Flex, FlexProps, useDisclosure } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import { SubscriptionPlanCardData } from '@utils/subscriptionPlansTypes'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronRightIcon, EmailIcon } from 'src/icons'
 import { useSubscriptionPlanData } from '../hooks/useSubscriptionPlanData'
 import SubscriptionPaymentModal from '../modals/SubscriptionPaymentModal'
+import { SubscriptionPlanCardData } from '../plansTypes'
 import SubscriptionFreePlanCardFooter from './SubscriptionFreePlanCardFooter'
 import SubscriptionPlanCard from './SubscriptionPlanCard'
 

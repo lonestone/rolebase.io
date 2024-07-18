@@ -11360,7 +11360,6 @@ export type Org = {
   shareMembers: Scalars['Boolean']['output'];
   shareOrg: Scalars['Boolean']['output'];
   slug?: Maybe<Scalars['String']['output']>;
-  subscriptionId?: Maybe<Scalars['uuid']['output']>;
   /** An array relationship */
   task_views: Array<Task_View>;
   /** An aggregate relationship */
@@ -11706,7 +11705,6 @@ export type Org_Bool_Exp = {
   shareMembers?: InputMaybe<Boolean_Comparison_Exp>;
   shareOrg?: InputMaybe<Boolean_Comparison_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
-  subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
   task_views?: InputMaybe<Task_View_Bool_Exp>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
   tasks?: InputMaybe<Task_Bool_Exp>;
@@ -11945,7 +11943,6 @@ export type Org_Insert_Input = {
   shareMembers?: InputMaybe<Scalars['Boolean']['input']>;
   shareOrg?: InputMaybe<Scalars['Boolean']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  subscriptionId?: InputMaybe<Scalars['uuid']['input']>;
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
   tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
   threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
@@ -11959,7 +11956,6 @@ export type Org_Max_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-  subscriptionId?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
@@ -11970,7 +11966,6 @@ export type Org_Min_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-  subscriptionId?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "org" */
@@ -12018,7 +12013,6 @@ export type Org_Order_By = {
   shareMembers?: InputMaybe<Order_By>;
   shareOrg?: InputMaybe<Order_By>;
   slug?: InputMaybe<Order_By>;
-  subscriptionId?: InputMaybe<Order_By>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
@@ -12048,9 +12042,7 @@ export enum Org_Select_Column {
   /** column name */
   ShareOrg = 'shareOrg',
   /** column name */
-  Slug = 'slug',
-  /** column name */
-  SubscriptionId = 'subscriptionId'
+  Slug = 'slug'
 }
 
 /** input type for updating data in table "org" */
@@ -12064,7 +12056,6 @@ export type Org_Set_Input = {
   shareMembers?: InputMaybe<Scalars['Boolean']['input']>;
   shareOrg?: InputMaybe<Scalars['Boolean']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  subscriptionId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate stddev on columns */
@@ -12104,7 +12095,6 @@ export type Org_Stream_Cursor_Value_Input = {
   shareMembers?: InputMaybe<Scalars['Boolean']['input']>;
   shareOrg?: InputMaybe<Scalars['Boolean']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  subscriptionId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Abonnement lié à une organisation */
@@ -12328,9 +12318,7 @@ export enum Org_Update_Column {
   /** column name */
   ShareOrg = 'shareOrg',
   /** column name */
-  Slug = 'slug',
-  /** column name */
-  SubscriptionId = 'subscriptionId'
+  Slug = 'slug'
 }
 
 export type Org_Updates = {

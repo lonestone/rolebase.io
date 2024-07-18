@@ -10,9 +10,9 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
-import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SubscriptionPlan } from '../plansTypes'
 import SubscriptionFeatures from './SubscriptionFeatures'
 import SubscriptionPlanIcon from './SubscriptionPlanIcon'
 

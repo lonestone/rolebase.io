@@ -1,7 +1,7 @@
 import { Subscription_Plan_Type_Enum } from '@gql'
-import { SubscriptionPlanData } from '@utils/subscriptionPlansTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SubscriptionPlanData } from '../plansTypes'
 
 export const useSubscriptionPlanData = () => {
   const { t } = useTranslation()

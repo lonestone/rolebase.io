@@ -7,16 +7,13 @@ import {
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import { Subscription } from '@rolebase/shared/model/subscription'
-import {
-  SubscriptionPlan,
-  SubscriptionPlanCardData,
-} from '@utils/subscriptionPlansTypes'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronRightIcon, EmailIcon } from 'src/icons'
 import { useSubscriptionPlanData } from '../hooks/useSubscriptionPlanData'
 import CancelSubscriptionModal from '../modals/CancelSubscriptionModal'
 import SubscriptionPaymentModal from '../modals/SubscriptionPaymentModal'
+import { SubscriptionPlan, SubscriptionPlanCardData } from '../plansTypes'
 import CurrentSubscriptionDetails from './CurrentSubscriptionDetails'
 import SubscriptionPlanCard from './SubscriptionPlanCard'
 

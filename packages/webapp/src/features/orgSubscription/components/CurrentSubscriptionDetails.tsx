@@ -1,7 +1,7 @@
 import { Flex, FlexProps } from '@chakra-ui/react'
 import { Subscription } from '@rolebase/shared/model/subscription'
-import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
 import React, { useMemo } from 'react'
+import { SubscriptionPlan } from '../plansTypes'
 import SubscriptionCanceledCard from './SubscriptionCanceledCard'
 import SubscriptionPaymentDetailsCard from './SubscriptionPaymentDetailsCard'
 import SubscriptionPlanSubCard from './SubscriptionPlanSubCard'

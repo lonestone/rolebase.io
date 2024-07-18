@@ -16,12 +16,13 @@ export default function SubscriptionTab({
 }: SubscriptionTabProps) {
   return (
     <Flex p="5" flexDir="row" {...flexProps}>
-      {!subscription && <SubscriptionTabFreeLayout />}
-      {subscription && (
+      {subscription ? (
         <SubscriptionTabSubLayout
           onSubscriptionUpdated={onSubscriptionUpdated}
           subscription={subscription}
         />
+      ) : (
+        <SubscriptionTabFreeLayout />
       )}
     </Flex>
   )
