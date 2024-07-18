@@ -5,6 +5,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "packageManager": "npm@10.8.2",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
@@ -31,6 +32,6 @@
     "eslint": "^8.49.0",
     "patch-package": "^8.0.0",
     "prettier": "^3.0.3",
-    "turbo": "^1.10.14"
+    "turbo": "^2.0.6"
   }
 }
