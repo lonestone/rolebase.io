@@ -31,7 +31,7 @@ export default function CancelSubscriptionModal({
   const toast = useToast()
   const orgId = useOrgId()
 
-  const unsubscribe = async () => {
+  const handleCancel = async () => {
     setLoading(true)
 
     try {
@@ -62,14 +62,11 @@ export default function CancelSubscriptionModal({
     <Modal size="2xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          <Text>{t('SubscriptionTabs.cancelSubscriptionModal.title')}</Text>
+        <ModalHeader pt={7}>
+          <Text>{t('SubscriptionTabs.cancelSubscriptionModal.heading')}</Text>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text mb="4" fontSize={18} fontWeight="700">
-            {t('SubscriptionTabs.cancelSubscriptionModal.subtitle')}
-          </Text>
           <Flex flexDir="column" ml="1rem" gap="1">
             <Text fontWeight={600}>
               - {t('SubscriptionTabs.cancelSubscriptionModal.desc1')}
@@ -82,18 +79,11 @@ export default function CancelSubscriptionModal({
             </Text>
           </Flex>
         </ModalBody>
-        <ModalFooter mt="4" justifyContent="center">
+        <ModalFooter mt={4} justifyContent="center" gap={2}>
           <Button variant="ghost" onClick={() => modalProps.onClose()}>
             {t('common.cancel')}
           </Button>
-          <Button
-            onClick={unsubscribe}
-            isLoading={loading}
-            as="a"
-            mr="2"
-            href="subscription"
-            colorScheme="purple"
-          >
+          <Button colorScheme="red" isLoading={loading} onClick={handleCancel}>
             {t('common.confirm')}
           </Button>
         </ModalFooter>

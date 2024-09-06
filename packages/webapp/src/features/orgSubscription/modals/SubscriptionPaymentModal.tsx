@@ -24,7 +24,7 @@ export default function SubscriptionPaymentModal({
   const { t } = useTranslation()
 
   return (
-    <Modal size="xl" {...modalProps}>
+    <Modal size="xl" closeOnOverlayClick={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

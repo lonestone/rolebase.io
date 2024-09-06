@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server'
 import Stripe from 'stripe'
 import settings from '../../../settings'
 
-const stripe = new Stripe(settings.stripe.privateKey, {
+export const stripe = new Stripe(settings.stripe.privateKey, {
   apiVersion: '2022-11-15',
 })
 

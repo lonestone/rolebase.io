@@ -864,8 +864,7 @@
     "subscription": "Abonnement",
     "mustBeOwner": "Vous devez être propriétaire de l'organisation pour gérer l'abonnement",
     "cancelSubscriptionModal": {
-      "title": "Annuler mon abonnement",
-      "subtitle": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
+      "heading": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
       "desc1": "Cette action prendra effet à la fin de la periode d'abonnement.",
       "desc2": "Votre organisation ne pourra plus avoir que 5 membres invités.",
       "desc3": "Vous perdrez l’accompagnement et le support prioritaire avec notre équipe."
@@ -957,7 +956,7 @@
     "upcomingInvoiceHelp": "Savoir comment est calculé ce montant chaque mois",
     "active": "Actif",
     "unsubscribeDate": "Votre abonnement prendra fin le {{date}}",
-    "subscriptionResumed": "Votre abonnement à été réactiver",
+    "subscriptionResumed": "Votre abonnement à été réactivé",
     "noBillingAccount": "Vous n'avez aucun abonnement pour le moment",
     "subscriptionSuccess": "Merci pour votre confiance !",
     "subscriptionCreated": "Votre abonnement a été créé 😀",

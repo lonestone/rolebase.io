@@ -9,10 +9,7 @@ import {
 } from '../../gql'
 import settings from '../../settings'
 import { adminRequest } from '../../utils/adminRequest'
-
-const stripe = new Stripe(settings.stripe.privateKey ?? '', {
-  apiVersion: '2022-11-15',
-})
+import { stripe } from './utils/stripe'
 
 export default async (app: FastifyInstance) => {
   // Scope raw body parser to this route with register

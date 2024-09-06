@@ -247,6 +247,7 @@ export default function SubscriptionSummary({
                       </Flex>
                     </HStack>
                   )}
+
                   <HStack
                     justifyContent="space-between"
                     alignItems="end"
@@ -265,6 +266,18 @@ export default function SubscriptionSummary({
                       })}
                     </Text>
                   </HStack>
+
+                  {couponDuration && (
+                    <Flex w="100%" justify="end">
+                      <Text fontSize={12} {...textProps}>
+                        {t('SubscriptionTabs.paymentModal.duration', {
+                          price: calculatedPrice / 100,
+                          durationInMonth: couponDuration,
+                        })}
+                      </Text>
+                    </Flex>
+                  )}
+
                   {priceData?.tax && (
                     <HStack
                       justifyContent="space-between"
@@ -284,17 +297,6 @@ export default function SubscriptionSummary({
                         })}
                       </Text>
                     </HStack>
-                  )}
-
-                  {couponDuration && (
-                    <Flex w="100%" justify="end">
-                      <Text fontSize={12} {...textProps}>
-                        {t('SubscriptionTabs.paymentModal.duration', {
-                          price: calculatedPrice / 100,
-                          durationInMonth: couponDuration,
-                        })}
-                      </Text>
-                    </Flex>
                   )}
                 </Box>
               </>

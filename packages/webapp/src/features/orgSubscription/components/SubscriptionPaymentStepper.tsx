@@ -10,7 +10,6 @@ import {
   Heading,
   Spacer,
   Step,
-  StepDescription,
   StepIcon,
   StepIndicator,
   StepNumber,
@@ -228,7 +227,6 @@ export default function SubscriptionPaymentStepper({
           mr={4}
           leftIcon={<ChevronLeftIcon />}
           onClick={goToPrevious}
-          size="sm"
           variant="ghost"
         >
           {t('SubscriptionTabs.paymentModal.prev')}
@@ -290,7 +288,7 @@ function StepItem({ label, children }: StepItemProps) {
           {label}
         </Heading>
         <Collapse in={status === 'active'}>
-          <StepDescription>{children}</StepDescription>
+          {status === 'active' && children}
         </Collapse>
       </Box>
 
