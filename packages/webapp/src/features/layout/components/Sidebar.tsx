@@ -39,7 +39,6 @@ import SidebarItem from './SidebarItem'
 import SidebarItemLink from './SidebarItemLink'
 import SidebarLayout from './SidebarLayout'
 import SidebarMeetings from './SidebarMeetings'
-import SidebarResizeHandle from './SidebarResizeHandle'
 import SidebarTasks from './SidebarTasks'
 import SidebarThreads from './SidebarThreads'
 import SidebarTopIcon from './SidebarTopIcon'
@@ -103,8 +102,6 @@ export default function Sidebar() {
 
   return (
     <SidebarLayout>
-      <SidebarResizeHandle />
-
       <Flex
         h={`${height || logoContainerHeight}px`}
         px={isMobile ? 3 : 5}

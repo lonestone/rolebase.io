@@ -1,29 +1,33 @@
 import { Box, BoxProps } from '@chakra-ui/react'
-import React, { useContext } from 'react'
-import { SidebarContext } from '../contexts/SidebarContext'
+import React from 'react'
 
-export default function SidebarResizeHandle(boxProps: BoxProps) {
-  // Get Sidebar context
-  const context = useContext(SidebarContext)
-  if (!context) {
-    throw new Error('SidebarContext not found in Sidebar')
-  }
+interface Props extends BoxProps {
+  width: number
+  onResizing(resizing: boolean): void
+  onWidthChange(width: number): void
+}
 
-  const { width, setWidth } = context
-
+export default function SidebarResizeHandle({
+  width,
+  onResizing,
+  onWidthChange,
+  ...boxProps
+}: Props) {
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
     const startX = e.clientX
     const startWidth = width
+    onResizing(true)
 
     const handleMouseMove = (e: MouseEvent) => {
       const diff = e.clientX - startX
-      setWidth(startWidth + diff)
+      onWidthChange(startWidth + diff)
     }
 
     const handleMouseUp = () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
+      onResizing(false)
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -34,15 +38,17 @@ export default function SidebarResizeHandle(boxProps: BoxProps) {
     e.preventDefault()
     const startX = e.touches[0].clientX
     const startWidth = width
+    onResizing(true)
 
     const handleTouchMove = (e: TouchEvent) => {
       const diff = e.touches[0].clientX - startX
-      setWidth(startWidth + diff)
+      onWidthChange(startWidth + diff)
     }
 
     const handleTouchEnd = () => {
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleTouchEnd)
+      onResizing(false)
     }
 
     window.addEventListener('touchmove', handleTouchMove)

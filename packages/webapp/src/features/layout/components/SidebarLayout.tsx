@@ -1,9 +1,10 @@
 import { Box, IconButton, Tooltip, useDisclosure } from '@chakra-ui/react'
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { ChevronRightIcon, MenuIcon } from 'src/icons'
 import { SidebarContext, defaultSidebarWidth } from '../contexts/SidebarContext'
+import SidebarResizeHandle from './SidebarResizeHandle'
 
 interface Props {
   children: React.ReactNode
@@ -18,7 +19,8 @@ export default function SidebarLayout({ children }: Props) {
   if (!context) {
     throw new Error('SidebarContext not found in Sidebar')
   }
-  const { isMobile, expand, minimize, width, height } = context
+  const { isMobile, expand, minimize, width, height, setWidth } = context
+  const [resizing, setResizing] = useState(false)
 
   const handleLock = () => {
     minimize.onClose()
@@ -85,7 +87,11 @@ export default function SidebarLayout({ children }: Props) {
             : `${minimize.isOpen ? defaultSidebarWidth : width}px`
         }
         h={isMobile && !expand.isOpen ? height + 1 : undefined}
-        transition="transform 0.2s ease-in-out, width 0.2s ease-in-out"
+        transition={
+          !resizing
+            ? 'transform 0.2s ease-in-out, width 0.2s ease-in-out'
+            : 'none'
+        }
         transform={
           !isMobile && minimize.isOpen && !open.isOpen
             ? 'translateX(-100%)'
@@ -102,6 +108,12 @@ export default function SidebarLayout({ children }: Props) {
           },
         }}
       >
+        <SidebarResizeHandle
+          width={width}
+          onResizing={setResizing}
+          onWidthChange={setWidth}
+        />
+
         {children}
       </Box>
     </>
