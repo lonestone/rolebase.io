@@ -2,7 +2,6 @@ import {
   AVATAR_HEADING_WIDTH,
   getResizedImageUrl,
 } from '@/common/api/storage_images'
-import ActionsMenu from '@/common/atoms/ActionsMenu'
 import DurationSelect from '@/common/atoms/DurationSelect'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import EditorController from '@/editor/components/EditorController'
@@ -78,17 +77,8 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const createLog = useCreateLog()
   const [updateMember] = useUpdateMemberMutation()
 
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
-
-  const {
-    isOpen: isLimitReachedOpen,
-    onOpen: onLimitReachedOpen,
-    onClose: onLimitReachedClose,
-  } = useDisclosure()
+  const deleteModal = useDisclosure()
+  const limitReachedModal = useDisclosure()
 
   const {
     handleSubmit,
@@ -168,7 +158,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         modalProps.onClose()
       } catch (error: any) {
         if (error?.response?.status === 402) {
-          onLimitReachedOpen()
+          limitReachedModal.onOpen()
         } else {
           toast({
             title: t('common.error'),
@@ -236,7 +226,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 member: member.name,
               })}
               <Spacer />
-              <ActionsMenu onDelete={onDeleteOpen} />
               <ModalCloseStaticButton />
             </Flex>
           </ModalHeader>
@@ -376,6 +365,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           </ModalBody>
 
           <ModalFooter>
+            <Button
+              colorScheme="red"
+              variant="ghost"
+              mr={2}
+              onClick={deleteModal.onOpen}
+            >
+              {t('common.delete')}
+            </Button>
             <Button colorScheme="blue" isLoading={loading} onClick={onSubmit}>
               {t('common.save')}
             </Button>
@@ -383,19 +380,19 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         </ModalContent>
       </Modal>
 
-      {isLimitReachedOpen && (
+      {limitReachedModal.isOpen && (
         <SubscriptionReachedMemberLimitModal
           isOpen
-          onClose={onLimitReachedClose}
+          onClose={limitReachedModal.onClose}
         />
       )}
 
-      {isDeleteOpen && (
+      {deleteModal.isOpen && (
         <MemberDeleteModal
           id={id}
           onDelete={modalProps.onClose}
           isOpen
-          onClose={onDeleteClose}
+          onClose={deleteModal.onClose}
         />
       )}
     </>
