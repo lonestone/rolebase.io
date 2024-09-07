@@ -65,6 +65,8 @@ import {
   Setting2,
   Share,
   Shuffle,
+  SidebarLeft,
+  SidebarRight,
   Sms,
   Star,
   Stop,
@@ -152,6 +154,8 @@ export const SearchIcon = (props: IconProps) => (
 )
 export const SendIcon = Send
 export const SettingsIcon = Setting2
+export const SidebarLeftIcon = SidebarLeft
+export const SidebarRightIcon = SidebarRight
 export const ShareIcon = Share
 export const ShortcutsIcon = Command
 export const ShowIcon = Eye

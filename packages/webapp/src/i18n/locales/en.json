@@ -65,6 +65,7 @@
   },
   "BaseRolesModal": {
     "heading": "Organization's basic roles",
+    "info": "Basic roles are predefined roles that can be used in several places in the org chart.",
     "empty": "No basic roles",
     "create": "Create a basic role"
   },
@@ -203,15 +204,11 @@
     "CmdClick": "Move a role or member with the mouse",
     "CmdShiftClick": "Copy a role or member with the mouse"
   },
-  "CirclesSettings": {
-    "label": "Settings",
-    "orgEdit": "Organization settings",
+  "CirclesGraphOptions": {
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
     "logs": "History",
-    "shortcuts": "Keyboard shortcuts",
-    "export": "Export a capture",
-    "share": "Share (link & embed)"
+    "share": "Share"
   },
   "CircleWithLeaderItem": {
     "linkTooltip": "Represent the role {{role}}"
@@ -793,6 +790,7 @@
   },
   "SettingsMenu": {
     "label": "Settings",
+    "org": "Organization",
     "member": "My member record",
     "user": "Personal information",
     "notifications": "Notifications",
@@ -1113,7 +1111,7 @@
     "move": "Move",
     "apply": "Apply",
     "duplicate": "Duplicate",
-    "export": "Export",
+    "export": "Export (PNG)",
     "archive": "Archive",
     "unarchive": "Restore",
     "cancel": "Cancel",

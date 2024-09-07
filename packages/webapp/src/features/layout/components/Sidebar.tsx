@@ -21,7 +21,6 @@ import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   BackIcon,
-  ChevronLeftIcon,
   HelpIcon,
   MeetingsIcon,
   MenuIcon,
@@ -29,6 +28,7 @@ import {
   OrgChartIcon,
   SearchIcon,
   SettingsIcon,
+  SidebarLeftIcon,
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
@@ -176,7 +176,7 @@ export default function Sidebar() {
                 <IconButton
                   aria-label=""
                   variant="ghost"
-                  icon={<ChevronLeftIcon size={18} />}
+                  icon={<SidebarLeftIcon size={20} />}
                   onClick={minimize.onToggle}
                 />
               </Tooltip>

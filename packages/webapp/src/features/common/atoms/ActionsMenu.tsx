@@ -14,7 +14,7 @@ import {
   CopyIcon,
   DeleteIcon,
   EditIcon,
-  ExportIcon,
+  ExportCircleIcon,
   LinkIcon,
   MarkUnreadIcon,
   MoreIcon,
@@ -86,7 +86,7 @@ export default function ActionsMenu({
             </MenuItem>
           )}
           {onExport && (
-            <MenuItem icon={<ExportIcon size={20} />} onClick={onExport}>
+            <MenuItem icon={<ExportCircleIcon size={20} />} onClick={onExport}>
               {t('common.export')}
             </MenuItem>
           )}

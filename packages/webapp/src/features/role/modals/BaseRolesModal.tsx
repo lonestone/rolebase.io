@@ -1,5 +1,8 @@
 import ListItemWithButtons from '@/common/atoms/ListItemWithButtons'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Button,
   IconButton,
   Modal,
@@ -46,13 +49,18 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
 
   return (
     <>
-      <Modal size="sm" {...modalProps}>
+      <Modal size="md" {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t('BaseRolesModal.heading')}</ModalHeader>
           <ModalCloseButton />
+          <ModalHeader>{t('BaseRolesModal.heading')}</ModalHeader>
 
           <ModalBody>
+            <Alert status="info" mb={5}>
+              <AlertIcon />
+              <AlertDescription>{t('BaseRolesModal.info')}</AlertDescription>
+            </Alert>
+
             {!roles?.length ? (
               <Text fontStyle="italic">{t('BaseRolesModal.empty')}</Text>
             ) : (

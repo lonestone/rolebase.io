@@ -12,13 +12,7 @@ import { SidebarContext } from '@/layout/contexts/SidebarContext'
 import MemberContent from '@/member/components/MemberContent'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
-import {
-  Box,
-  Button,
-  HStack,
-  useBreakpointValue,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Box, useBreakpointValue, useColorMode } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
 import React, {
   useCallback,
@@ -30,8 +24,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import CircleContent from '../components/CircleContent'
-import CirclesSettings from '../components/CirclesSettings'
-import GraphViewsSelect from '../components/GraphViewsSelect'
+import CirclesGraphOptions from '../components/CirclesGraphOptions'
 import { CircleProvider } from '../contexts/CIrcleContext'
 
 type CirclesPageParams = {
@@ -43,28 +36,6 @@ enum Panels {
   None,
   Circle,
   Member,
-}
-
-const buttonsStyleProps = {
-  variant: 'outline',
-  size: 'sm',
-  border: 0,
-  bg: 'white',
-  _hover: {
-    bg: 'gray.100',
-  },
-  _active: {
-    bg: 'gray.200',
-  },
-  _dark: {
-    bg: 'gray.700',
-    _hover: {
-      bg: 'gray.600',
-    },
-    _active: {
-      bg: 'gray.550',
-    },
-  },
 }
 
 export default function CirclesPage() {
@@ -210,37 +181,17 @@ export default function CirclesPage() {
         <Title>{t('CirclesPage.title', { org: org?.name })}</Title>
       )}
 
-      <HStack
+      <CirclesGraphOptions
+        view={view}
+        onViewChange={setView}
+        beta={beta}
+        onBetaChange={setBeta}
         p={2}
         pl={
           sidebarContext?.minimize.isOpen && !sidebarContext?.isMobile ? 12 : 2
         }
-      >
-        <Box>
-          <GraphViewsSelect
-            className="userflow-graph-views"
-            value={view}
-            onChange={setView}
-            {...buttonsStyleProps}
-          />
-        </Box>
-        <Box>
-          <CirclesSettings
-            className="userflow-settings"
-            showText
-            {...buttonsStyleProps}
-          />
-        </Box>
-        <Button
-          size="sm"
-          border={0}
-          opacity={beta ? 1 : 0}
-          _hover={{ opacity: 1 }}
-          onClick={() => setBeta((v) => !v)}
-        >
-          {beta ? 'Disable beta' : 'Try beta'}
-        </Button>
-      </HStack>
+        mr={focusCrop.right}
+      />
     </GraphProvider>
   )
 }

@@ -65,6 +65,7 @@
   },
   "BaseRolesModal": {
     "heading": "Rôles de base",
+    "info": "Les rôles de base sont des rôles prédéfinis qui peuvent être utilisés à plusieurs endroits dans l'organigramme.",
     "empty": "Aucun rôle de base",
     "create": "Créer un rôle de base"
   },
@@ -203,15 +204,11 @@
     "CmdClick": "Déplacer un rôle ou un membre avec la souris",
     "CmdShiftClick": "Copier un rôle ou un membre avec la souris"
   },
-  "CirclesSettings": {
-    "label": "Paramètres",
-    "orgEdit": "Paramètres de l'organisation",
+  "CirclesGraphOptions": {
     "baseRoles": "Rôles de base",
     "vacantRoles": "Rôles vacants",
     "logs": "Historique",
-    "shortcuts": "Raccourcis clavier",
-    "export": "Exporter (PNG)",
-    "share": "Partager (lien & embed)"
+    "share": "Partager"
   },
   "CircleWithLeaderItem": {
     "linkTooltip": "Représente le rôle {{role}}"
@@ -825,6 +822,7 @@
     "canCreate": "Tapez pour créer ou chercher"
   },
   "SettingsMenu": {
+    "org": "Organisation",
     "member": "Ma fiche membre",
     "user": "Informations personnelles",
     "notifications": "Notifications",
@@ -1143,7 +1141,7 @@
     "edit": "Editer",
     "move": "Déplacer",
     "duplicate": "Dupliquer",
-    "export": "Exporter",
+    "export": "Exporter (PNG)",
     "archive": "Archiver",
     "unarchive": "Restaurer",
     "cancel": "Annuler",

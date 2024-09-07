@@ -2,7 +2,7 @@ import { Box, IconButton, Tooltip, useDisclosure } from '@chakra-ui/react'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
-import { ChevronRightIcon, MenuIcon } from 'src/icons'
+import { MenuIcon, SidebarRightIcon } from 'src/icons'
 import { SidebarContext, defaultSidebarWidth } from '../contexts/SidebarContext'
 import SidebarResizeHandle from './SidebarResizeHandle'
 
@@ -65,7 +65,7 @@ export default function SidebarLayout({ children }: Props) {
             <IconButton
               aria-label="Lock sidebar open"
               variant="ghost"
-              icon={open.isOpen ? <ChevronRightIcon size={18} /> : <MenuIcon />}
+              icon={open.isOpen ? <SidebarRightIcon size={18} /> : <MenuIcon />}
               onClick={handleLock}
             />
           </Tooltip>
