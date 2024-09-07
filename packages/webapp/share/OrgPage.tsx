@@ -60,6 +60,7 @@ export default function OrgPage() {
             createdAt: new Date().toISOString(),
             name: 'Org',
             defaultWorkedMinPerWeek: 0,
+            defaultGraphView: view,
             shareMembers: true,
             shareOrg: true,
             protectGovernance: false,
