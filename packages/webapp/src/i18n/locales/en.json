@@ -672,7 +672,8 @@
     "workingTime": "Default working time",
     "security": "Security settings",
     "protectGovernance": "Protect governance",
-    "protectGovernanceHelp": "Only owners and representatives of a role can modify its direct sub-roles and their members."
+    "protectGovernanceHelp": "Only owners and representatives of a role can modify its direct sub-roles and their members.",
+    "defaultGraphView": "Default org chart view"
   },
   "OrgSlugModal": {
     "heading": "URL of organization {{org}}",

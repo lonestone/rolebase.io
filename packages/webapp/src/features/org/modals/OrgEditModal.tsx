@@ -1,7 +1,9 @@
+import GraphViewsSelect from '@/circle/components/GraphViewsSelect'
 import DurationSelect from '@/common/atoms/DurationSelect'
 import IconTextButton from '@/common/atoms/IconTextButton'
 import SwitchController from '@/common/atoms/SwitchController'
 import useCopyUrl from '@/common/hooks/useCopyUrl'
+import { CirclesGraphViews } from '@/graph/types'
 import {
   Button,
   Flex,
@@ -43,8 +45,9 @@ interface Props extends UseModalProps {
 
 interface Values {
   name: string
-  defaultWorkedMinPerWeek: number
+  defaultWorkedMinPerWeek: number | null
   protectGovernance: boolean
+  defaultGraphView: CirclesGraphViews
 }
 
 const resolver = yupResolver(
@@ -73,9 +76,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
     control,
     reset,
     formState: { errors },
-  } = useForm<Values>({
-    resolver,
-  })
+  } = useForm<Values>({ resolver })
 
   // Init form data
   useEffect(() => {
@@ -83,6 +84,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
     reset({
       name: org.name,
       defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek,
+      defaultGraphView: org.defaultGraphView || CirclesGraphViews.AllCircles,
       protectGovernance: org.protectGovernance,
     })
   }, [org])
@@ -148,6 +150,21 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
                       <DurationSelect
                         value={field.value}
                         onChange={field.onChange}
+                      />
+                    )}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>{t('OrgEditModal.defaultGraphView')}</FormLabel>
+                  <Controller
+                    name="defaultGraphView"
+                    control={control}
+                    render={({ field }) => (
+                      <GraphViewsSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                        variant="outline"
                       />
                     )}
                   />

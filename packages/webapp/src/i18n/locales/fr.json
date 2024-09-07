@@ -706,7 +706,8 @@
     "workingTime": "Temps de travail par défaut",
     "security": "Paramètres de sécurité",
     "protectGovernance": "Protéger la gouvernance",
-    "protectGovernanceHelp": "Seuls les propriétaires et les représentants d'un rôle peuvent modifier ses sous-rôles directs et leurs membres."
+    "protectGovernanceHelp": "Seuls les propriétaires et les représentants d'un rôle peuvent modifier ses sous-rôles directs et leurs membres.",
+    "defaultGraphView": "Vue par défaut de l'organigramme"
   },
   "OrgSlugModal": {
     "heading": "URL de l'organisation {{org}}",

@@ -84,7 +84,9 @@ export default function CirclesPage() {
 
   // Panels
   const [panel, setPanel] = useState<Panels>(Panels.None)
-  const [view, setView] = useState(CirclesGraphViews.AllCircles)
+  const [view, setView] = useState<CirclesGraphViews>(
+    org?.defaultGraphView || CirclesGraphViews.AllCircles
+  )
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
 
@@ -136,6 +138,13 @@ export default function CirclesPage() {
 
   // Color mode
   const { colorMode } = useColorMode()
+
+  // Use effect to update view when org changes
+  useEffect(() => {
+    if (org?.defaultGraphView) {
+      setView(org.defaultGraphView)
+    }
+  }, [org])
 
   return (
     <GraphProvider>

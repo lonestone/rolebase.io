@@ -1,4 +1,5 @@
 scalar user_metadata
+scalar graph_views
 scalar meeting_step_config
 scalar meeting_step_data
 scalar participants_scope
@@ -12,6 +13,10 @@ type users {
 
 type auth_refresh_tokens {
   metadata: user_metadata!
+}
+
+type org {
+  defaultGraphView: graph_views!
 }
 
 type meeting {

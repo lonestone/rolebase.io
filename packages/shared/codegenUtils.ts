@@ -5,6 +5,7 @@ export function getAddPlugin() {
   return {
     add: {
       content: `
+import { GraphViews } from '@rolebase/shared/model/graph_views'
 import { MeetingStepConfig, VideoConf } from '@rolebase/shared/model/meeting'
 import { MeetingStepData } from '@rolebase/shared/model/meeting_step'
 import { ParticipantsScope } from '@rolebase/shared/model/participants'
@@ -29,6 +30,7 @@ export function getConfig() {
       citext: 'string',
       user_metadata: 'UserMetadata',
       participants_scope: 'ParticipantsScope',
+      graph_views: 'GraphViews',
       meeting_step_config: 'MeetingStepConfig',
       meeting_step_data: 'MeetingStepData',
       videoconf: 'VideoConf',
