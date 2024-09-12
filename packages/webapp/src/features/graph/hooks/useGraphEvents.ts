@@ -57,6 +57,6 @@ export default function useGraphEvents(): GraphEvents {
       onMemberMove: isMember ? onMemberMove : undefined,
       onMemberAdd: isMember ? onMemberAdd : undefined,
     }),
-    []
+    [isMember]
   )
 }
