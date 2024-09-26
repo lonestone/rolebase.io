@@ -3,7 +3,7 @@ import { Actions } from 'pixi-actions'
 import { Simple as Culling } from 'pixi-cull'
 import { addStats } from 'pixi-stats'
 import * as PIXI from 'pixi.js'
-import { CirclesGraph } from '../../graphs/CirclesGraph'
+import { Graph } from '../../graphs/Graph'
 import { NodeData, NodeType } from '../../types'
 import Renderer from '../Renderer'
 import { CircleObject } from './nodes/CircleObject'
@@ -24,7 +24,7 @@ export class CanvasRenderer extends Renderer {
   public avatarsTextures = new Map<string, PIXI.RenderTexture>()
   private circleTexture: PIXI.RenderTexture | undefined
 
-  constructor(public graph: CirclesGraph) {
+  constructor(public graph: Graph) {
     super(graph)
     const { element, width, height, params } = graph
 
@@ -84,12 +84,17 @@ export class CanvasRenderer extends Renderer {
 
   private onZoom = () => {
     // Update culling
-    const { zoomX, zoomY, focusCrop, zoomScale, width, height } = this.graph
+    const {
+      zoomTransform: { x, y, k },
+      focusCrop,
+      width,
+      height,
+    } = this.graph
     this.culling.cull({
-      x: (-zoomX + focusCrop.left) / zoomScale,
-      y: (-zoomY + focusCrop.top) / zoomScale,
-      width: (width - focusCrop.left - focusCrop.right) / zoomScale,
-      height: (height - focusCrop.top - focusCrop.bottom) / zoomScale,
+      x: (-x + focusCrop.left) / k,
+      y: (-y + focusCrop.top) / k,
+      width: (width - focusCrop.left - focusCrop.right) / k,
+      height: (height - focusCrop.top - focusCrop.bottom) / k,
     })
   }
 

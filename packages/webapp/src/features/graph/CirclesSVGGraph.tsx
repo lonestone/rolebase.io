@@ -1,8 +1,11 @@
 import { useColorMode } from '@chakra-ui/react'
-import React, { forwardRef, useImperativeHandle, useRef } from 'react'
+import { nanoid } from 'nanoid'
+import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
 import { CirclesGraph } from './graphs/CirclesGraph'
 import useCirclesGraph, { CirclesGraphProps } from './hooks/useCirclesGraph'
+import useRenderer from './hooks/useRenderer'
 import { StyledSVG } from './renderers/svg/StyledSVG'
+import { SVGRenderer } from './renderers/svg/SVGRenderer'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -11,15 +14,18 @@ export default forwardRef<CirclesGraph | undefined, CirclesGraphProps>(
   function CirclesSVGGraph(props, ref) {
     const { colorMode } = useColorMode()
     const svgRef = useRef<SVGSVGElement>(null)
+    const id = useMemo(() => nanoid(), [])
 
     // Instanciate graph
-    const graphRef = useCirclesGraph(svgRef, props)
+    const graph = useCirclesGraph(svgRef, props)
+    useRenderer(graph, (graph) => new SVGRenderer(graph))
 
     // Expose ref
-    useImperativeHandle(ref, () => graphRef.current)
+    useImperativeHandle(ref, () => graph)
 
     return (
       <StyledSVG
+        id={id}
         ref={svgRef}
         view={props.view}
         width={props.width}

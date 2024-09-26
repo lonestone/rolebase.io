@@ -19,7 +19,7 @@ export enum GraphRenderer {
   Canvas = 'Canvas',
 }
 
-export type RootElement = HTMLCanvasElement | SVGSVGElement
+export type RootElement = HTMLCanvasElement | SVGSVGElement | HTMLDivElement
 
 export enum NodeType {
   Circle = 'Circle',

@@ -9,9 +9,6 @@ import { Participant } from '@rolebase/shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
 import { HierarchyNode } from 'd3'
-import Renderer from '../renderers/Renderer'
-import { CanvasRenderer } from '../renderers/canvas/CanvasRenderer'
-import { SVGRenderer } from '../renderers/svg/SVGRenderer'
 import settings from '../settings'
 import { Data, GraphParams, NodeType, RootElement } from '../types'
 import { Graph } from './Graph'
@@ -21,31 +18,16 @@ export interface CircleData extends CircleFullFragment {
 }
 
 export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
-  public renderer: Renderer
   public origCircles: CircleFullFragment[] = []
 
   constructor(
-    public element: RootElement,
+    element: RootElement,
     public params: GraphParams
   ) {
     super(element, params)
-
-    // Instanciate renderer
-    const tagName = element.tagName.toLowerCase()
-    if (tagName === 'canvas') {
-      this.renderer = new CanvasRenderer(this)
-    } else if (tagName === 'svg') {
-      this.renderer = new SVGRenderer(this)
-    } else {
-      throw new Error(
-        `Graph: Element tag name must be "canvas" or "svg", got "${element.tagName}"`
-      )
-    }
   }
 
   destroy() {
-    this.renderer.destroy()
-
     // @ts-ignore
     this.element = undefined
     // @ts-ignore
@@ -180,26 +162,33 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       .sum((d) => d.value || 0)
       .sort(this.packSorting)
 
-    return d3
-      .pack<Data>()
-      .radius(() => settings.memberValue)
-      .padding((d) => {
-        // Circle
-        if (d.data.type === NodeType.Circle) {
-          const hasSubCircles = d.data.children?.some(
-            (c) => c.type === NodeType.Circle
-          )
-          if (!hasSubCircles) return settings.padding.circleWithoutSubCircle
-          const multipleChildren = (d.data.children?.length || 0) > 1
-          return multipleChildren
-            ? settings.padding.circleWithSubCircles
-            : settings.padding.circleWithSingleSubCircle
-        } else if (d.data.type === NodeType.MembersCircle) {
-          // Members Circle
-          return settings.padding.membersCircle
-        }
-        return 0
-      })(hierarchyNode)
+    return (
+      d3
+        .pack<Data>()
+        .radius(() => settings.memberValue)
+        .padding((d) => {
+          // Circle
+          if (d.data.type === NodeType.Circle) {
+            const hasSubCircles = d.data.children?.some(
+              (c) => c.type === NodeType.Circle
+            )
+            if (!hasSubCircles) return settings.padding.circleWithoutSubCircle
+            const multipleChildren = (d.data.children?.length || 0) > 1
+            return multipleChildren
+              ? settings.padding.circleWithSubCircles
+              : settings.padding.circleWithSingleSubCircle
+          } else if (d.data.type === NodeType.MembersCircle) {
+            // Members Circle
+            return settings.padding.membersCircle
+          }
+          return 0
+        })(hierarchyNode)
+
+        // Sort by depth and Y, then raise
+        .sort((a, b) =>
+          a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
+        )
+    )
   }
 
   updateData(circles: CircleFullFragment[]) {
@@ -235,6 +224,8 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
       )
     }
 
-    this.emit('nodesData', nodesMap.slice(1))
+    // Save and dispatch nodes data
+    this.nodes = nodesMap.slice(1)
+    this.emit('nodesData', this.nodes)
   }
 }

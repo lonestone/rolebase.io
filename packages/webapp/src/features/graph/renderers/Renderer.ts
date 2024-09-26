@@ -1,7 +1,7 @@
-import { CirclesGraph } from '../graphs/CirclesGraph'
+import { Graph } from '../graphs/Graph'
 
 export default abstract class Renderer {
-  constructor(public graph: CirclesGraph) {}
+  constructor(public graph: Graph) {}
 
   destroy() {
     // @ts-ignore

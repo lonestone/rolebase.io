@@ -1,7 +1,7 @@
 import { isSafari } from '@utils/env'
 import { Selection, ZoomTransform } from 'd3'
 import debounce from 'lodash.debounce'
-import { CirclesGraph } from '../../graphs/CirclesGraph'
+import { Graph } from '../../graphs/Graph'
 import { NodeData, NodeType } from '../../types'
 import Renderer from '../Renderer'
 import { AbstractCircleElement } from './elements/AbstractCircleElement'
@@ -19,7 +19,7 @@ export class SVGRenderer extends Renderer {
 
   private circleElements: AbstractCircleElement[]
 
-  constructor(public graph: CirclesGraph) {
+  constructor(public graph: Graph) {
     super(graph)
     this.updateCSSVariables()
 
@@ -67,7 +67,7 @@ export class SVGRenderer extends Renderer {
     this.graph.off('zoomScale', this.onZoomScale)
     document.body.removeEventListener('keydown', this.onKeyDown)
     document.body.removeEventListener('keyup', this.onKeyUp)
-    this.graph.element.removeEventListener('click', this.onClickOutside)
+    this.graph.element?.removeEventListener('click', this.onClickOutside)
 
     // @ts-ignore
     this.circleElements = undefined
@@ -155,12 +155,6 @@ export class SVGRenderer extends Renderer {
           return nodeExit
         }
       )
-
-      // Sort by depth and Y, then raise
-      .sort((a, b) =>
-        a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
-      )
-      .raise()
   }
 
   private drawCircleNames(nodesData: NodeData[]) {
@@ -266,13 +260,16 @@ export class SVGRenderer extends Renderer {
 
   // Update CSS variables according to zoom
   updateCSSVariables() {
-    const { element, zoomScale } = this.graph
-    element.style.setProperty('--zoom-scale', zoomScale.toString())
+    const {
+      element,
+      zoomTransform: { k },
+    } = this.graph
+    element.style.setProperty('--zoom-scale', k.toString())
 
     // Prevent from interacting with members when zoom < 1
     element.style.setProperty(
       '--member-pointer-events',
-      zoomScale > 1 ? 'auto' : 'none'
+      k > 1 ? 'auto' : 'none'
     )
   }
 

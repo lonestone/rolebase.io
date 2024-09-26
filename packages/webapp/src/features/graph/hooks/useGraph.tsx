@@ -38,31 +38,29 @@ export default function useGraph<Data, TGraph extends Graph<Data>>({
   const { colorMode } = useColorMode()
 
   // Viz
+  const [graph, setGraph] = useState<TGraph>()
   const graphRef = useRef<TGraph>()
-  const [ready, setReady] = useState(false)
 
-  // Display viz and update data
+  // Instanciate graph
   useEffect(() => {
-    // Init Graph
-    if (!graphRef.current) {
-      const params = {
-        width,
-        height,
-        colorMode,
-        focusCrop,
-        focusCircleScale,
-        events: events || {},
-      }
-      const graph = init(params)
-
-      // Change ready state after first draw
-      graph.once('nodesData', () => setReady(true))
-      graphRef.current = graph
-      graphContext?.setGraph(graph)
+    const params = {
+      width,
+      height,
+      colorMode,
+      focusCrop,
+      focusCircleScale,
+      events: events || {},
     }
+    const graph = init(params)
+    graphRef.current = graph
+    setGraph(graph)
+    graphContext?.setGraph(graph)
+    onReady?.()
+  }, [])
 
-    // (Re)-draw graph
-    graphRef.current.updateData(data)
+  // Update data
+  useEffect(() => {
+    graphRef.current?.updateData(data)
   }, [data])
 
   // Update dimensions
@@ -81,26 +79,23 @@ export default function useGraph<Data, TGraph extends Graph<Data>>({
   // Unmount
   useEffect(
     () => () => {
-      // Unmount graph
       graphRef.current?.destroy()
       graphContext?.setGraph(undefined)
     },
     []
   )
 
-  // Focus on a circle when focusCircleId is defined
+  // Re-apply data after graph is instanciated
   useEffect(() => {
-    if (ready) {
-      graphRef.current?.selectCircle(selectedCircleId)
+    if (graph?.inputData) {
+      graph.updateData(graph.inputData)
     }
-  }, [ready, selectedCircleId])
+  }, [graph])
 
-  // Call prop onReady when ready
+  // Focus on a circle
   useEffect(() => {
-    if (ready) {
-      onReady?.()
-    }
-  }, [ready])
+    graphRef.current?.selectCircle(selectedCircleId)
+  }, [selectedCircleId])
 
-  return graphRef
+  return graph
 }

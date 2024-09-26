@@ -152,7 +152,10 @@ export abstract class NodeObject {
   protected onPointerOver = () => {
     if (this.borderShape) return
     this.borderShape = new PIXI.Graphics()
-      .lineStyle(hoverBorderWidth / this.graph.zoomScale, this.getBorderColor())
+      .lineStyle(
+        hoverBorderWidth / this.graph.zoomTransform.k,
+        this.getBorderColor()
+      )
       .drawCircle(0, 0, this.d.r)
     this.container.addChild(this.borderShape)
   }

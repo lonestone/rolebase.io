@@ -23,12 +23,6 @@ export default {
     transition: d3.easeCubicInOut,
     duration: 500,
   },
-  addMenu: {
-    marginTop: 56,
-    padding: 10,
-    spacing: 5,
-    placeholderRadius: 25,
-  },
   style: {
     fontFamily: 'basier_circle',
   },
