@@ -15,6 +15,7 @@ export function Panzoom({ graph, children }: Props) {
     <Box
       position="relative"
       transformOrigin="top left"
+      userSelect="none"
       style={
         {
           transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.k})`,

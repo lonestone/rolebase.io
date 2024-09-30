@@ -2,7 +2,7 @@ import { NodeData } from '@/graph/types'
 import { Circle, Text } from '@chakra-ui/react'
 import { Participant } from '@rolebase/shared/model/member'
 import React, { useMemo } from 'react'
-import { getDarkColor, getLightColor } from '../colors'
+import { getDarkColor, getLightColor } from '../utils/colors'
 
 interface Props {
   node: NodeData

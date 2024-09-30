@@ -74,8 +74,7 @@ export class MouseCircleElement extends AbstractCircleElement {
               events.onCircleMove &&
               events.onMemberMove &&
               // Disable for invited circles (links)
-              (d.data.parentId === d.parent?.data.id ||
-                d.data.parentId === d.parent?.parent?.data.id)
+              d.data.id.indexOf('_') === -1
             )
           })
           .on('start', function (event, dragNode) {

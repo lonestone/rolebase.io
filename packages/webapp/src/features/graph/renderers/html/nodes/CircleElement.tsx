@@ -19,6 +19,7 @@ export default function CircleElement({ graph, node, selected }: Props) {
 
   return (
     <NodeElement
+      graph={graph}
       node={node}
       selected={selected}
       textAlign="center"

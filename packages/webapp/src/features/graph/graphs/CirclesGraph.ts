@@ -192,12 +192,12 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
   }
 
   updateData(circles: CircleFullFragment[]) {
+    const firstDraw = !this.inputData
     super.updateData(circles)
     const data = this.prepareData(circles)
 
     // Pack data with d3.pack
     const root = this.packData(data)
-    const firstDraw = !this.d3Root.select('.circle').node()
 
     // Get all nodes under root and rescale them
     const nodesMap = root.descendants()
@@ -219,8 +219,7 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
     if (firstDraw) {
       setTimeout(
         () => this.zoomTo(root.x, root.y, this.focusCircleScale(root)),
-        0,
-        true
+        0
       )
     }
 

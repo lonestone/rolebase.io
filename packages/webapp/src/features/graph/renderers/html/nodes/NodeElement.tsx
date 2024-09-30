@@ -1,33 +1,38 @@
+import { CirclesGraph } from '@/graph/graphs/CirclesGraph'
+import useMounted from '@/graph/hooks/useMounted'
 import { NodeData, NodeType } from '@/graph/types'
 import { BoxProps, Circle } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import { getDarkColor, getLightColor } from '../colors'
+import React from 'react'
+import { useDragNode } from '../hooks/useDragNode'
+import { getDarkColor, getLightColor } from '../utils/colors'
 
 interface Props extends BoxProps {
+  graph: CirclesGraph
   node: NodeData
   selected?: boolean
   children: React.ReactNode
 }
 
 export default function NodeElement({
+  graph,
   node,
   selected,
   children,
   ...boxProps
 }: Props) {
+  const mounted = useMounted()
+
   const parent =
     node.data.type === NodeType.Member ? node.parent?.parent : node.parent
   const depth = node.depth
   const hue = node.data.colorHue
 
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  // Drag & drop
+  const { handleMouseDown } = useDragNode(graph, node)
 
   return (
     <Circle
-      className="circle"
+      id={`node-${node.data.id}`}
       position="absolute"
       size={mounted ? `${node.r * 2}px` : '0px'}
       transform={
@@ -35,15 +40,23 @@ export default function NodeElement({
           ? `translate(${node.x - node.r}px, ${node.y - node.r}px)`
           : `translate(${parent.x}px, ${parent.y}px)`
       }
-      transition="transform 300ms ease-out, width 300ms ease-out, height 300ms ease-out"
+      transition={`
+        transform 300ms ease-out,
+        width 300ms ease-out,
+        height 300ms ease-out,
+        box-shadow 300ms ease-out,
+        opacity 300ms ease-out
+      `}
       cursor="pointer"
       bgColor={getLightColor(94, depth, hue)}
+      boxShadow={`0 1px 2px ${getLightColor(75, depth, hue)}`}
       outline={`${
         selected ? 'calc(4px / var(--zoom-scale))' : 0
       } solid ${getLightColor(75, depth, hue)}`}
       _dark={{
         bg: getDarkColor(16, depth, hue),
         outlineColor: getDarkColor(35, depth, hue),
+        boxShadow: `0 1px 2px ${getDarkColor(35, depth, hue)}`,
       }}
       _hover={
         !selected
@@ -56,7 +69,23 @@ export default function NodeElement({
             }
           : undefined
       }
-      ondrg
+      onMouseDown={handleMouseDown}
+      sx={{
+        '&.drag-node': {
+          boxShadow: `0 10px 10px ${getLightColor(75, depth, hue)}`,
+          _dark: {
+            boxShadow: `0 10px 10px ${getDarkColor(35, depth, hue)}`,
+          },
+        },
+        '&.dragging': {
+          opacity: 0.7,
+          zIndex: 100,
+          transition: 'none !important',
+        },
+        '&.drag-target': {
+          outlineWidth: 'calc(8px / var(--zoom-scale))',
+        },
+      }}
       {...boxProps}
     >
       {children}

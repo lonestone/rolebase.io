@@ -1,4 +1,5 @@
 import { CirclesGraph } from '@/graph/graphs/CirclesGraph'
+import useMounted from '@/graph/hooks/useMounted'
 import { NodeData, NodeType } from '@/graph/types'
 import { Text } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
@@ -18,13 +19,9 @@ interface Size {
 }
 
 export default function CircleTitleElement({ graph, node }: Props) {
+  const mounted = useMounted()
   const parent =
     node.data.type === NodeType.Member ? node.parent?.parent : node.parent
-
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   // Text size
   const textRef = useRef<HTMLDivElement>(null)

@@ -21,6 +21,7 @@ export default function MemberElement({ graph, node, selected }: Props) {
 
   return (
     <NodeElement
+      graph={graph}
       node={node}
       role="group"
       display="var(--display-members, flex)"
