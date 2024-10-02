@@ -5,6 +5,7 @@ import useCirclesGraph, { CirclesGraphProps } from './hooks/useCirclesGraph'
 import CirclesTitles from './renderers/html/CirclesTitles'
 import Nodes from './renderers/html/Nodes'
 import { Panzoom } from './renderers/html/Panzoom'
+import { useNodeCursor } from './renderers/html/hooks/useNodeCursor'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -19,15 +20,17 @@ export default forwardRef<CirclesGraph | undefined, CirclesGraphProps>(
     // Expose ref
     useImperativeHandle(ref, () => graph)
 
-    const focusWidth =
+    // Compute graph min size
+    const cropWidth =
       props.width - (props.focusCrop?.left || 0) - (props.focusCrop?.right || 0)
-
-    const focusHeight =
+    const cropHeight =
       props.height -
       (props.focusCrop?.top || 0) -
       (props.focusCrop?.bottom || 0)
+    const graphMinSize = Math.min(cropWidth, cropHeight)
 
-    const graphMinSize = Math.min(focusWidth, focusHeight)
+    // Cursor on nodes
+    const cursor = useNodeCursor(graph)
 
     // Click outside => unselect circle
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -44,6 +47,7 @@ export default forwardRef<CirclesGraph | undefined, CirclesGraphProps>(
         style={
           {
             '--graph-min-size': graphMinSize,
+            '--node-cursor': cursor,
           } as React.CSSProperties
         }
         onClick={handleClickOutside}

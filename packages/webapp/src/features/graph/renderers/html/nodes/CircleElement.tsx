@@ -22,7 +22,6 @@ export default function CircleElement({ graph, node, selected }: Props) {
       graph={graph}
       node={node}
       selected={selected}
-      textAlign="center"
       onClick={() => node.data.entityId && onCircleClick?.(node.data.entityId)}
     >
       <Text
@@ -44,11 +43,13 @@ export default function CircleElement({ graph, node, selected }: Props) {
         sx={{ textWrap: 'balance' }}
         position="absolute"
         bottom={`${node.r * 2 - 10}px`}
+        transition="bottom 1500ms ease-out"
         pointerEvents="none"
       >
         {node.data.name}
       </Text>
-      <CircleLeadersElement node={node} />
+
+      {node.data.participants && <CircleLeadersElement node={node} />}
     </NodeElement>
   )
 }

@@ -186,7 +186,8 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
 
         // Sort by depth and Y, then raise
         .sort((a, b) =>
-          a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
+          // a.depth === b.depth ? a.y - b.y :
+          a.depth < b.depth ? -1 : 1
         )
     )
   }

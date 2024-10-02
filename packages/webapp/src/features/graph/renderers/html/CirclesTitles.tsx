@@ -13,7 +13,7 @@ export default memo(function CirclesTitles({ graph }: Props) {
 
   return nodes.map((node) =>
     node.data.type === NodeType.Circle ? (
-      <CircleTitleElement key={node.data.id} graph={graph} node={node} />
+      <CircleTitleElement key={node.data.id} node={node} />
     ) : null
   )
 })

@@ -1,7 +1,7 @@
 import { Graph } from '@/graph/graphs/Graph'
 import { NodeData, NodeType } from '@/graph/types'
 import { truthy } from '@rolebase/shared/helpers/truthy'
-import React, { useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { isPointInsideCircle } from '../../svg/helpers/isPointInsideCircle'
 
 interface Position {
@@ -20,87 +20,101 @@ export function useDragNode(graph: Graph, node: NodeData) {
   const dragTargets = useRef<DragNode[]>([])
   const dragTarget = useRef<DragNode | undefined>()
 
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    const canDrag =
-      // Disable when mousewheel is pressed
-      event.button !== 1 &&
-      // Control/Command key is pressed
-      (event.ctrlKey || event.metaKey) &&
+  const canDrag = useMemo(
+    () =>
       // Disable when events are not provided
       graph.params.events.onCircleMove &&
       graph.params.events.onMemberMove &&
       // Disable for invited circles (links)
-      node.data.id.indexOf('_') === -1
+      node.data.id.indexOf('_') === -1,
+    [node, graph]
+  )
 
-    // Can't drag, click
-    if (!canDrag) return
+  const handleMouseDown = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const isDragging =
+        canDrag &&
+        // Disable when mousewheel is pressed
+        event.button !== 1 &&
+        // Control/Command key is pressed
+        (event.ctrlKey || event.metaKey)
+      if (!isDragging) return
 
-    // Register mouse position
-    dragOrigin.current = { x: event.clientX, y: event.clientY }
+      // Register mouse position
+      dragOrigin.current = { x: event.clientX, y: event.clientY }
 
-    // Register nodes to drag
-    const descendants = node.descendants()
-    dragNodes.current = [node, ...descendants]
-      .map((d) => {
-        const element = getNodeElement(d)
-        if (!element) return
-        return {
-          node: d,
-          element,
-        }
-      })
-      .filter(truthy)
-
-    // Register targets
-    dragTargets.current = graph.nodes
-      .filter(
-        (d) => !descendants.includes(d) && d.data.type === NodeType.Circle
-      )
-      .map((d) => {
-        const element = getNodeElement(d)
-        if (!element) return
-        return {
-          node: d,
-          element,
-        }
-      })
-      .filter(truthy)
-
-    // Add classes
-    dragNodes.current[0].element.classList.add('drag-node')
-    dragNodes.current.forEach((d) => {
-      d.element.classList.add('dragging')
-    })
-
-    const handleMouseUp = () => {
-      document.removeEventListener('mouseup', handleMouseUp)
-      document.removeEventListener('mousemove', handleMouseMove)
-
-      // Remove classes
-      dragNodes.current[0]?.element.classList.remove('drag-node')
-      dragNodes.current.forEach((d) => {
-        d.element.classList.remove('dragging')
-      })
-      dragTarget.current?.element.classList.remove('drag-target')
-
-      // Reset dragged circles
-      const actionMoved = false
-      if (dragNodes.current && !actionMoved) {
-        dragNodes.current.forEach((d) => {
-          setTimeout(() => {
-            d.element.style.transform = ''
-          }, 0)
+      // Register nodes to drag
+      const descendants = node.descendants()
+      dragNodes.current = [node, ...descendants]
+        .map((d) => {
+          const element = getNodeElement(d)
+          if (!element) return
+          return {
+            node: d,
+            element,
+          }
         })
-      }
+        .filter(truthy)
 
-      // Reset refs
-      dragOrigin.current = undefined
-      dragNodes.current = []
-      dragTargets.current = []
-      dragTarget.current = undefined
+      // Register targets
+      dragTargets.current = graph.nodes
+        .filter(
+          (d) => !descendants.includes(d) && d.data.type === NodeType.Circle
+        )
+        .map((d) => {
+          const element = getNodeElement(d)
+          if (!element) return
+          return {
+            node: d,
+            element,
+          }
+        })
+        .filter(truthy)
+
+      // Add classes
+      dragNodes.current[0].element.classList.add('drag-node')
+      dragNodes.current.forEach((d) => {
+        d.element.classList.add('dragging')
+      })
+
+      document.addEventListener('mouseup', handleMouseUp)
+      document.addEventListener('mousemove', handleMouseMove)
+    },
+    [canDrag, graph, node]
+  )
+
+  const handleMouseUp = useCallback(() => {
+    document.removeEventListener('mouseup', handleMouseUp)
+    document.removeEventListener('mousemove', handleMouseMove)
+
+    // Remove classes
+    dragNodes.current[0]?.element.classList.remove('drag-node')
+    dragNodes.current.forEach((d) => {
+      d.element.classList.remove('dragging')
+    })
+    dragTarget.current?.element.classList.remove('drag-target')
+
+    // Reset dragged circles
+    const actionMoved = false
+    if (dragNodes.current && !actionMoved) {
+      dragNodes.current.forEach((d) => {
+        setTimeout(() => {
+          d.element.style.transform = `translate(${d.node.x - d.node.r}px, ${
+            d.node.y - d.node.r
+          }px)`
+        }, 0)
+      })
     }
 
-    const handleMouseMove = (event: MouseEvent) => {
+    // Reset refs
+    dragOrigin.current = undefined
+    dragNodes.current = []
+    dragTargets.current = []
+    dragTarget.current = undefined
+  }, [graph])
+
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
       if (!dragOrigin.current || !dragTargets.current) return
 
       const { k } = graph.zoomTransform
@@ -122,13 +136,21 @@ export function useDragNode(graph: Graph, node: NodeData) {
           target.element.classList.add('drag-target')
         }
       }
-    }
+    },
+    [graph]
+  )
 
-    document.addEventListener('mouseup', handleMouseUp)
-    document.addEventListener('mousemove', handleMouseMove)
-  }
+  // Cleanup event listeners on unmount
+  useEffect(
+    () => () => {
+      document.removeEventListener('mouseup', handleMouseUp)
+      document.removeEventListener('mousemove', handleMouseMove)
+    },
+    [graph]
+  )
 
   return {
+    canDrag,
     handleMouseDown,
   }
 }

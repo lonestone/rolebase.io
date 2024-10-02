@@ -28,33 +28,41 @@ export default function NodeElement({
   const hue = node.data.colorHue
 
   // Drag & drop
-  const { handleMouseDown } = useDragNode(graph, node)
+  const { canDrag, handleMouseDown } = useDragNode(graph, node)
 
   return (
     <Circle
       id={`node-${node.data.id}`}
       position="absolute"
-      size={mounted ? `${node.r * 2}px` : '0px'}
-      transform={
-        mounted || !parent
-          ? `translate(${node.x - node.r}px, ${node.y - node.r}px)`
-          : `translate(${parent.x}px, ${parent.y}px)`
-      }
+      size={`${node.r * 2}px`}
+      style={{
+        transform:
+          mounted || !parent
+            ? `translate(${node.x - node.r}px, ${node.y - node.r}px) scale(1)`
+            : `translate(${parent.x - node.r}px, ${
+                parent.y - node.r
+              }px) scale(0)`,
+      }}
       transition={`
-        transform 300ms ease-out,
-        width 300ms ease-out,
-        height 300ms ease-out,
-        box-shadow 300ms ease-out,
-        opacity 300ms ease-out
+        transform 1500ms ease-out,
+        width 1500ms ease-out,
+        height 1500ms ease-out,
+        box-shadow 1500ms ease-out,
+        opacity 1500ms ease-out,
+        outline 100ms ease-out
       `}
-      cursor="pointer"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      textAlign="center"
+      cursor={canDrag ? `var(--node-cursor, pointer)` : 'pointer'}
       bgColor={getLightColor(94, depth, hue)}
       boxShadow={`0 1px 2px ${getLightColor(75, depth, hue)}`}
       outline={`${
         selected ? 'calc(4px / var(--zoom-scale))' : 0
       } solid ${getLightColor(75, depth, hue)}`}
       _dark={{
-        bg: getDarkColor(16, depth, hue),
+        bgColor: getDarkColor(16, depth, hue),
         outlineColor: getDarkColor(35, depth, hue),
         boxShadow: `0 1px 2px ${getDarkColor(35, depth, hue)}`,
       }}
@@ -79,8 +87,8 @@ export default function NodeElement({
         },
         '&.dragging': {
           opacity: 0.7,
-          zIndex: 100,
-          transition: 'none !important',
+          zIndex: 1,
+          transition: 'box-shadow 1500ms ease-out !important',
         },
         '&.drag-target': {
           outlineWidth: 'calc(8px / var(--zoom-scale))',

@@ -7,10 +7,9 @@ import NodeElement from './NodeElement'
 interface Props {
   graph: CirclesGraph
   node: NodeData
-  selected: boolean
 }
 
-export default function MemberElement({ graph, node, selected }: Props) {
+export default function MemberElement({ graph, node }: Props) {
   const { onMemberClick } = graph.params.events
 
   const hideFirstname = !!node.data.picture
@@ -37,7 +36,6 @@ export default function MemberElement({ graph, node, selected }: Props) {
       <Text
         color="white"
         fontSize="10px"
-        textAlign="center"
         display={hideFirstname ? 'none' : 'block'}
         _groupHover={{ display: 'block' }}
       >

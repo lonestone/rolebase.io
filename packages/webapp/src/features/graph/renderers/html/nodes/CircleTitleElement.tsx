@@ -1,11 +1,9 @@
-import { CirclesGraph } from '@/graph/graphs/CirclesGraph'
 import useMounted from '@/graph/hooks/useMounted'
 import { NodeData, NodeType } from '@/graph/types'
-import { Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 
 interface Props {
-  graph: CirclesGraph
   node: NodeData
 }
 
@@ -18,7 +16,7 @@ interface Size {
   height: number
 }
 
-export default function CircleTitleElement({ graph, node }: Props) {
+export default function CircleTitleElement({ node }: Props) {
   const mounted = useMounted()
   const parent =
     node.data.type === NodeType.Member ? node.parent?.parent : node.parent
@@ -27,8 +25,6 @@ export default function CircleTitleElement({ graph, node }: Props) {
   const textRef = useRef<HTMLDivElement>(null)
   const [size, setSize] = useState<Size | undefined>(undefined)
   const sizeRatio = size ? (node.r * 2 * 0.9) / size.width : 1
-  const finalWidth = sizeRatio * (size?.width || 0)
-  const finalHeight = sizeRatio * (size?.height || 0)
 
   useEffect(() => {
     setSize(undefined)
@@ -44,29 +40,34 @@ export default function CircleTitleElement({ graph, node }: Props) {
   }, [size])
 
   return (
-    <Text
-      ref={textRef}
+    <Flex
       position="absolute"
+      width={mounted ? `${node.r * 2}px` : '0px'}
+      height={mounted ? `${node.r * 2}px` : '0px'}
       transform={
         mounted || !parent
-          ? `translate(${node.x - finalWidth / 2}px, ${
-              node.y - finalHeight / 2
-            }px)`
+          ? `translate(${node.x - node.r}px, ${node.y - node.r}px)`
           : `translate(${parent.x}px, ${parent.y}px)`
       }
-      transition={
-        size
-          ? 'transform 300ms ease-out, font-size 300ms ease-out'
-          : 'transform 300ms ease-out'
-      }
-      fontSize={`${sizeRatio * 10}px`}
-      fontWeight="bold"
-      textAlign="center"
-      whiteSpace="nowrap"
+      transition={`
+        transform 1500ms ease-out,
+        width 1500ms ease-out,
+        height 1500ms ease-out
+      `}
+      justifyContent="center"
+      alignItems="center"
       pointerEvents="none"
-      opacity={
-        size
-          ? `clamp(0, min(
+    >
+      <Text
+        ref={textRef}
+        transition={size ? 'font-size 1500ms ease-out' : undefined}
+        fontSize={`${sizeRatio * 10}px`}
+        fontWeight="bold"
+        textAlign="center"
+        whiteSpace="nowrap"
+        opacity={
+          size
+            ? `clamp(0, min(
         (1 - var(--zoom-scale) - ${gap}) * ${rate},
         1 - (var(--zoom-scale) * ${
           node.r * 2
@@ -79,10 +80,11 @@ export default function CircleTitleElement({ graph, node }: Props) {
             : '1'
         }
       ), 1)`
-          : 0
-      }
-    >
-      {node.data.name}
-    </Text>
+            : 0
+        }
+      >
+        {node.data.name}
+      </Text>
+    </Flex>
   )
 }

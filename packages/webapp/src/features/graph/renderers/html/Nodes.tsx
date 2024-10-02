@@ -24,12 +24,7 @@ export default memo(function Nodes({ graph }: Props) {
         selected={selected}
       />
     ) : node.data.type === NodeType.Member ? (
-      <MemberElement
-        key={node.data.id}
-        graph={graph}
-        node={node}
-        selected={selected}
-      />
+      <MemberElement key={node.data.id} graph={graph} node={node} />
     ) : null
   })
 })

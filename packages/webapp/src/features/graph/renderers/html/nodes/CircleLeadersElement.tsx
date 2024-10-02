@@ -1,5 +1,5 @@
 import { NodeData } from '@/graph/types'
-import { Circle, Text } from '@chakra-ui/react'
+import { Box, Circle, Text } from '@chakra-ui/react'
 import { Participant } from '@rolebase/shared/model/member'
 import React, { useMemo } from 'react'
 import { getDarkColor, getLightColor } from '../utils/colors'
@@ -8,16 +8,12 @@ interface Props {
   node: NodeData
 }
 
-const radiusRatio = 0.4
-const padding2Ratio = 0.2
-const padding3Ratio = 0.03
+const width = 30
+const container1Width = width
+const container2Width = 62
+const container3Width = 70
 
-export default function leadersElement({ node }: Props) {
-  if (!node.data.participants?.length) return null
-
-  const depth = node.depth + 1
-  const hue = node.data.colorHue
-
+export default function CircleLeadersElement({ node }: Props) {
   // Get participants leaders
   const leaders = useMemo(
     () =>
@@ -32,44 +28,50 @@ export default function leadersElement({ node }: Props) {
     [node.data.participants]
   )
 
-  const radius = node.r * radiusRatio
-  const padding =
-    node.r * ((leaders?.length || 0) > 2 ? padding3Ratio : padding2Ratio)
-  const xRange = 2 * (node.r - padding - radius)
+  if (!leaders) return null
+
+  const depth = node.depth + 1
+  const hue = node.data.colorHue
+  const containerWidth =
+    leaders.length === 1
+      ? container1Width
+      : leaders.length === 2
+      ? container2Width
+      : container3Width
 
   return (
-    leaders?.map((leader, i) => {
-      const reverseI = leaders.length - 1 - i
-      const x =
-        !leaders || leaders.length === 1
-          ? node.r - radius
-          : padding + (reverseI / (leaders.length - 1)) * xRange
-
-      const y = node.r - radius
-
-      return (
-        <Circle
-          key={leader.member.id}
-          display="var(--display-members, flex)"
-          position="absolute"
-          top={`${y}px`}
-          left={`${x}px`}
-          size={`${radius * 2}px`}
-          bgImg={`url(${leader.member.picture})`}
-          bgPos="center"
-          bgSize="cover"
-          bgColor={getLightColor(94, depth, hue)}
-          _dark={{
-            bg: getDarkColor(16, depth, hue),
-          }}
-        >
-          {!leader.member.picture && (
-            <Text color="white" fontSize="10px">
-              {leader.member.name[0].toUpperCase()}
-            </Text>
-          )}
-        </Circle>
-      )
-    }) || null
+    <Box
+      position="relative"
+      width={`${containerWidth}px`}
+      height={`${width}px`}
+    >
+      {leaders?.map((leader, i) => {
+        const reverseI = leaders.length - 1 - i
+        const x = (reverseI / (leaders.length - 1)) * (containerWidth - width)
+        return (
+          <Circle
+            key={leader.member.id}
+            display="var(--display-members, flex)"
+            position="absolute"
+            top={0}
+            left={`${x}px`}
+            size={`${width}px`}
+            bgImg={`url(${leader.member.picture})`}
+            bgPos="center"
+            bgSize="cover"
+            bgColor={getLightColor(94, depth, hue)}
+            _dark={{
+              bgColor: getDarkColor(16, depth, hue),
+            }}
+          >
+            {!leader.member.picture && (
+              <Text color="white" fontSize="10px">
+                {leader.member.name[0].toUpperCase()}
+              </Text>
+            )}
+          </Circle>
+        )
+      })}
+    </Box>
   )
 }
