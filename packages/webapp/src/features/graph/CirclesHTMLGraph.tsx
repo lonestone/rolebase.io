@@ -44,6 +44,7 @@ export default forwardRef<CirclesGraph | undefined, CirclesGraphProps>(
         ref={containerRef}
         width={props.width}
         height={props.height}
+        overflow="hidden"
         style={
           {
             '--graph-min-size': graphMinSize,

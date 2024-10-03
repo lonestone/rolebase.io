@@ -4,7 +4,6 @@ import { useElementSize } from '@/common/hooks/useElementSize'
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import useQueryParams from '@/common/hooks/useQueryParams'
 import CirclesHTMLGraph from '@/graph/CirclesHTMLGraph'
-import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
 import { CirclesGraphViews } from '@/graph/types'
@@ -46,7 +45,6 @@ export default function CirclesPage() {
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
-  const [beta, setBeta] = useState(false)
   const [ready, setReady] = useState(false)
 
   // Content size
@@ -129,34 +127,19 @@ export default function CirclesPage() {
         right={0}
         overflow="hidden"
       >
-        {org &&
-          circles &&
-          boxSize &&
-          (beta ? (
-            <CirclesHTMLGraph
-              key={view + colorMode}
-              view={view}
-              circles={circles}
-              events={events}
-              width={boxSize.width}
-              height={boxSize.height}
-              focusCrop={focusCrop}
-              selectedCircleId={circleId}
-              onReady={() => setReady(true)}
-            />
-          ) : (
-            <CirclesSVGGraph
-              key={view + colorMode}
-              view={view}
-              circles={circles}
-              events={events}
-              width={boxSize.width}
-              height={boxSize.height}
-              focusCrop={focusCrop}
-              selectedCircleId={circleId}
-              onReady={() => setReady(true)}
-            />
-          ))}
+        {org && circles && boxSize && (
+          <CirclesHTMLGraph
+            key={view + colorMode}
+            view={view}
+            circles={circles}
+            events={events}
+            width={boxSize.width}
+            height={boxSize.height}
+            focusCrop={focusCrop}
+            selectedCircleId={circleId}
+            onReady={() => setReady(true)}
+          />
+        )}
       </Box>
 
       {panel === Panels.Circle && circleId && (
@@ -184,8 +167,6 @@ export default function CirclesPage() {
       <CirclesGraphOptions
         view={view}
         onViewChange={setView}
-        beta={beta}
-        onBetaChange={setBeta}
         p={2}
         pl={
           sidebarContext?.minimize.isOpen && !sidebarContext?.isMobile ? 12 : 2

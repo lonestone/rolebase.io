@@ -11,6 +11,9 @@ const gap = 0.01
 const rate = 20
 const threshold = 2 / 3
 
+const topThreshold = 2 / 3
+const topRate = 20
+
 interface Size {
   width: number
   height: number
@@ -41,29 +44,38 @@ export default function CircleTitleElement({ node }: Props) {
 
   return (
     <Flex
+      id={`circle-title-${node.data.id}`}
       position="absolute"
       width={mounted ? `${node.r * 2}px` : '0px'}
       height={mounted ? `${node.r * 2}px` : '0px'}
-      transform={
-        mounted || !parent
-          ? `translate(${node.x - node.r}px, ${node.y - node.r}px)`
-          : `translate(${parent.x}px, ${parent.y}px)`
-      }
+      style={{
+        transform:
+          mounted || !parent
+            ? `translate(${node.x - node.r}px, ${node.y - node.r}px)`
+            : `translate(${parent.x}px, ${parent.y}px)`,
+      }}
       transition={`
-        transform 1500ms ease-out,
-        width 1500ms ease-out,
-        height 1500ms ease-out
+        transform 300ms ease-out,
+        width 300ms ease-out,
+        height 300ms ease-out
       `}
       justifyContent="center"
       alignItems="center"
+      textAlign="center"
       pointerEvents="none"
+      sx={{
+        '&.dragging': {
+          opacity: 0.7,
+          zIndex: 1,
+          transition: 'none !important',
+        },
+      }}
     >
       <Text
         ref={textRef}
-        transition={size ? 'font-size 1500ms ease-out' : undefined}
+        transition={size ? 'font-size 300ms ease-out' : undefined}
         fontSize={`${sizeRatio * 10}px`}
         fontWeight="bold"
-        textAlign="center"
         whiteSpace="nowrap"
         opacity={
           size
@@ -82,6 +94,31 @@ export default function CircleTitleElement({ node }: Props) {
       ), 1)`
             : 0
         }
+      >
+        {node.data.name}
+      </Text>
+
+      <Text
+        position="absolute"
+        bottom={`${node.r * 2 - 10}px`}
+        transition="bottom 300ms ease-out"
+        maxH="2em"
+        minW="100px"
+        overflow="hidden"
+        textOverflow="ellipsis"
+        opacity={`max(
+            (var(--zoom-scale) - 1) * ${topRate} + 1,
+            (var(--zoom-scale) * (${
+              node.r * 2
+            } / var(--graph-min-size)) - ${topThreshold}) * ${topRate}
+          )`}
+        fontSize={`calc(${
+          10 + Math.min(node.r / 1000, 1) * 10
+        }px / var(--zoom-scale) + var(--zoom-scale) * 1px)`}
+        fontWeight="bold"
+        lineHeight="1em"
+        sx={{ textWrap: 'balance' }}
+        pointerEvents="none"
       >
         {node.data.name}
       </Text>

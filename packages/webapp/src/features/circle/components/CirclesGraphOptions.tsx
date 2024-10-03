@@ -15,8 +15,6 @@ import GraphViewsSelect from './GraphViewsSelect'
 interface CirclesGraphOptionsProps extends StyleProps {
   view: CirclesGraphViews
   onViewChange: (view: CirclesGraphViews) => void
-  beta: boolean
-  onBetaChange: (beta: boolean) => void
 }
 
 const buttonsProps = {
@@ -45,8 +43,6 @@ const buttonsProps = {
 export default function CirclesGraphOptions({
   view,
   onViewChange,
-  beta,
-  onBetaChange,
   ...styleProps
 }: CirclesGraphOptionsProps) {
   const { t } = useTranslation()
@@ -108,16 +104,6 @@ export default function CirclesGraphOptions({
           )}
         </>
       )}
-
-      <Button
-        size="sm"
-        border={0}
-        opacity={beta ? 1 : 0}
-        _hover={{ opacity: 1 }}
-        onClick={() => onBetaChange(!beta)}
-      >
-        {beta ? 'Disable beta' : 'Try beta'}
-      </Button>
 
       {baseRolesModal.isOpen && (
         <BaseRolesModal isOpen onClose={baseRolesModal.onClose} />

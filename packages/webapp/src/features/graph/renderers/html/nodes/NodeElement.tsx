@@ -44,11 +44,11 @@ export default function NodeElement({
               }px) scale(0)`,
       }}
       transition={`
-        transform 1500ms ease-out,
-        width 1500ms ease-out,
-        height 1500ms ease-out,
-        box-shadow 1500ms ease-out,
-        opacity 1500ms ease-out,
+        transform 300ms ease-out,
+        width 300ms ease-out,
+        height 300ms ease-out,
+        box-shadow 300ms ease-out,
+        opacity 300ms ease-out,
         outline 100ms ease-out
       `}
       display="flex"
@@ -67,7 +67,7 @@ export default function NodeElement({
         boxShadow: `0 1px 2px ${getDarkColor(35, depth, hue)}`,
       }}
       _hover={
-        !selected
+        boxProps.onClick && !selected
           ? {
               outlineColor: getLightColor(88, depth, hue),
               outlineWidth: 'calc(4px / var(--zoom-scale))',
@@ -77,7 +77,6 @@ export default function NodeElement({
             }
           : undefined
       }
-      onMouseDown={handleMouseDown}
       sx={{
         '&.drag-node': {
           boxShadow: `0 10px 10px ${getLightColor(75, depth, hue)}`,
@@ -88,12 +87,13 @@ export default function NodeElement({
         '&.dragging': {
           opacity: 0.7,
           zIndex: 1,
-          transition: 'box-shadow 1500ms ease-out !important',
+          transition: 'box-shadow 300ms ease-out !important',
         },
         '&.drag-target': {
           outlineWidth: 'calc(8px / var(--zoom-scale))',
         },
       }}
+      onMouseDown={handleMouseDown}
       {...boxProps}
     >
       {children}

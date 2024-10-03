@@ -27,10 +27,13 @@ export default function MemberElement({ graph, node }: Props) {
       bgImg={`url(${node.data.picture})`}
       bgPos="center"
       bgSize="cover"
-      onClick={() =>
-        node.data.parentId &&
-        node.data.entityId &&
-        onMemberClick?.(node.data.parentId, node.data.entityId)
+      onClick={
+        onMemberClick
+          ? () =>
+              node.data.parentId &&
+              node.data.entityId &&
+              onMemberClick?.(node.data.parentId, node.data.entityId)
+          : undefined
       }
     >
       <Text
