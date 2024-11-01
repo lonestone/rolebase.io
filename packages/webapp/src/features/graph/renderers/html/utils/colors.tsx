@@ -9,18 +9,10 @@ export const getLightColor = (
   lightness: number,
   depth = 1,
   hue = defaultCircleColorHue
-) =>
-  circleColor(
-    `${lightness - (depth - 1) * depthColorVariation}%`,
-    hue.toString()
-  )
+) => circleColor(lightness - (depth - 1) * depthColorVariation, hue)
 
 export const getDarkColor = (
   lightness: number,
   depth = 1,
   hue = defaultCircleColorHue
-) =>
-  circleColor(
-    `${lightness + (depth - 1) * depthColorVariation}%`,
-    hue.toString()
-  )
+) => circleColor(lightness + (depth - 1) * depthColorVariation, hue)

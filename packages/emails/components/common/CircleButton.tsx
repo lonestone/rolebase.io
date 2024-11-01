@@ -14,7 +14,7 @@ export default function CircleButton({ name, colorHue, url }: Props) {
       href={url}
       className="m-0 text-inherit text-xs font-medium px-2 py-1 rounded-full"
       style={{
-        backgroundColor: circleColor('92%', colorHue),
+        backgroundColor: circleColor(92, colorHue),
       }}
     >
       {name}

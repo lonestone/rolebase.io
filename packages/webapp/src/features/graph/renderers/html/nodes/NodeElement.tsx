@@ -13,10 +13,13 @@ interface Props extends BoxProps {
   children: React.ReactNode
 }
 
+// const defaultSize = 78
+
 export default function NodeElement({
   graph,
   node,
   selected,
+  style,
   children,
   ...boxProps
 }: Props) {
@@ -34,22 +37,28 @@ export default function NodeElement({
     <Circle
       id={`node-${node.data.id}`}
       position="absolute"
-      size={`${node.r * 2}px`}
       style={{
+        width: `${node.r * 2}px`,
+        height: `${node.r * 2}px`,
+        // width: `${defaultSize}px`,
+        // height: `${defaultSize}px`,
         transform:
           mounted || !parent
             ? `translate(${node.x - node.r}px, ${node.y - node.r}px) scale(1)`
-            : `translate(${parent.x - node.r}px, ${
+            : // `translate(${node.x - defaultSize / 2}px, ${
+              //   node.y - defaultSize / 2
+              // }px) scale(${(node.r * 2) / defaultSize})`
+              `translate(${parent.x - node.r}px, ${
                 parent.y - node.r
               }px) scale(0)`,
+        ...style,
       }}
       transition={`
-        transform 300ms ease-out,
-        width 300ms ease-out,
-        height 300ms ease-out,
-        box-shadow 300ms ease-out,
-        opacity 300ms ease-out,
-        outline 100ms ease-out
+        transform 1500ms ease-out,
+        width 1500ms ease-out,
+        height 1500ms ease-out,
+        box-shadow 1500ms ease-out,
+        opacity 1500ms ease-out
       `}
       display="flex"
       justifyContent="center"
@@ -87,7 +96,7 @@ export default function NodeElement({
         '&.dragging': {
           opacity: 0.7,
           zIndex: 1,
-          transition: 'box-shadow 300ms ease-out !important',
+          transition: 'box-shadow 1500ms ease-out !important',
         },
         '&.drag-target': {
           outlineWidth: 'calc(8px / var(--zoom-scale))',

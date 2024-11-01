@@ -24,7 +24,9 @@ export default function MemberElement({ graph, node }: Props) {
       node={node}
       role="group"
       display="var(--display-members, flex)"
-      bgImg={`url(${node.data.picture})`}
+      style={{
+        backgroundImage: `url(${node.data.picture})`,
+      }}
       bgPos="center"
       bgSize="cover"
       onClick={

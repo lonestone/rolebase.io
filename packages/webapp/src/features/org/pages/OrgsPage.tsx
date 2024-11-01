@@ -3,7 +3,7 @@ import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import { useElementSize } from '@/common/hooks/useElementSize'
-import CirclesHTMLGraph from '@/graph/CirclesHTMLGraph'
+import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { CirclesGraphViews, GraphEvents } from '@/graph/types'
 import {
   Box,
@@ -124,7 +124,7 @@ export default function OrgsPage() {
           overflow="hidden"
         >
           {circles && boxSize && (
-            <CirclesHTMLGraph
+            <CirclesSVGGraph
               key={colorMode}
               view={CirclesGraphViews.AllCircles}
               circles={circles}

@@ -21,11 +21,11 @@ export default function CircleButton({
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button
         borderRadius="full"
-        bg={circleColor('92%', hue)}
-        _hover={{ bg: circleColor('87%', hue) }}
+        bg={circleColor(92, hue)}
+        _hover={{ bg: circleColor(87, hue) }}
         _dark={{
-          bg: circleColor('25%', hue),
-          _hover: { bg: circleColor('30%', hue) },
+          bg: circleColor(25, hue),
+          _hover: { bg: circleColor(30, hue) },
         }}
         {...buttonProps}
         size={buttonProps.size || 'sm'}

@@ -3,7 +3,7 @@ import { Title } from '@/common/atoms/Title'
 import { useElementSize } from '@/common/hooks/useElementSize'
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import useQueryParams from '@/common/hooks/useQueryParams'
-import CirclesHTMLGraph from '@/graph/CirclesHTMLGraph'
+import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
 import { CirclesGraphViews } from '@/graph/types'
@@ -128,7 +128,7 @@ export default function CirclesPage() {
         overflow="hidden"
       >
         {org && circles && boxSize && (
-          <CirclesHTMLGraph
+          <CirclesSVGGraph
             key={view + colorMode}
             view={view}
             circles={circles}

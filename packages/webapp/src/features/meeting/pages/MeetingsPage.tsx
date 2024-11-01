@@ -86,7 +86,7 @@ export default function MeetingsPage() {
 
   // Colors
   const { colorMode } = useColorMode()
-  const colorLightness = colorMode === 'light' ? '92%' : '25%'
+  const colorLightness = colorMode === 'light' ? 92 : 25
 
   // Dates range
   const [datesRange, setDatesRange] = useState<[Date, Date] | undefined>(
