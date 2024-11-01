@@ -2,12 +2,11 @@ import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import MeetingsList from '@/meeting/components/MeetingsList'
 import MeetingEditModal from '@/meeting/modals/MeetingEditModal'
-import MeetingModal from '@/meeting/modals/MeetingModal'
 import MeetingRecurringListModal from '@/meeting/modals/MeetingRecurringListModal'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import { Button, Flex, Spacer, useDisclosure } from '@chakra-ui/react'
 import { useCircleMeetingsSubscription } from '@gql'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon, MeetingRecurringIcon } from 'src/icons'
 
@@ -27,15 +26,8 @@ export default function CircleMeetings({ circleId }: Props) {
   const meetings = data?.meeting
 
   // Modals
-  const [meetingId, setMeetingId] = useState<string | undefined>()
-  const meetingModal = useDisclosure()
   const createModal = useDisclosure()
   const recurringModal = useDisclosure()
-
-  const handleCreate = (id: string) => {
-    setMeetingId(id)
-    meetingModal.onOpen()
-  }
 
   return (
     <>
@@ -64,18 +56,13 @@ export default function CircleMeetings({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {meetings && <MeetingsList meetings={meetings} />}
-
-      {meetingModal.isOpen && meetingId && (
-        <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />
-      )}
+      {meetings && <MeetingsList meetings={meetings} noModal />}
 
       {createModal.isOpen && (
         <MeetingEditModal
           defaultCircleId={circleId}
           isOpen
           onClose={createModal.onClose}
-          onCreate={handleCreate}
         />
       )}
 

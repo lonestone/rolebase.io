@@ -41,11 +41,8 @@ import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
-  defaultCircleId?: string
-  defaultTitle?: string
-  defaultDescription?: string
-  defaultPrivate?: boolean
   decision?: DecisionFragment
+  defaults?: Partial<DecisionFragment>
   onCreate?(id: string): void
 }
 
@@ -64,10 +61,7 @@ const resolver = yupResolver(
 )
 
 export default function DecisionEditModal({
-  defaultCircleId,
-  defaultTitle,
-  defaultDescription,
-  defaultPrivate,
+  defaults,
   decision,
   onCreate,
   ...modalProps
@@ -87,10 +81,10 @@ export default function DecisionEditModal({
         private: decision.private,
       }
     : {
-        title: defaultTitle || '',
-        description: defaultDescription || '',
-        circleId: defaultCircleId || '',
-        private: defaultPrivate || false,
+        title: defaults?.title || '',
+        description: defaults?.description || '',
+        circleId: defaults?.circleId || '',
+        private: defaults?.private || false,
       }
 
   const formMethods = useForm<Values>({

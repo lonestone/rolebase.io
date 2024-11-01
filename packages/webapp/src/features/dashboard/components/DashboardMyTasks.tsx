@@ -54,7 +54,7 @@ export default function DashboardMyTasks() {
       {createModal.isOpen && (
         <TaskModal
           isOpen
-          defaultMemberId={member?.id}
+          defaults={{ memberId: member?.id }}
           onClose={createModal.onClose}
         />
       )}

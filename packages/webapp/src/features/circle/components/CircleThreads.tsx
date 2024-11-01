@@ -47,7 +47,9 @@ export default function CircleThreads({ circleId }: Props) {
 
       {isCreateOpen && (
         <ThreadEditModal
-          defaultCircleId={circleId}
+          defaults={{
+            circleId,
+          }}
           isOpen
           onClose={onCreateClose}
         />

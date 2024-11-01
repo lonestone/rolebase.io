@@ -14,7 +14,7 @@ type Params = {
 export default function MeetingRecurringPage() {
   const { t } = useTranslation()
   const navigateOrg = useNavigateOrg()
-  const id = useParams<Params>().id
+  const { id } = useParams<Params>()
 
   if (!id) return <Page404 />
 

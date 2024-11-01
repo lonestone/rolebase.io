@@ -62,7 +62,9 @@ export default function CircleDecisions({ circleId }: Props) {
 
       {editModal.isOpen && (
         <DecisionEditModal
-          defaultCircleId={circleId}
+          defaults={{
+            circleId,
+          }}
           isOpen
           onClose={editModal.onClose}
           onCreate={handleOpen}

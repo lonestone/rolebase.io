@@ -8,6 +8,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import TasksContent from '../components/TasksContent'
 import TasksHeader from '../components/TasksHeader'
+import { TasksModuleProvider } from '../contexts/TasksModuleContext'
 
 type Params = {
   view: TasksViewTypes
@@ -47,35 +48,35 @@ export default function TasksPage() {
   const handleStatusChange = (status: Task_Status_Enum | undefined) =>
     changeParams({ status })
 
-  const paramsProps = {
-    view,
-    circleId,
-    memberId,
-    status,
-    onViewChange: handleViewChange,
-    onCircleChange: handleCircleChange,
-    onMemberChange: handleMemberChange,
-    onStatusChange: handleStatusChange,
-  }
-
   return (
-    <ScrollableLayout
-      header={
-        <TasksHeader
-          {...paramsProps}
-          title={
-            <Heading as="h1" size="lg" ml={5} mr={7}>
-              {t('TasksPage.heading')}
-            </Heading>
-          }
-        />
-      }
+    <TasksModuleProvider
+      view={view}
+      circleId={circleId}
+      memberId={memberId}
+      status={status}
+      onViewChange={handleViewChange}
+      onCircleChange={handleCircleChange}
+      onMemberChange={handleMemberChange}
+      onStatusChange={handleStatusChange}
     >
-      <Title>{t('TasksPage.heading')}</Title>
+      <ScrollableLayout
+        header={
+          <TasksHeader
+            showCreateBtn
+            title={
+              <Heading as="h1" size="lg" ml={5} mr={7}>
+                {t('TasksPage.heading')}
+              </Heading>
+            }
+          />
+        }
+      >
+        <Title>{t('TasksPage.heading')}</Title>
 
-      <Box h="100%" px={7} py={10} overflowX="auto">
-        <TasksContent {...paramsProps} />
-      </Box>
-    </ScrollableLayout>
+        <Box h="100%" px={7} py={10} overflowX="auto">
+          <TasksContent />
+        </Box>
+      </ScrollableLayout>
+    </TasksModuleProvider>
   )
 }

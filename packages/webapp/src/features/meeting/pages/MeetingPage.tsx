@@ -9,7 +9,7 @@ type Params = {
 }
 
 export default function MeetingPage() {
-  const meetingId = useParams<Params>().meetingId
+  const { meetingId } = useParams<Params>()
 
   // Hide overflow to avoid editor cursor to overflow
   useOverflowHidden()

@@ -67,7 +67,7 @@ export default function CircleTasks({ circleId }: Props) {
       />
 
       {isCreateOpen && (
-        <TaskModal defaultCircleId={circleId} isOpen onClose={onCreateClose} />
+        <TaskModal defaults={{ circleId }} isOpen onClose={onCreateClose} />
       )}
     </>
   )

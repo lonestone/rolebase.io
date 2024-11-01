@@ -9,7 +9,7 @@ type Params = {
 }
 
 export default function DecisionPage() {
-  const decisionId = useParams<Params>().decisionId
+  const { decisionId } = useParams<Params>()
   const navigate = useNavigate()
 
   if (!decisionId) return <Page404 />

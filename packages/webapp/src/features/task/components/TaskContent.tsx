@@ -44,6 +44,7 @@ import {
 } from '@chakra-ui/react'
 import {
   Task_Status_Enum,
+  TaskFragment,
   useTaskSubscription,
   useUpdateTaskMutation,
 } from '@gql'
@@ -67,12 +68,8 @@ import TaskStatusTag from './TaskStatusTag'
 interface Props extends BoxProps {
   id?: string
   changeTitle?: boolean
-  defaultCircleId?: string
-  defaultMemberId?: string
-  defaultTitle?: string
-  defaultDescription?: string
-  defaultPrivate?: boolean
   headerIcons?: React.ReactNode
+  defaults?: Partial<TaskFragment>
   onClose(): void
   onCreate?(taskId: string): void
 }
@@ -97,11 +94,7 @@ const resolver = yupResolver(
 export default function TaskContent({
   id,
   changeTitle,
-  defaultCircleId,
-  defaultMemberId,
-  defaultTitle,
-  defaultDescription,
-  defaultPrivate,
+  defaults,
   headerIcons,
   onClose,
   onCreate,
@@ -137,12 +130,12 @@ export default function TaskContent({
   } = useForm<Values>({
     resolver,
     defaultValues: {
-      circleId: defaultCircleId || '',
-      memberId: defaultMemberId || null,
-      title: defaultTitle || '',
-      description: defaultDescription || '',
+      circleId: defaults?.circleId || '',
+      memberId: defaults?.memberId || null,
+      title: defaults?.title || '',
+      description: defaults?.description || '',
       dueDate: null,
-      private: defaultPrivate || false,
+      private: defaults?.private || false,
     },
   })
 
@@ -178,7 +171,7 @@ export default function TaskContent({
       // Create task
       const newTask = await createTask({
         orgId,
-        status: Task_Status_Enum.Open,
+        status: defaults?.status || Task_Status_Enum.Open,
         ...taskUpdate,
       })
       if (!newTask) return

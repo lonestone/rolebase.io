@@ -122,7 +122,9 @@ export default function MeetingStepContentThreads({ step }: Props) {
           {createModal.isOpen && (
             <ThreadEditModal
               isOpen
-              defaultCircleId={circle.id}
+              defaults={{
+                circleId: circle.id,
+              }}
               onCreate={(id) => add(step.id, id)}
               onClose={createModal.onClose}
             />

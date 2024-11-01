@@ -8,6 +8,7 @@ interface Props {
   count?: number
   colorScheme?: ThemingProps['colorScheme']
   children: ReactNode
+  extra?: ReactNode
 }
 
 export function KanbanColumn({
@@ -16,6 +17,7 @@ export function KanbanColumn({
   colorScheme,
   count,
   children,
+  extra,
 }: Props) {
   return (
     <Droppable droppableId={id}>
@@ -65,6 +67,7 @@ export function KanbanColumn({
               bg={`${colorScheme}.400`}
               _dark={{ bg: `${colorScheme}.700` }}
             />
+
             <Box
               ref={provided.innerRef}
               minH={150}
@@ -73,6 +76,7 @@ export function KanbanColumn({
             >
               {children}
               {provided.placeholder}
+              {extra}
             </Box>
           </Box>
         </Box>

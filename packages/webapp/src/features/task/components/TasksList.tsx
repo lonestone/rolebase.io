@@ -1,4 +1,5 @@
-import { Box, HTMLChakraProps, Text } from '@chakra-ui/react'
+import useOrgMember from '@/member/hooks/useOrgMember'
+import { Box, Button, HTMLChakraProps, Text } from '@chakra-ui/react'
 import { TaskFragment } from '@gql'
 import {
   DragDropContext,
@@ -6,8 +7,9 @@ import {
   DropResult,
   Droppable,
 } from '@hello-pangea/dnd'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { TasksModuleContext } from '../contexts/TasksModuleContext'
 import TaskItem from './TaskItem'
 
 interface Props {
@@ -16,6 +18,7 @@ interface Props {
   showCircle?: boolean
   showMember?: boolean
   showDueDate?: boolean
+  showCreateBtn?: boolean
   itemProps?: HTMLChakraProps<any>
   onOrderChange?(tasksIds: string[]): void
 }
@@ -26,10 +29,14 @@ export default function TasksList({
   showCircle,
   showMember,
   showDueDate,
+  showCreateBtn,
   itemProps,
   onOrderChange,
 }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
+
+  const { openCreateTask } = useContext(TasksModuleContext)
 
   // Move a task
   const handleDragEnd = useCallback(
@@ -92,6 +99,17 @@ export default function TasksList({
           </Box>
         )}
       </Droppable>
+
+      {showCreateBtn && openCreateTask && isMember && (
+        <Button
+          variant="outline"
+          size="sm"
+          mt={3}
+          onClick={() => openCreateTask()}
+        >
+          {t('TasksKanban.createTask')}
+        </Button>
+      )}
     </DragDropContext>
   )
 }

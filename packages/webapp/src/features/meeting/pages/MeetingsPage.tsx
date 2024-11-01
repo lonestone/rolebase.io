@@ -7,6 +7,7 @@ import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import useUpdatableQueryParams from '@/common/hooks/useUpdatableQueryParams'
 import useOrgMember from '@/member/hooks/useOrgMember'
+import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import useFilterScopedEntitiesByMember from '@/participants/hooks/useFilterScopedEntitiesByMember'
 import useUserMetadata from '@/user/hooks/useUserMetadata'
@@ -51,7 +52,6 @@ import {
 import MeetingOpenCurrent from '../components/MeetingOpenCurrent'
 import MeetingEditModal from '../modals/MeetingEditModal'
 import MeetingExportModal from '../modals/MeetingExportModal'
-import MeetingModal from '../modals/MeetingModal'
 import MeetingRecurringEditModal from '../modals/MeetingRecurringEditModal'
 import MeetingRecurringListModal from '../modals/MeetingRecurringListModal'
 import MeetingRecurringModal from '../modals/MeetingRecurringModal'
@@ -67,6 +67,7 @@ export default function MeetingsPage() {
   const { params, changeParams } = useUpdatableQueryParams<Params>()
   const isMember = useOrgMember()
   const circles = useStoreState((state) => state.org.circles)
+  const navigate = useNavigateOrg()
 
   // Member param
   const memberId =
@@ -211,7 +212,6 @@ export default function MeetingsPage() {
   const weekend = metadata?.calendarShowWeekend ?? false
 
   // Modals
-  const meetingModal = useDisclosure()
   const createModal = useDisclosure()
   const templatesModal = useDisclosure()
   const recurringModal = useDisclosure()
@@ -219,9 +219,6 @@ export default function MeetingsPage() {
   const recurringListModal = useDisclosure()
   const exportModal = useDisclosure()
   const currentMeetingModal = useDisclosure({ defaultIsOpen: true })
-
-  // Meeting id for modal
-  const [meetingId, setMeetingId] = useState<string | undefined>()
 
   // Dates for meeting creation modal
   const [startDate, setStartDate] = useState<Date | undefined>()
@@ -239,18 +236,12 @@ export default function MeetingsPage() {
     createModal.onOpen()
   }, [])
 
-  const handleCreated = useCallback((id: string) => {
-    setMeetingId(id)
-    meetingModal.onOpen()
-  }, [])
-
   const handleEventClick = useCallback(
     ({ event }: EventClickArg) => {
       // Open meeting
       const meeting = meetings?.find((m) => m.id === event.id)
       if (meeting) {
-        setMeetingId(meeting.id)
-        meetingModal.onOpen()
+        navigate(`meetings/${meeting.id}`)
         return
       }
 
@@ -417,16 +408,11 @@ export default function MeetingsPage() {
         </Box>
       </ScrollableLayout>
 
-      {meetingModal.isOpen && meetingId && (
-        <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />
-      )}
-
       {createModal.isOpen && (
         <MeetingEditModal
           defaultStartDate={startDate}
           defaultDuration={duration}
           isOpen
-          onCreate={handleCreated}
           onRecurring={() => {
             createModal.onClose()
             recurringEditModal.onOpen()

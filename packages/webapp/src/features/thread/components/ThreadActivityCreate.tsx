@@ -275,8 +275,10 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
         <>
           {entityType === Thread_Activity_Type_Enum.Thread && (
             <ThreadEditModal
-              defaultCircleId={thread.circleId}
-              defaultPrivate={thread.private}
+              defaults={{
+                circleId: thread.circleId,
+                private: thread.private,
+              }}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}
@@ -295,11 +297,13 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
           {entityType === Thread_Activity_Type_Enum.Task && (
             <TaskModal
-              defaultCircleId={thread.circleId}
-              defaultMemberId={currentMember?.id}
-              defaultTitle={thread.title}
-              defaultDescription={defaultEntityDescription}
-              defaultPrivate={thread.private}
+              defaults={{
+                circleId: thread.circleId,
+                memberId: currentMember?.id,
+                title: thread.title,
+                description: defaultEntityDescription,
+                private: thread.private,
+              }}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}
@@ -308,10 +312,12 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
           {entityType === Thread_Activity_Type_Enum.Decision && (
             <DecisionEditModal
-              defaultCircleId={thread.circleId}
-              defaultTitle={thread.title}
-              defaultDescription={defaultEntityDescription}
-              defaultPrivate={thread.private}
+              defaults={{
+                circleId: thread.circleId,
+                title: thread.title,
+                description: defaultEntityDescription,
+                private: thread.private,
+              }}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}

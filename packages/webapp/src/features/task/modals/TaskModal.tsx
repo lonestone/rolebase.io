@@ -7,26 +7,19 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { TaskFragment } from '@gql'
 import React from 'react'
 import TaskContent from '../components/TaskContent'
 
 interface Props extends UseModalProps {
   id?: string
-  defaultCircleId?: string
-  defaultMemberId?: string
-  defaultTitle?: string
-  defaultDescription?: string
-  defaultPrivate?: boolean
+  defaults?: Partial<TaskFragment>
   onCreate?(taskId: string): void
 }
 
 export default function TaskModal({
   id,
-  defaultCircleId,
-  defaultMemberId,
-  defaultTitle,
-  defaultDescription,
-  defaultPrivate,
+  defaults,
   onCreate,
   ...modalProps
 }: Props) {
@@ -38,19 +31,13 @@ export default function TaskModal({
       <ModalContent>
         <TaskContent
           id={id}
-          defaultCircleId={defaultCircleId}
-          defaultMemberId={defaultMemberId}
-          defaultTitle={defaultTitle}
-          defaultDescription={defaultDescription}
-          defaultPrivate={defaultPrivate}
+          defaults={defaults}
           onCreate={onCreate}
           headerIcons={
-            id && (
-              <>
-                <ModalMaximizeButton to={path} />
-                <ModalCloseStaticButton />
-              </>
-            )
+            <>
+              {id && <ModalMaximizeButton to={path} />}
+              <ModalCloseStaticButton />
+            </>
           }
           onClose={modalProps.onClose}
           px={6}

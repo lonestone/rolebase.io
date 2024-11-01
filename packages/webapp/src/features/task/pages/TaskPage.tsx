@@ -9,7 +9,7 @@ type Params = {
 }
 
 export default function TaskPage() {
-  const taskId = useParams<Params>().taskId
+  const { taskId } = useParams<Params>()
   const navigate = useNavigate()
 
   if (!taskId) return <Page404 />

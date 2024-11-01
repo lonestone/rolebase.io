@@ -1009,6 +1009,7 @@
     "info": "Êtes-vous sûr(e) de vouloir supprimer la tâche <b>{{name}}</b> ?"
   },
   "TasksKanban": {
+    "createTask": "Ajouter une tâche",
     "showDoneTasks": "Voir les tâches terminées"
   },
   "TasksList": {

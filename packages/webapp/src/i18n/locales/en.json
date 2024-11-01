@@ -974,6 +974,7 @@
     "info": "Are you sure you want to delete task <b>{{name}}</b>?"
   },
   "TasksKanban": {
+    "createTask": "Add a task",
     "showDoneTasks": "Show completed tasks"
   },
   "TasksList": {

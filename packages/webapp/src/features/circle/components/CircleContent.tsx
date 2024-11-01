@@ -2,6 +2,7 @@ import ActionsMenu from '@/common/atoms/ActionsMenu'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import Tab from '@/common/atoms/Tab'
 import { Title } from '@/common/atoms/Title'
+import useUpdatableQueryParams from '@/common/hooks/useUpdatableQueryParams'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import ParticipantsNumber from '@/participants/components/ParticipantsNumber'
@@ -48,11 +49,35 @@ interface Props {
   headerIcons?: React.ReactNode
 }
 
+enum TabsEnum {
+  Role,
+  News,
+  Threads,
+  Meetings,
+  Tasks,
+  Decisions,
+}
+
+type TabNames = keyof typeof TabsEnum
+
+type Params = {
+  tab: TabNames
+}
+
 export default function CircleContent({ changeTitle, headerIcons }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const circleContext = useContext(CircleContext)
   const navigateOrg = useNavigateOrg()
+
+  // Tabs
+  const { params, changeParams } = useUpdatableQueryParams<Params>()
+  const tab = params.tab ? TabsEnum[params.tab] : 0
+
+  const handleTabChange = (tab: number) => {
+    const tabName = TabsEnum[tab] as TabNames
+    changeParams({ tab: tabName })
+  }
 
   // Modals
   const editRoleModal = useDisclosure()
@@ -79,7 +104,14 @@ export default function CircleContent({ changeTitle, headerIcons }: Props) {
     <>
       {changeTitle && <Title>{role.name}</Title>}
 
-      <Tabs isLazy display="flex" flexDirection="column" h="100%">
+      <Tabs
+        index={tab}
+        onChange={handleTabChange}
+        isLazy
+        display="flex"
+        flexDirection="column"
+        h="100%"
+      >
         <Flex p={2} pl={6} bg="menulight" _dark={{ bg: 'menudark' }}>
           <CircleAndParentsLinks circle={circle} size="md" overflow="hidden" />
           <Spacer />

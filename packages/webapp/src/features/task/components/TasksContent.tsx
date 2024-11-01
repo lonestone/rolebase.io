@@ -5,28 +5,21 @@ import OverflowContainer, {
 import TextErrors from '@/common/atoms/TextErrors'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import { Container } from '@chakra-ui/react'
-import { Task_Status_Enum } from '@gql'
 import { TasksViewTypes } from '@rolebase/shared/model/task'
-import React, { useMemo } from 'react'
+import React, { useContext } from 'react'
+import { TasksModuleContext } from '../contexts/TasksModuleContext'
 import { useTasks } from '../hooks/useTasks'
-import { TasksParams } from './TasksHeader'
 import TasksKanban from './TasksKanban'
 import TasksList from './TasksList'
 
-interface Props extends TasksParams {
+interface Props {
   overflowContainer?: OverflowContainerParams
 }
 
-export default function TasksContent({
-  overflowContainer,
-  view,
-  circleId,
-  memberId,
-  status,
-  onViewChange,
-  onStatusChange,
-}: Props) {
+export default function TasksContent({ overflowContainer }: Props) {
   const isMember = useOrgMember()
+
+  const { view, circleId, memberId, status } = useContext(TasksModuleContext)
 
   // Subscribe to tasks
   const { tasks, loading, error, changeOrder } = useTasks(view, {
@@ -34,16 +27,6 @@ export default function TasksContent({
     circleId,
     status,
   })
-
-  const handleDoneTasksClick = useMemo(
-    () =>
-      onStatusChange &&
-      (() => {
-        onViewChange(TasksViewTypes.List)
-        onStatusChange?.(Task_Status_Enum.Done)
-      }),
-    [onViewChange, onStatusChange]
-  )
 
   return (
     <>
@@ -54,7 +37,6 @@ export default function TasksContent({
             onOrderChange={isMember ? changeOrder : undefined}
             showMember={!memberId}
             showCircle={!circleId}
-            onDoneTasksClick={handleDoneTasksClick}
           />
         </OverflowContainer>
       )}
@@ -67,6 +49,7 @@ export default function TasksContent({
             showMember={!memberId}
             showCircle={!circleId}
             showDueDate
+            showCreateBtn
           />
         </Container>
       )}

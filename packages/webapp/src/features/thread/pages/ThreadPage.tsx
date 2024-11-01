@@ -10,7 +10,7 @@ type Params = {
 
 export default function ThreadPage() {
   useOverflowHidden()
-  const threadId = useParams<Params>().threadId
+  const { threadId } = useParams<Params>()
   if (!threadId) return <Page404 />
 
   return <ThreadContent id={threadId} changeTitle />

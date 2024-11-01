@@ -20,6 +20,7 @@ export default function NewsMeeting({ meeting }: Props) {
     >
       <MeetingItem
         meeting={meeting}
+        noModal
         showCircle
         showIcon
         fontWeight="medium"

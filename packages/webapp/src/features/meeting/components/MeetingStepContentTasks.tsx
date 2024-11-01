@@ -1,4 +1,6 @@
-import TasksModule from '@/task/components/TasksModule'
+import TasksContent from '@/task/components/TasksContent'
+import TasksHeader from '@/task/components/TasksHeader'
+import { TasksModuleProvider } from '@/task/contexts/TasksModuleContext'
 import { Box } from '@chakra-ui/react'
 import { Task_Status_Enum, useUpdateMeetingStepMutation } from '@gql'
 import { LogType } from '@rolebase/shared/model/log'
@@ -91,19 +93,23 @@ export default function MeetingStepContentTasks({ step }: Props) {
   return (
     <Box my={5}>
       {!isEnded && (
-        <TasksModule
+        <TasksModuleProvider
           view={cachedData.viewType || TasksViewTypes.Kanban}
           circleId={circle.id}
           memberId={cachedData.filterMemberId || undefined}
           status={cachedData.filterStatus || undefined}
-          overflowContainer={{
-            expandLeft: true,
-            expandRight: true,
-          }}
           onViewChange={handleViewChange}
           onMemberChange={handleMemberChange}
           onStatusChange={handleStatusChange}
-        />
+        >
+          <TasksHeader pb={5} />
+          <TasksContent
+            overflowContainer={{
+              expandLeft: true,
+              expandRight: true,
+            }}
+          />
+        </TasksModuleProvider>
       )}
 
       <MeetingLogs

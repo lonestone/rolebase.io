@@ -1,20 +1,16 @@
-import { Button, HStack } from '@chakra-ui/react'
+import { HStack } from '@chakra-ui/react'
 import { TaskFragment, Task_Status_Enum } from '@gql'
-import { DragDropContext, Draggable, DropResult } from '@hello-pangea/dnd'
+import { DragDropContext, DropResult } from '@hello-pangea/dnd'
 import { taskStatusList } from '@rolebase/shared/model/task'
 import React, { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
-import { taskStatusColors } from 'src/theme'
 import useUpdateTaskStatus from '../hooks/useUpdateTaskStatus'
-import { KanbanColumn } from './KanbanColumn'
-import TaskCard from './TaskCard'
+import TasksKanbanColumn from './TasksKanbanColumn'
 
 interface Props {
   tasks: TaskFragment[]
   showCircle?: boolean
   showMember?: boolean
   onOrderChange?(tasksIds: string[], changedTask: TaskFragment): void
-  onDoneTasksClick?(): void
 }
 
 export default function TasksKanban({
@@ -22,9 +18,7 @@ export default function TasksKanban({
   onOrderChange,
   showCircle,
   showMember,
-  onDoneTasksClick,
 }: Props) {
-  const { t } = useTranslation()
   const updateTaskStatus = useUpdateTaskStatus()
 
   // Move a task
@@ -69,46 +63,15 @@ export default function TasksKanban({
       onDragEnd={handleDragEnd}
     >
       <HStack align="start" pb={5} justifyContent="center" minW="min-content">
-        {taskStatusList.map((status) => {
-          const filteredTasks = tasks.filter((task) => task.status === status)
-          return (
-            <KanbanColumn
-              key={status}
-              id={status}
-              title={t(`common.taskStatus.${status}`)}
-              colorScheme={taskStatusColors[status]}
-              count={filteredTasks.length}
-            >
-              {filteredTasks.map((task, index) => (
-                <Draggable key={task.id} draggableId={task.id} index={index}>
-                  {(provided, snapshot) => (
-                    <TaskCard
-                      ref={provided.innerRef}
-                      task={task}
-                      showCircle={showCircle}
-                      showMember={showMember}
-                      isDragging={snapshot.isDragging}
-                      mb={2}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    />
-                  )}
-                </Draggable>
-              ))}
-
-              {status === Task_Status_Enum.Done && onDoneTasksClick && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onDoneTasksClick}
-                  ml={1}
-                >
-                  {t('TasksKanban.showDoneTasks')}
-                </Button>
-              )}
-            </KanbanColumn>
-          )
-        })}
+        {taskStatusList.map((status) => (
+          <TasksKanbanColumn
+            key={status}
+            status={status}
+            tasks={tasks}
+            showCircle={showCircle}
+            showMember={showMember}
+          />
+        ))}
       </HStack>
     </DragDropContext>
   )

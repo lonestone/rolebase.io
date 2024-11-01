@@ -45,8 +45,7 @@ import * as yup from 'yup'
 import { ThreadStatusMenu } from '../components/ThreadStatusMenu'
 
 interface Props extends UseModalProps {
-  defaultCircleId?: string
-  defaultPrivate?: boolean
+  defaults?: Partial<ThreadFragment>
   thread?: ThreadFragment
   onCreate?(threadId: string): void
 }
@@ -66,8 +65,7 @@ const resolver = yupResolver(
 )
 
 export default function ThreadEditModal({
-  defaultCircleId,
-  defaultPrivate,
+  defaults,
   thread,
   onCreate,
   ...modalProps
@@ -92,9 +90,9 @@ export default function ThreadEditModal({
         }
       : {
           title: '',
-          circleId: defaultCircleId || '',
+          circleId: defaults?.circleId || '',
           status: Thread_Status_Enum.Active,
-          private: defaultPrivate || false,
+          private: defaults?.private || false,
         },
   })
 

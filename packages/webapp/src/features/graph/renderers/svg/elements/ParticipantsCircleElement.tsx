@@ -49,7 +49,7 @@ export class ParticipantsCircleElement extends AbstractCircleElement {
           group
             .transition(transition)
             .attr('transform', `translate(${x}, 0), scale(1)`)
-            .attr('opacity', 1)
+            .attr('opacity', 'clamp(0, (var(--zoom-scale) - 1) * 20 + 1, 1)')
 
           // Add circle shape
           const circle = group
