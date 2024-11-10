@@ -53,7 +53,7 @@ export default function ResetPasswordPage() {
 
   const email = watch('email')
 
-  const handleClose = () => navigate(email ? `/?email=${email}` : '/')
+  const handleClose = () => navigate(email ? `/login?email=${email}` : '/login')
 
   return (
     <BrandModal size="md" bodyProps={{ mx: 10 }} isOpen onClose={handleClose}>

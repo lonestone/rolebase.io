@@ -330,11 +330,12 @@
     "DecisionArchive": "<author /> has archived the decision <decision />"
   },
   "LoginForm": {
-    "heading": "Sign in",
+    "heading": "Log in",
     "email": "Email",
     "password": "Password",
-    "resetPassword": "Forgot password?",
-    "submit": "Sign in"
+    "resetPassword": "Forgot your password?",
+    "submit": "Log in",
+    "signup": "Create an account"
   },
   "LogsList": {
     "empty": "No action"
@@ -819,7 +820,9 @@
     "email": "Email",
     "password": "Password",
     "terms": "I accept the <a href=\"https://en.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</term> and the <a href=\"https://en.rolebase.io/privacy\">Privacy Policy</policy>",
-    "submit": "Create my account"
+    "submit": "Create my account",
+    "haveAccount": "Already have an account?",
+    "login": "Log in"
   },
   "SubscriptionPage": {
     "heading": "Subscription"

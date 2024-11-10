@@ -368,7 +368,8 @@
     "email": "Email",
     "password": "Mot de passe",
     "resetPassword": "Mot de passe oublié ?",
-    "submit": "Je me connecte"
+    "submit": "Je me connecte",
+    "signup": "Créer un compte"
   },
   "LogsList": {
     "empty": "Aucune action"
@@ -851,7 +852,9 @@
     "email": "Email",
     "password": "Mot de passe",
     "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de Confidentialité</a>",
-    "submit": "Je crée mon compte"
+    "submit": "Je crée mon compte",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "login": "Connectez-vous"
   },
   "SubscriptionPage": {
     "heading": "Abonnement"

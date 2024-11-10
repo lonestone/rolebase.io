@@ -1,4 +1,4 @@
-import AuthPage from '@/user/pages/AuthPage'
+import LoginPage from '@/user/pages/LoginPage'
 import React, { useEffect } from 'react'
 import settings, { isLocal, isStaging } from 'src/settings'
 import Loading from '../atoms/Loading'
@@ -13,5 +13,5 @@ export default function Homepage() {
     }
   }, [])
 
-  return redirectToWebsite ? <Loading active center /> : <AuthPage />
+  return redirectToWebsite ? <Loading active center /> : <LoginPage />
 }

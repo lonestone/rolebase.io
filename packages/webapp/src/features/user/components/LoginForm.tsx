@@ -99,6 +99,10 @@ export default function LoginForm({ defaultEmail }: Props) {
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('LoginForm.submit')}
         </Button>
+
+        <Link to={`/signup${email ? `?email=${email}` : ''}`} as={ReachLink}>
+          {t('LoginForm.signup')}
+        </Link>
       </VStack>
     </form>
   )

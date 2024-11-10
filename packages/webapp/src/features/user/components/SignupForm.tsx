@@ -2,12 +2,14 @@ import PasswordConfirmInputDummy from '@/common/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@/common/atoms/PasswordInput'
 import TextErrors from '@/common/atoms/TextErrors'
 import {
+  Box,
   Button,
   Checkbox,
   FormControl,
   FormLabel,
   Heading,
   Input,
+  Link,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -17,7 +19,8 @@ import { getTimeZone } from '@utils/dates'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link as ReachLink, useNavigate } from 'react-router-dom'
+
 import * as yup from 'yup'
 
 interface Props {
@@ -78,11 +81,14 @@ export default function SignupForm({ defaultEmail }: Props) {
   const {
     handleSubmit,
     register,
+    watch,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(schema),
     defaultValues: { email: defaultEmail },
   })
+
+  const email = watch('email')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -135,6 +141,17 @@ export default function SignupForm({ defaultEmail }: Props) {
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('SignupForm.submit')}
         </Button>
+
+        <Box>
+          {t('SignupForm.haveAccount')}
+          <Link
+            to={`/login${email ? `?email=${email}` : ''}`}
+            as={ReachLink}
+            ml={2}
+          >
+            {t('SignupForm.login')}
+          </Link>
+        </Box>
       </VStack>
     </form>
   )
