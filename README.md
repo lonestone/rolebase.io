@@ -124,6 +124,8 @@ GRAFANA_ADMIN_PASSWORD = # Generate a password
 MAILJET_SMTP_PASSWORD = # MailJet private key
 
 # Env variables injected in nhost.toml
+BACKEND_URL = # URL of your nhost instance, with the path to call the functions
+WEBAPP_URL = # URL of your webapp
 MAILJET_PUBIC_KEY = # MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
 MAILJET_PRIVATE_KEY = # MailJet private key
 SECURITY_INVITATION_TOKEN = # Secret token used to validate invitations. You can generate a token with Lastpass for example
@@ -133,6 +135,11 @@ ALGOLIA_ADMIN_API_KEY = # Algolia admin API key
 STRIPE_STARTUP_PLAN_PRICE_ID = # Price id of the startup plan inside stripe
 STRIPE_ENDPOINT_SECRET = # Stripe webhook endpoint secret: https://dashboard.stripe.com/test/webhooks
 STRIPE_PRIVATE_KEY = # Stripe API private key: https://stripe.com/docs/keys#obtain-api-keys
+OPENAI_API_KEY = # OpenAI API key
+APPS_OFFICE365_CLIENT_ID = # Office 365 client ID
+APPS_OFFICE365_CLIENT_SECRET = # Office 365 client secret
+APPS_GOOGLECALENDAR_CLIENT_ID = # Google Calendar client ID
+APPS_GOOGLECALENDAR_CLIENT_SECRET = # Google Calendar client secret
 ```
 
 ### Webapp config

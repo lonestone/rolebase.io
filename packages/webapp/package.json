@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm run codegen & vite --force",
-    "prebuild": "npm run build-emails-icons",
     "build": "vite build",
     "serve": "vite preview",
     "tsc": "tsc",
