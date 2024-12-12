@@ -104,6 +104,9 @@ async function convertImagesToDataUrls(svgElement: SVGElement) {
 }
 
 async function loadImageDataUrl(url: string) {
+  // Change size
+  url = url.replace(/w=\d+/, 'w=512')
+
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.crossOrigin = 'anonymous' // This won't work if the server doesn't allow cross origin requests

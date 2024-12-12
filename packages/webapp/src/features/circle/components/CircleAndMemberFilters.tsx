@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon } from 'src/icons'
 
 interface Props extends BoxProps {
-  circleId: string | undefined
-  memberId: string | undefined
+  circleId?: string
+  memberId?: string
   onCircleChange?(circleId: string | undefined): void
   onMemberChange?(memberId: string | undefined): void
 }
