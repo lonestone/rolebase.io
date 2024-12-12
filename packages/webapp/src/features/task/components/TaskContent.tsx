@@ -3,12 +3,12 @@ import CircleMemberLink from '@/circle/components/CircleMemberLink'
 import useCircle from '@/circle/hooks/useCircle'
 import ActionsMenu from '@/common/atoms/ActionsMenu'
 import Loading from '@/common/atoms/Loading'
-import Markdown from '@/common/atoms/Markdown'
 import Switch from '@/common/atoms/Switch'
 import SwitchController from '@/common/atoms/SwitchController'
 import { Title } from '@/common/atoms/Title'
 import { usePreventClose } from '@/common/hooks/usePreventClose'
 import Page404 from '@/common/pages/Page404'
+import CollabEditor from '@/editor/components/CollabEditor'
 import EditorController from '@/editor/components/EditorController'
 import MemberByIdButton from '@/member/components/MemberByIdButton'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
@@ -36,7 +36,6 @@ import {
   Heading,
   Input,
   Spacer,
-  Spinner,
   Tag,
   Tooltip,
   useDisclosure,
@@ -184,7 +183,7 @@ export default function TaskContent({
   // Save after X seconds
   const watchedData = watch()
   const onSubmitDebounced = useMemo(
-    () => debounce(onSubmit, 2000),
+    () => debounce(onSubmit, 1000),
     [id, orgId, currentMember]
   )
   useEffect(() => {
@@ -225,12 +224,16 @@ export default function TaskContent({
     [task, updateTaskStatus]
   )
 
+  // Change description
+  const handleDescriptionChange = useCallback(
+    async (description: string) => {
+      setValue('description', description, { shouldDirty: true })
+    },
+    [task]
+  )
+
   // Task deletion modal
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
+  const deleteModal = useDisclosure()
 
   if (error || (id && !task && !loading)) {
     console.error(error || new Error('Task not found'))
@@ -258,11 +261,9 @@ export default function TaskContent({
             <TaskStatusTag status={task.status} ml={5} size="lg" />
           ))}
 
-        {task?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
+        {id && loading && <Loading active size="sm" ml={5} />}
 
-        {id && isDirty && isPrivateAllowed && (
-          <Spinner size="xs" color="gray" ml={5} />
-        )}
+        {task?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
 
         <Spacer />
 
@@ -282,15 +283,13 @@ export default function TaskContent({
             <ActionsMenu
               ml={3}
               copyLinkUrl={`${settings.url}${path}`}
-              onDelete={onDeleteOpen}
+              onDelete={deleteModal.onOpen}
             />
           )}
 
           {headerIcons}
         </Flex>
       </Flex>
-
-      {id && loading && <Loading active size="md" />}
 
       <VStack spacing={10} alignItems="start" mb={3}>
         <FormControl isInvalid={!!errors.title}>
@@ -305,17 +304,21 @@ export default function TaskContent({
 
         <FormControl isInvalid={!!errors.description}>
           <FormLabel>{t('TaskContent.description')}</FormLabel>
-          {isMember ? (
+          {task ? (
+            <CollabEditor
+              docId={`task-${id}-description`}
+              value={task.description}
+              placeholder={t('TaskContent.notes')}
+              minH="80px"
+              saveEvery={10000}
+              readOnly={!isMember}
+              onSave={handleDescriptionChange}
+            />
+          ) : (
             <EditorController
               name="description"
               placeholder={t('TaskContent.notes')}
               control={control}
-            />
-          ) : (
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => <Markdown>{field.value}</Markdown>}
             />
           )}
         </FormControl>
@@ -456,11 +459,11 @@ export default function TaskContent({
         )}
       </VStack>
 
-      {isDeleteOpen && task && (
+      {deleteModal.isOpen && task && (
         <TaskDeleteModal
           task={task}
           isOpen
-          onClose={onDeleteClose}
+          onClose={deleteModal.onClose}
           onDelete={onClose}
         />
       )}
