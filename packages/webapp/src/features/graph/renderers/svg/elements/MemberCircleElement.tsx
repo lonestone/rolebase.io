@@ -1,5 +1,4 @@
-import * as d3 from 'd3'
-import { NodeData, NodesSelection, NodeType } from '../../../types'
+import { NodesSelection, NodeType } from '../../../types'
 import { MoveTransition } from '../helpers/createTransition'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
@@ -40,10 +39,11 @@ export class MemberCircleElement extends AbstractCircleElement {
       .attr('fill', '#fff')
       .attr('paint-order', 'stroke')
       .attr('stroke', 'rgba(0, 0, 0, 0.1)')
-      .attr('stroke-width', 0)
+      .attr('stroke-width', 1)
       .attr('stroke-linecap', 'butt')
       .attr('stroke-linejoin', 'miter')
       .attr('dominant-baseline', 'central')
+      .attr('y', (d) => d.r - 10)
       .text((d) => this.getFirstname(d.data.name))
       .attr('pointer-events', 'none')
       .attr('paint-order', 'stroke')
@@ -51,22 +51,7 @@ export class MemberCircleElement extends AbstractCircleElement {
       .attr('opacity', 0)
       .transition(transition)
       .attr('transform', 'scale(1)')
-      .attr('opacity', (d) => (d.data.picture ? 0 : 1))
-
-    // Mouse over/out
-    nodeMembers
-      .on('mouseover.name', function () {
-        d3.select<SVGGElement, NodeData>(this)
-          .select('.member-name')
-          .attr('opacity', 1)
-          .attr('stroke-width', 2)
-      })
-      .on('mouseout.name', function () {
-        d3.select<SVGGElement, NodeData>(this)
-          .select('.member-name')
-          .attr('opacity', (d) => (d.data.picture ? 0 : 1))
-          .attr('stroke-width', 0)
-      })
+      .attr('opacity', 1)
   }
 
   update(selection: NodesSelection, transition: MoveTransition) {
