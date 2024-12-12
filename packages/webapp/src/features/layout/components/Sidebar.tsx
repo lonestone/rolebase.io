@@ -1,8 +1,12 @@
+import MeetingEditModal from '@/meeting/modals/MeetingEditModal'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import OrgSwitch from '@/org/components/OrgSwitch'
+import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import SearchGlobalModal from '@/search/components/SearchGlobalModal'
+import TaskModal from '@/task/modals/TaskModal'
+import ThreadEditModal from '@/thread/modals/ThreadEditModal'
 import {
   Box,
   Flex,
@@ -58,6 +62,7 @@ export default function Sidebar() {
   const currentMeetingId = useStoreState(
     (state) => state.memberStatus.currentMeetingId
   )
+  const navigate = useNavigateOrg()
 
   // Get Sidebar context
   const context = useContext(SidebarContext)
@@ -81,8 +86,11 @@ export default function Sidebar() {
     }
   }
 
-  // Search
+  // Modals
   const searchModal = useDisclosure()
+  const meetingModal = useDisclosure()
+  const threadModal = useDisclosure()
+  const taskModal = useDisclosure()
 
   // Use Cmd+K or Cmd+P keys to open search
   useEffect(() => {
@@ -272,6 +280,7 @@ export default function Sidebar() {
                 to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                 icon={MeetingsIcon}
                 alert={!!currentMeetingId}
+                onAdd={meetingModal.onOpen}
               >
                 {t('Sidebar.meetings')}
               </SidebarItemLink>
@@ -282,6 +291,7 @@ export default function Sidebar() {
                 className="userflow-sidebar-threads"
                 to={`${rootPath}threads?member=${currentMember?.id || ''}`}
                 icon={ThreadsIcon}
+                onAdd={threadModal.onOpen}
               >
                 {t('Sidebar.threads')}
               </SidebarItemLink>
@@ -292,6 +302,7 @@ export default function Sidebar() {
                 className="userflow-sidebar-tasks"
                 to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                 icon={TasksIcon}
+                onAdd={taskModal.onOpen}
               >
                 {t('Sidebar.tasks')}
               </SidebarItemLink>
@@ -309,6 +320,22 @@ export default function Sidebar() {
             searchModal.onClose()
             expand.onClose()
           }}
+        />
+      )}
+
+      {meetingModal.isOpen && (
+        <MeetingEditModal isOpen onClose={meetingModal.onClose} />
+      )}
+
+      {threadModal.isOpen && (
+        <ThreadEditModal isOpen onClose={threadModal.onClose} />
+      )}
+
+      {taskModal.isOpen && (
+        <TaskModal
+          isOpen
+          onCreate={(taskId) => navigate(`tasks/${taskId}`)}
+          onClose={taskModal.onClose}
         />
       )}
     </SidebarLayout>

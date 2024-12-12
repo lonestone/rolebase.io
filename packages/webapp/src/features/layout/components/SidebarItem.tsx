@@ -2,10 +2,14 @@ import {
   Button,
   ButtonProps,
   HTMLChakraProps,
+  IconButton,
+  Spacer,
   forwardRef,
 } from '@chakra-ui/react'
 import { Icon } from 'iconsax-react'
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+import { AddIcon } from 'src/icons'
 import SidebarIcon from './SidebarIcon'
 
 export interface SidebarItemProps extends ButtonProps {
@@ -13,6 +17,7 @@ export interface SidebarItemProps extends ButtonProps {
   isPathExact?: boolean
   isPathStart?: boolean
   alert?: boolean
+  onAdd?: () => void
 }
 
 export default forwardRef(function SidebarItem(
@@ -22,10 +27,22 @@ export default forwardRef(function SidebarItem(
     isPathStart,
     alert,
     children,
+    onAdd,
     ...buttonProps
   }: SidebarItemProps,
   ref
 ) {
+  const { t } = useTranslation()
+
+  const handleAddClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation()
+      event.preventDefault()
+      onAdd?.()
+    },
+    [onAdd]
+  )
+
   return (
     <Button
       ref={ref}
@@ -63,7 +80,27 @@ export default forwardRef(function SidebarItem(
         ml={4}
         mr={3}
       />
+
       {children}
+
+      <Spacer />
+      {onAdd && (
+        <IconButton
+          aria-label={t('common.add')}
+          icon={<AddIcon size={20} />}
+          onClick={handleAddClick}
+          variant="ghost"
+          size="sm"
+          color="gray"
+          mr={2}
+          _hover={{
+            color: 'black',
+            _dark: {
+              color: 'white',
+            },
+          }}
+        />
+      )}
     </Button>
   )
 })

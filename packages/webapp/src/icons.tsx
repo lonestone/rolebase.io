@@ -4,6 +4,7 @@
 
 import {
   Activity,
+  Add,
   AddSquare,
   ArchiveBox,
   ArrangeHorizontalSquare,
@@ -83,6 +84,7 @@ import { FaUsers } from 'react-icons/fa'
 import { FiCheck, FiHelpCircle } from 'react-icons/fi'
 import { IoSearchOutline } from 'react-icons/io5'
 
+export const AddIcon = Add
 export const ArchiveIcon = ArchiveBox
 export const AppsIcon = ArrangeHorizontalSquare
 export const ArrowRightIcon = ArrowRight
