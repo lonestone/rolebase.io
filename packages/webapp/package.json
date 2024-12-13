@@ -108,7 +108,6 @@
     "@vitejs/plugin-react": "^3.0.1",
     "babel-loader": "^8.3.0",
     "cross-env": "^7.0.3",
-    "patch-package": "^8.0.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "storybook": "^7.2.2",
     "typescript": "^5.0.4",
