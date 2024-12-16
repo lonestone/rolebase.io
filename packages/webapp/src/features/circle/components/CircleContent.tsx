@@ -141,7 +141,9 @@ export default function CircleContent({ changeTitle, headerIcons }: Props) {
                   ? duplicateModal.onOpen
                   : undefined
               }
-              onExport={() => navigateOrg(`export-circle/${circle.id}`)}
+              onExport={() =>
+                navigateOrg(`export-circle?circleId=${circle.id}`)
+              }
             />
           )}
 
