@@ -1,4 +1,4 @@
-import { extendTheme, StyleProps } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import { Task_Status_Enum, Thread_Status_Enum } from '@gql'
 import 'focus-visible/dist/focus-visible'
@@ -16,20 +16,25 @@ export const bgForBlurDark =
 // https://chakra-ui.com/docs/theming/customize-theme
 // https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/src
 
+const inputField = {
+  bg: 'whiteAlpha.500',
+  _dark: {
+    bg: 'blackAlpha.100',
+  },
+  _focusVisible: {
+    borderColor: 'outline',
+    boxShadow: `0 0 0 1px var(--chakra-colors-outline)`,
+  },
+}
+
 const Input = {
   variants: {
-    outline: (props: StyleProps) => ({
-      field: {
-        bg: mode('whiteAlpha.500', 'blackAlpha.100')(props),
-        _focusVisible: {
-          borderColor: 'outline',
-          boxShadow: `0 0 0 1px var(--chakra-colors-outline)`,
-        },
-      },
+    outline: {
+      field: inputField,
       addon: {
         bg: 'transparent',
       },
-    }),
+    },
   },
 }
 
@@ -111,6 +116,11 @@ const theme = extendTheme({
     Input,
     NumberInput: Input,
     Select: Input,
+    Textarea: {
+      variants: {
+        outline: inputField,
+      },
+    },
     Kbd: {
       baseStyle: {
         fontSize: '1em',

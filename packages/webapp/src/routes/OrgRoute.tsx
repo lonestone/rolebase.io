@@ -17,7 +17,6 @@ import { useOrgBySlugSubscription, useOrgSubscription } from '@gql'
 import { useStoreActions } from '@store/hooks'
 import React, { Suspense, lazy, useEffect } from 'react'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
-import test from '../../../../test.json'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@/meeting/pages/MeetingsPage'))
@@ -53,8 +52,7 @@ export default function OrgRoute() {
     variables: { slug: slug! },
   })
 
-  const data =
-    slug === 'evea-scop' ? test.org[0] : dataId?.org_by_pk ?? dataSlug?.org[0]
+  const data = dataId?.org_by_pk ?? dataSlug?.org[0]
   const error = errorId ?? errorSlug
   const loading = loadingId || loadingSlug
 
