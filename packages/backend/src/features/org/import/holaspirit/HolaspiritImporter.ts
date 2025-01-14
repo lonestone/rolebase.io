@@ -81,7 +81,6 @@ export class HolaspiritImporter extends Importer {
     await this.importAssginations()
     await this.importPolicies()
     await this.importActions()
-    await this.importProjects()
 
     return orgId
   }
@@ -411,7 +410,7 @@ export class HolaspiritImporter extends Importer {
 
     const tasks: Task_Insert_Input[] = []
 
-    for (const row of this.data['Actions']) {
+    for (const row of this.data['Tasks']) {
       // Get circleId
       const circleId =
         this.getMapCircleId(row.Circle, row.Role) || this.orgCircleId
@@ -435,95 +434,6 @@ export class HolaspiritImporter extends Importer {
         memberId,
         title: row.Title,
         description: await this.importHTMLContent(row.Description),
-        status,
-        createdAt: row.Created
-          ? new Date(row.Created).toISOString()
-          : undefined,
-      })
-    }
-
-    // Create circles members
-    await adminRequest(CREATE_TASKS, { tasks })
-  }
-
-  private async importProjects() {
-    if (!this.data) {
-      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' })
-    }
-
-    const tasks: Task_Insert_Input[] = []
-
-    for (const row of this.data['Projects']) {
-      // Get circleId
-      const circleId = this.getMapCircleId(row.Circle, row.Role)
-      if (!circleId) {
-        console.error(
-          '[Holaspirit import] Circle not found:',
-          row.Circle,
-          row.Role
-        )
-        continue
-      }
-
-      // Get memberId
-      // TODO: Handle multiple members
-      const membersEmails = row.Members?.split('\n') || []
-      const memberId =
-        membersEmails[0] && this.mapMemberEmailToId.get(membersEmails[0])
-
-      // Prepare status
-      let status = Task_Status_Enum.Open
-      if (
-        row.Status === 'archived' ||
-        /^(Done|Fini|Cancel|Annulé)$/.test(row.Column)
-      ) {
-        status = Task_Status_Enum.Done
-      } else if (/^(Current|En cours)$/.test(row.Column)) {
-        status = Task_Status_Enum.InProgress
-      } else if (/^(Waiting|En attente)$/.test(row.Column)) {
-        status = Task_Status_Enum.Blocked
-      }
-
-      // Get Todo lists
-      const todos = new Map<string, Array<{ item: string; checked: boolean }>>()
-      for (const todoRow of this.data['Projects To-do lists'] || []) {
-        if (
-          todoRow.Project !== row.Title ||
-          todoRow['Circle ID'] !== row['Circle ID']
-        ) {
-          continue
-        }
-
-        const todoTitle = todoRow['To-do list'] || 'Todo'
-        const todoItem = {
-          item: todoRow['Item'],
-          checked: todoRow['Checked'],
-        }
-        const todo = todos.get(todoTitle)
-        if (todo) {
-          todo.push(todoItem)
-        } else {
-          todos.set(todoTitle, [todoItem])
-        }
-      }
-
-      // Prepare description
-      let description = await this.importHTMLContent(row.Description)
-      for (const [todoTitle, todoItems] of todos) {
-        const todoItemsText = todoItems
-          .map(
-            (todoItem) => (todoItem.checked ? '[x] ' : '[ ] ') + todoItem.item
-          )
-          .join('\n')
-        description += `\n### ${todoTitle}\n\n${todoItemsText}`
-      }
-
-      tasks.push({
-        orgId: this.orgId,
-        circleId,
-        memberId,
-        title: row.Title,
-        description,
         status,
         createdAt: row.Created
           ? new Date(row.Created).toISOString()
