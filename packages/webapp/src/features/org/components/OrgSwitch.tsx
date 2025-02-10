@@ -1,5 +1,4 @@
 import { SidebarContext } from '@/layout/contexts/SidebarContext'
-import useUserSignOut from '@/user/hooks/useUserSignOut'
 import { UpDownIcon } from '@chakra-ui/icons'
 import {
   Button,
@@ -18,7 +17,7 @@ import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { ArrowRightIcon, CreateIcon, LogoutIcon } from 'src/icons'
+import { ArrowRightIcon, CreateIcon } from 'src/icons'
 import useCurrentOrg from '../hooks/useCurrentOrg'
 import { useOrgId } from '../hooks/useOrgId'
 import OrgCreateModal from '../modals/OrgCreateModal'
@@ -26,7 +25,6 @@ import OrgCreateModal from '../modals/OrgCreateModal'
 export default function OrgSwitch(props: MenuButtonProps) {
   const { t } = useTranslation()
   const sidebarContext = useContext(SidebarContext)
-  const signOut = useUserSignOut()
   const orgId = useOrgId()
   const org = useCurrentOrg()
   const orgs = useStoreState((state) => state.orgs.entries)
@@ -103,14 +101,11 @@ export default function OrgSwitch(props: MenuButtonProps) {
             </Link>
           ))}
         </MenuGroup>
-        <MenuItem icon={<CreateIcon size={20} />} onClick={onCreateOpen}>
-          {t('OrgSwitch.create')}
-        </MenuItem>
 
         <MenuDivider />
 
-        <MenuItem icon={<LogoutIcon size={20} />} onClick={signOut}>
-          {t('OrgSwitch.signout')}
+        <MenuItem icon={<CreateIcon size={20} />} onClick={onCreateOpen}>
+          {t('OrgSwitch.create')}
         </MenuItem>
       </MenuList>
 

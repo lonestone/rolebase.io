@@ -714,8 +714,7 @@
   },
   "OrgSwitch": {
     "orgs": "Organisations",
-    "create": "Créer une organisation",
-    "signout": "Déconnexion"
+    "create": "Créer une organisation"
   },
   "OrgsPage": {
     "heading": "Mes Organisations"
@@ -829,6 +828,7 @@
     "subscription": "Abonnement",
     "apps": "Intégrations",
     "members": "Membres",
+    "signout": "Déconnexion",
     "superAdmin": "Admin"
   },
   "Sidebar": {

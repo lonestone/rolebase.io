@@ -1,5 +1,5 @@
 import { UnregisterCallback } from 'history'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 const message = 'You have unsaved changes. Are you sure you want to leave?'
 
@@ -12,7 +12,7 @@ export function usePreventClose() {
   const isPreventingClose = useRef(false)
   // const { navigator } = useContext(UNSAFE_NavigationContext)
 
-  const preventClose = () => {
+  const preventClose = useCallback(() => {
     if (isPreventingClose.current) return
     isPreventingClose.current = true
     if (historyBlockCount === 0) {
@@ -20,9 +20,9 @@ export function usePreventClose() {
       // historyReleaseCallback = navigator.block(message)
     }
     historyBlockCount++
-  }
+  }, [])
 
-  const allowClose = () => {
+  const allowClose = useCallback(() => {
     if (!isPreventingClose.current) return
     isPreventingClose.current = false
     historyBlockCount--
@@ -30,7 +30,7 @@ export function usePreventClose() {
       historyReleaseCallback?.()
       historyReleaseCallback = undefined
     }
-  }
+  }, [])
 
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {

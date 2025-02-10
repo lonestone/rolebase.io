@@ -8,6 +8,7 @@ import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import OrgEditModal from '@/org/modals/OrgEditModal'
 import LangSelect from '@/user/components/LangSelect'
 import useSuperAdmin from '@/user/hooks/useSuperAdmin'
+import useUserSignOut from '@/user/hooks/useUserSignOut'
 import CurrentUserModal from '@/user/modals/CurrentUserModal'
 import LangModal from '@/user/modals/LangModal'
 import NotificationsSettingsModal from '@/user/modals/NotificationsSettingsModal'
@@ -27,6 +28,7 @@ import {
   AppsIcon,
   CircleIcon,
   CurrentMemberIcon,
+  LogoutIcon,
   MembersIcon,
   NotificationIcon,
   SubscriptionIcon,
@@ -43,6 +45,7 @@ export default function SettingsMenuList({ children, ...boxProps }: BoxProps) {
   const isOwner = useOrgOwner()
   const isSuperAdmin = useSuperAdmin()
   const rootPath = usePathInOrg('')
+  const signOut = useUserSignOut()
 
   // Modals
   const orgEditModal = useDisclosure()
@@ -111,6 +114,10 @@ export default function SettingsMenuList({ children, ...boxProps }: BoxProps) {
           </MenuItem>
         </Link>
       )}
+
+      <MenuItem icon={<LogoutIcon size={20} />} onClick={signOut}>
+        {t('SettingsMenu.signout')}
+      </MenuItem>
 
       <MenuDivider />
       <Flex

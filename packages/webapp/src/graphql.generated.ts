@@ -6785,7 +6785,7 @@ export type Meeting_Step_Bool_Exp = {
 
 /** unique or primary key constraints on table "meeting_step" */
 export enum Meeting_Step_Constraint {
-  /** unique or primary key constraint on columns "stepConfigId", "meetingId" */
+  /** unique or primary key constraint on columns "meetingId", "stepConfigId" */
   MeetingStepMeetingIdStepConfigIdKey = 'meeting_step_meetingId_stepConfigId_key',
   /** unique or primary key constraint on columns "id" */
   MeetingStepPkey = 'meeting_step_pkey'
@@ -7565,7 +7565,7 @@ export type Member_Bool_Exp = {
 
 /** unique or primary key constraints on table "member" */
 export enum Member_Constraint {
-  /** unique or primary key constraint on columns "userId", "orgId" */
+  /** unique or primary key constraint on columns "orgId", "userId" */
   MemberOrgIdUserIdKey = 'member_orgId_userId_key',
   /** unique or primary key constraint on columns "id" */
   MemberPkey = 'member_pkey'
@@ -17383,7 +17383,7 @@ export type Task_View_Bool_Exp = {
 
 /** unique or primary key constraints on table "task_view" */
 export enum Task_View_Constraint {
-  /** unique or primary key constraint on columns "key", "orgId" */
+  /** unique or primary key constraint on columns "orgId", "key" */
   TaskViewOrgIdKeyKey = 'task_view_orgId_key_key',
   /** unique or primary key constraint on columns "id" */
   TaskViewPkey = 'task_view_pkey'
@@ -19032,7 +19032,7 @@ export type Thread_Poll_Answer_Bool_Exp = {
 
 /** unique or primary key constraints on table "thread_poll_answer" */
 export enum Thread_Poll_Answer_Constraint {
-  /** unique or primary key constraint on columns "activityId", "userId" */
+  /** unique or primary key constraint on columns "userId", "activityId" */
   ThreadPollAnswerActivityIdUserIdKey = 'thread_poll_answer_activityId_userId_key',
   /** unique or primary key constraint on columns "id" */
   ThreadPollAnswerPkey = 'thread_poll_answer_pkey'
