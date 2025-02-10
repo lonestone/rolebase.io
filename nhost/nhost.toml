@@ -8,7 +8,7 @@ name = 'BACKEND_URL'
 value = '{{ secrets.BACKEND_URL }}'
 
 [hasura]
-version = 'v2.38.0-ce'
+version = 'v2.44.0-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
 webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
 
@@ -42,7 +42,7 @@ memory = 1536
 version = 18
 
 [auth]
-version = '0.32.1'
+version = '0.37.0'
 
 [auth.resources]
 replicas = 1
@@ -158,7 +158,7 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.11-20240515-1'
+version = '14.13-20250108-1'
 
 [postgres.resources]
 replicas = 1
@@ -167,6 +167,9 @@ enablePublicAccess = true
 [postgres.resources.compute]
 cpu = 1000
 memory = 2048
+
+[postgres.resources.storage]
+capacity = 10
 
 [provider]
 [provider.smtp]
@@ -179,7 +182,7 @@ secure = true
 method = 'PLAIN'
 
 [storage]
-version = '0.6.0'
+version = '0.6.1'
 
 [storage.resources]
 replicas = 1
