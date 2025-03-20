@@ -10,10 +10,10 @@ import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import { CirclesGraphViews, GraphEvents } from '@/graph/types'
 import { Box } from '@chakra-ui/react'
-import { useGetPublicCirclesQuery } from '@gql'
 import { useStoreActions, useStoreState } from '@store/hooks'
-import React, { useContext, useEffect, useMemo, useRef } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import settings from 'src/settings'
+import { trpc } from 'src/trpc'
 import CircleCard from './CircleCard'
 import MemberCard from './MemberCard'
 import ModalPanel from './ModalPanel'
@@ -26,14 +26,28 @@ type Params = {
 
 export default function OrgPage() {
   useOverflowHidden()
+
   const queryParams = useQueryParams<Params>()
 
-  const { data, loading, error } = useGetPublicCirclesQuery({
-    skip: !queryParams.orgId,
-    variables: {
-      orgId: queryParams.orgId!,
-    },
-  })
+  const [data, setData] = useState<
+    Awaited<ReturnType<typeof trpc.org.getPublicData.query>> | undefined
+  >(undefined)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | undefined>(undefined)
+
+  useEffect(() => {
+    if (!queryParams.orgId) return
+    trpc.org.getPublicData
+      .query({ orgId: queryParams.orgId })
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setError(error)
+        setLoading(false)
+      })
+  }, [queryParams.orgId])
 
   if (error) {
     // Don't display error for user, only in console
@@ -47,7 +61,7 @@ export default function OrgPage() {
   }))
 
   useEffect(() => {
-    if (!queryParams.orgId || !data?.circle[0]) return
+    if (!queryParams.orgId || !data?.circles[0]) return
 
     actions.setCurrentId(queryParams.orgId)
 
@@ -64,7 +78,7 @@ export default function OrgPage() {
             shareMembers: true,
             shareOrg: true,
             protectGovernance: false,
-            circles: data.circle.map((c) => ({
+            circles: data.circles.map((c) => ({
               ...c,
               archived: false,
               members: c.members.map((m) => ({
@@ -73,8 +87,8 @@ export default function OrgPage() {
                 avgMinPerWeek: 0,
               })),
             })),
-            roles: data.role,
-            members: data.member.map((m) => ({
+            roles: data.roles,
+            members: data.members.map((m) => ({
               ...m,
               archived: false,
               description: '',
@@ -127,7 +141,11 @@ export default function OrgPage() {
           </a>
         </Box>
 
-        {loading ? <Loading center active /> : !data?.circle[0] && <Page404 />}
+        {loading ? (
+          <Loading center active />
+        ) : (
+          !data?.circles[0] && <Page404 to={settings.websiteUrl} />
+        )}
 
         {circles && boxSize && (
           <CirclesSVGGraph

@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { ChevronLeftIcon } from 'src/icons'
 import { Title } from '../atoms/Title'
 
-export default function Page404() {
+interface Props {
+  to?: string
+}
+
+export default function Page404({ to }: Props) {
   const { t } = useTranslation()
 
   return (
@@ -26,7 +30,7 @@ export default function Page404() {
           {t('Page404.heading')}
         </Heading>
 
-        <a href="/">
+        <a href={to || '/'}>
           <Button leftIcon={<ChevronLeftIcon size="1em" />}>
             {t('Page404.home')}
           </Button>

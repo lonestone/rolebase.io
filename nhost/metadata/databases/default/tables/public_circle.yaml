@@ -155,21 +155,6 @@ insert_permissions:
         - parentId
         - roleId
 select_permissions:
-  - role: public
-    permission:
-      columns:
-        - archived
-        - id
-        - orgId
-        - parentId
-        - roleId
-      filter:
-        _and:
-          - archived:
-              _eq: false
-          - org:
-              shareOrg:
-                _eq: true
   - role: user
     permission:
       columns:
