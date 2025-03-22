@@ -36,6 +36,9 @@ export default function MemberWorkingTime({ member, ...boxProps }: Props) {
   const maxWorkedMin =
     member.workedMinPerWeek || org?.defaultWorkedMinPerWeek || 0
 
+  // If no working time is allocated, don't show anything
+  if (totalWorkedMin === 0) return null
+
   return (
     <Box {...boxProps}>
       <Alert status="info">

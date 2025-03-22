@@ -217,7 +217,7 @@
     "paletteTooltip": "Frequently used colors"
   },
   "CurrentUserModal": {
-    "heading": "My personal information",
+    "heading": "My credentials",
     "name": "First and last name",
     "email": "Email",
     "emailPlaceholder": "Email address...",
@@ -789,16 +789,21 @@
     "canCreate": "Type to create or search"
   },
   "SettingsMenu": {
-    "label": "Settings",
-    "org": "Organization",
-    "member": "My member record",
-    "user": "Personal information",
-    "notifications": "Notifications",
-    "subscription": "Subscription",
-    "apps": "Integrations",
-    "members": "Members",
-    "signout": "Logout",
-    "superAdmin": "Admin"
+    "org": {
+      "heading": "Organization",
+      "members": "Members",
+      "settings": "Settings",
+      "subscription": "Subscription",
+      "superAdmin": "Admin"
+    },
+    "user": {
+      "heading": "My account",
+      "member": "My member info",
+      "credentials": "My credentials",
+      "notifications": "Notifications",
+      "apps": "Integrations",
+      "signout": "Logout"
+    }
   },
   "Sidebar": {
     "close": "Close sidebar",

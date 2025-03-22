@@ -217,7 +217,7 @@
     "paletteTooltip": "Couleurs fréquemment utilisées"
   },
   "CurrentUserModal": {
-    "heading": "Mes informations personnelles",
+    "heading": "Mes identifiants",
     "name": "Prénom et nom",
     "email": "Email",
     "emailPlaceholder": "Adresse email...",
@@ -822,15 +822,21 @@
     "canCreate": "Tapez pour créer ou chercher"
   },
   "SettingsMenu": {
-    "org": "Organisation",
-    "member": "Ma fiche membre",
-    "user": "Informations personnelles",
-    "notifications": "Notifications",
-    "subscription": "Abonnement",
-    "apps": "Intégrations",
-    "members": "Membres",
-    "signout": "Déconnexion",
-    "superAdmin": "Admin"
+    "org": {
+      "heading": "Organisation",
+      "members": "Membres",
+      "settings": "Paramètres",
+      "subscription": "Abonnement",
+      "superAdmin": "Admin"
+    },
+    "user": {
+      "heading": "Mon compte",
+      "member": "Ma fiche membre",
+      "credentials": "Mes identifiants",
+      "notifications": "Notifications",
+      "apps": "Intégrations",
+      "signout": "Déconnexion"
+    }
   },
   "Sidebar": {
     "close": "Fermer la barre latérale",

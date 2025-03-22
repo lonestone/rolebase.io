@@ -16,6 +16,7 @@ import {
   BoxProps,
   Flex,
   MenuDivider,
+  MenuGroup,
   MenuItem,
   MenuList,
   useDisclosure,
@@ -57,67 +58,78 @@ export default function SettingsMenuList({ children, ...boxProps }: BoxProps) {
 
   return (
     <MenuList zIndex={10} shadow="lg">
-      {isAdmin && (
-        <MenuItem icon={<CircleIcon size={20} />} onClick={orgEditModal.onOpen}>
-          {t('SettingsMenu.org')}
-        </MenuItem>
-      )}
+      <Flex px={2} gap={5}>
+        {(orgId || isSuperAdmin) && (
+          <MenuGroup title={t('SettingsMenu.org.heading')}>
+            {orgId && (
+              <Link to={`${rootPath}members`}>
+                <MenuItem icon={<MembersIcon size={20} />}>
+                  {t('SettingsMenu.org.members')}
+                </MenuItem>
+              </Link>
+            )}
 
-      {member && (
-        <CircleMemberLink memberId={member.id}>
-          <MenuItem icon={<CurrentMemberIcon size={20} />}>
-            {t('SettingsMenu.member')}
+            {isAdmin && (
+              <MenuItem
+                icon={<CircleIcon size={20} />}
+                onClick={orgEditModal.onOpen}
+              >
+                {t('SettingsMenu.org.settings')}
+              </MenuItem>
+            )}
+
+            {isOwner && (
+              <Link to={`${rootPath}subscription`}>
+                <MenuItem icon={<SubscriptionIcon size={20} />}>
+                  {t('SettingsMenu.org.subscription')}
+                </MenuItem>
+              </Link>
+            )}
+
+            {isSuperAdmin && (
+              <Link to="admin">
+                <MenuItem icon={<SuperAdminIcon size={20} />}>
+                  {t('SettingsMenu.org.superAdmin')}
+                </MenuItem>
+              </Link>
+            )}
+          </MenuGroup>
+        )}
+
+        <MenuGroup title={t('SettingsMenu.user.heading')} mx={3}>
+          {member && (
+            <CircleMemberLink memberId={member.id}>
+              <MenuItem icon={<CurrentMemberIcon size={20} />}>
+                {t('SettingsMenu.user.member')}
+              </MenuItem>
+            </CircleMemberLink>
+          )}
+
+          <MenuItem
+            icon={<UserInfoIcon size={20} />}
+            onClick={currentUserModal.onOpen}
+          >
+            {t('SettingsMenu.user.credentials')}
           </MenuItem>
-        </CircleMemberLink>
-      )}
 
-      <MenuItem
-        icon={<UserInfoIcon size={20} />}
-        onClick={currentUserModal.onOpen}
-      >
-        {t('SettingsMenu.user')}
-      </MenuItem>
-
-      <MenuItem
-        icon={<NotificationIcon size={20} />}
-        onClick={notificationsModal.onOpen}
-      >
-        {t('SettingsMenu.notifications')}
-      </MenuItem>
-
-      <Link to="apps">
-        <MenuItem icon={<AppsIcon size={20} />}>
-          {t('SettingsMenu.apps')}
-        </MenuItem>
-      </Link>
-
-      {orgId && (
-        <Link to={`${rootPath}members`}>
-          <MenuItem icon={<MembersIcon size={20} />}>
-            {t('SettingsMenu.members')}
+          <MenuItem
+            icon={<NotificationIcon size={20} />}
+            onClick={notificationsModal.onOpen}
+          >
+            {t('SettingsMenu.user.notifications')}
           </MenuItem>
-        </Link>
-      )}
 
-      {isOwner && (
-        <Link to={`${rootPath}subscription`}>
-          <MenuItem icon={<SubscriptionIcon size={20} />}>
-            {t('SettingsMenu.subscription')}
+          <Link to="apps">
+            <MenuItem icon={<AppsIcon size={20} />}>
+              {t('SettingsMenu.user.apps')}
+            </MenuItem>
+          </Link>
+
+          <MenuItem icon={<LogoutIcon size={20} />} onClick={signOut}>
+            {t('SettingsMenu.user.signout')}
           </MenuItem>
-        </Link>
-      )}
-
-      {isSuperAdmin && (
-        <Link to="admin">
-          <MenuItem icon={<SuperAdminIcon size={20} />}>
-            {t('SettingsMenu.superAdmin')}
-          </MenuItem>
-        </Link>
-      )}
-
-      <MenuItem icon={<LogoutIcon size={20} />} onClick={signOut}>
-        {t('SettingsMenu.signout')}
-      </MenuItem>
+        </MenuGroup>
+      </Flex>
 
       <MenuDivider />
       <Flex

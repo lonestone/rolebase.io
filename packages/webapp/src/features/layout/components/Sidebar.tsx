@@ -8,7 +8,6 @@ import SearchGlobalModal from '@/search/components/SearchGlobalModal'
 import TaskModal from '@/task/modals/TaskModal'
 import ThreadEditModal from '@/thread/modals/ThreadEditModal'
 import {
-  Box,
   Flex,
   IconButton,
   Menu,
@@ -112,7 +111,8 @@ export default function Sidebar() {
     <SidebarLayout>
       <Flex
         h={`${height || logoContainerHeight}px`}
-        px={isMobile ? 3 : 5}
+        pl={isMobile ? 3 : 5}
+        pr={isMobile ? 2 : 5}
         align="center"
       >
         {isMobile ? (
@@ -195,11 +195,12 @@ export default function Sidebar() {
 
       {(!isMobile || expand.isOpen) && (
         /* Desktop: Sidebar content */
-        <Box
+        <Flex
           flex={1}
+          flexDirection="column"
           pl={{ base: 0, md: 4 }}
           pr={{ base: 1, md: 2 }}
-          pt={{ base: 2, md: 0 }}
+          pt={{ base: 2, md: 3 }}
           pb={3}
           overflowY={{
             base: 'auto',
@@ -210,52 +211,11 @@ export default function Sidebar() {
             overflowY: 'auto',
           }}
         >
-          {orgId ? (
-            <Tooltip
-              label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
-              placement="right"
-              hasArrow
-            >
-              <SidebarItem
-                className="userflow-sidebar-search"
-                icon={SearchIcon}
-                py={1}
-                onClick={searchModal.onOpen}
-              >
-                {t('Sidebar.search')}
-              </SidebarItem>
-            </Tooltip>
-          ) : (
-            !orgLoading &&
-            window.location.pathname !== '/' && (
-              <SidebarItemLink to="/" icon={BackIcon}>
-                {t('Sidebar.orgs')}
-              </SidebarItemLink>
-            )
+          {!orgId && !orgLoading && window.location.pathname !== '/' && (
+            <SidebarItemLink to="/" icon={BackIcon}>
+              {t('Sidebar.orgs')}
+            </SidebarItemLink>
           )}
-
-          <Menu>
-            <MenuButton
-              as={SidebarItem}
-              className="userflow-sidebar-settings"
-              icon={SettingsIcon}
-              py={1}
-            >
-              {t('Sidebar.settings')}
-            </MenuButton>
-            <SettingsMenuList />
-          </Menu>
-
-          <SidebarItem
-            className="userflow-sidebar-help"
-            icon={HelpIcon}
-            py={1}
-            onClick={handleHelp}
-          >
-            {t('Sidebar.help')}
-          </SidebarItem>
-
-          <Box h={10} />
 
           {orgId && (
             <>
@@ -308,9 +268,44 @@ export default function Sidebar() {
               </SidebarItemLink>
 
               <SidebarTasks />
+
+              <Spacer />
+
+              <Tooltip
+                label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
+                placement="right"
+                hasArrow
+              >
+                <SidebarItem
+                  className="userflow-sidebar-search"
+                  icon={SearchIcon}
+                  onClick={searchModal.onOpen}
+                >
+                  {t('Sidebar.search')}
+                </SidebarItem>
+              </Tooltip>
             </>
           )}
-        </Box>
+
+          <SidebarItem
+            className="userflow-sidebar-help"
+            icon={HelpIcon}
+            onClick={handleHelp}
+          >
+            {t('Sidebar.help')}
+          </SidebarItem>
+
+          <Menu>
+            <MenuButton
+              as={SidebarItem}
+              className="userflow-sidebar-settings"
+              icon={SettingsIcon}
+            >
+              {t('Sidebar.settings')}
+            </MenuButton>
+            <SettingsMenuList />
+          </Menu>
+        </Flex>
       )}
 
       {searchModal.isOpen && (
