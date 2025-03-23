@@ -37,6 +37,10 @@ replicas = 1
 cpu = 500
 memory = 1536
 
+[hasura.resources.networking]
+[[hasura.resources.networking.ingresses]]
+fqdn = ['hasura.rolebase.io']
+
 [functions]
 [functions.node]
 version = 18
@@ -50,6 +54,10 @@ replicas = 1
 [auth.resources.compute]
 cpu = 250
 memory = 256
+
+[auth.resources.networking]
+[[auth.resources.networking.ingresses]]
+fqdn = ['auth.rolebase.io']
 
 [auth.redirections]
 clientUrl = '{{ secrets.WEBAPP_URL }}'

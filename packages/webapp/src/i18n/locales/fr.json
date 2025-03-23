@@ -30,6 +30,21 @@
     "endWhenAllVoted": "Clôturer quand tous les participants ont voté",
     "endDate": "Date de clôture"
   },
+  "APICard": {
+    "title": "API GraphQL",
+    "description": "Accédez et modifiez tout ce que vous voulez dans Rolebase via notre API GraphQL. Créez des clés API pour authentifier vos requêtes.",
+    "keys": "Vos clés API",
+    "keyNamePlaceholder": "Nom de la clé API...",
+    "createKey": "Créer une clé API",
+    "createSuccess": "Clé API créée avec succès",
+    "viewDocs": "Voir la documentation de l'API"
+  },
+  "APIKeyCard": {
+    "deleteConfirm": "Êtes-vous sûr(e) de vouloir supprimer la clé API {{name}} ?",
+    "deleteSuccess": "Clé API supprimée",
+    "renameSuccess": "Clé API renommée",
+    "copyToast": "Clé API copiée dans le presse-papiers"
+  },
   "AppCalendarOrgSelect": {
     "placeholder": "Synchroniser les réunions",
     "remove": "Arrêter de synchroniser",
@@ -58,7 +73,7 @@
     }
   },
   "AppsPage": {
-    "heading": "Intégrations"
+    "heading": "Intégrations & API"
   },
   "BaseRoleCreateModal": {
     "heading": "Créer un rôle de base"
@@ -834,7 +849,7 @@
       "member": "Ma fiche membre",
       "credentials": "Mes identifiants",
       "notifications": "Notifications",
-      "apps": "Intégrations",
+      "apps": "Intégrations & API",
       "signout": "Déconnexion"
     }
   },
@@ -875,7 +890,7 @@
       "heading": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
       "desc1": "Cette action prendra effet à la fin de la periode d'abonnement.",
       "desc2": "Votre organisation ne pourra plus avoir que 5 membres invités.",
-      "desc3": "Vous perdrez l’accompagnement et le support prioritaire avec notre équipe."
+      "desc3": "Vous perdrez l'accompagnement et le support prioritaire avec notre équipe."
     },
     "invoiceTab": {
       "heading": "Historique des factures",
@@ -981,8 +996,8 @@
       "desc": "Pour faire participer toute votre équipe à votre gouvernance partagée.",
       "feature1": "Tarif : 5€ /mois/membre",
       "feature2": "Toutes les fonctionnalités",
-      "feature3": "Jusqu’à 200 membres actifs",
-      "feature4": "1h/mois d’accompagnement"
+      "feature3": "Jusqu'à 200 membres actifs",
+      "feature4": "1h/mois d'accompagnement"
     },
     "business": {
       "title": "Entreprise",

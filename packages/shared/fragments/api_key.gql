@@ -1,0 +1,6 @@
+fragment ApiKey on api_key {
+  id
+  name
+  value
+  createdAt
+}

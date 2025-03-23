@@ -1,0 +1,23 @@
+subscription apiKeys($userId: uuid!) {
+  api_key(where: { userId: { _eq: $userId } }) {
+    ...ApiKey
+  }
+}
+
+mutation createApiKey($userId: uuid!, $name: String!) {
+  insert_api_key_one(object: { userId: $userId, name: $name }) {
+    ...ApiKey
+  }
+}
+
+mutation renameApiKey($id: uuid!, $name: String!) {
+  update_api_key_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+    ...ApiKey
+  }
+}
+
+mutation deleteApiKey($id: uuid!) {
+  delete_api_key_by_pk(id: $id) {
+    id
+  }
+}

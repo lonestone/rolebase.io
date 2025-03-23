@@ -30,6 +30,21 @@
     "endWhenAllVoted": "Close when all participants have voted",
     "endDate": "Closing date"
   },
+  "APICard": {
+    "title": "GraphQL API",
+    "description": "Access and edit everything you want in Rolebase through our GraphQL API. Create API keys to authenticate your requests.",
+    "keys": "Your API keys",
+    "keyNamePlaceholder": "API key name...",
+    "createKey": "Create API key",
+    "createSuccess": "API key created",
+    "viewDocs": "View API Documentation"
+  },
+  "APIKeyCard": {
+    "deleteConfirm": "Are you sure you want to delete the API key {{name}}?",
+    "deleteSuccess": "API key deleted",
+    "renameSuccess": "API key renamed",
+    "copyToast": "API key copied to clipboard"
+  },
   "AppCalendarOrgSelect": {
     "placeholder": "Synchronize meetings",
     "remove": "Stop syncing",
@@ -58,7 +73,7 @@
     }
   },
   "AppsPage": {
-    "heading": "Integrations"
+    "heading": "Integrations & API"
   },
   "BaseRoleCreateModal": {
     "heading": "Create a basic role"
@@ -801,7 +816,7 @@
       "member": "My member info",
       "credentials": "My credentials",
       "notifications": "Notifications",
-      "apps": "Integrations",
+      "apps": "Integrations & API",
       "signout": "Logout"
     }
   },

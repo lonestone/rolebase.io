@@ -7,6 +7,7 @@
 - "!include auth_user_roles.yaml"
 - "!include auth_user_security_keys.yaml"
 - "!include auth_users.yaml"
+- "!include public_api_key.yaml"
 - "!include public_app_type.yaml"
 - "!include public_circle.yaml"
 - "!include public_circle_leader.yaml"

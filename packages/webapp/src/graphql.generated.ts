@@ -101,6 +101,181 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Users API keys */
+export type Api_Key = {
+  __typename?: 'api_key';
+  createdAt: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
+  /** An object relationship */
+  user: Users;
+  userId: Scalars['uuid']['output'];
+  value: Scalars['String']['output'];
+};
+
+/** aggregated selection of "api_key" */
+export type Api_Key_Aggregate = {
+  __typename?: 'api_key_aggregate';
+  aggregate?: Maybe<Api_Key_Aggregate_Fields>;
+  nodes: Array<Api_Key>;
+};
+
+/** aggregate fields of "api_key" */
+export type Api_Key_Aggregate_Fields = {
+  __typename?: 'api_key_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Api_Key_Max_Fields>;
+  min?: Maybe<Api_Key_Min_Fields>;
+};
+
+
+/** aggregate fields of "api_key" */
+export type Api_Key_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Api_Key_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "api_key". All fields are combined with a logical 'AND'. */
+export type Api_Key_Bool_Exp = {
+  _and?: InputMaybe<Array<Api_Key_Bool_Exp>>;
+  _not?: InputMaybe<Api_Key_Bool_Exp>;
+  _or?: InputMaybe<Array<Api_Key_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "api_key" */
+export enum Api_Key_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ApiKeyPkey = 'api_key_pkey'
+}
+
+/** input type for inserting data into table "api_key" */
+export type Api_Key_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Api_Key_Max_Fields = {
+  __typename?: 'api_key_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Api_Key_Min_Fields = {
+  __typename?: 'api_key_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "api_key" */
+export type Api_Key_Mutation_Response = {
+  __typename?: 'api_key_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Api_Key>;
+};
+
+/** on_conflict condition type for table "api_key" */
+export type Api_Key_On_Conflict = {
+  constraint: Api_Key_Constraint;
+  update_columns?: Array<Api_Key_Update_Column>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "api_key". */
+export type Api_Key_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  userId?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: api_key */
+export type Api_Key_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "api_key" */
+export enum Api_Key_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UserId = 'userId',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "api_key" */
+export type Api_Key_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "api_key" */
+export type Api_Key_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Api_Key_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Api_Key_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "api_key" */
+export enum Api_Key_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UserId = 'userId',
+  /** column name */
+  Value = 'value'
+}
+
+export type Api_Key_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Api_Key_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Api_Key_Bool_Exp;
+};
+
 /** columns and relationships of "app_type" */
 export type App_Type = {
   __typename?: 'app_type';
@@ -8103,6 +8278,10 @@ export type Mutation_Root = {
   deleteVirus?: Maybe<Virus>;
   /** delete data from the table: "storage.virus" */
   deleteViruses?: Maybe<Virus_Mutation_Response>;
+  /** delete data from the table: "api_key" */
+  delete_api_key?: Maybe<Api_Key_Mutation_Response>;
+  /** delete single row from the table: "api_key" */
+  delete_api_key_by_pk?: Maybe<Api_Key>;
   /** delete data from the table: "app_type" */
   delete_app_type?: Maybe<App_Type_Mutation_Response>;
   /** delete single row from the table: "app_type" */
@@ -8291,6 +8470,10 @@ export type Mutation_Root = {
   insertVirus?: Maybe<Virus>;
   /** insert data into the table: "storage.virus" */
   insertViruses?: Maybe<Virus_Mutation_Response>;
+  /** insert data into the table: "api_key" */
+  insert_api_key?: Maybe<Api_Key_Mutation_Response>;
+  /** insert a single row into the table: "api_key" */
+  insert_api_key_one?: Maybe<Api_Key>;
   /** insert data into the table: "app_type" */
   insert_app_type?: Maybe<App_Type_Mutation_Response>;
   /** insert a single row into the table: "app_type" */
@@ -8479,6 +8662,12 @@ export type Mutation_Root = {
   updateVirus?: Maybe<Virus>;
   /** update data of the table: "storage.virus" */
   updateViruses?: Maybe<Virus_Mutation_Response>;
+  /** update data of the table: "api_key" */
+  update_api_key?: Maybe<Api_Key_Mutation_Response>;
+  /** update single row of the table: "api_key" */
+  update_api_key_by_pk?: Maybe<Api_Key>;
+  /** update multiples rows of table: "api_key" */
+  update_api_key_many?: Maybe<Array<Maybe<Api_Key_Mutation_Response>>>;
   /** update data of the table: "app_type" */
   update_app_type?: Maybe<App_Type_Mutation_Response>;
   /** update single row of the table: "app_type" */
@@ -8857,6 +9046,18 @@ export type Mutation_RootDeleteVirusArgs = {
 /** mutation root */
 export type Mutation_RootDeleteVirusesArgs = {
   where: Virus_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Api_KeyArgs = {
+  where: Api_Key_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Api_Key_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -9445,6 +9646,20 @@ export type Mutation_RootInsertVirusArgs = {
 export type Mutation_RootInsertVirusesArgs = {
   objects: Array<Virus_Insert_Input>;
   on_conflict?: InputMaybe<Virus_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Api_KeyArgs = {
+  objects: Array<Api_Key_Insert_Input>;
+  on_conflict?: InputMaybe<Api_Key_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Api_Key_OneArgs = {
+  object: Api_Key_Insert_Input;
+  on_conflict?: InputMaybe<Api_Key_On_Conflict>;
 };
 
 
@@ -10159,6 +10374,26 @@ export type Mutation_RootUpdateVirusesArgs = {
   _prepend?: InputMaybe<Virus_Prepend_Input>;
   _set?: InputMaybe<Virus_Set_Input>;
   where: Virus_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Api_KeyArgs = {
+  _set?: InputMaybe<Api_Key_Set_Input>;
+  where: Api_Key_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Api_Key_By_PkArgs = {
+  _set?: InputMaybe<Api_Key_Set_Input>;
+  pk_columns: Api_Key_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Api_Key_ManyArgs = {
+  updates: Array<Api_Key_Updates>;
 };
 
 
@@ -12364,6 +12599,12 @@ export type Org_Variance_Fields = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "api_key" */
+  api_key: Array<Api_Key>;
+  /** fetch aggregated fields from the table: "api_key" */
+  api_key_aggregate: Api_Key_Aggregate;
+  /** fetch data from the table: "api_key" using primary key columns */
+  api_key_by_pk?: Maybe<Api_Key>;
   /** fetch data from the table: "app_type" */
   app_type: Array<App_Type>;
   /** fetch aggregated fields from the table: "app_type" */
@@ -12662,6 +12903,29 @@ export type Query_Root = {
   viruses: Array<Virus>;
   /** fetch aggregated fields from the table: "storage.virus" */
   virusesAggregate: Virus_Aggregate;
+};
+
+
+export type Query_RootApi_KeyArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Query_RootApi_Key_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Query_RootApi_Key_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -14875,6 +15139,14 @@ export type Subscription_Plan_Type_Updates = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "api_key" */
+  api_key: Array<Api_Key>;
+  /** fetch aggregated fields from the table: "api_key" */
+  api_key_aggregate: Api_Key_Aggregate;
+  /** fetch data from the table: "api_key" using primary key columns */
+  api_key_by_pk?: Maybe<Api_Key>;
+  /** fetch data from the table in a streaming manner: "api_key" */
+  api_key_stream: Array<Api_Key>;
   /** fetch data from the table: "app_type" */
   app_type: Array<App_Type>;
   /** fetch aggregated fields from the table: "app_type" */
@@ -15275,6 +15547,36 @@ export type Subscription_Root = {
   viruses: Array<Virus>;
   /** fetch aggregated fields from the table: "storage.virus" */
   virusesAggregate: Virus_Aggregate;
+};
+
+
+export type Subscription_RootApi_KeyArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Subscription_RootApi_Key_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Subscription_RootApi_Key_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootApi_Key_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Api_Key_Stream_Cursor_Input>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
 };
 
 
@@ -20661,6 +20963,8 @@ export type Virus_Updates = {
   where: Virus_Bool_Exp;
 };
 
+export type ApiKeyFragment = { __typename?: 'api_key', id: string, name: string, value: string, createdAt: string };
+
 export type CircleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };
 
 export type CircleSummaryFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } };
@@ -20720,6 +21024,36 @@ export type ThreadExtraMemberFragment = { __typename?: 'thread_extra_member', id
 export type UserAppFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any };
 
 export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, tmpData?: any | null, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
+
+export type ApiKeysSubscriptionVariables = Exact<{
+  userId: Scalars['uuid']['input'];
+}>;
+
+
+export type ApiKeysSubscription = { __typename?: 'subscription_root', api_key: Array<{ __typename?: 'api_key', id: string, name: string, value: string, createdAt: string }> };
+
+export type CreateApiKeyMutationVariables = Exact<{
+  userId: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type CreateApiKeyMutation = { __typename?: 'mutation_root', insert_api_key_one?: { __typename?: 'api_key', id: string, name: string, value: string, createdAt: string } | null };
+
+export type RenameApiKeyMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type RenameApiKeyMutation = { __typename?: 'mutation_root', update_api_key_by_pk?: { __typename?: 'api_key', id: string, name: string, value: string, createdAt: string } | null };
+
+export type DeleteApiKeyMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteApiKeyMutation = { __typename?: 'mutation_root', delete_api_key_by_pk?: { __typename?: 'api_key', id: string } | null };
 
 export type UserAppsSubscriptionVariables = Exact<{
   userId: Scalars['uuid']['input'];
@@ -21497,6 +21831,14 @@ export type ChangeMetadataMutationVariables = Exact<{
 
 export type ChangeMetadataMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, metadata: UserMetadata } | null };
 
+export const ApiKeyFragmentDoc = gql`
+    fragment ApiKey on api_key {
+  id
+  name
+  value
+  createdAt
+}
+    `;
 export const CircleLinkFragmentDoc = gql`
     fragment CircleLink on circle_link {
   id
@@ -21931,6 +22273,137 @@ export const ThreadPollAnswerFragmentDoc = gql`
   createdAt
 }
     `;
+export const ApiKeysDocument = gql`
+    subscription apiKeys($userId: uuid!) {
+  api_key(where: {userId: {_eq: $userId}}) {
+    ...ApiKey
+  }
+}
+    ${ApiKeyFragmentDoc}`;
+
+/**
+ * __useApiKeysSubscription__
+ *
+ * To run a query within a React component, call `useApiKeysSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useApiKeysSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useApiKeysSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useApiKeysSubscription(baseOptions: Apollo.SubscriptionHookOptions<ApiKeysSubscription, ApiKeysSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<ApiKeysSubscription, ApiKeysSubscriptionVariables>(ApiKeysDocument, options);
+      }
+export type ApiKeysSubscriptionHookResult = ReturnType<typeof useApiKeysSubscription>;
+export type ApiKeysSubscriptionResult = Apollo.SubscriptionResult<ApiKeysSubscription>;
+export const CreateApiKeyDocument = gql`
+    mutation createApiKey($userId: uuid!, $name: String!) {
+  insert_api_key_one(object: {userId: $userId, name: $name}) {
+    ...ApiKey
+  }
+}
+    ${ApiKeyFragmentDoc}`;
+export type CreateApiKeyMutationFn = Apollo.MutationFunction<CreateApiKeyMutation, CreateApiKeyMutationVariables>;
+
+/**
+ * __useCreateApiKeyMutation__
+ *
+ * To run a mutation, you first call `useCreateApiKeyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateApiKeyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createApiKeyMutation, { data, loading, error }] = useCreateApiKeyMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateApiKeyMutation(baseOptions?: Apollo.MutationHookOptions<CreateApiKeyMutation, CreateApiKeyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateApiKeyMutation, CreateApiKeyMutationVariables>(CreateApiKeyDocument, options);
+      }
+export type CreateApiKeyMutationHookResult = ReturnType<typeof useCreateApiKeyMutation>;
+export type CreateApiKeyMutationResult = Apollo.MutationResult<CreateApiKeyMutation>;
+export type CreateApiKeyMutationOptions = Apollo.BaseMutationOptions<CreateApiKeyMutation, CreateApiKeyMutationVariables>;
+export const RenameApiKeyDocument = gql`
+    mutation renameApiKey($id: uuid!, $name: String!) {
+  update_api_key_by_pk(pk_columns: {id: $id}, _set: {name: $name}) {
+    ...ApiKey
+  }
+}
+    ${ApiKeyFragmentDoc}`;
+export type RenameApiKeyMutationFn = Apollo.MutationFunction<RenameApiKeyMutation, RenameApiKeyMutationVariables>;
+
+/**
+ * __useRenameApiKeyMutation__
+ *
+ * To run a mutation, you first call `useRenameApiKeyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRenameApiKeyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [renameApiKeyMutation, { data, loading, error }] = useRenameApiKeyMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useRenameApiKeyMutation(baseOptions?: Apollo.MutationHookOptions<RenameApiKeyMutation, RenameApiKeyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RenameApiKeyMutation, RenameApiKeyMutationVariables>(RenameApiKeyDocument, options);
+      }
+export type RenameApiKeyMutationHookResult = ReturnType<typeof useRenameApiKeyMutation>;
+export type RenameApiKeyMutationResult = Apollo.MutationResult<RenameApiKeyMutation>;
+export type RenameApiKeyMutationOptions = Apollo.BaseMutationOptions<RenameApiKeyMutation, RenameApiKeyMutationVariables>;
+export const DeleteApiKeyDocument = gql`
+    mutation deleteApiKey($id: uuid!) {
+  delete_api_key_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteApiKeyMutationFn = Apollo.MutationFunction<DeleteApiKeyMutation, DeleteApiKeyMutationVariables>;
+
+/**
+ * __useDeleteApiKeyMutation__
+ *
+ * To run a mutation, you first call `useDeleteApiKeyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteApiKeyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteApiKeyMutation, { data, loading, error }] = useDeleteApiKeyMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteApiKeyMutation(baseOptions?: Apollo.MutationHookOptions<DeleteApiKeyMutation, DeleteApiKeyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteApiKeyMutation, DeleteApiKeyMutationVariables>(DeleteApiKeyDocument, options);
+      }
+export type DeleteApiKeyMutationHookResult = ReturnType<typeof useDeleteApiKeyMutation>;
+export type DeleteApiKeyMutationResult = Apollo.MutationResult<DeleteApiKeyMutation>;
+export type DeleteApiKeyMutationOptions = Apollo.BaseMutationOptions<DeleteApiKeyMutation, DeleteApiKeyMutationVariables>;
 export const UserAppsDocument = gql`
     subscription userApps($userId: uuid!) {
   user_app(where: {userId: {_eq: $userId}}) {

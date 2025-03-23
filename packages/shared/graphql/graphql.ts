@@ -98,6 +98,181 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']>;
 };
 
+/** Users API keys */
+export type Api_Key = {
+  __typename?: 'api_key';
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  /** An object relationship */
+  user: Users;
+  userId: Scalars['uuid'];
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "api_key" */
+export type Api_Key_Aggregate = {
+  __typename?: 'api_key_aggregate';
+  aggregate?: Maybe<Api_Key_Aggregate_Fields>;
+  nodes: Array<Api_Key>;
+};
+
+/** aggregate fields of "api_key" */
+export type Api_Key_Aggregate_Fields = {
+  __typename?: 'api_key_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Api_Key_Max_Fields>;
+  min?: Maybe<Api_Key_Min_Fields>;
+};
+
+
+/** aggregate fields of "api_key" */
+export type Api_Key_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Api_Key_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "api_key". All fields are combined with a logical 'AND'. */
+export type Api_Key_Bool_Exp = {
+  _and?: InputMaybe<Array<Api_Key_Bool_Exp>>;
+  _not?: InputMaybe<Api_Key_Bool_Exp>;
+  _or?: InputMaybe<Array<Api_Key_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "api_key" */
+export enum Api_Key_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ApiKeyPkey = 'api_key_pkey'
+}
+
+/** input type for inserting data into table "api_key" */
+export type Api_Key_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Api_Key_Max_Fields = {
+  __typename?: 'api_key_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['uuid']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Api_Key_Min_Fields = {
+  __typename?: 'api_key_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['uuid']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "api_key" */
+export type Api_Key_Mutation_Response = {
+  __typename?: 'api_key_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Api_Key>;
+};
+
+/** on_conflict condition type for table "api_key" */
+export type Api_Key_On_Conflict = {
+  constraint: Api_Key_Constraint;
+  update_columns?: Array<Api_Key_Update_Column>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "api_key". */
+export type Api_Key_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  userId?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: api_key */
+export type Api_Key_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "api_key" */
+export enum Api_Key_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UserId = 'userId',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "api_key" */
+export type Api_Key_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "api_key" */
+export type Api_Key_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Api_Key_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Api_Key_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "api_key" */
+export enum Api_Key_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UserId = 'userId',
+  /** column name */
+  Value = 'value'
+}
+
+export type Api_Key_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Api_Key_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Api_Key_Bool_Exp;
+};
+
 /** columns and relationships of "app_type" */
 export type App_Type = {
   __typename?: 'app_type';
@@ -8100,6 +8275,10 @@ export type Mutation_Root = {
   deleteVirus?: Maybe<Virus>;
   /** delete data from the table: "storage.virus" */
   deleteViruses?: Maybe<Virus_Mutation_Response>;
+  /** delete data from the table: "api_key" */
+  delete_api_key?: Maybe<Api_Key_Mutation_Response>;
+  /** delete single row from the table: "api_key" */
+  delete_api_key_by_pk?: Maybe<Api_Key>;
   /** delete data from the table: "app_type" */
   delete_app_type?: Maybe<App_Type_Mutation_Response>;
   /** delete single row from the table: "app_type" */
@@ -8288,6 +8467,10 @@ export type Mutation_Root = {
   insertVirus?: Maybe<Virus>;
   /** insert data into the table: "storage.virus" */
   insertViruses?: Maybe<Virus_Mutation_Response>;
+  /** insert data into the table: "api_key" */
+  insert_api_key?: Maybe<Api_Key_Mutation_Response>;
+  /** insert a single row into the table: "api_key" */
+  insert_api_key_one?: Maybe<Api_Key>;
   /** insert data into the table: "app_type" */
   insert_app_type?: Maybe<App_Type_Mutation_Response>;
   /** insert a single row into the table: "app_type" */
@@ -8476,6 +8659,12 @@ export type Mutation_Root = {
   updateVirus?: Maybe<Virus>;
   /** update data of the table: "storage.virus" */
   updateViruses?: Maybe<Virus_Mutation_Response>;
+  /** update data of the table: "api_key" */
+  update_api_key?: Maybe<Api_Key_Mutation_Response>;
+  /** update single row of the table: "api_key" */
+  update_api_key_by_pk?: Maybe<Api_Key>;
+  /** update multiples rows of table: "api_key" */
+  update_api_key_many?: Maybe<Array<Maybe<Api_Key_Mutation_Response>>>;
   /** update data of the table: "app_type" */
   update_app_type?: Maybe<App_Type_Mutation_Response>;
   /** update single row of the table: "app_type" */
@@ -8854,6 +9043,18 @@ export type Mutation_RootDeleteVirusArgs = {
 /** mutation root */
 export type Mutation_RootDeleteVirusesArgs = {
   where: Virus_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Api_KeyArgs = {
+  where: Api_Key_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Api_Key_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -9442,6 +9643,20 @@ export type Mutation_RootInsertVirusArgs = {
 export type Mutation_RootInsertVirusesArgs = {
   objects: Array<Virus_Insert_Input>;
   on_conflict?: InputMaybe<Virus_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Api_KeyArgs = {
+  objects: Array<Api_Key_Insert_Input>;
+  on_conflict?: InputMaybe<Api_Key_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Api_Key_OneArgs = {
+  object: Api_Key_Insert_Input;
+  on_conflict?: InputMaybe<Api_Key_On_Conflict>;
 };
 
 
@@ -10156,6 +10371,26 @@ export type Mutation_RootUpdateVirusesArgs = {
   _prepend?: InputMaybe<Virus_Prepend_Input>;
   _set?: InputMaybe<Virus_Set_Input>;
   where: Virus_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Api_KeyArgs = {
+  _set?: InputMaybe<Api_Key_Set_Input>;
+  where: Api_Key_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Api_Key_By_PkArgs = {
+  _set?: InputMaybe<Api_Key_Set_Input>;
+  pk_columns: Api_Key_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Api_Key_ManyArgs = {
+  updates: Array<Api_Key_Updates>;
 };
 
 
@@ -12361,6 +12596,12 @@ export type Org_Variance_Fields = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "api_key" */
+  api_key: Array<Api_Key>;
+  /** fetch aggregated fields from the table: "api_key" */
+  api_key_aggregate: Api_Key_Aggregate;
+  /** fetch data from the table: "api_key" using primary key columns */
+  api_key_by_pk?: Maybe<Api_Key>;
   /** fetch data from the table: "app_type" */
   app_type: Array<App_Type>;
   /** fetch aggregated fields from the table: "app_type" */
@@ -12659,6 +12900,29 @@ export type Query_Root = {
   viruses: Array<Virus>;
   /** fetch aggregated fields from the table: "storage.virus" */
   virusesAggregate: Virus_Aggregate;
+};
+
+
+export type Query_RootApi_KeyArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Query_RootApi_Key_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Query_RootApi_Key_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -14872,6 +15136,14 @@ export type Subscription_Plan_Type_Updates = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "api_key" */
+  api_key: Array<Api_Key>;
+  /** fetch aggregated fields from the table: "api_key" */
+  api_key_aggregate: Api_Key_Aggregate;
+  /** fetch data from the table: "api_key" using primary key columns */
+  api_key_by_pk?: Maybe<Api_Key>;
+  /** fetch data from the table in a streaming manner: "api_key" */
+  api_key_stream: Array<Api_Key>;
   /** fetch data from the table: "app_type" */
   app_type: Array<App_Type>;
   /** fetch aggregated fields from the table: "app_type" */
@@ -15272,6 +15544,36 @@ export type Subscription_Root = {
   viruses: Array<Virus>;
   /** fetch aggregated fields from the table: "storage.virus" */
   virusesAggregate: Virus_Aggregate;
+};
+
+
+export type Subscription_RootApi_KeyArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Subscription_RootApi_Key_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Api_Key_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Api_Key_Order_By>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
+};
+
+
+export type Subscription_RootApi_Key_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootApi_Key_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Api_Key_Stream_Cursor_Input>>;
+  where?: InputMaybe<Api_Key_Bool_Exp>;
 };
 
 
@@ -20658,6 +20960,8 @@ export type Virus_Updates = {
   where: Virus_Bool_Exp;
 };
 
+export type ApiKeyFragment = { __typename?: 'api_key', id: string, name: string, value: string, createdAt: string };
+
 export type CircleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };
 
 export type CircleSummaryFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } };
@@ -20718,6 +21022,7 @@ export type UserAppFragment = { __typename?: 'user_app', id: string, userId: str
 
 export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, tmpData?: any | null, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
 
+export const ApiKeyFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApiKey"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"api_key"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<ApiKeyFragment, unknown>;
 export const CircleLinkFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle_link"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<CircleLinkFragment, unknown>;
 export const CircleMemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleMember"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle_member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<CircleMemberFragment, unknown>;
 export const LogFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Log"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"log"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"memberName"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"display"}},{"kind":"Field","name":{"kind":"Name","value":"changes"}},{"kind":"Field","name":{"kind":"Name","value":"cancelLogId"}},{"kind":"Field","name":{"kind":"Name","value":"cancelMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"cancelMemberName"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}},{"kind":"Field","name":{"kind":"Name","value":"threadId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}}]}}]} as unknown as DocumentNode<LogFragment, unknown>;

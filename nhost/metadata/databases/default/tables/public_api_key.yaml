@@ -1,0 +1,47 @@
+table:
+  name: api_key
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: userId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        userId:
+          _eq: X-Hasura-User-Id
+      columns:
+        - name
+        - userId
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - createdAt
+        - id
+        - name
+        - userId
+        - value
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+      check: null
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+    comment: ""

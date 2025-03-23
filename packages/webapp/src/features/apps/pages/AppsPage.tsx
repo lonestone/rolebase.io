@@ -8,6 +8,7 @@ import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AppCard from '../components/AppCard'
+import APICard from '../components/APICard'
 
 const apps = [
   {
@@ -54,6 +55,7 @@ export default function AppsPage() {
                 userApp={userApps?.find((app) => app.type === type)}
               />
             ))}
+            <APICard />
           </VStack>
         </Container>
       </ScrollableLayout>

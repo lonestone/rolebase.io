@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "fragment ApiKey on api_key {\n  id\n  name\n  value\n  createdAt\n}": types.ApiKeyFragmentDoc,
     "fragment Circle on circle {\n  id\n  orgId\n  roleId\n  parentId\n  archived\n}\n\nfragment CircleSummary on circle {\n  ...Circle\n  role {\n    ...RoleSummary\n  }\n}\n\nfragment CircleFull on circle {\n  ...CircleSummary\n  members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {\n    id\n    avgMinPerWeek\n    member {\n      ...MemberSummary\n    }\n  }\n  invitedCircleLinks {\n    invitedCircle {\n      id\n    }\n  }\n}": types.CircleFragmentDoc,
     "fragment CircleLink on circle_link {\n  id\n  parentId\n  circleId\n  createdAt\n}": types.CircleLinkFragmentDoc,
     "fragment CircleMember on circle_member {\n  id\n  circleId\n  memberId\n  avgMinPerWeek\n  createdAt\n  archived\n}": types.CircleMemberFragmentDoc,
@@ -49,6 +50,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "fragment ApiKey on api_key {\n  id\n  name\n  value\n  createdAt\n}"): (typeof documents)["fragment ApiKey on api_key {\n  id\n  name\n  value\n  createdAt\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

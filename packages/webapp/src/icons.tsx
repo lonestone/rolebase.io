@@ -19,6 +19,7 @@ import {
   Briefcase,
   Calendar2,
   Chart2,
+  Code,
   Coffee,
   Command,
   Copy,
@@ -86,6 +87,7 @@ import { IoSearchOutline } from 'react-icons/io5'
 
 export const AddIcon = Add
 export const ArchiveIcon = ArchiveBox
+export const ApiIcon = Code
 export const AppsIcon = ArrangeHorizontalSquare
 export const ArrowRightIcon = ArrowRight
 export const BackIcon = ArrowSquareLeft
