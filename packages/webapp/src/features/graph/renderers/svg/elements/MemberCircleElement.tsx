@@ -38,7 +38,7 @@ export class MemberCircleElement extends AbstractCircleElement {
       .attr('font-weight', 'normal')
       .attr('fill', '#fff')
       .attr('paint-order', 'stroke')
-      .attr('stroke', 'rgba(0, 0, 0, 0.1)')
+      .attr('stroke', 'rgba(0, 0, 0, 0.3)')
       .attr('stroke-width', 1)
       .attr('stroke-linecap', 'butt')
       .attr('stroke-linejoin', 'miter')
