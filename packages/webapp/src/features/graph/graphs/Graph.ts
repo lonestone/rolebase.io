@@ -118,7 +118,7 @@ export abstract class Graph<
     this.emit('selectCircle', id)
     if (id) {
       // Let draw first, then focus on circle
-      setTimeout(() => this.focusNodeId(id, true), 100)
+      setTimeout(() => this.focusNodeId(id, true), 10)
     }
   }
 

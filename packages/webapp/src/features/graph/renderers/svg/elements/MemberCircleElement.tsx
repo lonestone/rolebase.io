@@ -59,7 +59,6 @@ export class MemberCircleElement extends AbstractCircleElement {
     selection
       .select<SVGTextElement>('.member-name')
       .text((d) => this.getFirstname(d.data.name))
-      .attr('opacity', (d) => (d.data.picture ? 0 : 1))
 
     // Update member picture
     selection

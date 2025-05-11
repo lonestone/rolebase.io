@@ -158,13 +158,9 @@ export function useDragNode(graph: Graph, node: NodeData) {
     if (dragNodes.current && !actionMoved) {
       dragNodes.current.forEach((d) => {
         setTimeout(() => {
-          d.element.style.transform = `translate(${d.node.x - d.node.r}px, ${
-            d.node.y - d.node.r
-          }px)`
+          d.element.style.translate = `${d.node.x}px ${d.node.y}px`
           if (d.title) {
-            d.title.style.transform = `translate(${d.node.x - d.node.r}px, ${
-              d.node.y - d.node.r
-            }px)`
+            d.title.style.translate = `${d.node.x}px ${d.node.y}px`
           }
         }, 0)
       })
@@ -185,13 +181,9 @@ export function useDragNode(graph: Graph, node: NodeData) {
     const dY = (event.clientY - dragOrigin.current.y) / k
 
     dragNodes.current.forEach((d) => {
-      d.element.style.transform = `translate(${d.node.x - d.node.r + dX}px, ${
-        d.node.y - d.node.r + dY
-      }px)`
+      d.element.style.translate = `${d.node.x + dX}px ${d.node.y + dY}px`
       if (d.title) {
-        d.title.style.transform = `translate(${d.node.x - d.node.r + dX}px, ${
-          d.node.y - d.node.r + dY
-        }px)`
+        d.title.style.translate = `${d.node.x + dX}px ${d.node.y + dY}px`
       }
     })
 

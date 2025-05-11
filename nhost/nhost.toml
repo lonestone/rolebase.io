@@ -43,10 +43,10 @@ fqdn = ['hasura.rolebase.io']
 
 [functions]
 [functions.node]
-version = 18
+version = 22
 
 [auth]
-version = '0.37.0'
+version = '0.38.0'
 
 [auth.resources]
 replicas = 1

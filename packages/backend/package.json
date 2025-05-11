@@ -19,7 +19,7 @@
   "dependencies": {
     "@jrmdayn/googleapis-batcher": "^0.5.0",
     "@microsoft/microsoft-graph-types-beta": "^0.40.0-preview",
-    "@nhost/nhost-js": "^3.1.5",
+    "@nhost/nhost-js": "^3.2.8",
     "@sentry/node": "^7.79.0",
     "@sentry/profiling-node": "^1.2.6",
     "@trpc/server": "^11.0.0-next-beta.294",
