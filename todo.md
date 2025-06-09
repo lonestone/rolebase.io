@@ -1,5 +1,9 @@
 # TODO
 
+- Meetings/Threads : pouvoir renommer directement un sujet
+- Tasks/Meetings : impossible de bouger une card après avoir scrollé pendant le drag and drop si la liste est longue
+- Meetings : afficher une alert dans la section tâche de réunion une fois celle-ci terminée pour indiquer qu'on peut retrouver les tâches en dehors de la réunion
+- Task : input pour créer une tâche direct depuis le "+" dans une colonne
 - Intégration Bigbluebutton
 - Intégration Nextcloud (Akceli & Boscop + Oplibris)
 - Pouvoir gérer les sous-rôles dans un sujet

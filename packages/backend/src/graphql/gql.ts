@@ -75,7 +75,7 @@ const documents = {
     "\n        query getOrgParticipantsForRecompute($orgId: uuid!) {\n          circle_participant(where: {\n            circle: {\n              orgId: { _eq: $orgId },\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n      ": types.GetOrgParticipantsForRecomputeDocument,
     "\n        query getOrgIdForRecompute($circleId: uuid!) {\n          circle_by_pk(id: $circleId) {\n            orgId\n          }\n        }\n      ": types.GetOrgIdForRecomputeDocument,
     "\n        mutation replaceParticipantsForRecompute(\n          $participants: [circle_participant_cache_insert_input!]!\n          $deleteWhere: circle_participant_cache_bool_exp!\n        ) {\n          delete_circle_participant_cache(where: $deleteWhere) {\n            returning {\n              id\n            }\n          }\n          insert_circle_participant_cache(objects: $participants) {\n            returning {\n              id\n            }\n          }\n        }\n    ": types.ReplaceParticipantsForRecomputeDocument,
-    "\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n    parent {\n      role {\n        name\n      }\n      parent {\n        role {\n          name\n        }\n        parent {\n          role {\n            name\n          }\n        }\n      }\n    }\n  }\n": types.CircleSearchFragmentDoc,
+    "\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n  }\n": types.CircleSearchFragmentDoc,
     "\n        query GetCircleForSearch($id: uuid!) {\n          circle_by_pk(id: $id) {\n            ...CircleSearch\n          }\n        }\n      ": types.GetCircleForSearchDocument,
     "\n        query GetCirclesForSearch {\n          circle(where: { archived: { _eq: false } }) {\n            ...CircleSearch\n          }\n        }\n      ": types.GetCirclesForSearchDocument,
     "\n  fragment DecisionSearch on decision {\n    id\n    orgId\n    title\n    createdAt\n  }\n": types.DecisionSearchFragmentDoc,
@@ -390,7 +390,7 @@ export function gql(source: "\n        mutation replaceParticipantsForRecompute(
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n    parent {\n      role {\n        name\n      }\n      parent {\n        role {\n          name\n        }\n        parent {\n          role {\n            name\n          }\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n    parent {\n      role {\n        name\n      }\n      parent {\n        role {\n          name\n        }\n        parent {\n          role {\n            name\n          }\n        }\n      }\n    }\n  }\n"];
+export function gql(source: "\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n  }\n"): (typeof documents)["\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

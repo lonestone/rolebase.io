@@ -10,32 +10,8 @@ const Fragment = gql(`
     role {
       name
     }
-    parent {
-      role {
-        name
-      }
-      parent {
-        role {
-          name
-        }
-        parent {
-          role {
-            name
-          }
-        }
-      }
-    }
   }
 `)
-
-interface CircleName {
-  role: { name: string }
-  parent?: CircleName | null
-}
-
-// Build circle name with its role name and its parents' role names
-const buildName = (circle: CircleName): string =>
-  (circle.parent ? buildName(circle.parent) + ' › ' : '') + circle.role.name
 
 export const transform = (
   fragment: DocumentType<typeof Fragment>
@@ -43,7 +19,7 @@ export const transform = (
   objectID: fragment.id,
   orgId: fragment.orgId,
   type: SearchTypes.Circle,
-  title: buildName(fragment),
+  title: fragment.role.name,
   description: '',
   boost: 2,
 })
