@@ -46,7 +46,7 @@ fqdn = ['hasura.rolebase.io']
 version = 22
 
 [auth]
-version = '0.38.0'
+version = '0.38.1'
 
 [auth.resources]
 replicas = 1
@@ -166,7 +166,7 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.15-20250311-1'
+version = '14.17-20250530-1'
 
 [postgres.resources]
 replicas = 1
@@ -190,7 +190,7 @@ secure = true
 method = 'PLAIN'
 
 [storage]
-version = '0.6.1'
+version = '0.7.2'
 
 [storage.resources]
 replicas = 1
