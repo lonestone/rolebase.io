@@ -126,6 +126,7 @@ export default function CircleRole({ skipFetchRole }: Props) {
       ))}
 
       {role.purpose === '' &&
+        circle.parentId &&
         canEditRole &&
         editableFields.every(({ field }) => role[field] === '') && (
           <Button
