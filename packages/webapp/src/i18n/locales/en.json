@@ -189,7 +189,9 @@
     "removeLink": "Remove invited role"
   },
   "CirclesPage": {
-    "title": "{{org}}'s org chart"
+    "title": "{{org}}'s org chart",
+    "empty": "Your org chart is empty for the moment.",
+    "clickCircle": "Click on the circle to add a role or a member."
   },
   "CirclePickerModal": {
     "selectBtn": "Select"
@@ -268,6 +270,10 @@
   },
   "DashboardNewsThread": {
     "action": "<author /> has launched a topic"
+  },
+  "DashboardOrgChart": {
+    "empty": "Your org chart is empty for the moment.",
+    "edit": "Edit the org chart"
   },
   "DashboardPage": {
     "title": "Home"
@@ -1003,7 +1009,7 @@
     "showDoneTasks": "Show completed tasks"
   },
   "TasksList": {
-    "empty": "No task 🎉"
+    "empty": "No task"
   },
   "TasksHeader": {
     "kanban": "Kanban",

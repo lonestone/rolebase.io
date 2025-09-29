@@ -12,7 +12,7 @@ import { SidebarContext } from '@/layout/contexts/SidebarContext'
 import MemberContent from '@/member/components/MemberContent'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
-import { Box, useBreakpointValue, useColorMode } from '@chakra-ui/react'
+import { Box, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
 import React, {
   useCallback,
@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next'
 import CircleContent from '../components/CircleContent'
 import CirclesGraphOptions from '../components/CirclesGraphOptions'
 import { CircleProvider } from '../contexts/CIrcleContext'
+import BottomFixedModal from '@/common/atoms/BottomFixedModal'
 
 type CirclesPageParams = {
   circleId: string
@@ -195,6 +196,17 @@ export default function CirclesPage() {
         }
         mr={focusCrop.right}
       />
+
+      {/* Onboarding */}
+      <BottomFixedModal
+        isOpen={circles?.length === 1 && panel === Panels.None}
+        width={450}
+        textAlign="center"
+        gap={3}
+      >
+        <Text>{t('CirclesPage.empty')}</Text>
+        <Text fontWeight="bold">{t('CirclesPage.clickCircle')}</Text>
+      </BottomFixedModal>
     </GraphProvider>
   )
 }

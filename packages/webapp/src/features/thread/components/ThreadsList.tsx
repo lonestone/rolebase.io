@@ -73,9 +73,7 @@ export default function ThreadsList({
   return (
     <>
       {threads.length === 0 && (
-        <Text fontStyle="italic" textAlign="center">
-          {t('ThreadsList.empty')}
-        </Text>
+        <Text fontStyle="italic">{t('ThreadsList.empty')}</Text>
       )}
 
       {headItems}

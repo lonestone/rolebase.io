@@ -14,13 +14,15 @@ export default function CircleRoleMembers() {
   // Get circle context
   const circleContext = useContext(CircleContext)
   if (!circleContext) return null
-  const { circle, role, canEditMembers } = circleContext
+  const { circle, role, participants, canEditMembers } = circleContext
 
   // Direct circle members ids
   const membersIds = useMemo(
     () => circle?.members.map((cm) => cm.member.id),
     [circle]
   )
+
+  const highlightButton = membersIds.length === 0 && participants.length === 0
 
   const addCircleMember = useAddCircleMember()
   const handleAddMember = useCallback(
@@ -61,11 +63,15 @@ export default function CircleRoleMembers() {
           circleId={circle.id}
           membersIds={membersIds}
           max={role?.singleMember ? 1 : undefined}
+          buttonProps={
+            highlightButton
+              ? { variant: 'solid', colorScheme: 'blue' }
+              : undefined
+          }
           onAdd={canEditMembers ? handleAddMember : undefined}
           onRemove={canEditMembers ? handleRemoveMember : undefined}
         />
       )}
-
       {isDeleteOpen && memberId && (
         <CircleMemberDeleteModal
           memberId={memberId}

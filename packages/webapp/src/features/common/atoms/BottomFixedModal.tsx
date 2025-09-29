@@ -1,39 +1,41 @@
-import { Flex, Slide } from '@chakra-ui/react'
-import React from 'react'
+import { SidebarContext } from '@/layout/contexts/SidebarContext'
+import { Flex, Slide, StyleProps } from '@chakra-ui/react'
+import React, { useContext } from 'react'
 
-export interface Props {
+export interface Props extends StyleProps {
   children: React.ReactNode
   isOpen: boolean
-  size?: number
+  width?: number
 }
 
 export default function BottomFixedModal({
   children,
   isOpen,
-  size = 340,
+  width = 340,
+  ...props
 }: Props) {
+  const sidebarContext = useContext(SidebarContext)
+  const left = sidebarContext?.width || 0
+
   return (
-    <Slide direction="bottom" in={isOpen} style={{ zIndex: 2000 }}>
-      <Flex
-        justifyContent="center"
-        py={6}
-        bgGradient="linear(to-b, rgba(0,0,0,0), rgba(0,0,0,0.1))"
-        _dark={{
-          bgGradient:
-            'linear(to-b, rgba(255,255,255,0), rgba(255,255,255,0.2))',
-        }}
-        pointerEvents="none"
-      >
+    <Slide
+      direction="bottom"
+      in={isOpen}
+      style={{ zIndex: 2000, pointerEvents: 'none' }}
+    >
+      <Flex justifyContent="center" py={6} pl={left}>
         <Flex
-          w={`${size}px`}
+          w={`${width}px`}
           maxW="98%"
           p={5}
           borderRadius="lg"
           borderWidth="1px"
+          boxShadow="lg"
           flexDirection="column"
           pointerEvents="auto"
           bg="menulight"
           _dark={{ bg: 'menudark' }}
+          {...props}
         >
           {children}
         </Flex>

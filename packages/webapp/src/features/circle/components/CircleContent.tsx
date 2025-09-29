@@ -178,11 +178,16 @@ export default function CircleContent({ changeTitle, headerIcons }: Props) {
           </Tab>
         </TabList>
 
-        <TabPanels flex={1} overflowY="auto">
+        <TabPanels
+          flex={1}
+          overflowY="auto"
+          bg={tab === TabsEnum.News ? 'menulight' : undefined}
+          _dark={{ bg: tab === TabsEnum.News ? 'menudark' : undefined }}
+        >
           <TabPanel px={6} py={10}>
             <CircleRole />
           </TabPanel>
-          <TabPanel px={6} py={10} bg="menulight" _dark={{ bg: 'menudark' }}>
+          <TabPanel px={6} py={10}>
             <CircleNews circleId={circle.id} />
           </TabPanel>
           <TabPanel px={6} py={10}>

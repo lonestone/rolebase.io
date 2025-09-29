@@ -2,7 +2,7 @@ import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import NewsList from '@/news/components/NewsList'
 import { useNewsFeed } from '@/news/hooks/useNewsFeed'
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Card, CardBody, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -23,9 +23,11 @@ export default function CircleNews({ circleId }: Props) {
   return (
     <>
       {news?.length === 0 && (
-        <Text fontStyle="italic" textAlign="center">
-          {t('CircleNews.empty')}
-        </Text>
+        <Card boxShadow="none">
+          <CardBody>
+            <Text fontStyle="italic">{t('CircleNews.empty')}</Text>
+          </CardBody>
+        </Card>
       )}
 
       {news && <NewsList items={news} />}

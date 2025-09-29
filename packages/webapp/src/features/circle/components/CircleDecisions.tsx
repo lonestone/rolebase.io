@@ -51,9 +51,7 @@ export default function CircleDecisions({ circleId }: Props) {
       <TextErrors errors={[error]} />
 
       {decisions?.length === 0 && (
-        <Text fontStyle="italic" textAlign="center">
-          {t('CircleDecisions.empty')}
-        </Text>
+        <Text fontStyle="italic">{t('CircleDecisions.empty')}</Text>
       )}
 
       {decisions?.map((decision) => (

@@ -81,6 +81,8 @@ export default function CircleRoleSubCircles() {
     [subCircles]
   )
 
+  const highlightButton = subRolesIds?.length === 0 && participants.length === 0
+
   // Create circle and open it
   const handleCreateCircle = useCallback(
     async (roleOrName: RoleSummaryFragment | string) => {
@@ -261,7 +263,8 @@ export default function CircleRoleSubCircles() {
               className="userflow-add-role-btn"
               excludeIds={subRolesIds}
               size="sm"
-              variant="outline"
+              variant={highlightButton ? 'solid' : 'outline'}
+              colorScheme={highlightButton ? 'blue' : undefined}
               borderRadius="full"
               parentLink={
                 canEditSubCirclesParentLinks && !canEditSubCircles

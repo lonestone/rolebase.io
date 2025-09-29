@@ -28,7 +28,7 @@ export default function VerifyEmailModal() {
   const showModal = user ? !user.emailVerified && !closed : false
 
   return (
-    <BottomFixedModal isOpen={showModal} size={600}>
+    <BottomFixedModal isOpen={showModal} width={600}>
       <Flex justifyContent="space-between" alignItems="baseline">
         <Heading as="h2" fontSize="lg" mb={3}>
           {t('VerifyEmailModal.heading')}

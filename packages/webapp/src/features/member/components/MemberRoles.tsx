@@ -75,28 +75,28 @@ export default function MemberRoles({
 
   return (
     <>
-      {memberCircles.length === 0 &&
-        (isCurrentMember ? (
-          <Alert status="warning">
-            <AlertIcon />
-            <AlertDescription>
-              <Text>{t('MemberRoles.emptyCurrentMember.noRole')}</Text>
-              {isOwner && (
-                <Text>{t('MemberRoles.emptyCurrentMember.canEdit')}</Text>
-              )}
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <Alert status="warning">
-            <AlertIcon />
-            <AlertDescription>
-              <Text>
-                {t('MemberRoles.empty.noRole', { name: member.name })}
-              </Text>
-              {isOwner && <Text>{t('MemberRoles.empty.canEdit')}</Text>}
-            </AlertDescription>
-          </Alert>
-        ))}
+      {memberCircles.length === 0 && (
+        <Alert status="info">
+          <AlertIcon />
+          <AlertDescription>
+            {isCurrentMember ? (
+              <>
+                <Text>{t('MemberRoles.emptyCurrentMember.noRole')}</Text>
+                {isOwner && (
+                  <Text>{t('MemberRoles.emptyCurrentMember.canEdit')}</Text>
+                )}
+              </>
+            ) : (
+              <>
+                <Text>
+                  {t('MemberRoles.empty.noRole', { name: member.name })}
+                </Text>
+                {isOwner && <Text>{t('MemberRoles.empty.canEdit')}</Text>}
+              </>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Accordion
         index={selectedCircleIndex}

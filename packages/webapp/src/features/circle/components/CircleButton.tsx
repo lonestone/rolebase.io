@@ -21,6 +21,9 @@ export default function CircleButton({
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button
         borderRadius="full"
+        // Handle long names
+        whiteSpace="normal"
+        // Color
         bg={circleColor(92, hue)}
         _hover={{ bg: circleColor(87, hue) }}
         _dark={{

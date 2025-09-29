@@ -189,7 +189,9 @@
     "removeLink": "Retirer le rôle invité"
   },
   "CirclesPage": {
-    "title": "Organigramme de {{org}}"
+    "title": "Organigramme de {{org}}",
+    "empty": "Votre organigramme est vide pour le moment.",
+    "clickCircle": "Cliquez sur le cercle pour ajouter un rôle ou un membre."
   },
   "CirclePickerModal": {
     "selectBtn": "Sélectionner"
@@ -268,6 +270,10 @@
   },
   "DashboardNewsThread": {
     "action": "<author /> a lancé un sujet"
+  },
+  "DashboardOrgChart": {
+    "empty": "Votre organigramme est vide pour le moment.",
+    "edit": "Modifier l'organigramme"
   },
   "DashboardPage": {
     "title": "Home",
@@ -1039,7 +1045,7 @@
     "showDoneTasks": "Voir les tâches terminées"
   },
   "TasksList": {
-    "empty": "Aucune tâche 🎉"
+    "empty": "Aucune tâche"
   },
   "TasksHeader": {
     "kanban": "Kanban",

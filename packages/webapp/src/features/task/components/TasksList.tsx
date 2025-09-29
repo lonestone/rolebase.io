@@ -67,9 +67,7 @@ export default function TasksList({
       onDragEnd={handleDragEnd}
     >
       {tasks.length === 0 && (
-        <Text fontStyle="italic" textAlign="center">
-          {t('TasksList.empty')}
-        </Text>
+        <Text fontStyle="italic">{t('TasksList.empty')}</Text>
       )}
 
       <Droppable droppableId="TasksList">

@@ -25,9 +25,7 @@ export default function MeetingsList({
   return (
     <>
       {meetings.length === 0 && (
-        <Text fontStyle="italic" textAlign="center">
-          {t('MeetingsList.empty')}
-        </Text>
+        <Text fontStyle="italic">{t('MeetingsList.empty')}</Text>
       )}
 
       {meetings.map((meeting, i) => (

@@ -1,5 +1,5 @@
 import CircleMemberLink from '@/circle/components/CircleMemberLink'
-import { BoxProps, ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
+import { ButtonGroup, IconButton, ThemingProps, VStack } from '@chakra-ui/react'
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
@@ -9,11 +9,12 @@ import { CreateIcon } from 'src/icons'
 import MemberSearchButton from '../../search/components/MemberSearchButton'
 import MemberButton from './MemberButton'
 
-interface Props extends BoxProps {
+interface Props {
   circleId?: string // Used for member link
   membersIds: string[]
   excludeMembersIds?: string[]
   max?: number
+  buttonProps?: ThemingProps<'Button'>
   onAdd?(memberId: string): void
   onRemove?(memberId: string): void
 }
@@ -23,9 +24,9 @@ export default function MembersMultiSelect({
   membersIds,
   excludeMembersIds,
   max,
+  buttonProps,
   onAdd,
   onRemove,
-  ...boxProps
 }: Props) {
   const { t } = useTranslation()
   const members = useStoreState((state) => state.org.members)
@@ -47,7 +48,7 @@ export default function MembersMultiSelect({
   )
 
   return (
-    <VStack spacing={2} alignItems="start" {...boxProps}>
+    <VStack spacing={2} alignItems="start">
       {selectedMembers.map((m, i) => (
         <CircleMemberLink
           key={m.id}
@@ -81,6 +82,7 @@ export default function MembersMultiSelect({
           variant="outline"
           leftIcon={<CreateIcon size={20} />}
           onSelect={onAdd}
+          {...buttonProps}
         >
           {max === 1
             ? t(`MembersMultiSelect.choose`)
