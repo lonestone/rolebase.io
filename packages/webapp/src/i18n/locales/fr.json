@@ -234,6 +234,7 @@
   "CurrentUserModal": {
     "heading": "Mes identifiants",
     "name": "Prénom et nom",
+    "phone": "Numéro de téléphone",
     "email": "Email",
     "emailPlaceholder": "Adresse email...",
     "password": "Modifier le mot de passe",
@@ -868,8 +869,9 @@
     "help": "Aide"
   },
   "SignupForm": {
-    "heading": "Inscription",
+    "heading": "Créez votre compte Rolebase",
     "name": "Prénom et nom",
+    "phone": "Numéro de téléphone",
     "email": "Email",
     "password": "Mot de passe",
     "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de Confidentialité</a>",

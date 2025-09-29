@@ -1,4 +1,4 @@
-import { BottomFixedModal } from '@/common/atoms/BottomFixedModal'
+import BottomFixedModal from '@/common/atoms/BottomFixedModal'
 import {
   Button,
   CloseButton,
@@ -25,11 +25,10 @@ export default function VerifyEmailModal() {
   }
 
   // Show modal only if the user email is not verified
-  const showVerifyEmailModal = user && !user.emailVerified && !closed
-  if (!showVerifyEmailModal) return null
+  const showModal = user ? !user.emailVerified && !closed : false
 
   return (
-    <BottomFixedModal>
+    <BottomFixedModal isOpen={showModal} size={600}>
       <Flex justifyContent="space-between" alignItems="baseline">
         <Heading as="h2" fontSize="lg" mb={3}>
           {t('VerifyEmailModal.heading')}

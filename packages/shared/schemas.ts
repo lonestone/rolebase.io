@@ -2,8 +2,9 @@ import * as yup from 'yup'
 import { Member_Role_Enum, Subscription_Plan_Type_Enum } from './gql'
 
 export const nameSchema = yup.string().min(1)
-
 export const emailSchema = yup.string().email()
+export const phoneSchema = yup.string().matches(/^\+?[\d\s\-().]{7,20}$/)
+export const passwordSchema = yup.string().min(8)
 
 export const slugSchema = yup
   .string()

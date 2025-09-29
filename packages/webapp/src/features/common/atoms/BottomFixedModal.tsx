@@ -1,44 +1,43 @@
-import { Box } from '@chakra-ui/react'
+import { Flex, Slide } from '@chakra-ui/react'
 import React from 'react'
 
-export type Props = {
+export interface Props {
   children: React.ReactNode
+  isOpen: boolean
+  size?: number
 }
 
-export const BottomFixedModal = ({ children }: Props) => {
+export default function BottomFixedModal({
+  children,
+  isOpen,
+  size = 340,
+}: Props) {
   return (
-    <>
-      <Box
-        position="fixed"
-        zIndex="2000"
-        h="200px"
-        left={0}
-        right={0}
-        bottom={0}
-        bgGradient="linear(to-b, rgba(255,255,255,0), rgba(255,255,255,0.9))"
+    <Slide direction="bottom" in={isOpen} style={{ zIndex: 2000 }}>
+      <Flex
+        justifyContent="center"
+        py={6}
+        bgGradient="linear(to-b, rgba(0,0,0,0), rgba(0,0,0,0.1))"
         _dark={{
-          bgGradient: 'linear(to-b, rgba(0,0,0,0), rgba(0,0,0,0.9))',
+          bgGradient:
+            'linear(to-b, rgba(255,255,255,0), rgba(255,255,255,0.2))',
         }}
         pointerEvents="none"
-      />
-
-      <Box
-        position="fixed"
-        zIndex="2000"
-        w="340px"
-        ml="-170px"
-        left="50%"
-        bottom={2}
-        p={5}
-        borderRadius="lg"
-        borderWidth="1px"
-        display="flex"
-        flexDirection="column"
-        bg="menulight"
-        _dark={{ bg: 'menudark' }}
       >
-        {children}
-      </Box>
-    </>
+        <Flex
+          w={`${size}px`}
+          maxW="98%"
+          p={5}
+          borderRadius="lg"
+          borderWidth="1px"
+          flexDirection="column"
+          pointerEvents="auto"
+          bg="menulight"
+          _dark={{ bg: 'menudark' }}
+        >
+          {children}
+        </Flex>
+      </Flex>
+    </Slide>
   )
 }

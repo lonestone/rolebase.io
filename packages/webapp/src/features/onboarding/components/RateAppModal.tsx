@@ -1,4 +1,4 @@
-import { BottomFixedModal } from '@/common/atoms/BottomFixedModal'
+import BottomFixedModal from '@/common/atoms/BottomFixedModal'
 import { StarsRating } from '@/common/atoms/StarsRating'
 import useUserMetadata from '@/user/hooks/useUserMetadata'
 import {
@@ -45,12 +45,10 @@ export default function RateAppModal() {
   }
 
   // Don't show if already rated
-  if (metadata?.ratedApp || closed) {
-    return null
-  }
+  const showModal = !metadata?.ratedApp && !closed
 
   return (
-    <BottomFixedModal>
+    <BottomFixedModal isOpen={showModal}>
       {rating === 0 && (
         <CloseButton
           position="absolute"

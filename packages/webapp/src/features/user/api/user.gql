@@ -5,6 +5,13 @@ mutation changeDisplayName($userId: uuid!, $displayName: String!) {
   }
 }
 
+mutation changePhoneNumber($userId: uuid!, $phoneNumber: String!) {
+  updateUser(pk_columns: { id: $userId }, _set: { phoneNumber: $phoneNumber }) {
+    id
+    phoneNumber
+  }
+}
+
 mutation changeLocale($userId: uuid!, $locale: String!) {
   updateUser(pk_columns: { id: $userId }, _set: { locale: $locale }) {
     id

@@ -12,14 +12,21 @@ import {
   Link,
   VStack,
 } from '@chakra-ui/react'
+import { useChangePhoneNumberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'
-import { emailSchema, nameSchema } from '@rolebase/shared/schemas'
+import {
+  emailSchema,
+  nameSchema,
+  passwordSchema,
+  phoneSchema,
+} from '@rolebase/shared/schemas'
 import { getTimeZone } from '@utils/dates'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink, useNavigate } from 'react-router-dom'
+import { nhost } from 'src/nhost'
 
 import * as yup from 'yup'
 
@@ -27,17 +34,14 @@ interface Props {
   defaultEmail?: string
 }
 
-export interface Values {
-  name: string
-  email: string
-  ['new-password']: string
-}
-
 const schema = yup.object().shape({
   name: nameSchema.required(),
   email: emailSchema.required(),
-  ['new-password']: yup.string().required(),
+  phone: phoneSchema.required(),
+  ['new-password']: passwordSchema.required(),
 })
+
+type Values = yup.InferType<typeof schema>
 
 export default function SignupForm({ defaultEmail }: Props) {
   const {
@@ -47,6 +51,7 @@ export default function SignupForm({ defaultEmail }: Props) {
   const navigate = useNavigate()
   const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
   const { auth } = useNhostClient()
+  const [changePhoneNumber] = useChangePhoneNumberMutation()
 
   const sendVerifyEmail = async (email: string) => {
     try {
@@ -59,6 +64,7 @@ export default function SignupForm({ defaultEmail }: Props) {
   const onSubmit = async ({
     name,
     email,
+    phone,
     'new-password': password,
   }: Values) => {
     // Sign up
@@ -69,11 +75,19 @@ export default function SignupForm({ defaultEmail }: Props) {
         timezone: getTimeZone(),
       },
     })
-    if (user && user.email && !user.emailVerified) {
+    if (!isSuccess || !user) return
+
+    if (user.email && !user.emailVerified) {
       await sendVerifyEmail(user.email)
     }
 
-    if (!isSuccess) return
+    // Save phone number
+    await changePhoneNumber({
+      variables: { userId: user.id, phoneNumber: phone },
+    })
+
+    // Refresh user data (necessary after phone change)
+    await nhost.auth.refreshSession()
 
     navigate('/')
   }
@@ -85,7 +99,10 @@ export default function SignupForm({ defaultEmail }: Props) {
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(schema),
-    defaultValues: { email: defaultEmail },
+    defaultValues: {
+      email: defaultEmail,
+      phone: '+33',
+    },
   })
 
   const email = watch('email')
@@ -104,6 +121,16 @@ export default function SignupForm({ defaultEmail }: Props) {
             type="name"
             required
             autoComplete="name"
+          />
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.phone}>
+          <FormLabel>{t('SignupForm.phone')}</FormLabel>
+          <Input
+            {...register('phone')}
+            type="phone"
+            required
+            autoComplete="phone"
           />
         </FormControl>
 

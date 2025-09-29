@@ -21813,6 +21813,14 @@ export type ChangeDisplayNameMutationVariables = Exact<{
 
 export type ChangeDisplayNameMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, displayName: string } | null };
 
+export type ChangePhoneNumberMutationVariables = Exact<{
+  userId: Scalars['uuid']['input'];
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type ChangePhoneNumberMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, phoneNumber?: string | null } | null };
+
 export type ChangeLocaleMutationVariables = Exact<{
   userId: Scalars['uuid']['input'];
   locale: Scalars['String']['input'];
@@ -26014,6 +26022,41 @@ export function useChangeDisplayNameMutation(baseOptions?: Apollo.MutationHookOp
 export type ChangeDisplayNameMutationHookResult = ReturnType<typeof useChangeDisplayNameMutation>;
 export type ChangeDisplayNameMutationResult = Apollo.MutationResult<ChangeDisplayNameMutation>;
 export type ChangeDisplayNameMutationOptions = Apollo.BaseMutationOptions<ChangeDisplayNameMutation, ChangeDisplayNameMutationVariables>;
+export const ChangePhoneNumberDocument = gql`
+    mutation changePhoneNumber($userId: uuid!, $phoneNumber: String!) {
+  updateUser(pk_columns: {id: $userId}, _set: {phoneNumber: $phoneNumber}) {
+    id
+    phoneNumber
+  }
+}
+    `;
+export type ChangePhoneNumberMutationFn = Apollo.MutationFunction<ChangePhoneNumberMutation, ChangePhoneNumberMutationVariables>;
+
+/**
+ * __useChangePhoneNumberMutation__
+ *
+ * To run a mutation, you first call `useChangePhoneNumberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangePhoneNumberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changePhoneNumberMutation, { data, loading, error }] = useChangePhoneNumberMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      phoneNumber: // value for 'phoneNumber'
+ *   },
+ * });
+ */
+export function useChangePhoneNumberMutation(baseOptions?: Apollo.MutationHookOptions<ChangePhoneNumberMutation, ChangePhoneNumberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePhoneNumberMutation, ChangePhoneNumberMutationVariables>(ChangePhoneNumberDocument, options);
+      }
+export type ChangePhoneNumberMutationHookResult = ReturnType<typeof useChangePhoneNumberMutation>;
+export type ChangePhoneNumberMutationResult = Apollo.MutationResult<ChangePhoneNumberMutation>;
+export type ChangePhoneNumberMutationOptions = Apollo.BaseMutationOptions<ChangePhoneNumberMutation, ChangePhoneNumberMutationVariables>;
 export const ChangeLocaleDocument = gql`
     mutation changeLocale($userId: uuid!, $locale: String!) {
   updateUser(pk_columns: {id: $userId}, _set: {locale: $locale}) {
