@@ -12,14 +12,12 @@ import {
   Link,
   VStack,
 } from '@chakra-ui/react'
-import { useChangePhoneNumberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'
 import {
   emailSchema,
   nameSchema,
   passwordSchema,
-  phoneSchema,
 } from '@rolebase/shared/schemas'
 import { getTimeZone } from '@utils/dates'
 import React from 'react'
@@ -37,7 +35,6 @@ interface Props {
 const schema = yup.object().shape({
   name: nameSchema.required(),
   email: emailSchema.required(),
-  phone: phoneSchema.required(),
   ['new-password']: passwordSchema.required(),
 })
 
@@ -51,7 +48,6 @@ export default function SignupForm({ defaultEmail }: Props) {
   const navigate = useNavigate()
   const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
   const { auth } = useNhostClient()
-  const [changePhoneNumber] = useChangePhoneNumberMutation()
 
   const sendVerifyEmail = async (email: string) => {
     try {
@@ -64,7 +60,6 @@ export default function SignupForm({ defaultEmail }: Props) {
   const onSubmit = async ({
     name,
     email,
-    phone,
     'new-password': password,
   }: Values) => {
     // Sign up
@@ -81,11 +76,6 @@ export default function SignupForm({ defaultEmail }: Props) {
       await sendVerifyEmail(user.email)
     }
 
-    // Save phone number
-    await changePhoneNumber({
-      variables: { userId: user.id, phoneNumber: phone },
-    })
-
     // Refresh user data (necessary after phone change)
     await nhost.auth.refreshSession()
 
@@ -101,7 +91,6 @@ export default function SignupForm({ defaultEmail }: Props) {
     resolver: yupResolver(schema),
     defaultValues: {
       email: defaultEmail,
-      phone: '+33',
     },
   })
 
@@ -121,16 +110,6 @@ export default function SignupForm({ defaultEmail }: Props) {
             type="name"
             required
             autoComplete="name"
-          />
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.phone}>
-          <FormLabel>{t('SignupForm.phone')}</FormLabel>
-          <Input
-            {...register('phone')}
-            type="phone"
-            required
-            autoComplete="phone"
           />
         </FormControl>
 

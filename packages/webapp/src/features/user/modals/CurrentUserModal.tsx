@@ -16,13 +16,10 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import {
-  useChangeDisplayNameMutation,
-  useChangePhoneNumberMutation,
-} from '@gql'
+import { useChangeDisplayNameMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useUserData } from '@nhost/react'
-import { emailSchema, nameSchema, phoneSchema } from '@rolebase/shared/schemas'
+import { emailSchema, nameSchema } from '@rolebase/shared/schemas'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -32,7 +29,6 @@ import * as yup from 'yup'
 const schema = yup.object().shape({
   name: nameSchema.required(),
   email: emailSchema.required(),
-  phone: phoneSchema.required(),
   ['new-password']: yup
     .string()
     .test(
@@ -52,7 +48,6 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
 
   // Mutations
   const [changeDisplayName] = useChangeDisplayNameMutation()
-  const [changePhoneNumber] = useChangePhoneNumberMutation()
 
   const {
     handleSubmit,
@@ -63,13 +58,12 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
     defaultValues: {
       name: user?.displayName || '',
       email: user?.email || '',
-      phone: user?.phoneNumber || '+33',
       ['new-password']: '',
     },
   })
 
   const onSubmit = handleSubmit(
-    async ({ name, email, phone, 'new-password': password }) => {
+    async ({ name, email, 'new-password': password }) => {
       if (!user?.id) return
       setSaving(true)
 
@@ -77,13 +71,6 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
       if (name !== user?.displayName) {
         await changeDisplayName({
           variables: { userId: user.id, displayName: name },
-        })
-      }
-
-      // Update phone number
-      if (phone !== user?.phoneNumber) {
-        await changePhoneNumber({
-          variables: { userId: user.id, phoneNumber: phone },
         })
       }
 
@@ -132,11 +119,6 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                   data-lpignore
                   data-1p-ignore
                 />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.phone}>
-                <FormLabel>{t('CurrentUserModal.phone')}</FormLabel>
-                <Input {...register('phone')} type="phone" autoComplete="off" />
               </FormControl>
 
               <FormControl isInvalid={!!errors.email}>
