@@ -32,6 +32,6 @@ export default function useCreateMeeting() {
 
       return { id: newMeeting.id, path }
     },
-    []
+    [currentMember, duplicateMeetingSteps, meetingsPath]
   )
 }
