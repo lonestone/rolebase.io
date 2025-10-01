@@ -74,14 +74,9 @@ export abstract class Graph<
     // Zoom
     this.zoomBehaviour = d3
       .zoom<RootElement, any>()
-      .filter(
-        (event) =>
-          !this.zoomDisabled &&
-          // Control/Command key is pressed
-          !(event.ctrlKey || event.metaKey)
-      )
+      .filter(() => !this.zoomDisabled)
       .scaleExtent(settings.zoom.scaleExtent as [number, number])
-      .on('zoom', (event) => {
+      .on('zoom', (event: d3.D3ZoomEvent<RootElement, any>) => {
         if (this.unmounted) return
         const hasMoved =
           this.zoomTransform.x !== event.transform.x ||
