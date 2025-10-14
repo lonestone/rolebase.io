@@ -58,9 +58,9 @@ export default function SettingsMenuList({ children, ...boxProps }: BoxProps) {
 
   return (
     <MenuList zIndex={10} shadow="lg">
-      <Flex px={2} gap={5}>
+      <Flex px={2} gap={5} flexWrap="wrap" maxW="100vw">
         {(orgId || isSuperAdmin) && (
-          <MenuGroup title={t('SettingsMenu.org.heading')}>
+          <MenuGroup title={t('SettingsMenu.org.heading')} minW="170px">
             {orgId && (
               <Link to={`${rootPath}members`}>
                 <MenuItem icon={<MembersIcon size={20} />}>
@@ -96,7 +96,7 @@ export default function SettingsMenuList({ children, ...boxProps }: BoxProps) {
           </MenuGroup>
         )}
 
-        <MenuGroup title={t('SettingsMenu.user.heading')} mx={3}>
+        <MenuGroup title={t('SettingsMenu.user.heading')} minW="170px">
           {member && (
             <CircleMemberLink memberId={member.id}>
               <MenuItem icon={<CurrentMemberIcon size={20} />}>

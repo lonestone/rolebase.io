@@ -3,6 +3,7 @@ import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
 import { CirclesGraphViews } from '@/graph/types'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
+import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import {
   Alert,
   AlertDescription,
@@ -14,13 +15,14 @@ import {
 } from '@chakra-ui/react'
 import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 export default function DashboardOrgChart(boxProps: BoxProps) {
   const { t } = useTranslation()
   const org = useCurrentOrg()
+  const navigateOrg = useNavigateOrg()
 
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
@@ -34,6 +36,13 @@ export default function DashboardOrgChart(boxProps: BoxProps) {
 
   // Color mode
   const { colorMode } = useColorMode()
+
+  // Redirect to org chart when there is only one circle
+  useEffect(() => {
+    if (circles?.length === 1 && org) {
+      navigateOrg(`roles`)
+    }
+  }, [circles, org])
 
   if (circles?.length === 1 && org) {
     return (

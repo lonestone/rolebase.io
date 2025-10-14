@@ -1,8 +1,8 @@
 import { SidebarContext } from '@/layout/contexts/SidebarContext'
-import { Flex, Slide, StyleProps } from '@chakra-ui/react'
+import { BoxProps, Flex, Slide } from '@chakra-ui/react'
 import React, { useContext } from 'react'
 
-export interface Props extends StyleProps {
+export interface Props extends BoxProps {
   children: React.ReactNode
   isOpen: boolean
   width?: number

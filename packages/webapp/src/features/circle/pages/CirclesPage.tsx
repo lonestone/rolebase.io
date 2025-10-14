@@ -203,6 +203,12 @@ export default function CirclesPage() {
         width={450}
         textAlign="center"
         gap={3}
+        color="white"
+        bg="gray.600"
+        _dark={{
+          color: 'black',
+          bg: 'gray.200',
+        }}
       >
         <Text>{t('CirclesPage.empty')}</Text>
         <Text fontWeight="bold">{t('CirclesPage.clickCircle')}</Text>

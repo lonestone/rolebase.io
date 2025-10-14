@@ -1,7 +1,13 @@
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import RoleGeneratorModal from '@/role/modals/RoleGeneratorModal'
-import { Button, Text, VStack, useDisclosure } from '@chakra-ui/react'
+import {
+  AspectRatio,
+  Button,
+  Text,
+  VStack,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { RoleFragment, useRoleSubscription } from '@gql'
 import React, { useContext, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -12,6 +18,8 @@ import CircleByIdButton from './CircleByIdButton'
 import CircleRoleMembers from './CircleRoleMembers'
 import CircleRoleSubCircles from './CircleRoleSubCircles'
 import { RoleEditableField } from './RoleEditableField'
+import useOrgAdmin from '@/member/hooks/useOrgAdmin'
+import { useStoreState } from '@store/hooks'
 
 interface Props {
   skipFetchRole?: boolean
@@ -32,6 +40,8 @@ export const fieldsGap = 10
 
 export default function CircleRole({ skipFetchRole }: Props) {
   const { t } = useTranslation()
+  const isAdmin = useOrgAdmin()
+  const members = useStoreState((state) => state.org.members)
 
   // Get circle context
   const circleContext = useContext(CircleContext)
@@ -113,6 +123,34 @@ export default function CircleRole({ skipFetchRole }: Props) {
           </Text>
         )}
       </VStack>
+
+      {isAdmin &&
+        members?.length === 1 &&
+        (circle.parentId ? (
+          // Video: Comment ajouter des membres
+          // https://www.tella.tv/video/cmg6c473600070cjr3cwrb4sx/view
+          <AspectRatio ratio={16 / 9} my={fieldsGap}>
+            <iframe
+              src="https://www.tella.tv/video/cmg6c473600070cjr3cwrb4sx/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+            ></iframe>
+          </AspectRatio>
+        ) : (
+          // Video: Comment créer un organigramme
+          // https://www.tella.tv/video/cmg6c3p7c00bt0bkzglpzgdfl/view
+          <AspectRatio ratio={16 / 9} my={fieldsGap}>
+            <iframe
+              src="https://www.tella.tv/video/cmg6c3p7c00bt0bkzglpzgdfl/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+            ></iframe>
+          </AspectRatio>
+        ))}
 
       {sortedFields.map(({ field, initValue }) => (
         <RoleEditableField
