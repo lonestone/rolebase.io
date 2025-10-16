@@ -323,7 +323,7 @@
     },
     "upload": {
       "heading": "Importer depuis {{provider}}",
-      "text-Holaspirit": "Exportez votre organisation depuis Holaspirit (<a href=\"https://help.holaspirit.com/fr/articles/1822926-exporter-les-donnees-de-mon-organisation-en-tant-qu-administrateur\">Comment ?</a>),<br />puis sélectionnez le fichier obtenu sur votre disque dur.",
+      "text-Holaspirit": "Exportez votre organisation depuis Holaspirit (<a href=\"https://help.holaspirit.com/fr/article/exporter-les-donnees-de-votre-organisation-en-tant-quadministrateur-1m33qvj/\">Comment ?</a>),<br />puis sélectionnez le fichier obtenu sur votre disque dur.",
       "terms": "Je certifie que les données m'appartiennent et que je suis autorisé(e) à les importer.",
       "button": "Sélectionner le fichier à importer"
     },

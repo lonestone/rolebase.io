@@ -1236,7 +1236,7 @@
       "button": "Select the file to import",
       "heading": "Import from {{provider}}",
       "terms": "I certify that the data belongs to me and that I am authorized to import them.",
-      "text-Holaspirit": "Export your organization from Holaspirit (<a href=\"https://help.holaspirit.com/en/articles/1822926-export-my-organization-s-data-as-an-admin\">How? \n</a>),<br />then select the resulting file on your hard drive."
+      "text-Holaspirit": "Export your organization from Holaspirit (<a href=\"https://help.holaspirit.com/en/article/export-your-organizations-data-as-an-admin-uarmx4/\">How? \n</a>),<br />then select the resulting file on your hard drive."
     },
     "loading": {
       "text": "Your organization is being created.",
