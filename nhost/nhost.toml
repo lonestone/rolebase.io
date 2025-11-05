@@ -8,7 +8,7 @@ name = 'BACKEND_URL'
 value = '{{ secrets.BACKEND_URL }}'
 
 [hasura]
-version = 'v2.44.0-ce'
+version = 'v2.48.5-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
 webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
 
@@ -46,7 +46,7 @@ fqdn = ['hasura.rolebase.io']
 version = 22
 
 [auth]
-version = '0.38.1'
+version = '0.42.4'
 
 [auth.resources]
 replicas = 1
@@ -166,7 +166,7 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.17-20250530-1'
+version = '14.18-20250728-1'
 
 [postgres.resources]
 replicas = 1
@@ -190,7 +190,7 @@ secure = true
 method = 'PLAIN'
 
 [storage]
-version = '0.7.2'
+version = '0.8.2'
 
 [storage.resources]
 replicas = 1
