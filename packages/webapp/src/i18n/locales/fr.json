@@ -188,6 +188,9 @@
     "linkTooltip": "Rôle invité",
     "removeLink": "Retirer le rôle invité"
   },
+  "CircleRoleLinkParents": {
+    "title": "Participe à"
+  },
   "CirclesPage": {
     "title": "Organigramme de {{org}}",
     "empty": "Votre organigramme est vide pour le moment.",

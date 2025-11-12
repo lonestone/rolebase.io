@@ -11,6 +11,7 @@ import CircleButton from './CircleButton'
 import CircleByIdButton from './CircleByIdButton'
 import CircleRoleMembers from './CircleRoleMembers'
 import CircleRoleSubCircles from './CircleRoleSubCircles'
+import CircleRoleLinkParents from './CircleRoleLinkParents'
 import { RoleEditableField } from './RoleEditableField'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import { useStoreState } from '@store/hooks'
@@ -118,6 +119,8 @@ export default function CircleRole({ skipFetchRole }: Props) {
             />
           </Text>
         )}
+
+        <CircleRoleLinkParents />
       </VStack>
 
       {isAdmin &&

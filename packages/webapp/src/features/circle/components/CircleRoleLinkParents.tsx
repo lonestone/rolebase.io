@@ -1,0 +1,74 @@
+import { Box, Flex, Heading, Icon, Tooltip, VStack } from '@chakra-ui/react'
+import { useStoreState } from '@store/hooks'
+import { truthy } from '@rolebase/shared/helpers/truthy'
+import React, { useContext, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CircleLinkIcon } from 'src/icons'
+import { CircleContext } from '../contexts/CIrcleContext'
+import CircleWithLeaderItem from './CircleWithLeaderItem'
+
+export default function CircleRoleLinkParents() {
+  const { t } = useTranslation()
+
+  // Get circle context
+  const circleContext = useContext(CircleContext)
+  if (!circleContext) return null
+  const { circle, parentCircle, participants } = circleContext
+
+  const circles = useStoreState((state) => state.org.circles)
+
+  // Get parent circles that have invited this circle (links)
+  const invitingParentCircles = useMemo(
+    () =>
+      circles
+        ?.filter((c) =>
+          c.invitedCircleLinks.some(
+            (link) => link.invitedCircle.id === circle.id
+          )
+        )
+        .filter(truthy)
+        .sort((a, b) => a.role.name.localeCompare(b.role.name)),
+    [circles, circle]
+  )
+
+  // Hide if empty and no parent circle
+  if (!parentCircle && !invitingParentCircles?.length) {
+    return null
+  }
+
+  return (
+    <Box>
+      <Heading as="h3" size="sm" mb={3}>
+        {t('CircleRoleLinkParents.title')}
+      </Heading>
+      <VStack spacing={2} align="start">
+        {parentCircle && (
+          <CircleWithLeaderItem
+            className="userflow-direct-parent-circle"
+            circle={parentCircle}
+            parentCircle={circle}
+            participants={participants}
+          />
+        )}
+
+        {invitingParentCircles?.map((invitingCircle, i) => (
+          <Flex key={invitingCircle.id} alignItems="center">
+            <CircleWithLeaderItem
+              className={`userflow-inviting-parent-circle-${i}`}
+              circle={invitingCircle}
+              parentCircle={circle}
+              participants={participants}
+            />
+            <Tooltip
+              label={t('CircleRoleSubCircles.linkTooltip')}
+              placement="top"
+              hasArrow
+            >
+              <Icon as={CircleLinkIcon} ml={2} />
+            </Tooltip>
+          </Flex>
+        ))}
+      </VStack>
+    </Box>
+  )
+}

@@ -188,6 +188,9 @@
     "linkTooltip": "Invited role",
     "removeLink": "Remove invited role"
   },
+  "CircleRoleLinkParents": {
+    "title": "Participates in"
+  },
   "CirclesPage": {
     "title": "{{org}}'s org chart",
     "empty": "Your org chart is empty for the moment.",
