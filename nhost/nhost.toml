@@ -190,7 +190,7 @@ secure = true
 method = 'PLAIN'
 
 [storage]
-version = '0.8.2'
+version = '0.9.1'
 
 [storage.resources]
 replicas = 1

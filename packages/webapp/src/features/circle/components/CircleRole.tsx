@@ -1,13 +1,7 @@
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import RoleGeneratorModal from '@/role/modals/RoleGeneratorModal'
-import {
-  AspectRatio,
-  Button,
-  Text,
-  VStack,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Button, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import { RoleFragment, useRoleSubscription } from '@gql'
 import React, { useContext, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -20,6 +14,8 @@ import CircleRoleSubCircles from './CircleRoleSubCircles'
 import { RoleEditableField } from './RoleEditableField'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import { useStoreState } from '@store/hooks'
+import OnboardingVideoAddMembers from '@/onboarding/components/OnboardingVideoAddMembers'
+import OnboardingVideoCreateOrganization from '@/onboarding/components/OnboardingVideoCreateOrganization'
 
 interface Props {
   skipFetchRole?: boolean
@@ -128,28 +124,10 @@ export default function CircleRole({ skipFetchRole }: Props) {
         members?.length === 1 &&
         (circle.parentId ? (
           // Video: Comment ajouter des membres
-          // https://www.tella.tv/video/cmg6c473600070cjr3cwrb4sx/view
-          <AspectRatio ratio={16 / 9} my={fieldsGap}>
-            <iframe
-              src="https://www.tella.tv/video/cmg6c473600070cjr3cwrb4sx/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-            ></iframe>
-          </AspectRatio>
+          <OnboardingVideoAddMembers my={fieldsGap} />
         ) : (
           // Video: Comment créer un organigramme
-          // https://www.tella.tv/video/cmg6c3p7c00bt0bkzglpzgdfl/view
-          <AspectRatio ratio={16 / 9} my={fieldsGap}>
-            <iframe
-              src="https://www.tella.tv/video/cmg6c3p7c00bt0bkzglpzgdfl/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-            ></iframe>
-          </AspectRatio>
+          <OnboardingVideoCreateOrganization my={fieldsGap} />
         ))}
 
       {sortedFields.map(({ field, initValue }) => (

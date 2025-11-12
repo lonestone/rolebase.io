@@ -1,7 +1,6 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import TextError from '@/common/atoms/TextError'
 import {
-  AspectRatio,
   Box,
   Button,
   FormControl,
@@ -30,6 +29,7 @@ import settings from 'src/settings'
 import { trpc } from 'src/trpc'
 import * as yup from 'yup'
 import useOrg from '../hooks/useOrg'
+import OnboardingVideoCreateOrg from '@/onboarding/components/OnboardingVideoCreateOrg'
 
 interface Values {
   name: string
@@ -157,19 +157,8 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
           </Link>
         </Box>
 
-        {/*
-          Video: Comment créer une organisation
-          https://www.tella.tv/video/cmg6c2zvv000s0bl53mjwehhy/view
-        */}
-        <AspectRatio ratio={16 / 9}>
-          <iframe
-            src="https://www.tella.tv/video/cmg6c2zvv000s0bl53mjwehhy/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen
-          ></iframe>
-        </AspectRatio>
+        {/* Video: Comment créer une organisation */}
+        <OnboardingVideoCreateOrg />
       </SimpleGrid>
     </BrandModal>
   )

@@ -7,7 +7,6 @@ import { Title } from '@/common/atoms/Title'
 import useUpdatableQueryParams from '@/common/hooks/useUpdatableQueryParams'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import {
-  AspectRatio,
   Button,
   Container,
   Flex,
@@ -29,6 +28,7 @@ import ThreadsList from '../components/ThreadsList'
 import useFilterThreadsByMember from '../hooks/useFilterThreadsByMember'
 import useThreads from '../hooks/useThreads'
 import ThreadEditModal from '../modals/ThreadEditModal'
+import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
 
 type Params = {
   member: string
@@ -171,16 +171,7 @@ export default function ThreadsPage() {
 
           {threads?.length === 0 && (
             // Video: Comment utiliser les sujets et tâches
-            // https://www.tella.tv/video/cmg6ckxqh006f0blagzaw70w1/view
-            <AspectRatio ratio={16 / 9} mt={10}>
-              <iframe
-                src="https://www.tella.tv/video/cmg6ckxqh006f0blagzaw70w1/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-              ></iframe>
-            </AspectRatio>
+            <OnboardingVideoThreadsAndTasks mt={10} />
           )}
         </Container>
       </ScrollableLayout>

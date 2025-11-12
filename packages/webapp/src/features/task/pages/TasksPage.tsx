@@ -74,7 +74,7 @@ export default function TasksPage() {
         <Title>{t('TasksPage.heading')}</Title>
 
         <Box h="100%" px={7} py={10} overflowX="auto">
-          <TasksContent />
+          <TasksContent isFullPage />
         </Box>
       </ScrollableLayout>
     </TasksModuleProvider>
