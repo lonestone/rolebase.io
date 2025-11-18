@@ -1,5 +1,36 @@
 # TODO
 
+- Fix accept invitation after signup (url changes and loses token)
+- OTP to signin/signup?
+- Fix asking for subscription when batch invitation
+- Notif réu par mail
+- Reponse auto demande de démo
+- Bouton diag / prise de rdv (https://calendar.app.google/Y1mM2Lgc1FjzWFRYA)
+- Notifs Slack
+- Module gouvernance
+- Module prise de décision
+- Mettre un sujet en favori
+- Feature Documentation
+- Onboarding org creation:
+
+  - Mode texte / Mode vocal
+  - demander type de structure
+  - Taille de la boîte
+  - Comment ils nous ont connu ?
+  - Attentes
+
+- Add topics from another role in a meeting: prévenir Pierre Jothy et Mélanie (fablab chaux)
+
+- Search : améliorer affichage des résultats de recherche
+- Notif mail régulière aux leaders de cercle pour demander s'il faut mettre à jour
+- Notif mail des rôles vacants aux leaders des cercles parents
+- Séparer en plusieurs organigrammes
+- Proposer des templates de cercles
+- Graph : windowing of nodes
+- App mobile
+- Tips : connecter l'agenda, setup réu récurrentes
+- Role : budgets
+- Threads : proposer d'ajouter à la prochaine réunion lors de la création d'un sujet
 - Meetings/Threads : pouvoir renommer directement un sujet
 - Tasks/Meetings : impossible de bouger une card après avoir scrollé pendant le drag and drop si la liste est longue
 - Meetings : afficher une alert dans la section tâche de réunion une fois celle-ci terminée pour indiquer qu'on peut retrouver les tâches en dehors de la réunion
@@ -7,6 +38,7 @@
 - Intégration Bigbluebutton
 - Intégration Nextcloud (Akceli & Boscop + Oplibris)
 - Pouvoir gérer les sous-rôles dans un sujet
+- Import org from Linkedin company page
 - Fix clic + réunion dans IFS
 - Fix date invitation (en) dans fiche membre (IFS)
 - Fix css print toggle participation réunion (poke Croix Rouge)
@@ -16,7 +48,6 @@
 - Ajout localStorage/preference vue planning réunion (poke Croix Rouge)
 - Fix rôles vacants contenant des rôles invités (poke Croix Rouge)
 - Ajouter bouton Imprimer dans les options de Réunion
-- Rendre l'invitation plus claire dans la modale d'invitation de membre
 - Meetings: Réu récurrente privée
 - Meetings: afficher icône lock dans le panneau de résumé quand c'est privé
 - Meetings: création des steps dans la réunion plutôt que dans ses paramètres
@@ -25,7 +56,6 @@
 - Don't show seen threads in notif
 - Remove org_subscription permission
 - Do not index circles that have an archived parent
-- Add topics from another role in a meeting: prévenir Pierre Jothy
 - Prevent base64 images in editor
 - Warning quand on crée une réu sans être dedans
 - Fix création occurrence réu depuis agenda. "Juste pour info, dans Rolebase, j’ai encore des réunions récurrente de feu le cercle Culture, et ainsi que du cercle RH auquel je n’appartient plus. Supprimer les réunions récurrentes de mon agenda ne suffit pas à les faire disparaitre, elles reviennent."
@@ -36,15 +66,6 @@
 - Skills
 - Doc
 - Governance
-
-Questions onboarding
-
-- Taille de la boîte
-- Comment ils nous ont connu ?
-- Attentes
-
-- Lister users à recontacter pour un diag gratuit
-- Chargement dernière org ou 1ère org
 
 Compétences (Evea)
 
@@ -90,7 +111,6 @@ Autres tâches :
 - Fix: meetings notes, members descriptions and roles properties not transformed in search
 - Private recurring meetings
 - Supprimer role.singleMember ? Ou alors corriger drag and drop pour éviter d’avoir 2 membres dans un role en singleMember
-- Expliciter roles (admin, owner) de membres et appeler ça autrement
 - Acceptation des conditions lors de la première utilisation de l’IA
 - Update calendars when change in circle members (meeting and recurring)
 - Delete user_apps at archiveMember

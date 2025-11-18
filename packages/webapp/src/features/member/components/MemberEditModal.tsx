@@ -24,8 +24,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Spacer,
+  Text,
   UseModalProps,
   VStack,
   useDisclosure,
@@ -45,6 +45,7 @@ import * as yup from 'yup'
 import useMember from '../hooks/useMember'
 import useOrgAdmin from '../hooks/useOrgAdmin'
 import MemberDeleteModal from '../modals/MemberDeleteModal'
+import MemberOrgRoleCard from './MemberOrgRoleCard'
 import MemberPictureEdit from './MemberPictureEdit'
 
 interface Props extends UseModalProps {
@@ -85,6 +86,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     register,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<Values>({
     resolver,
@@ -217,7 +219,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
   return (
     <>
-      <Modal {...modalProps}>
+      <Modal size="xl" {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -273,94 +275,96 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 />
               </FormControl>
 
-              {isAdmin &&
-                (member.userId ? (
+              {isAdmin && (
+                <>
                   <FormControl>
                     <FormLabel>
-                      {t('MemberEditModal.invitation.userInvited')}
+                      {t('MemberEditModal.invitation.heading')}
                     </FormLabel>
-                    <Select {...register('role')}>
-                      <option value={''}>
-                        {t('MemberEditModal.invitation.options.revoke')}
-                      </option>
-                      <option value={Member_Role_Enum.Readonly}>
-                        {t('MemberEditModal.invitation.options.readonly')}
-                      </option>
-                      <option value={Member_Role_Enum.Member}>
-                        {t('MemberEditModal.invitation.options.member')}
-                      </option>
-                      <option value={Member_Role_Enum.Admin}>
-                        {t('MemberEditModal.invitation.options.admin')}
-                      </option>
-                      <option value={Member_Role_Enum.Owner}>
-                        {t('MemberEditModal.invitation.options.owner')}
-                      </option>
-                    </Select>
+                    <VStack spacing={2} align="stretch">
+                      <MemberOrgRoleCard
+                        role={undefined}
+                        isSelected={!role}
+                        onClick={() => setValue('role', '')}
+                      />
+                      <MemberOrgRoleCard
+                        role={Member_Role_Enum.Readonly}
+                        isSelected={role === Member_Role_Enum.Readonly}
+                        onClick={() =>
+                          setValue('role', Member_Role_Enum.Readonly)
+                        }
+                      />
+                      <MemberOrgRoleCard
+                        role={Member_Role_Enum.Member}
+                        isSelected={role === Member_Role_Enum.Member}
+                        onClick={() =>
+                          setValue('role', Member_Role_Enum.Member)
+                        }
+                      />
+                      <MemberOrgRoleCard
+                        role={Member_Role_Enum.Admin}
+                        isSelected={role === Member_Role_Enum.Admin}
+                        onClick={() => setValue('role', Member_Role_Enum.Admin)}
+                      />
+                      <MemberOrgRoleCard
+                        role={Member_Role_Enum.Owner}
+                        isSelected={role === Member_Role_Enum.Owner}
+                        onClick={() => setValue('role', Member_Role_Enum.Owner)}
+                      />
+                    </VStack>
                   </FormControl>
-                ) : member.inviteDate && member.inviteEmail ? (
-                  <Alert status="info">
-                    <AlertIcon />
-                    <Box>
-                      {t('MemberEditModal.invitation.awaiting', {
-                        email: member.inviteEmail,
-                        date: format(new Date(member.inviteDate), 'P'),
-                      })}
-                      <Button
-                        variant="link"
-                        colorScheme="blue"
-                        ml={3}
-                        isLoading={loading}
-                        onClick={handleReInvite}
-                      >
-                        {t('MemberEditModal.invitation.resend')}
-                      </Button>
-                      <Button
-                        variant="link"
-                        colorScheme="blue"
-                        ml={3}
-                        isLoading={loading}
-                        onClick={handleRevokeInvite}
-                      >
-                        {t('MemberEditModal.invitation.revoke')}
-                      </Button>
-                    </Box>
-                  </Alert>
-                ) : (
-                  <FormControl isInvalid={!!errors.inviteEmail}>
-                    <FormLabel>
-                      {t('MemberEditModal.invitation.invite')}
-                    </FormLabel>
-                    <HStack>
-                      <Select
-                        {...register('role')}
-                        placeholder={t(
-                          'MemberEditModal.invitation.rolePlaceholder'
-                        )}
-                      >
-                        <option value={Member_Role_Enum.Readonly}>
-                          {t('MemberEditModal.invitation.options.readonly')}
-                        </option>
-                        <option value={Member_Role_Enum.Member}>
-                          {t('MemberEditModal.invitation.options.member')}
-                        </option>
-                        <option value={Member_Role_Enum.Admin}>
-                          {t('MemberEditModal.invitation.options.admin')}
-                        </option>
-                        <option value={Member_Role_Enum.Owner}>
-                          {t('MemberEditModal.invitation.options.owner')}
-                        </option>
-                      </Select>
-                      {role && (
+
+                  {role &&
+                    (member.userId ? (
+                      <FormControl isInvalid={!!errors.inviteEmail}>
+                        <FormLabel>
+                          {t('MemberEditModal.invitation.email')}
+                        </FormLabel>
+                        <Text>{member.inviteEmail}</Text>
+                      </FormControl>
+                    ) : member.inviteDate && member.inviteEmail ? (
+                      <Alert status="info">
+                        <AlertIcon />
+                        <Box>
+                          {t('MemberEditModal.invitation.awaiting', {
+                            email: member.inviteEmail,
+                            date: format(new Date(member.inviteDate), 'P'),
+                          })}
+                          <Button
+                            variant="link"
+                            colorScheme="blue"
+                            ml={3}
+                            isLoading={loading}
+                            onClick={handleReInvite}
+                          >
+                            {t('MemberEditModal.invitation.resend')}
+                          </Button>
+                          <Button
+                            variant="link"
+                            colorScheme="blue"
+                            ml={3}
+                            isLoading={loading}
+                            onClick={handleRevokeInvite}
+                          >
+                            {t('MemberEditModal.invitation.revoke')}
+                          </Button>
+                        </Box>
+                      </Alert>
+                    ) : (
+                      <FormControl isInvalid={!!errors.inviteEmail}>
+                        <FormLabel>
+                          {t('MemberEditModal.invitation.email')}
+                        </FormLabel>
                         <Input
                           {...register('inviteEmail')}
                           placeholder={t(
                             'MemberEditModal.invitation.emailPlaceholder'
                           )}
                         />
-                      )}
-                    </HStack>
-                  </FormControl>
-                ))}
+                      </FormControl>
+                    ))}
+                </>
+              )}
             </VStack>
           </ModalBody>
 

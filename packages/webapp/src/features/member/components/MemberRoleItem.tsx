@@ -53,7 +53,7 @@ export default function MemberRoleItem({
     circleMember?.avgMinPerWeek ?? null
   )
   const [saving, setSaving] = useState(false)
-  const isDirty = avgMinPerWeek !== circleMember?.avgMinPerWeek ?? null
+  const isDirty = avgMinPerWeek !== (circleMember?.avgMinPerWeek ?? null)
 
   const onSubmit = useCallback(
     (event: FormEvent) => {

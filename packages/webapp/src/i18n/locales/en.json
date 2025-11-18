@@ -249,7 +249,9 @@
   "DashboardMyInfosItem": {
     "footer": "See more"
   },
-  "DashboardMyRoles": { "title": "My Roles" },
+  "DashboardMyRoles": {
+    "title": "My Roles"
+  },
   "DashboardMyMeetings": {
     "title": "My next Meetings",
     "add": "New meeting"
@@ -259,7 +261,10 @@
     "add": "New thread",
     "empty": "No topic."
   },
-  "DashboardMyTasks": { "title": "My Tasks", "add": "New task" },
+  "DashboardMyTasks": {
+    "title": "My Tasks",
+    "add": "New task"
+  },
   "DashboardNews": {
     "heading": "News",
     "empty": "The latest activities of {{org}} will appear here: new topics, completed meetings, decisions made, etc.",
@@ -549,7 +554,7 @@
   },
   "MemberContent": {
     "notFound": "Member not found",
-    "memberRolesHeading": "Roles"
+    "memberRolesHeading": "Assigned roles"
   },
   "MemberCreateModal": {
     "heading": "Add Member"
@@ -567,8 +572,29 @@
     "descriptionPlaceholder": "Who is {{name}}?",
     "workingTime": "Working time for organization",
     "invitation": {
-      "userInvited": "Guest user",
-      "rolePlaceholder": "Choose a role",
+      "heading": "Permissions",
+      "roles": {
+        "None": {
+          "title": "Not invited",
+          "description": "The member has no access to the organization and does not count as an active or invited member. Can be used in the org chart."
+        },
+        "Readonly": {
+          "title": "Read only",
+          "description": "The member can only view the org chart without being able to modify it. Can view public meetings, topics, and tasks but cannot participate."
+        },
+        "Member": {
+          "title": "Member",
+          "description": "The member can modify roles where they are leader, or edit everything if governance is not protected (see organization settings). Can participate in meetings, topics, and tasks."
+        },
+        "Admin": {
+          "title": "Admin",
+          "description": "The member can invite members and manage org chart sharing."
+        },
+        "Owner": {
+          "title": "Owner",
+          "description": "The member can manage subscription, appoint owners and admins, modify organization base roles, and edit the entire org chart even if governance is protected."
+        }
+      },
       "options": {
         "revoke": "Revoke invitation",
         "readonly": "Read only",
@@ -580,6 +606,7 @@
       "resend": "Resend",
       "revoke": "Revoke",
       "invite": "Invite",
+      "email": "Email",
       "emailPlaceholder": "Email address..."
     }
   },
@@ -636,7 +663,7 @@
     "invite": "Invite",
     "tags": {
       "readonly": "Read only",
-      "member": "Member",
+      "member": "Participant",
       "admin": "Admin",
       "owner": "Owner",
       "invited": "Invited",

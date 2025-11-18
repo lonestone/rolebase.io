@@ -1,0 +1,7 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- UPDATE member
+--   SET "inviteEmail" = u.email
+--   FROM auth.users u
+--   WHERE member."userId" = u.id
+--     AND member."userId" IS NOT NULL;

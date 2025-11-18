@@ -249,7 +249,9 @@
   "DashboardMyInfosItem": {
     "footer": "Voir plus"
   },
-  "DashboardMyRoles": { "title": "Mes Rôles" },
+  "DashboardMyRoles": {
+    "title": "Mes Rôles"
+  },
   "DashboardMyMeetings": {
     "title": "Mes prochaines Réunions",
     "add": "Nouvelle réunion"
@@ -259,7 +261,10 @@
     "add": "Nouveau sujet",
     "empty": "Aucun sujet."
   },
-  "DashboardMyTasks": { "title": "Mes Tâches", "add": "Nouvelle tâche" },
+  "DashboardMyTasks": {
+    "title": "Mes Tâches",
+    "add": "Nouvelle tâche"
+  },
   "DashboardNews": {
     "heading": "Actualités",
     "empty": "Les dernières activités de {{org}} apparaitront ici : nouveau sujets, réunions terminées, décisions prises, etc.",
@@ -583,7 +588,7 @@
   },
   "MemberContent": {
     "notFound": "Membre introuvable",
-    "memberRolesHeading": "Rôles"
+    "memberRolesHeading": "Rôles assignés"
   },
   "MemberCreateModal": {
     "heading": "Ajouter un membre"
@@ -601,8 +606,29 @@
     "descriptionPlaceholder": "Qui est {{name}} ?",
     "workingTime": "Temps de travail pour l'organisation",
     "invitation": {
-      "userInvited": "Utilisateur invité",
-      "rolePlaceholder": "Choisir un rôle",
+      "heading": "Permissions",
+      "roles": {
+        "None": {
+          "title": "Non invité",
+          "description": "Le membre n'a aucun accès à l'organisation et ne compte pas comme membre actif ou invité. Il peut être utilisé dans l'organigramme."
+        },
+        "Readonly": {
+          "title": "Lecture seule",
+          "description": "Le membre peut uniquement consulter l'organigramme sans pouvoir le modifier. Il peut consulter les réunions, sujets et tâches publics mais ne peut pas y participer."
+        },
+        "Member": {
+          "title": "Membre",
+          "description": "Le membre peut modifier les rôles où il est leader, ou tout modifier si la gouvernance n'est pas protégée (voir paramètres de l'organisation). Il peut participer aux réunions, sujets et tâches."
+        },
+        "Admin": {
+          "title": "Administrateur",
+          "description": "Le membre peut inviter des membres et gérer le partage de l'organigramme."
+        },
+        "Owner": {
+          "title": "Propriétaire",
+          "description": "Le membre peut gérer l'abonnement, nommer des propriétaires et administrateurs, modifier les rôles de base de l'organisation et modifier tout l'organigramme même si la gouvernance est protégée."
+        }
+      },
       "options": {
         "revoke": "Révoquer l'invitation",
         "readonly": "Lecture seule",
@@ -614,6 +640,7 @@
       "resend": "Renvoyer",
       "revoke": "Révoquer",
       "invite": "Inviter",
+      "email": "Email",
       "emailPlaceholder": "Adresse email..."
     }
   },
@@ -670,11 +697,11 @@
     "invite": "Inviter",
     "tags": {
       "readonly": "Lecture seule",
-      "member": "Membre",
-      "admin": "Admin",
+      "member": "Participant",
+      "admin": "Administrateur",
       "owner": "Propriétaire",
-      "invited": "Invité.e",
-      "notInvited": "Pas invité.e"
+      "invited": "Invité",
+      "notInvited": "Pas invité"
     }
   },
   "ModalBackButton": {

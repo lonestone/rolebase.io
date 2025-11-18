@@ -35,6 +35,14 @@ export default authedProcedure
       })
     }
 
+    const userEmail = checkUserResult.user?.email
+    if (!userEmail) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'User not found',
+      })
+    }
+
     if (member.userId) {
       throw new TRPCError({
         code: 'CONFLICT',
@@ -71,7 +79,10 @@ export default authedProcedure
     }
 
     // Update member
-    await updateMember(memberId, { userId: opts.ctx.userId })
+    await updateMember(memberId, {
+      userId: opts.ctx.userId,
+      inviteEmail: userEmail,
+    })
   })
 
 const CHECK_ORG_USER = gql(`
@@ -80,6 +91,9 @@ const CHECK_ORG_USER = gql(`
       members(where: { userId: { _eq: $userId } }) {
         id
       }
+    }
+    user(id: $userId) {
+      email
     }
   }
 `)
