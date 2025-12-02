@@ -23,7 +23,12 @@ const config: CodegenConfig = {
   generates: {
     'src/graphql/': {
       preset: 'gql-tag-operations-preset',
-      plugins: [getAddPlugin()],
+      plugins: [
+        getAddPlugin(),
+        {
+          [`${__dirname}/add-query-source-plugin.cjs`]: {},
+        },
+      ],
     },
   },
   config: getConfig(),

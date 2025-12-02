@@ -13,14 +13,13 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'
 import {
   emailSchema,
   nameSchema,
   passwordSchema,
 } from '@rolebase/shared/schemas'
 import { getTimeZone } from '@utils/dates'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink, useNavigate } from 'react-router-dom'
@@ -46,16 +45,9 @@ export default function SignupForm({ defaultEmail }: Props) {
     i18n: { language },
   } = useTranslation()
   const navigate = useNavigate()
-  const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
-  const { auth } = useNhostClient()
 
-  const sendVerifyEmail = async (email: string) => {
-    try {
-      await auth.sendVerificationEmail({ email })
-    } catch (error) {
-      console.error('SENDING VERIFICATION EMAIL FAILED', error)
-    }
-  }
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
   const onSubmit = async ({
     name,
@@ -63,23 +55,32 @@ export default function SignupForm({ defaultEmail }: Props) {
     'new-password': password,
   }: Values) => {
     // Sign up
-    const { isSuccess, user } = await signUpEmailPassword(email, password, {
-      displayName: name,
-      locale: language.substring(0, 2),
-      metadata: {
-        timezone: getTimeZone(),
-      },
-    })
-    if (!isSuccess || !user) return
+    try {
+      setIsLoading(true)
+      const { body } = await nhost.auth.signUpEmailPassword({
+        email,
+        password,
+        options: {
+          displayName: name,
+          locale: language.substring(0, 2),
+          metadata: {
+            timezone: getTimeZone(),
+          },
+        },
+      })
+      if (!body.session?.user) return
+      const { user } = body.session
 
-    if (user.email && !user.emailVerified) {
-      await sendVerifyEmail(user.email)
+      if (user.email && !user.emailVerified) {
+        await nhost.auth.sendVerificationEmail({ email: user.email })
+      }
+
+      navigate('/')
+    } catch (err) {
+      setError(err as Error)
+    } finally {
+      setIsLoading(false)
     }
-
-    // Refresh user data (necessary after phone change)
-    await nhost.auth.refreshSession()
-
-    navigate('/')
   }
 
   const {

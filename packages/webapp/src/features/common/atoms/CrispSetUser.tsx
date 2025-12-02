@@ -1,12 +1,12 @@
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
-import { useUserData } from '@nhost/react'
 import { Crisp } from 'crisp-sdk-web'
 import { useEffect } from 'react'
 import { AVATAR_SM_WIDTH, getResizedImageUrl } from '../api/storage_images'
+import { useAuth } from '@/user/hooks/useAuth'
 
 export default function CrispSetUser() {
-  const user = useUserData()
+  const { user } = useAuth()
   const member = useCurrentMember()
   const org = useCurrentOrg()
 

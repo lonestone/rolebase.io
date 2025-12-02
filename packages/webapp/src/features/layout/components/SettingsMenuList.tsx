@@ -1,5 +1,6 @@
 import CircleMemberLink from '@/circle/components/CircleMemberLink'
 import ThemeSwitch from '@/common/atoms/ThemeSwitch'
+import { useAuth } from '@/user/hooks/useAuth'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import useOrgOwner from '@/member/hooks/useOrgOwner'
@@ -21,7 +22,6 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useUserData } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -39,7 +39,7 @@ import {
 
 export default function SettingsMenuList({ children, ...boxProps }: BoxProps) {
   const { t } = useTranslation()
-  const user = useUserData()
+  const { user } = useAuth()
   const member = useCurrentMember()
   const orgId = useOrgId()
   const isAdmin = useOrgAdmin()

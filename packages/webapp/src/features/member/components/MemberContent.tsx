@@ -5,6 +5,7 @@ import {
 import ActionsMenu from '@/common/atoms/ActionsMenu'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import { Title } from '@/common/atoms/Title'
+import { useAuth } from '@/user/hooks/useAuth'
 import {
   Alert,
   AlertIcon,
@@ -17,7 +18,6 @@ import {
   VStack,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import useMember from '../hooks/useMember'
@@ -42,10 +42,10 @@ export default function MemberContent({
   headerIcons,
 }: Props) {
   const { t } = useTranslation()
-  const userId = useUserId()
+  const { user } = useAuth()
   const member = useMember(id)
   const isAdmin = useOrgAdmin()
-  const canEdit = isAdmin || (userId ? member?.userId === userId : false)
+  const canEdit = isAdmin || (user ? member?.userId === user.id : false)
 
   // Edit modal
   const {

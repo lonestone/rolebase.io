@@ -16,7 +16,6 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
 import { Crisp } from 'crisp-sdk-web'
@@ -46,6 +45,7 @@ import SidebarTasks from './SidebarTasks'
 import SidebarThreads from './SidebarThreads'
 import SidebarTopIcon from './SidebarTopIcon'
 import SidebarTopIconLink from './SidebarTopIconLink'
+import { useAuth } from '@/user/hooks/useAuth'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -54,7 +54,7 @@ const logoContainerHeight = 65
 
 export default function Sidebar() {
   const { t } = useTranslation()
-  const isAuthenticated = useAuthenticated()
+  const { isAuthenticated } = useAuth()
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()

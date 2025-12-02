@@ -2,13 +2,13 @@ import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
+import { useAuth } from '@/user/hooks/useAuth'
 import { Container, Flex, Heading, VStack } from '@chakra-ui/react'
 import { App_Type_Enum, useUserAppsSubscription } from '@gql'
-import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import AppCard from '../components/AppCard'
 import APICard from '../components/APICard'
+import AppCard from '../components/AppCard'
 
 const apps = [
   {
@@ -21,12 +21,12 @@ const apps = [
 
 export default function AppsPage() {
   const { t } = useTranslation()
-  const userId = useUserId()
+  const { user } = useAuth()
 
   // Get user apps
   const { data, error, loading } = useUserAppsSubscription({
-    skip: !userId,
-    variables: { userId: userId! },
+    skip: !user,
+    variables: { userId: user?.id! },
   })
   const userApps = data?.user_app
 

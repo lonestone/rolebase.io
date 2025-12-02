@@ -79,12 +79,14 @@ export default function MemberPictureCropModal({
       // Upload picture
       const name = `orgs/${orgId}/members/${id}`
       const file = new File([croppedImg], name)
-      const { error, fileMetadata } = await nhost.storage.upload({ name, file })
-      if (error) throw error
+      const { body } = await nhost.storage.uploadFiles({
+        'file[]': [file],
+        'metadata[]': [{ name }],
+      })
 
       // Save picture url to member
-      const fileId = fileMetadata.id
-      const picture = nhost.storage.getPublicUrl({ fileId })
+      const fileId = body.processedFiles[0].id
+      const picture = `${nhost.storage.baseURL}/files/${fileId}`
       await updateMember({
         variables: {
           id,

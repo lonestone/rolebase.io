@@ -21745,3 +21745,584 @@ export const GetThreadForSearchDocument = {"kind":"Document","definitions":[{"ki
 export const GetThreadsForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetThreadsForSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thread"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThreadSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"activities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]}}]} as unknown as DocumentNode<GetThreadsForSearchQuery, GetThreadsForSearchQueryVariables>;
 export const GetOrgMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"EnumValue","value":"Owner"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgMembersQuery, GetOrgMembersQueryVariables>;
 export const GetUserRoleInOrgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserRoleInOrg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<GetUserRoleInOrgQuery, GetUserRoleInOrgQueryVariables>;
+
+// Add query source to GetMeetingContentDocument
+if (GetMeetingContentDocument) {
+  Object.assign(GetMeetingContentDocument, {
+    loc: { source: { body: "query getMeetingContent($meetingId: uuid!) {\n  meeting_by_pk(id: $meetingId) {\n    orgId\n    title\n    circle {\n      role {\n        name\n      }\n    }\n    stepsConfig\n    steps {\n      stepConfigId\n      type\n      data\n      notes\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetThreadsWithMeetingNotesDocument
+if (GetThreadsWithMeetingNotesDocument) {
+  Object.assign(GetThreadsWithMeetingNotesDocument, {
+    loc: { source: { body: "query getThreadsWithMeetingNotes($meetingId: uuid!, $threadsIds: [uuid!]!) {\n  thread(where: {id: {_in: $threadsIds}}) {\n    title\n    activities(\n      where: {_and: {type: {_eq: MeetingNote}, refMeetingId: {_eq: $meetingId}}}\n    ) {\n      type\n      data\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetRoleAiDocument
+if (GetRoleAiDocument) {
+  Object.assign(GetRoleAiDocument, {
+    loc: { source: { body: "query getRoleAI($name: String!, $lang: String!) {\n  role_ai(where: {name: {_eq: $name}, lang: {_eq: $lang}}, limit: 1) {\n    ...RoleAI\n  }\n}" } }
+  });
+}
+
+// Add query source to InsertRoleAiDocument
+if (InsertRoleAiDocument) {
+  Object.assign(InsertRoleAiDocument, {
+    loc: { source: { body: "mutation insertRoleAI($role: role_ai_insert_input!) {\n  insert_role_ai_one(object: $role) {\n    ...RoleAI\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateUserAppDocument
+if (UpdateUserAppDocument) {
+  Object.assign(UpdateUserAppDocument, {
+    loc: { source: { body: "mutation updateUserApp($id: uuid!, $values: user_app_set_input!) {\n  update_user_app_by_pk(pk_columns: {id: $id}, _set: $values) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to DeleteUserAppDocument
+if (DeleteUserAppDocument) {
+  Object.assign(DeleteUserAppDocument, {
+    loc: { source: { body: "mutation deleteUserApp($id: uuid!) {\n  delete_user_app_by_pk(id: $id) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgMeetingsForCalendarAppDocument
+if (GetOrgMeetingsForCalendarAppDocument) {
+  Object.assign(GetOrgMeetingsForCalendarAppDocument, {
+    loc: { source: { body: "query getOrgMeetingsForCalendarApp($orgId: uuid!, $userId: uuid!, $afterDate: timestamptz!) {\n  org_by_pk(id: $orgId) {\n    id\n    name\n    slug\n    circles(where: {archived: {_eq: false}}) {\n      ...CircleFull\n    }\n    members(where: {userId: {_eq: $userId}, archived: {_eq: false}}) {\n      id\n      name\n    }\n    meetings(\n      where: {startDate: {_gt: $afterDate}, archived: {_eq: false}, meeting_attendees: {member: {userId: {_eq: $userId}}}}\n      order_by: {startDate: asc}\n    ) {\n      ...Meeting\n      circle {\n        role {\n          name\n        }\n      }\n    }\n    meetings_recurring {\n      ...MeetingRecurring\n      meetings {\n        recurringDate\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingForCalendarAppDocument
+if (GetMeetingForCalendarAppDocument) {
+  Object.assign(GetMeetingForCalendarAppDocument, {
+    loc: { source: { body: "query getMeetingForCalendarApp($meetingId: uuid!, $userId: uuid!) {\n  meeting_by_pk(id: $meetingId) {\n    ...Meeting\n    circle {\n      role {\n        name\n      }\n    }\n    org {\n      id\n      name\n      slug\n      members(where: {userId: {_eq: $userId}, archived: {_eq: false}}) {\n        id\n        name\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingRecurringForCalendarAppDocument
+if (GetMeetingRecurringForCalendarAppDocument) {
+  Object.assign(GetMeetingRecurringForCalendarAppDocument, {
+    loc: { source: { body: "query getMeetingRecurringForCalendarApp($meetingId: uuid!, $userId: uuid!) {\n  meeting_recurring_by_pk(id: $meetingId) {\n    ...MeetingRecurring\n    meetings {\n      recurringDate\n    }\n    org {\n      id\n      name\n      slug\n      members(where: {userId: {_eq: $userId}, archived: {_eq: false}}) {\n        id\n        name\n      }\n      meetings {\n        recurringDate\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateMeetingForCalendarAppDocument
+if (CreateMeetingForCalendarAppDocument) {
+  Object.assign(CreateMeetingForCalendarAppDocument, {
+    loc: { source: { body: "mutation createMeetingForCalendarApp($meeting: meeting_insert_input!) {\n  insert_meeting_one(object: $meeting) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateMeetingForCalendarAppDocument
+if (UpdateMeetingForCalendarAppDocument) {
+  Object.assign(UpdateMeetingForCalendarAppDocument, {
+    loc: { source: { body: "mutation updateMeetingForCalendarApp($meetingId: uuid!, $values: meeting_set_input!) {\n  update_meeting_by_pk(pk_columns: {id: $meetingId}, _set: $values) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to DeleteMeetingForCalendarAppDocument
+if (DeleteMeetingForCalendarAppDocument) {
+  Object.assign(DeleteMeetingForCalendarAppDocument, {
+    loc: { source: { body: "mutation deleteMeetingForCalendarApp($meetingId: uuid!) {\n  delete_meeting_by_pk(id: $meetingId) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUserAppDocument
+if (GetUserAppDocument) {
+  Object.assign(GetUserAppDocument, {
+    loc: { source: { body: "query getUserApp($id: uuid!) {\n  user_app_by_pk(id: $id) {\n    ...UserAppFull\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateUserAppDocument
+if (CreateUserAppDocument) {
+  Object.assign(CreateUserAppDocument, {
+    loc: { source: { body: "mutation createUserApp($values: user_app_insert_input!) {\n  insert_user_app_one(object: $values) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetRecurringMeetingsDocument
+if (GetRecurringMeetingsDocument) {
+  Object.assign(GetRecurringMeetingsDocument, {
+    loc: { source: { body: "query GetRecurringMeetings {\n  meeting_recurring {\n    id\n    rrule\n    meetings(where: {recurringDate: {_gt: \"now()\"}}) {\n      recurringDate\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetRecurringMeetingDocument
+if (GetRecurringMeetingDocument) {
+  Object.assign(GetRecurringMeetingDocument, {
+    loc: { source: { body: "query GetRecurringMeeting($id: uuid!) {\n  meeting_recurring_by_pk(id: $id) {\n    orgId\n    circleId\n    scope\n    template {\n      title\n      stepsConfig\n    }\n    duration\n    videoConf\n    org {\n      circles(where: {archived: {_eq: false}}) {\n        ...CircleFull\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateMeetingDocument
+if (CreateMeetingDocument) {
+  Object.assign(CreateMeetingDocument, {
+    loc: { source: { body: "mutation CreateMeeting($meeting: meeting_insert_input!) {\n  insert_meeting_one(object: $meeting) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to EndOldMeetingsDocument
+if (EndOldMeetingsDocument) {
+  Object.assign(EndOldMeetingsDocument, {
+    loc: { source: { body: "mutation endOldMeetings($before: timestamptz!) {\n  update_meeting(\n    where: {endDate: {_lt: $before}, ended: {_eq: false}, currentStepId: {_is_null: false}}\n    _set: {ended: true, currentStepId: null}\n  ) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUsersForDigestDocument
+if (GetUsersForDigestDocument) {
+  Object.assign(GetUsersForDigestDocument, {
+    loc: { source: { body: "query getUsersForDigest {\n  users(where: {disabled: {_eq: false}}) {\n    id\n    createdAt\n    displayName\n    email\n    locale\n    metadata\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateUserMetadataDocument
+if (UpdateUserMetadataDocument) {
+  Object.assign(UpdateUserMetadataDocument, {
+    loc: { source: { body: "mutation updateUserMetadata($userId: uuid!, $metadata: jsonb!) {\n  updateUser(pk_columns: {id: $userId}, _set: {metadata: $metadata}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUserDigestDataDocument
+if (GetUserDigestDataDocument) {
+  Object.assign(GetUserDigestDataDocument, {
+    loc: { source: { body: "query getUserDigestData($userId: uuid!, $date: timestamptz!) {\n  user(id: $userId) {\n    metadata\n  }\n  member(\n    where: {userId: {_eq: $userId}, archived: {_eq: false}, org: {archived: {_eq: false}}}\n  ) {\n    id\n    org {\n      ...Org\n      threads(\n        where: {_and: [{_or: [{createdAt: {_gt: $date}}, {activities: {createdAt: {_gt: $date}}}]}, {_or: [{circle: {participants: {member: {userId: {_eq: $userId}}}}}, {extra_members: {member: {userId: {_eq: $userId}}}}]}, {archived: {_eq: false}}]}\n      ) {\n        ...Thread\n        circle {\n          id\n          role {\n            name\n            colorHue\n          }\n        }\n        activities(where: {createdAt: {_gt: $date}}) {\n          ...ThreadActivity\n        }\n      }\n      meetings(\n        where: {endDate: {_gt: $date}, ended: {_eq: true}, _or: [{private: {_eq: false}}, {circle: {participants: {member: {userId: {_eq: $userId}}}}}, {meeting_attendees: {member: {userId: {_eq: $userId}}}}], archived: {_eq: false}}\n        order_by: {endDate: desc}\n      ) {\n        ...MeetingSummary\n        circle {\n          id\n          role {\n            name\n            colorHue\n          }\n        }\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetApiKeyUserIdDocument
+if (GetApiKeyUserIdDocument) {
+  Object.assign(GetApiKeyUserIdDocument, {
+    loc: { source: { body: "query getApiKeyUserId($value: String!) {\n  api_key(where: {value: {_eq: $value}}) {\n    userId\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgMeetingsForIcalDocument
+if (GetOrgMeetingsForIcalDocument) {
+  Object.assign(GetOrgMeetingsForIcalDocument, {
+    loc: { source: { body: "query getOrgMeetingsForIcal($orgId: uuid!, $memberId: uuid) {\n  org_by_pk(id: $orgId) {\n    id\n    name\n    slug\n    circles(where: {archived: {_eq: false}}) {\n      ...CircleFull\n    }\n    meetings(\n      where: {archived: {_eq: false}, meeting_attendees: {memberId: {_eq: $memberId}}}\n      order_by: {startDate: asc}\n    ) {\n      ...Meeting\n      circle {\n        role {\n          name\n        }\n      }\n    }\n    meetings_recurring {\n      ...MeetingRecurring\n      meetings {\n        recurringDate\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CheckOrgUserDocument
+if (CheckOrgUserDocument) {
+  Object.assign(CheckOrgUserDocument, {
+    loc: { source: { body: "query checkOrgUser($orgId: uuid!, $userId: uuid!) {\n  org_by_pk(id: $orgId) {\n    members(where: {userId: {_eq: $userId}}) {\n      id\n    }\n  }\n  user(id: $userId) {\n    email\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgAndMemberDocument
+if (GetOrgAndMemberDocument) {
+  Object.assign(GetOrgAndMemberDocument, {
+    loc: { source: { body: "query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n  org_by_pk(id: $orgId) {\n    id\n    name\n    members(where: {userId: {_eq: $userId}}) {\n      id\n      name\n      picture\n      user {\n        locale\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMemberDocument
+if (GetMemberDocument) {
+  Object.assign(GetMemberDocument, {
+    loc: { source: { body: "query getMember($id: uuid!) {\n  member_by_pk(id: $id) {\n    id\n    orgId\n    userId\n    name\n    role\n    inviteDate\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateMemberDocument
+if (UpdateMemberDocument) {
+  Object.assign(UpdateMemberDocument, {
+    loc: { source: { body: "mutation updateMember($id: uuid!, $values: member_set_input!) {\n  update_member_by_pk(pk_columns: {id: $id}, _set: $values) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionStripeStatusDocument
+if (GetOrgSubscriptionStripeStatusDocument) {
+  Object.assign(GetOrgSubscriptionStripeStatusDocument, {
+    loc: { source: { body: "query getOrgSubscriptionStripeStatus($orgId: uuid!) {\n  org_subscription(where: {orgId: {_eq: $orgId}}) {\n    id\n    stripeSubscriptionId\n    status\n  }\n}" } }
+  });
+}
+
+// Add query source to ArchiveOrgDocument
+if (ArchiveOrgDocument) {
+  Object.assign(ArchiveOrgDocument, {
+    loc: { source: { body: "mutation archiveOrg($orgId: uuid!) {\n  update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUserDocument
+if (GetUserDocument) {
+  Object.assign(GetUserDocument, {
+    loc: { source: { body: "query getUser($id: uuid!) {\n  user(id: $id) {\n    id\n    displayName\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateOrgDocument
+if (CreateOrgDocument) {
+  Object.assign(CreateOrgDocument, {
+    loc: { source: { body: "mutation createOrg($name: String!, $slug: String!, $userId: uuid!, $memberName: String!) {\n  insert_org_one(\n    object: {name: $name, slug: $slug, defaultWorkedMinPerWeek: 2100, members: {data: [{userId: $userId, name: $memberName, role: Owner}]}}\n  ) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateRoleDocument
+if (CreateRoleDocument) {
+  Object.assign(CreateRoleDocument, {
+    loc: { source: { body: "mutation createRole($orgId: uuid!, $name: String!) {\n  insert_role_one(object: {orgId: $orgId, name: $name}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateRolesDocument
+if (CreateRolesDocument) {
+  Object.assign(CreateRolesDocument, {
+    loc: { source: { body: "mutation createRoles($roles: [role_insert_input!]!) {\n  insert_role(objects: $roles) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateCircleDocument
+if (CreateCircleDocument) {
+  Object.assign(CreateCircleDocument, {
+    loc: { source: { body: "mutation createCircle($orgId: uuid!, $roleId: uuid!) {\n  insert_circle_one(object: {orgId: $orgId, roleId: $roleId}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetPublicDataDocument
+if (GetPublicDataDocument) {
+  Object.assign(GetPublicDataDocument, {
+    loc: { source: { body: "query getPublicData($orgId: uuid!) {\n  org_by_pk(id: $orgId) {\n    archived\n    shareOrg\n    shareMembers\n    circles(where: {archived: {_eq: false}}) {\n      id\n      orgId\n      roleId\n      parentId\n      members(where: {archived: {_eq: false}}) {\n        id\n        memberId\n      }\n      invitedCircleLinks {\n        invitedCircle {\n          id\n        }\n      }\n    }\n    roles(where: {archived: {_eq: false}}) {\n      id\n      orgId\n      base\n      name\n      purpose\n      singleMember\n      parentLink\n      colorHue\n    }\n    members(where: {archived: {_eq: false}}) {\n      id\n      orgId\n      name\n      picture\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUserImportDocument
+if (GetUserImportDocument) {
+  Object.assign(GetUserImportDocument, {
+    loc: { source: { body: "query getUserImport($id: uuid!) {\n  user(id: $id) {\n    id\n    email\n    displayName\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateOrgImportDocument
+if (CreateOrgImportDocument) {
+  Object.assign(CreateOrgImportDocument, {
+    loc: { source: { body: "mutation createOrgImport($name: String!) {\n  insert_org_one(object: {name: $name, defaultWorkedMinPerWeek: 2100}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateMembersImportDocument
+if (CreateMembersImportDocument) {
+  Object.assign(CreateMembersImportDocument, {
+    loc: { source: { body: "mutation createMembersImport($members: [member_insert_input!]!) {\n  insert_member(objects: $members) {\n    returning {\n      id\n      inviteEmail\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateRolesImportDocument
+if (CreateRolesImportDocument) {
+  Object.assign(CreateRolesImportDocument, {
+    loc: { source: { body: "mutation createRolesImport($roles: [role_insert_input!]!) {\n  insert_role(objects: $roles) {\n    returning {\n      ...Role\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateCirclesImportDocument
+if (CreateCirclesImportDocument) {
+  Object.assign(CreateCirclesImportDocument, {
+    loc: { source: { body: "mutation createCirclesImport($circles: [circle_insert_input!]!) {\n  insert_circle(objects: $circles) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateCirclesMembersImportDocument
+if (CreateCirclesMembersImportDocument) {
+  Object.assign(CreateCirclesMembersImportDocument, {
+    loc: { source: { body: "mutation createCirclesMembersImport($circleMembers: [circle_member_insert_input!]!) {\n  insert_circle_member(objects: $circleMembers) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateDecisionsImportDocument
+if (CreateDecisionsImportDocument) {
+  Object.assign(CreateDecisionsImportDocument, {
+    loc: { source: { body: "mutation createDecisionsImport($decisions: [decision_insert_input!]!) {\n  insert_decision(objects: $decisions) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateTasksImportDocument
+if (CreateTasksImportDocument) {
+  Object.assign(CreateTasksImportDocument, {
+    loc: { source: { body: "mutation createTasksImport($tasks: [task_insert_input!]!) {\n  insert_task(objects: $tasks) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetFileByNameDocument
+if (GetFileByNameDocument) {
+  Object.assign(GetFileByNameDocument, {
+    loc: { source: { body: "query GetFileByName($name: String!) {\n  files(where: {name: {_eq: $name}}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateOrgSlugDocument
+if (UpdateOrgSlugDocument) {
+  Object.assign(UpdateOrgSlugDocument, {
+    loc: { source: { body: "mutation updateOrgSlug($id: uuid!, $slug: String!) {\n  update_org_by_pk(pk_columns: {id: $id}, _set: {slug: $slug}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionDetailsDocument
+if (GetOrgSubscriptionDetailsDocument) {
+  Object.assign(GetOrgSubscriptionDetailsDocument, {
+    loc: { source: { body: "query getOrgSubscriptionDetails($orgId: uuid!) {\n  org_subscription(where: {orgId: {_eq: $orgId}}) {\n    id\n    stripeSubscriptionId\n    stripeCustomerId\n    status\n    type\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionStripeIdsDocument
+if (GetOrgSubscriptionStripeIdsDocument) {
+  Object.assign(GetOrgSubscriptionStripeIdsDocument, {
+    loc: { source: { body: "query getOrgSubscriptionStripeIds($orgId: uuid!) {\n  org_subscription(where: {orgId: {_eq: $orgId}}) {\n    id\n    stripeSubscriptionId\n    stripeCustomerId\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateOrgSubscriptionStatusByStripeSubIdDocument
+if (UpdateOrgSubscriptionStatusByStripeSubIdDocument) {
+  Object.assign(UpdateOrgSubscriptionStatusByStripeSubIdDocument, {
+    loc: { source: { body: "mutation updateOrgSubscriptionStatusByStripeSubId($stripeSubscriptionId: String!, $status: subscription_payment_status_enum!) {\n  update_org_subscription(\n    where: {stripeSubscriptionId: {_eq: $stripeSubscriptionId}}\n    _set: {status: $status}\n  ) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateActiveMembersToMembersDocument
+if (UpdateActiveMembersToMembersDocument) {
+  Object.assign(UpdateActiveMembersToMembersDocument, {
+    loc: { source: { body: "mutation updateActiveMembersToMembers($ids: [uuid!]) {\n  update_member_many(updates: {where: {id: {_in: $ids}}, _set: {userId: null}}) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgMembersWithRolesFromSubscriptionIdDocument
+if (GetOrgMembersWithRolesFromSubscriptionIdDocument) {
+  Object.assign(GetOrgMembersWithRolesFromSubscriptionIdDocument, {
+    loc: { source: { body: "query getOrgMembersWithRolesFromSubscriptionId($subscriptionId: String!) {\n  org(where: {org_subscription: {stripeSubscriptionId: {_eq: $subscriptionId}}}) {\n    id\n    members {\n      id\n      userId\n      role\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUserEmailDocument
+if (GetUserEmailDocument) {
+  Object.assign(GetUserEmailDocument, {
+    loc: { source: { body: "query getUserEmail($id: uuid!) {\n  user(id: $id) {\n    id\n    email\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgIdDocument
+if (GetOrgIdDocument) {
+  Object.assign(GetOrgIdDocument, {
+    loc: { source: { body: "query getOrgId($orgId: uuid!) {\n  org_by_pk(id: $orgId) {\n    id\n    name\n    members {\n      id\n      userId\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to CreateOrgSubscriptionDocument
+if (CreateOrgSubscriptionDocument) {
+  Object.assign(CreateOrgSubscriptionDocument, {
+    loc: { source: { body: "mutation createOrgSubscription($orgId: uuid!, $customerId: String!, $subscriptionId: String!, $type: subscription_plan_type_enum!) {\n  insert_org_subscription_one(\n    object: {orgId: $orgId, stripeCustomerId: $customerId, stripeSubscriptionId: $subscriptionId, type: $type}\n  ) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateOrgSubscriptionStripeSubIdDocument
+if (UpdateOrgSubscriptionStripeSubIdDocument) {
+  Object.assign(UpdateOrgSubscriptionStripeSubIdDocument, {
+    loc: { source: { body: "mutation updateOrgSubscriptionStripeSubId($orgId: uuid!, $stripeSubscriptionId: String!, $type: subscription_plan_type_enum!) {\n  update_org_subscription(\n    where: {orgId: {_eq: $orgId}}\n    _set: {stripeSubscriptionId: $stripeSubscriptionId, type: $type}\n  ) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionStatusDocument
+if (GetOrgSubscriptionStatusDocument) {
+  Object.assign(GetOrgSubscriptionStatusDocument, {
+    loc: { source: { body: "query getOrgSubscriptionStatus($orgId: uuid!) {\n  org_subscription(where: {orgId: {_eq: $orgId}}) {\n    id\n    status\n    stripeCustomerId\n    stripeSubscriptionId\n    type\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionStripeIdDocument
+if (GetOrgSubscriptionStripeIdDocument) {
+  Object.assign(GetOrgSubscriptionStripeIdDocument, {
+    loc: { source: { body: "query getOrgSubscriptionStripeId($orgId: uuid!) {\n  org_subscription(where: {orgId: {_eq: $orgId}}) {\n    id\n    stripeSubscriptionId\n    status\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionStripeCustomerIdDocument
+if (GetOrgSubscriptionStripeCustomerIdDocument) {
+  Object.assign(GetOrgSubscriptionStripeCustomerIdDocument, {
+    loc: { source: { body: "query getOrgSubscriptionStripeCustomerId($orgId: uuid!) {\n  org_subscription(where: {orgId: {_eq: $orgId}}) {\n    id\n    stripeCustomerId\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgSubscriptionAndActiveMembersDocument
+if (GetOrgSubscriptionAndActiveMembersDocument) {
+  Object.assign(GetOrgSubscriptionAndActiveMembersDocument, {
+    loc: { source: { body: "query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n  org_by_pk(id: $orgId) {\n    org_subscription {\n      id\n      stripeSubscriptionId\n      status\n      type\n    }\n    members_aggregate(where: {archived: {_eq: false}, userId: {_is_null: false}}) {\n      aggregate {\n        count\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetAllParticipantsForRecomputeDocument
+if (GetAllParticipantsForRecomputeDocument) {
+  Object.assign(GetAllParticipantsForRecomputeDocument, {
+    loc: { source: { body: "query getAllParticipantsForRecompute {\n  circle_participant(where: {circle: {archived: {_eq: false}}}) {\n    circleId\n    memberId\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgParticipantsForRecomputeDocument
+if (GetOrgParticipantsForRecomputeDocument) {
+  Object.assign(GetOrgParticipantsForRecomputeDocument, {
+    loc: { source: { body: "query getOrgParticipantsForRecompute($orgId: uuid!) {\n  circle_participant(\n    where: {circle: {orgId: {_eq: $orgId}, archived: {_eq: false}}}\n  ) {\n    circleId\n    memberId\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgIdForRecomputeDocument
+if (GetOrgIdForRecomputeDocument) {
+  Object.assign(GetOrgIdForRecomputeDocument, {
+    loc: { source: { body: "query getOrgIdForRecompute($circleId: uuid!) {\n  circle_by_pk(id: $circleId) {\n    orgId\n  }\n}" } }
+  });
+}
+
+// Add query source to ReplaceParticipantsForRecomputeDocument
+if (ReplaceParticipantsForRecomputeDocument) {
+  Object.assign(ReplaceParticipantsForRecomputeDocument, {
+    loc: { source: { body: "mutation replaceParticipantsForRecompute($participants: [circle_participant_cache_insert_input!]!, $deleteWhere: circle_participant_cache_bool_exp!) {\n  delete_circle_participant_cache(where: $deleteWhere) {\n    returning {\n      id\n    }\n  }\n  insert_circle_participant_cache(objects: $participants) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetCircleForSearchDocument
+if (GetCircleForSearchDocument) {
+  Object.assign(GetCircleForSearchDocument, {
+    loc: { source: { body: "query GetCircleForSearch($id: uuid!) {\n  circle_by_pk(id: $id) {\n    ...CircleSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetCirclesForSearchDocument
+if (GetCirclesForSearchDocument) {
+  Object.assign(GetCirclesForSearchDocument, {
+    loc: { source: { body: "query GetCirclesForSearch {\n  circle(where: {archived: {_eq: false}}) {\n    ...CircleSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetDecisionForSearchDocument
+if (GetDecisionForSearchDocument) {
+  Object.assign(GetDecisionForSearchDocument, {
+    loc: { source: { body: "query GetDecisionForSearch($id: uuid!) {\n  decision_by_pk(id: $id) {\n    ...DecisionSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetDecisionsForSearchDocument
+if (GetDecisionsForSearchDocument) {
+  Object.assign(GetDecisionsForSearchDocument, {
+    loc: { source: { body: "query GetDecisionsForSearch {\n  decision(where: {archived: {_eq: false}}) {\n    ...DecisionSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingForSearchDocument
+if (GetMeetingForSearchDocument) {
+  Object.assign(GetMeetingForSearchDocument, {
+    loc: { source: { body: "query GetMeetingForSearch($id: uuid!) {\n  meeting_by_pk(id: $id) {\n    ...MeetingSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingsForSearchDocument
+if (GetMeetingsForSearchDocument) {
+  Object.assign(GetMeetingsForSearchDocument, {
+    loc: { source: { body: "query GetMeetingsForSearch {\n  meeting(where: {archived: {_eq: false}}) {\n    ...MeetingSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingDataForSearchDocument
+if (GetMeetingDataForSearchDocument) {
+  Object.assign(GetMeetingDataForSearchDocument, {
+    loc: { source: { body: "query GetMeetingDataForSearch($meetingId: uuid!) {\n  meeting_by_pk(id: $meetingId) {\n    org {\n      id\n      slug\n    }\n    circle {\n      role {\n        name\n      }\n    }\n    meeting_attendees {\n      id\n      present\n      startNotified\n      member {\n        id\n        name\n        archived\n        user {\n          email\n          locale\n          metadata\n          apps {\n            ...UserAppFull\n          }\n        }\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to ResetLastUpdateSourceDocument
+if (ResetLastUpdateSourceDocument) {
+  Object.assign(ResetLastUpdateSourceDocument, {
+    loc: { source: { body: "mutation ResetLastUpdateSource($id: uuid!) {\n  update_meeting_by_pk(pk_columns: {id: $id}, _set: {lastUpdateSource: null}) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateAttendeesStartNotifiedDocument
+if (UpdateAttendeesStartNotifiedDocument) {
+  Object.assign(UpdateAttendeesStartNotifiedDocument, {
+    loc: { source: { body: "mutation updateAttendeesStartNotified($ids: [uuid!]!) {\n  update_meeting_attendee(where: {id: {_in: $ids}}, _set: {startNotified: true}) {\n    returning {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingAttendeeForSearchDocument
+if (GetMeetingAttendeeForSearchDocument) {
+  Object.assign(GetMeetingAttendeeForSearchDocument, {
+    loc: { source: { body: "query GetMeetingAttendeeForSearch($meetingId: uuid!, $memberId: uuid!) {\n  meeting_by_pk(id: $meetingId) {\n    ...Meeting\n    org {\n      id\n      slug\n    }\n    circle {\n      role {\n        name\n      }\n    }\n  }\n  member_by_pk(id: $memberId) {\n    id\n    name\n    archived\n    user {\n      email\n      locale\n      metadata\n      apps {\n        ...UserAppFull\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to UpdateAttendeeStartNotifiedDocument
+if (UpdateAttendeeStartNotifiedDocument) {
+  Object.assign(UpdateAttendeeStartNotifiedDocument, {
+    loc: { source: { body: "mutation updateAttendeeStartNotified($id: uuid!) {\n  update_meeting_attendee_by_pk(\n    pk_columns: {id: $id}\n    _set: {startNotified: true}\n  ) {\n    id\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMeetingRecurringDataForSearchDocument
+if (GetMeetingRecurringDataForSearchDocument) {
+  Object.assign(GetMeetingRecurringDataForSearchDocument, {
+    loc: { source: { body: "query GetMeetingRecurringDataForSearch($meetingId: uuid!, $orgId: uuid!) {\n  meeting_recurring_by_pk(id: $meetingId) {\n    ...MeetingRecurring\n    meetings {\n      id\n      recurringDate\n    }\n  }\n  org_by_pk(id: $orgId) {\n    id\n    slug\n    circles(where: {archived: {_eq: false}}) {\n      ...CircleFull\n    }\n    members(where: {archived: {_eq: false}}) {\n      ...Member\n      user {\n        apps {\n          ...UserAppFull\n        }\n      }\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMemberForSearchDocument
+if (GetMemberForSearchDocument) {
+  Object.assign(GetMemberForSearchDocument, {
+    loc: { source: { body: "query GetMemberForSearch($id: uuid!) {\n  member_by_pk(id: $id) {\n    ...MemberSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetMembersForSearchDocument
+if (GetMembersForSearchDocument) {
+  Object.assign(GetMembersForSearchDocument, {
+    loc: { source: { body: "query GetMembersForSearch {\n  member(where: {archived: {_eq: false}}) {\n    ...MemberSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetRoleCirclesForSearchDocument
+if (GetRoleCirclesForSearchDocument) {
+  Object.assign(GetRoleCirclesForSearchDocument, {
+    loc: { source: { body: "query GetRoleCirclesForSearch($id: uuid!) {\n  circle(where: {roleId: {_eq: $id}, archived: {_eq: false}}) {\n    ...CircleSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetTaskForSearchDocument
+if (GetTaskForSearchDocument) {
+  Object.assign(GetTaskForSearchDocument, {
+    loc: { source: { body: "query GetTaskForSearch($id: uuid!) {\n  task_by_pk(id: $id) {\n    ...TaskSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetTasksForSearchDocument
+if (GetTasksForSearchDocument) {
+  Object.assign(GetTasksForSearchDocument, {
+    loc: { source: { body: "query GetTasksForSearch {\n  task(where: {archived: {_eq: false}}) {\n    ...TaskSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetThreadForSearchDocument
+if (GetThreadForSearchDocument) {
+  Object.assign(GetThreadForSearchDocument, {
+    loc: { source: { body: "query GetThreadForSearch($id: uuid!) {\n  thread_by_pk(id: $id) {\n    ...ThreadSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetThreadsForSearchDocument
+if (GetThreadsForSearchDocument) {
+  Object.assign(GetThreadsForSearchDocument, {
+    loc: { source: { body: "query GetThreadsForSearch {\n  thread(where: {archived: {_eq: false}}) {\n    ...ThreadSearch\n  }\n}" } }
+  });
+}
+
+// Add query source to GetOrgMembersDocument
+if (GetOrgMembersDocument) {
+  Object.assign(GetOrgMembersDocument, {
+    loc: { source: { body: "query getOrgMembers($orgId: uuid!) {\n  org_by_pk(id: $orgId) {\n    id\n    members(where: {role: {_eq: Owner}}) {\n      id\n    }\n  }\n}" } }
+  });
+}
+
+// Add query source to GetUserRoleInOrgDocument
+if (GetUserRoleInOrgDocument) {
+  Object.assign(GetUserRoleInOrgDocument, {
+    loc: { source: { body: "query getUserRoleInOrg($orgId: uuid!, $userId: uuid!) {\n  org_by_pk(id: $orgId) {\n    members(where: {userId: {_eq: $userId}}) {\n      role\n    }\n  }\n}" } }
+  });
+}

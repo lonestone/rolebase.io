@@ -1,11 +1,11 @@
 import useUserMetadata from '@/user/hooks/useUserMetadata'
-import { useUserData } from '@nhost/react'
 import { add, isBefore } from 'date-fns'
 import React from 'react'
 import RateAppModal from './RateAppModal'
+import { useAuth } from '@/user/hooks/useAuth'
 
 export default function Onboarding() {
-  const user = useUserData()
+  const { user } = useAuth()
   const { metadata } = useUserMetadata()
 
   // Show modal to ask user to rate the app

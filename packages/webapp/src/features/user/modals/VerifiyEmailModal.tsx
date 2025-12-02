@@ -1,4 +1,5 @@
 import BottomFixedModal from '@/common/atoms/BottomFixedModal'
+import { useAuth } from '../hooks/useAuth'
 import {
   Button,
   CloseButton,
@@ -8,19 +9,20 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react'
-import { useSendVerificationEmail, useUserData } from '@nhost/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { nhost } from 'src/nhost'
 
 export default function VerifyEmailModal() {
-  const user = useUserData()
-  const { sendEmail } = useSendVerificationEmail()
+  const { user } = useAuth()
 
   const [closed, setClosed] = useState(false)
   const { t } = useTranslation()
 
   const handleResendEmail = async () => {
-    await sendEmail(user?.email!)
+    await nhost.auth.sendVerificationEmail({
+      email: user?.email!,
+    })
     setClosed(true)
   }
 

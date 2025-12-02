@@ -15,12 +15,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useResetPassword } from '@nhost/react'
 import { emailSchema } from '@rolebase/shared/schemas'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { nhost } from 'src/nhost'
 import * as yup from 'yup'
 
 type Params = {
@@ -39,7 +39,6 @@ export default function ResetPasswordPage() {
   const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
   const navigate = useNavigate()
-  const { resetPassword, isLoading, error, isSent } = useResetPassword()
 
   const {
     handleSubmit,
@@ -54,6 +53,27 @@ export default function ResetPasswordPage() {
   const email = watch('email')
 
   const handleClose = () => navigate(email ? `/login?email=${email}` : '/login')
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSent, setIsSent] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+
+  const onSubmit = async ({ email }: Values) => {
+    setIsLoading(true)
+    try {
+      await nhost.auth.sendPasswordResetEmail({
+        email,
+        options: {
+          redirectTo: `${window.location.origin}/user-info`,
+        },
+      })
+      setIsSent(true)
+    } catch (error) {
+      setError(error as Error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <BrandModal size="md" bodyProps={{ mx: 10 }} isOpen onClose={handleClose}>
@@ -72,11 +92,7 @@ export default function ResetPasswordPage() {
           </AlertDescription>
         </Alert>
       ) : (
-        <form
-          onSubmit={handleSubmit(({ email }: Values) =>
-            resetPassword(email, { redirectTo: '/user-info' })
-          )}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={5} alignItems="start">
             <FormControl isInvalid={!!errors.email}>
               <FormLabel>{t('ResetPasswordPage.email')}</FormLabel>

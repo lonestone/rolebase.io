@@ -33,15 +33,17 @@ registerRestRoutes(async (app) => {
 
       try {
         const { query, variables } = await payloadSchema.validate(req.body)
-        const { data, error } = await nhost.graphql.request(query, variables, {
-          headers: {
-            // Mandatory to scope to the user
-            'X-Hasura-User-Id': userId,
-            'X-Hasura-Role': 'user',
-          },
-        })
-        if (error) throw error
-        res.send({ data })
+        const { body } = await nhost.graphql.request(
+          { query, variables },
+          {
+            headers: {
+              // Mandatory to scope to the user
+              'X-Hasura-User-Id': userId,
+              'X-Hasura-Role': 'user',
+            },
+          }
+        )
+        res.send({ data: body.data })
       } catch (error) {
         res.status(500).send(error)
       }

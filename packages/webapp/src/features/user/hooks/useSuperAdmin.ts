@@ -1,6 +1,6 @@
-import { useUserRoles } from '@nhost/react'
+import { useAuth } from './useAuth'
 
 export default function useSuperAdmin(): boolean {
-  const roles = useUserRoles()
-  return roles.includes('admin')
+  const { user } = useAuth()
+  return user?.roles.includes('admin') ?? false
 }

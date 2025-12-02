@@ -1,3 +1,4 @@
+import { useAuth } from '../hooks/useAuth'
 import {
   Box,
   Button,
@@ -9,7 +10,6 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { useChangeLocaleMutation } from '@gql'
-import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { getLocale, langs, locales } from 'src/i18n'
@@ -20,7 +20,7 @@ export default function LangSelect(styleProps: StyleProps) {
   const {
     i18n: { language, changeLanguage },
   } = useTranslation()
-  const userId = useUserId()
+  const { user } = useAuth()
   const currentLocale = getLocale(language)
 
   // Mutations
@@ -30,11 +30,11 @@ export default function LangSelect(styleProps: StyleProps) {
     // Change i18n locale
     changeLanguage(locale)
 
-    if (userId) {
+    if (user) {
       // Change user locale in DB
-      await changeLocale({ variables: { userId, locale } })
+      await changeLocale({ variables: { userId: user.id, locale } })
       // Refresh user data
-      await nhost.auth.refreshSession()
+      await nhost.refreshSession(0)
     }
   }
 

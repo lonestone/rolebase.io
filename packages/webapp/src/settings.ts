@@ -1,4 +1,4 @@
-import { NhostReactClientConstructorParams } from '@nhost/react'
+import { NhostClientOptions } from '@nhost/nhost-js'
 
 export const isLocal = location.hostname === 'localhost'
 export const isStaging = location.hostname === 'staging--rolebase.netlify.app'
@@ -27,7 +27,7 @@ export default {
     autoSignIn: !isShareApp,
     autoRefreshToken: !isShareApp,
     clientStorageType: isShareApp ? 'cookie' : 'localStorage',
-  } as NhostReactClientConstructorParams,
+  } as NhostClientOptions,
 
   functionsUrl: isLocal
     ? 'https://local.functions.nhost.run/v1/'

@@ -11,12 +11,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useSignInEmailPassword } from '@nhost/react'
 import { emailSchema } from '@rolebase/shared/schemas'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
+import { nhost } from 'src/nhost'
 import * as yup from 'yup'
 
 interface Props {
@@ -36,10 +36,21 @@ const schema = yup.object().shape({
 export default function LoginForm({ defaultEmail }: Props) {
   const { t } = useTranslation()
 
-  const { signInEmailPassword, isLoading, error } = useSignInEmailPassword()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
   const onSubmit = async (values: Values) => {
-    await signInEmailPassword(values.email, values['current-password'])
+    try {
+      setIsLoading(true)
+      await nhost.auth.signInEmailPassword({
+        email: values.email,
+        password: values['current-password'],
+      })
+    } catch (err) {
+      setError(err as Error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const {
@@ -92,9 +103,7 @@ export default function LoginForm({ defaultEmail }: Props) {
           </Link>
         </FormControl>
 
-        {error && error.error !== 'invalid-refresh-token' && (
-          <TextError error={error} />
-        )}
+        {error && <TextError error={error} />}
 
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('LoginForm.submit')}

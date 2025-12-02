@@ -1,5 +1,6 @@
 import PasswordConfirmInputDummy from '@/common/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@/common/atoms/PasswordInput'
+import { useAuth } from '../hooks/useAuth'
 import {
   Box,
   Button,
@@ -18,7 +19,6 @@ import {
 } from '@chakra-ui/react'
 import { useChangeDisplayNameMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useUserData } from '@nhost/react'
 import { emailSchema, nameSchema } from '@rolebase/shared/schemas'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -42,7 +42,7 @@ type Values = yup.InferType<typeof schema>
 
 export default function CurrentUserModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const user = useUserData()
+  const { user } = useAuth()
   const toast = useToast()
   const [saving, setSaving] = useState(false)
 
@@ -76,16 +76,16 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
 
       // Update email
       if (email !== user?.email) {
-        await nhost.auth.changeEmail({ newEmail: email })
+        await nhost.auth.changeUserEmail({ newEmail: email })
       }
 
       // Update password
       if (password) {
-        await nhost.auth.changePassword({ newPassword: password })
+        await nhost.auth.changeUserPassword({ newPassword: password })
       }
 
       // Refresh user data
-      await nhost.auth.refreshSession()
+      await nhost.refreshSession(0)
 
       toast({
         title: t('CurrentUserModal.toastSuccess'),

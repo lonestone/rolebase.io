@@ -9,7 +9,7 @@ export const trpc = createTRPCClient<TrpcRouter>({
       url: settings.backendUrl,
       // Auth with Nhost
       headers: () => ({
-        Authorization: `Bearer ${nhost.auth.getAccessToken()}`,
+        Authorization: `Bearer ${nhost.sessionStorage.get()?.accessToken}`,
       }),
     }),
   ],

@@ -1,5 +1,5 @@
 import Markdown from '@/common/atoms/Markdown'
-import { useUserId } from '@nhost/react'
+import { useAuth } from '@/user/hooks/useAuth'
 import { ThreadActivityMessageFragment } from '@rolebase/shared/model/thread_activity'
 import React, { useState } from 'react'
 import ThreadActivityLayout from './ThreadActivityLayout'
@@ -10,10 +10,10 @@ interface Props {
 }
 
 export default function ThreadActivityMessage({ activity }: Props) {
-  const userId = useUserId()
+  const { user } = useAuth()
 
   // Edition
-  const isUserOwner = userId === activity.userId
+  const isUserOwner = user?.id === activity.userId
   const [editing, setEditing] = useState(false)
 
   return (

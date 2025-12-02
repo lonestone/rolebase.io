@@ -7,9 +7,11 @@ export async function uploadFile(orgId: string, file: File): Promise<string> {
   const name = `orgs/${orgId}/uploads/${hash}`
 
   // Upload file
-  const { error, fileMetadata } = await nhost.storage.upload({ file, name })
-  if (error) throw error
+  const { body } = await nhost.storage.uploadFiles({
+    'file[]': [file],
+    'metadata[]': [{ name }],
+  })
 
   // Return URL
-  return nhost.storage.getPublicUrl({ fileId: fileMetadata.id })
+  return `${nhost.storage.baseURL}/files/${body.processedFiles[0].id}`
 }

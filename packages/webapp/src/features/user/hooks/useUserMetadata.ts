@@ -1,5 +1,5 @@
+import { useAuth } from './useAuth'
 import { useChangeMetadataMutation } from '@gql'
-import { useUserData } from '@nhost/react'
 import { UserMetadata } from '@rolebase/shared/model/user'
 import { useCallback, useEffect, useState } from 'react'
 import { nhost } from 'src/nhost'
@@ -9,9 +9,9 @@ export default function useUserMetadata() {
   const [updateMetadata] = useChangeMetadataMutation()
 
   // Get user metadata
-  const userData = useUserData()
-  const userId = userData?.id
-  const metadata: UserMetadata | undefined = userData?.metadata
+  const { user } = useAuth()
+  const userId = user?.id
+  const metadata: UserMetadata | undefined = user?.metadata
 
   // Cache metadata for optimistic UI
   const [cachedMetadata, setCachedMetadata] = useState(metadata)
@@ -40,13 +40,13 @@ export default function useUserMetadata() {
       // Update remote state
       await updateMetadata({
         variables: {
-          userId: userData.id,
+          userId,
           metadata: newMetadata,
         },
       })
 
       // Refresh user data
-      await nhost.auth.refreshSession()
+      await nhost.refreshSession(0)
     },
     [userId, cachedMetadata]
   )

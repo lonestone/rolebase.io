@@ -1,6 +1,7 @@
 import Loading from '@/common/atoms/Loading'
 import Markdown from '@/common/atoms/Markdown'
 import TextErrors from '@/common/atoms/TextErrors'
+import { useAuth } from '@/user/hooks/useAuth'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import {
   Card,
@@ -15,7 +16,6 @@ import {
   useThreadPollAnswersSubscription,
   useUpdateThreadPollAnswerMutation,
 } from '@gql'
-import { useUserId } from '@nhost/react'
 import { ThreadActivityPollFragment } from '@rolebase/shared/model/thread_activity'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,11 +31,11 @@ interface Props {
 
 export default function ThreadActivityPoll({ activity }: Props) {
   const { t } = useTranslation()
-  const userId = useUserId()
+  const { user } = useAuth()
   const isMember = useOrgMember()
 
   // Edit modal
-  const isUserOwner = userId === activity.userId
+  const isUserOwner = user?.id === activity.userId
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -64,8 +64,8 @@ export default function ThreadActivityPoll({ activity }: Props) {
 
   // Vote
   const handleVote = (choicesPoints: number[]) => {
-    if (!answers || !userId) return
-    const existingAnswer = answers.find((a) => a.userId === userId)
+    if (!answers || !user) return
+    const existingAnswer = answers.find((a) => a.userId === user.id)
     if (existingAnswer) {
       updatePollAnswer({
         variables: {

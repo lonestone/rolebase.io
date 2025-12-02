@@ -1,7 +1,15 @@
-import { NhostClient } from '@nhost/nhost-js'
+import { createNhostClient, withAdminSession } from '@nhost/nhost-js'
 import settings from '../settings'
 
-const nhost = new NhostClient(settings.nhost)
+const nhost = createNhostClient({
+  subdomain: settings.nhost.subdomain,
+  region: settings.nhost.region,
+  configure: [
+    withAdminSession({
+      adminSecret: settings.nhost.adminSecret,
+    }),
+  ],
+})
 
 export enum HasuraEventOp {
   INSERT = 'INSERT',

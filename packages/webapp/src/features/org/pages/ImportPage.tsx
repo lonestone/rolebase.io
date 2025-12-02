@@ -1,6 +1,7 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import Loading from '@/common/atoms/Loading'
 import { Title } from '@/common/atoms/Title'
+import { useAuth } from '@/user/hooks/useAuth'
 import {
   Box,
   Button,
@@ -12,7 +13,6 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react'
-import { useUserId } from '@nhost/react'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -56,7 +56,7 @@ function handleSendSupport(text: string, fileName?: string, fileUrl?: string) {
 export default function ImportPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const userId = useUserId()
+  const { user } = useAuth()
   const fileRef = useRef<HTMLInputElement>(null)
 
   const [step, setStep] = useState(ImportSteps.Provider)
@@ -97,15 +97,14 @@ export default function ImportPage() {
 
     // Upload file
     try {
-      const { error, fileMetadata } = await nhost.storage.upload({
-        name: `users/${userId}/org-to-import`,
-        file,
+      const { body } = await nhost.storage.uploadFiles({
+        'file[]': [file],
+        'metadata[]': [{ name: `users/${user?.id}/org-to-import` }],
       })
-      if (error) throw error
 
       // Save picture url to member
-      const fileId = fileMetadata.id
-      const fileUrl = nhost.storage.getPublicUrl({ fileId })
+      const fileId = body.processedFiles[0].id
+      const fileUrl = `${nhost.storage.baseURL}/files/${fileId}`
 
       if (!supportedProviders.includes(provider as ImportProviders)) {
         // Provider not supported: send feature request

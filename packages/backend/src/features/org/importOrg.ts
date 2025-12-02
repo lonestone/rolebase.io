@@ -18,7 +18,7 @@ export default authedProcedure
     const { provider, fileId } = opts.input
 
     // Get file from storage
-    const fileUrl = nhost.storage.getPublicUrl({ fileId })
+    const fileUrl = `${nhost.storage.baseURL}/files/${fileId}`
 
     const result = await axios
       .get(fileUrl, { responseType: 'arraybuffer' })

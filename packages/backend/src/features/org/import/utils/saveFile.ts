@@ -1,5 +1,3 @@
-import FormData from 'form-data'
-import { Readable } from 'stream'
 import { gql } from '../../../../gql'
 import { adminRequest } from '../../../../utils/adminRequest'
 import { nhost } from '../../../../utils/nhost'
@@ -24,19 +22,17 @@ export async function saveFile(
     console.log(`Retrieved file ${fileId}: ${name}`)
     return {
       fileId,
-      url: nhost.storage.getPublicUrl({ fileId }),
+      url: `${nhost.storage.baseURL}/files/${fileId}`,
     }
   }
 
   // Upload file to Nhost Storage
-  const fd = new FormData()
-  fd.append('file', Readable.from(buffer), name)
-  const { error, fileMetadata } = await nhost.storage.upload({
-    formData: fd,
+  const { body } = await nhost.storage.uploadFiles({
+    'file[]': [new Blob([buffer])],
+    'metadata[]': [{ name }],
   })
-  if (error) throw error
-  const fileId = fileMetadata.processedFiles[0].id
-  const url = nhost.storage.getPublicUrl({ fileId })
+  const fileId = body.processedFiles[0].id
+  const url = `${nhost.storage.baseURL}/files/${fileId}`
 
   console.log(`Imported file ${fileId}: ${name}`)
   return { fileId, url }

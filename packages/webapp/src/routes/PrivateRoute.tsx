@@ -14,33 +14,36 @@ import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import VerifyEmailModal from '@/user/modals/VerifiyEmailModal'
 import UserInfoPage from '@/user/pages/UserInfoPage'
 import { App_Type_Enum, useOrgsSubscription } from '@gql'
-import { useUserId, useUserLocale } from '@nhost/react'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { langs, locales } from 'src/i18n'
 import OrgRoute from './OrgRoute'
+import { useAuth } from '@/user/hooks/useAuth'
 
 export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
-  const userId = useUserId()
+  const { user } = useAuth()
   const {
     i18n: { changeLanguage },
   } = useTranslation()
 
   // Update translation language with user's locale in DB
-  const userLocale = useUserLocale()
   useEffect(() => {
-    if (userLocale && langs.includes(userLocale as keyof typeof locales)) {
-      changeLanguage(userLocale)
+    if (
+      user &&
+      user.locale &&
+      langs.includes(user.locale as keyof typeof locales)
+    ) {
+      changeLanguage(user.locale)
     }
   }, [])
 
   // Subscribe to orgs
   const result = useOrgsSubscription({
-    skip: !userId,
-    variables: { userId: userId! },
+    skip: !user,
+    variables: { userId: user!.id },
   })
   const setSubscriptionResult = useStoreActions(
     (actions) => actions.orgs.setSubscriptionResult

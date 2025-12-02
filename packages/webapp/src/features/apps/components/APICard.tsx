@@ -14,22 +14,22 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useApiKeysSubscription, useCreateApiKeyMutation } from '@gql'
-import { useUserId } from '@nhost/react'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ApiIcon } from 'src/icons'
 import APIKeyCard from './APIKeyCard'
+import { useAuth } from '@/user/hooks/useAuth'
 
 export default function APICard() {
   const { t } = useTranslation()
   const toast = useToast()
-  const userId = useUserId()
+  const { user } = useAuth()
 
   // Subscribe to API keys
   const { data } = useApiKeysSubscription({
-    skip: !userId,
+    skip: !user,
     variables: {
-      userId: userId!,
+      userId: user?.id!,
     },
   })
   const apiKeys = data?.api_key || []
@@ -43,12 +43,12 @@ export default function APICard() {
   const newKeyInputRef = useRef<HTMLInputElement>(null)
 
   const handleCreateKey = async () => {
-    if (!newKeyName || !userId) return
+    if (!newKeyName || !user) return
 
     try {
       await createApiKey({
         variables: {
-          userId,
+          userId: user.id,
           name: newKeyName,
         },
       })

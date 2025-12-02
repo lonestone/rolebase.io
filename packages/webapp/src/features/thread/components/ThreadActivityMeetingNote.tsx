@@ -1,10 +1,10 @@
 import Markdown from '@/common/atoms/Markdown'
+import { useAuth } from '@/user/hooks/useAuth'
 import CollabEditor from '@/editor/components/CollabEditor'
 import MeetingItem from '@/meeting/components/MeetingItem'
 import { MeetingContext } from '@/meeting/contexts/MeetingContext'
 import { Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react'
 import { useUpdateThreadActivityMutation } from '@gql'
-import { useUserId } from '@nhost/react'
 import { ThreadActivityMeetingNoteFragment } from '@rolebase/shared/model/thread_activity'
 import React, { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,7 +18,6 @@ interface Props {
 
 export default function ThreadActivityMeetingNote({ activity }: Props) {
   const { t } = useTranslation()
-  const userId = useUserId()
 
   // Meeting state, defined if thread has been opened from a meeting
   const meetingState = useContext(MeetingContext)
@@ -46,7 +45,7 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
         })
       }
     },
-    [activity, meeting, userId]
+    [activity, meeting]
   )
 
   if (!isEditable && !activity.data.notes) {

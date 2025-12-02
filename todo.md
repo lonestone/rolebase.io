@@ -1,5 +1,9 @@
 # TODO
 
+- Meetings: Réu récurrente privée
+- Meeting : url visio invalide : https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTIwMjViOWQtNzU4Zi00OGY1LTg5YjI[…]2c%22Oid%22%3a%226a1e6528-9eaa-421f-95d1-1f97f7ef05fa%22%7d
+- En superadmin, on ne voit pas les cercles invités dans un cercle, par exemple https://rolebase.io/ifs-club-utilisateur/roles?circleId=5222b7ab-1356-4835-b892-b1354c9c570d
+- Quand on clique sur un cercle invité, on est redirigé vers le cercle d'origine, il faudrait plutôt zoomer sur le cercle cliqué
 - Fix accept invitation after signup (url changes and loses token)
 - OTP to signin/signup?
 - Fix asking for subscription when batch invitation
@@ -48,7 +52,6 @@
 - Ajout localStorage/preference vue planning réunion (poke Croix Rouge)
 - Fix rôles vacants contenant des rôles invités (poke Croix Rouge)
 - Ajouter bouton Imprimer dans les options de Réunion
-- Meetings: Réu récurrente privée
 - Meetings: afficher icône lock dans le panneau de résumé quand c'est privé
 - Meetings: création des steps dans la réunion plutôt que dans ses paramètres
 - Marquer un sujet comme lu quand on a participé à la réunion qui le contient

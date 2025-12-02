@@ -1,4 +1,5 @@
 import ListItemWithButtons from '@/common/atoms/ListItemWithButtons'
+import { useAuth } from '../hooks/useAuth'
 import {
   Modal,
   ModalBody,
@@ -9,7 +10,6 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { useChangeLocaleMutation } from '@gql'
-import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { langs, locales } from 'src/i18n'
@@ -21,19 +21,19 @@ export default function LangModal(modalProps: UseModalProps) {
     t,
     i18n: { language, changeLanguage },
   } = useTranslation()
-  const userId = useUserId()
+  const { user } = useAuth()
 
   // Mutations
   const [changeLocale] = useChangeLocaleMutation()
 
   const handleClick = async (locale: string) => {
-    if (!userId) return
+    if (!user) return
     // Change i18n locale
     changeLanguage(locale)
     // Change user locale in DB
-    await changeLocale({ variables: { userId, locale } })
+    await changeLocale({ variables: { userId: user.id, locale } })
     // Refresh user data
-    await nhost.auth.refreshSession()
+    await nhost.refreshSession(0)
   }
 
   return (

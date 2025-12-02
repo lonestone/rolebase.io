@@ -1,4 +1,5 @@
 import Switch from '@/common/atoms/Switch'
+import { useAuth } from '@/user/hooks/useAuth'
 import RRuleEditor from '@/rrule/components/RRuleEditor'
 import {
   Alert,
@@ -14,7 +15,6 @@ import {
   UseModalProps,
   useToast,
 } from '@chakra-ui/react'
-import { useUserData } from '@nhost/react'
 import { getDefaultDigestRRule } from '@rolebase/shared/model/notifications'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +23,7 @@ import useUserMetadata from '../hooks/useUserMetadata'
 export default function NotificationsSettingsModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
   const toast = useToast()
-  const userData = useUserData()
+  const { user } = useAuth()
   const { metadata, setMetadata } = useUserMetadata()
 
   const [enabled, setEnabled] = useState(metadata?.digestRrule !== false)
@@ -32,7 +32,7 @@ export default function NotificationsSettingsModal(modalProps: UseModalProps) {
   const [rrule, setRrule] = useState(
     () =>
       metadata?.digestRrule ||
-      (userData ? getDefaultDigestRRule(userData.createdAt).toString() : '')
+      (user ? getDefaultDigestRRule(user.createdAt).toString() : '')
   )
 
   const handleSubmit = async () => {
@@ -46,7 +46,7 @@ export default function NotificationsSettingsModal(modalProps: UseModalProps) {
     })
   }
 
-  if (!userData) return null
+  if (!user) return null
 
   return (
     <Modal size="lg" {...modalProps}>
