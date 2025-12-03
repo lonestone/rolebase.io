@@ -8,7 +8,9 @@ const { print } = require('graphql')
  * @type {import('@graphql-codegen/plugin-helpers').PluginFunction}
  */
 const plugin = (_schema, documents, _config) => {
-  let output = ''
+  let output = `
+import { print } from 'graphql'
+`
 
   for (const doc of documents) {
     if (!doc.document) continue
@@ -18,20 +20,11 @@ const plugin = (_schema, documents, _config) => {
         const operationName = definition.name.value
         const documentName = fixCaps(`${operationName}Document`)
 
-        // Create a document with just this operation
-        const singleOpDocument = {
-          kind: 'Document',
-          definitions: [definition],
-        }
-
-        // Use graphql print to convert AST to string
-        const source = print(singleOpDocument)
-
         output += `
 // Add query source to ${documentName}
 if (${documentName}) {
   Object.assign(${documentName}, {
-    loc: { source: { body: ${JSON.stringify(source)} } }
+    loc: { source: { body: print(${documentName}) } }
   });
 }
 `
