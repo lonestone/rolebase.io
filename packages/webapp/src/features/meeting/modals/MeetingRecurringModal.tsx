@@ -19,6 +19,7 @@ import {
   ModalOverlay,
   Select,
   Spacer,
+  Tooltip,
   useDisclosure,
   UseModalProps,
   Wrap,
@@ -34,7 +35,7 @@ import { add, format } from 'date-fns'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { MeetingRecurringIcon } from 'src/icons'
+import { MeetingRecurringIcon, PrivacyIcon } from 'src/icons'
 import useCreateMeeting from '../hooks/useCreateMeeting'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
@@ -126,6 +127,8 @@ export default function MeetingRecurringModal({
       title: meetingRecurring.template.title,
       stepsConfig: meetingRecurring.template.stepsConfig,
       videoConf: meetingRecurring.videoConf,
+      private: meetingRecurring.private,
+      invitedReadonly: meetingRecurring.invitedReadonly,
       recurringDate: nextDate,
       recurringId: meetingRecurring.id,
       meeting_attendees: {
@@ -155,6 +158,17 @@ export default function MeetingRecurringModal({
             <Spacer />
 
             <HStack spacing={2}>
+              {meetingRecurring?.private && (
+                <Tooltip
+                  label={t('MeetingHeader.private', {
+                    role: circle?.role.name,
+                  })}
+                  hasArrow
+                >
+                  <PrivacyIcon size={20} />
+                </Tooltip>
+              )}
+
               {circle && <CircleButton circle={circle} />}
 
               {participants && (

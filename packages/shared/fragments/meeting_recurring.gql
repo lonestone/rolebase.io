@@ -17,5 +17,7 @@ fragment MeetingRecurring on meeting_recurring {
   rrule
   duration
   videoConf
+  private
+  invitedReadonly
   createdAt
 }

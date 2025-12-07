@@ -1,14 +1,23 @@
 import CircleFormController from '@/circle/components/CircleFormController'
 import NumberInputController from '@/common/atoms/NumberInputController'
+import SwitchController from '@/common/atoms/SwitchController'
+import useCircle from '@/circle/hooks/useCircle'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import ParticipantScopeInput from '@/participants/components/ParticipantScopeInput'
+import ParticipantsNumber from '@/participants/components/ParticipantsNumber'
+import useCircleParticipants from '@/participants/hooks/useCircleParticipants'
+import useExtraParticipants from '@/participants/hooks/useExtraParticipants'
 import RRuleEditorController from '@/rrule/components/RRuleEditorController'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Button,
   Collapse,
   FormControl,
+  FormHelperText,
   FormLabel,
   InputGroup,
   InputRightAddon,
@@ -57,6 +66,8 @@ interface Values extends VideoConfValues {
   templateId: string
   rrule: string | undefined
   duration: number // In minutes
+  private: boolean
+  invitedReadonly: boolean
 }
 
 const resolver = yupResolver(
@@ -94,6 +105,8 @@ export default function MeetingRecurringEditModal({
       templateId: meetingRecurring?.templateId ?? '',
       rrule: meetingRecurring?.rrule,
       duration: meetingRecurring?.duration ?? 30,
+      private: meetingRecurring?.private ?? false,
+      invitedReadonly: meetingRecurring?.invitedReadonly ?? false,
       videoConfType: meetingRecurring?.videoConf?.type ?? null,
       videoConfUrl:
         meetingRecurring?.videoConf?.type === VideoConfTypes.Url
@@ -115,6 +128,26 @@ export default function MeetingRecurringEditModal({
   } = formMethods
 
   const circleId = watch('circleId')
+  const circle = useCircle(circleId)
+
+  // Watch privacy fields
+  const isPrivate = watch('private')
+  const invitedReadonly = watch('invitedReadonly')
+
+  // Invited members
+  const [invitedMembersIds, setInvitedMembersIds] = useState<string[]>([])
+  const circleParticipants = useCircleParticipants(circle)
+  const allParticipants = useExtraParticipants(
+    circleParticipants,
+    invitedMembersIds
+  )
+  const extraParticipants = useMemo(
+    () => allParticipants.filter((p) => !circleParticipants.includes(p)),
+    [allParticipants, circleParticipants]
+  )
+  const isPrivateAllowed =
+    !isPrivate ||
+    circleParticipants.some((p) => p.member.id === currentMember?.id)
 
   // Submit
   const onSubmit = handleSubmit(
@@ -258,11 +291,68 @@ export default function MeetingRecurringEditModal({
                     <ParticipantScopeInput
                       participantsScope={participantsScope}
                       onParticipantsScopeChange={setParticipantsScope}
+                      onInvitedMembersChange={setInvitedMembersIds}
                     />
                   </FormControl>
                 </Collapse>
 
-                <VideoConfFormControl />
+                <VStack spacing={2} align="start">
+                  <FormControl>
+                    <SwitchController name="private" control={control}>
+                      {t('MeetingEditModal.private')}
+                      <ParticipantsNumber
+                        participants={allParticipants}
+                        opacity={isPrivate ? 1 : 0.4}
+                        ml={2}
+                      />
+                    </SwitchController>
+                    <Collapse in={isPrivate}>
+                      <FormHelperText ml="40px" mb={2}>
+                        {t('MeetingEditModal.privateHelp', {
+                          role: circle?.role.name,
+                        })}
+                      </FormHelperText>
+                    </Collapse>
+                  </FormControl>
+
+                  <Collapse in={!isPrivate || extraParticipants.length !== 0}>
+                    <FormControl>
+                      <SwitchController
+                        name="invitedReadonly"
+                        control={control}
+                      >
+                        {t('MeetingEditModal.invitedReadonly')}
+                        {isPrivate && (
+                          <ParticipantsNumber
+                            participants={extraParticipants}
+                            opacity={invitedReadonly ? 1 : 0.4}
+                            ml={2}
+                          />
+                        )}
+                      </SwitchController>
+                      <Collapse in={invitedReadonly}>
+                        <FormHelperText ml="40px" mb={2}>
+                          {t('MeetingEditModal.invitedReadonlyHelp', {
+                            role: circle?.role.name,
+                          })}
+                        </FormHelperText>
+                      </Collapse>
+                    </FormControl>
+                  </Collapse>
+
+                  <VideoConfFormControl />
+                </VStack>
+
+                <Collapse in={!isPrivateAllowed}>
+                  <Alert status="warning">
+                    <AlertIcon />
+                    <AlertDescription>
+                      {t('MeetingEditModal.privateNotAllowed', {
+                        role: circle?.role.name,
+                      })}
+                    </AlertDescription>
+                  </Alert>
+                </Collapse>
               </VStack>
             </ModalBody>
 
@@ -277,7 +367,11 @@ export default function MeetingRecurringEditModal({
                   {t('common.delete')}
                 </Button>
               )}
-              <Button colorScheme="blue" onClick={onSubmit}>
+              <Button
+                colorScheme="blue"
+                isDisabled={!isPrivateAllowed}
+                onClick={onSubmit}
+              >
                 {t(meetingRecurring ? 'common.save' : 'common.create')}
               </Button>
             </ModalFooter>

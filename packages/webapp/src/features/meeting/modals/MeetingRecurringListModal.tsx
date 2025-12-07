@@ -6,6 +6,7 @@ import { useOrgId } from '@/org/hooks/useOrgId'
 import {
   Box,
   Button,
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -23,7 +24,7 @@ import {
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RRule } from 'rrule'
-import { CreateIcon } from 'src/icons'
+import { CreateIcon, PrivacyIcon } from 'src/icons'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
 interface Props extends UseModalProps {
@@ -121,16 +122,21 @@ export default function MeetingRecurringListModal({
                       pl={6}
                       onClick={() => handleEdit(mt)}
                     >
-                      <Text>{mt.template.title}</Text>
-                      <Text
-                        fontSize="sm"
-                        color="gray.500"
-                        _dark={{ color: 'gray.300' }}
-                      >
-                        {RRule.fromString(mt.rrule)
-                          .toText()
-                          .replace(' (~ approximate)', '')}
-                      </Text>
+                      <HStack align="center" spacing={2}>
+                        <Box flex={1}>
+                          <Text>{mt.template.title}</Text>
+                          <Text
+                            fontSize="sm"
+                            color="gray.500"
+                            _dark={{ color: 'gray.300' }}
+                          >
+                            {RRule.fromString(mt.rrule)
+                              .toText()
+                              .replace(' (~ approximate)', '')}
+                          </Text>
+                        </Box>
+                        {mt.private && <PrivacyIcon size={18} />}
+                      </HStack>
                     </ListItemWithButtons>
                   ))}
                 </Box>

@@ -48,6 +48,8 @@ export default webhookProcedure.mutation(async () => {
         title: recurringMeeting.template.title,
         stepsConfig: recurringMeeting.template.stepsConfig,
         videoConf: recurringMeeting.videoConf,
+        private: recurringMeeting.private,
+        invitedReadonly: recurringMeeting.invitedReadonly,
         recurringDate: nextDate.toISOString(),
         recurringId: id,
         meeting_attendees: {
@@ -86,6 +88,8 @@ const GET_RECURRING_MEETING = gql(`
       }
       duration
       videoConf
+      private
+      invitedReadonly
       org {
         circles(where: { archived: { _eq: false } }) {
           ...CircleFull
