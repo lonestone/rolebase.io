@@ -2,8 +2,6 @@
 // This allows the Nhost SDK to extract the query string without needing the graphql package
 // https://github.com/nhost/nhost/blob/cd8f674a61722b4f2bb04b6ad49aa456736e3f3b/examples/guides/codegen-nhost/add-query-source-plugin.cjs
 
-const { print } = require('graphql')
-
 /**
  * @type {import('@graphql-codegen/plugin-helpers').PluginFunction}
  */
