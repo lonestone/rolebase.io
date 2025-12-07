@@ -11,17 +11,20 @@ import {
 interface State {
   circleId?: string
   memberId?: string
+  parentId?: string
 }
 
-export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
-  if (circleId && memberId) {
-    return `?circleId=${circleId}&memberId=${memberId}`
-  } else if (circleId) {
-    return `?circleId=${circleId}`
-  } else if (memberId) {
-    return `?memberId=${memberId}`
-  }
-  return ''
+export function getCircleMemberUrlSearch(
+  circleId?: string,
+  memberId?: string,
+  parentId?: string
+) {
+  const params = new URLSearchParams()
+  if (circleId) params.set('circleId', circleId)
+  if (memberId) params.set('memberId', memberId)
+  if (parentId) params.set('parentId', parentId)
+  const search = params.toString()
+  return search ? `?${search}` : ''
 }
 
 interface Props {
@@ -38,8 +41,8 @@ export function CircleMemberProvider({ children }: Props) {
     () => ({
       circleId: state.circleId,
       memberId: state.memberId,
-      goTo(circleId?: string, memberId?: string) {
-        setState({ circleId, memberId })
+      goTo(circleId?: string, memberId?: string, parentId?: string) {
+        setState({ circleId, memberId, parentId })
       },
     }),
     [state]
@@ -61,7 +64,11 @@ export function CircleMemberProvider({ children }: Props) {
 
     // Navigate to circle member page
     navigateOrg(
-      `roles${getCircleMemberUrlSearch(state.circleId, state.memberId)}`
+      `roles${getCircleMemberUrlSearch(
+        state.circleId,
+        state.memberId,
+        state.parentId
+      )}`
     )
     // Reset state
     setState({})

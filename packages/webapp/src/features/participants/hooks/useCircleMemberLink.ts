@@ -7,23 +7,24 @@ import { usePathInOrg } from '../../org/hooks/usePathInOrg'
 
 export default function useCircleMemberLink(
   circleId?: string,
-  memberId?: string
+  memberId?: string,
+  parentId?: string
 ) {
   const orgId = useOrgId()
   const circleMemberContext = useContext(CircleMemberContext)
   const path = usePathInOrg('roles')
 
   const goToCircle = useCallback(() => {
-    circleMemberContext?.goTo(circleId, memberId)
-  }, [circleId, memberId, circleMemberContext])
+    circleMemberContext?.goTo(circleId, memberId, parentId)
+  }, [circleId, memberId, parentId, circleMemberContext])
 
   const handleClick = useNormalClickHandler(goToCircle)
 
   return useMemo(
     () => ({
-      to: `${path}${getCircleMemberUrlSearch(circleId, memberId)}`,
+      to: `${path}${getCircleMemberUrlSearch(circleId, memberId, parentId)}`,
       onClick: handleClick,
     }),
-    [circleId, memberId, orgId, handleClick]
+    [circleId, memberId, parentId, orgId, handleClick]
   )
 }

@@ -11,12 +11,14 @@ interface Props extends BoxProps {
   circle: CircleSummaryFragment
   parentCircle: CircleSummaryFragment
   participants: ParticipantMember[]
+  isInvited?: boolean
 }
 
 export default function CircleWithLeaderItem({
   circle,
   parentCircle,
   participants,
+  isInvited,
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
@@ -30,7 +32,10 @@ export default function CircleWithLeaderItem({
 
   return (
     <Flex alignItems="center" {...boxProps}>
-      <CircleButton circle={circle} />
+      <CircleButton
+        circle={circle}
+        parentId={isInvited ? parentCircle.id : undefined}
+      />
 
       {members.length !== 0 && (
         <>
@@ -44,19 +49,19 @@ export default function CircleWithLeaderItem({
               size="sm"
             />
           ))}
-
-          {circle.role.parentLink && (
-            <Tooltip
-              label={t('CircleWithLeaderItem.linkTooltip', {
-                role: parentCircle.role.name,
-              })}
-              placement="top"
-              hasArrow
-            >
-              <Icon as={CircleParentLinkIcon} ml={2} />
-            </Tooltip>
-          )}
         </>
+      )}
+
+      {circle.role.parentLink && (
+        <Tooltip
+          label={t('CircleWithLeaderItem.linkTooltip', {
+            role: parentCircle.role.name,
+          })}
+          placement="top"
+          hasArrow
+        >
+          <Icon as={CircleParentLinkIcon} ml={2} />
+        </Tooltip>
       )}
     </Flex>
   )

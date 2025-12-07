@@ -228,6 +228,7 @@ export default function CircleRoleSubCircles() {
               circle={invitedCircle}
               parentCircle={circle}
               participants={participants}
+              isInvited
             />
             <Tooltip
               label={t('CircleRoleSubCircles.linkTooltip')}

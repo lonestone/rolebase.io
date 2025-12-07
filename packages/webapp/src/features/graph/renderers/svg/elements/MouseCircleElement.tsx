@@ -49,7 +49,10 @@ export class MouseCircleElement extends AbstractCircleElement {
       .on('click', (event, d: NodeData) => {
         if (d.data.type === NodeType.Circle && d.data.entityId) {
           // Click on circle
-          events.onCircleClick?.(d.data.entityId)
+          // Pass parentId if this is an invited circle (id contains underscore)
+          const parentId =
+            d.data.id.indexOf('_') !== -1 ? d.data.parentId : undefined
+          events.onCircleClick?.(d.data.entityId, parentId ?? undefined)
         } else if (
           d.data.type === NodeType.Member &&
           d.data.parentId &&

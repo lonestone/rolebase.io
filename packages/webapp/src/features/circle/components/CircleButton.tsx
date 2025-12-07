@@ -8,17 +8,19 @@ import CircleMemberLink from './CircleMemberLink'
 interface Props extends ButtonProps {
   circle: CircleSummaryFragment
   noEllipsis?: boolean
+  parentId?: string
 }
 
 export default function CircleButton({
   circle,
   noEllipsis,
+  parentId,
   ...buttonProps
 }: Props) {
   const hue = circle.role.colorHue ?? undefined
 
   return (
-    <CircleMemberLink circleId={circle.id} tabIndex={-1}>
+    <CircleMemberLink circleId={circle.id} parentId={parentId} tabIndex={-1}>
       <Button
         borderRadius="full"
         // Handle long names

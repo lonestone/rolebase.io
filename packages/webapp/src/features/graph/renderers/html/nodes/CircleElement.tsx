@@ -20,7 +20,15 @@ export default function CircleElement({ graph, node, selected }: Props) {
       selected={selected}
       onClick={
         onCircleClick
-          ? () => node.data.entityId && onCircleClick?.(node.data.entityId)
+          ? () => {
+              if (!node.data.entityId) return
+              // Pass parentId if this is an invited circle (id contains underscore)
+              const parentId =
+                node.data.id.indexOf('_') !== -1
+                  ? node.data.parentId
+                  : undefined
+              onCircleClick(node.data.entityId, parentId ?? undefined)
+            }
           : undefined
       }
     >

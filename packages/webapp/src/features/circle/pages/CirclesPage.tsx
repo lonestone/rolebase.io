@@ -31,6 +31,7 @@ import BottomFixedModal from '@/common/atoms/BottomFixedModal'
 type CirclesPageParams = {
   circleId: string
   memberId: string
+  parentId: string
 }
 
 enum Panels {
@@ -66,6 +67,7 @@ export default function CirclesPage() {
   )
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
+  const [parentId, setParentId] = useState<string | undefined>()
 
   // Data
   const circles = useStoreState((state) => state.org.circles)
@@ -99,8 +101,9 @@ export default function CirclesPage() {
   useEffect(() => {
     if (!ready) return
 
-    // Focus circle
+    // Focus circle (use parentId if available, otherwise circleId)
     setCircleId(queryParams.circleId)
+    setParentId(queryParams.parentId)
 
     // Open panel
     if (queryParams.memberId) {
@@ -147,7 +150,7 @@ export default function CirclesPage() {
               width={boxSize.width}
               height={boxSize.height}
               focusCrop={focusCrop}
-              selectedCircleId={circleId}
+              selectedCircleId={parentId ? `${parentId}_${circleId}` : circleId}
               onReady={() => setReady(true)}
             />
           ) : (
@@ -159,7 +162,7 @@ export default function CirclesPage() {
               width={boxSize.width}
               height={boxSize.height}
               focusCrop={focusCrop}
-              selectedCircleId={circleId}
+              selectedCircleId={parentId ? `${parentId}_${circleId}` : circleId}
               onReady={() => setReady(true)}
             />
           ))}

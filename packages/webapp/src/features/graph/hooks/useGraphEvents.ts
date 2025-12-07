@@ -16,10 +16,12 @@ export default function useGraphEvents(): GraphEvents {
   const removeCircleMember = useRemoveCircleMember()
 
   // Navigation Events
-  const onCircleClick = useCallback(
-    (circleId: string) => navigateOrg(`roles?circleId=${circleId}`),
-    []
-  )
+  const onCircleClick = useCallback((circleId: string, parentId?: string) => {
+    const params = new URLSearchParams()
+    params.set('circleId', circleId)
+    if (parentId) params.set('parentId', parentId)
+    navigateOrg(`roles?${params.toString()}`)
+  }, [])
   const onMemberClick = useCallback(
     (circleId: string, memberId: string) =>
       navigateOrg(`roles?circleId=${circleId}&memberId=${memberId}`),

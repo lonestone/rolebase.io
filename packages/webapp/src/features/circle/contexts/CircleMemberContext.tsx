@@ -3,7 +3,8 @@ import { createContext } from 'react'
 export interface CircleMemberContextValue {
   circleId?: string
   memberId?: string
-  goTo(circleId?: string, memberId?: string): void
+  parentId?: string
+  goTo(circleId?: string, memberId?: string, parentId?: string): void
 }
 
 export const CircleMemberContext = createContext<

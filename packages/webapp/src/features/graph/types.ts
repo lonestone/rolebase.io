@@ -44,7 +44,7 @@ export interface Data {
 }
 
 export interface GraphEvents {
-  onCircleClick?(circleId: string): void
+  onCircleClick?(circleId: string, parentId?: string): void
   onCircleMove?(circleId: string, targetCircleId: string | null): Promise<void>
   onCircleCopy?(
     circleId: string,
