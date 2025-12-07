@@ -199,7 +199,8 @@ export default function CircleRoleSubCircles() {
   if (
     !canEditSubCircles &&
     !canEditSubCirclesParentLinks &&
-    !subCircles?.length
+    !subCircles?.length &&
+    !invitedCircles?.length
   ) {
     return null
   }
