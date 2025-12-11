@@ -246,6 +246,11 @@
     "passwordPlaceholder": "Nouveau mot de passe...",
     "toastSuccess": "Informations mises à jour"
   },
+  "UserNamePage": {
+    "heading": "Bienvenue ! Quel est votre nom ?",
+    "name": "Prénom et nom",
+    "submit": "Continuer"
+  },
   "DashboardMyInfosItem": {
     "footer": "Voir plus"
   },
@@ -400,6 +405,23 @@
     "resetPassword": "Mot de passe oublié ?",
     "submit": "Je me connecte",
     "signup": "Créer un compte"
+  },
+  "OtpForm": {
+    "heading": "Gouvernez et collaborez avec vos équipes",
+    "subheading": "Connectez-vous à votre compte Rolebase",
+    "email": "Email",
+    "emailPlaceholder": "Tapez votre adresse email...",
+    "submit": "Continuer",
+    "terms": "En continuant, vous reconnaissez avoir compris et accepté {{termsAndPrivacy}}",
+    "codeHeading": "Nous avons envoyé un code à 6 chiffres à {{email}}",
+    "codeDescription": "Entrez votre code"
+  },
+  "AuthPage": {
+    "loginWithPassword": "Connexion avec mot de passe",
+    "loginWithOtp": "Connexion avec code",
+    "createAccount": "Créer un compte",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "invitationInfo": "Vous avez été invité à rejoindre une organisation Rolebase. Veuillez vous connecter ou créer un compte en saisissant votre adresse email pour accepter l'invitation."
   },
   "LogsList": {
     "empty": "Aucune action"
@@ -645,6 +667,9 @@
     }
   },
   "MemberInvitationPage": {
+    "title": "Invitation à rejoindre l'organisation {{orgName}}",
+    "accept": "Accepter l'invitation",
+    "cancel": "Annuler",
     "toastSuccess": "Invitation acceptée"
   },
   "MemberPictureCropModal": {
@@ -910,7 +935,7 @@
     "phone": "Numéro de téléphone",
     "email": "Email",
     "password": "Mot de passe",
-    "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de Confidentialité</a>",
+    "terms": "J'accepte {{termsAndPrivacy}}",
     "submit": "Je crée mon compte",
     "haveAccount": "Vous avez déjà un compte ?",
     "login": "Connectez-vous"
@@ -1232,6 +1257,7 @@
     "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
     "emptyParagraphPlaceholder": "Appuyez sur \"/\" pour afficher les commandes…",
+    "termsAndPrivacy": "les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions générales</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de confidentialité</a>",
     "dates": {
       "today": "Aujourd'hui",
       "tomorrow": "Demain",

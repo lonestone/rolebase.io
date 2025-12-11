@@ -23,6 +23,11 @@
       "title": "Sign in to Rolebase",
       "description": "Click on this one-time link to sign in to your Rolebase account.",
       "cta": "Sign in"
+    },
+    "signin-otp": {
+      "subject": "Sign in to Rolebase",
+      "title": "Sign in to Rolebase",
+      "description": "To sign in to your Rolebase account, please enter the code below."
     }
   },
   "Meeting": {

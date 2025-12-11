@@ -2,7 +2,6 @@ import { Section, Text } from '@react-email/components'
 import React from 'react'
 import i18n from '../../i18n'
 import Card from '../common/Card'
-import CtaButton from '../common/CtaButton'
 import Layout from '../common/Layout'
 
 interface Props {
@@ -10,8 +9,8 @@ interface Props {
   lang: string
 }
 
-export default function NhostEmail({
-  type = 'email-confirm-change',
+export default function NhostOtpEmail({
+  type = 'signin-otp',
   lang = 'en',
 }: Props) {
   const t = (key: string) =>
@@ -23,8 +22,10 @@ export default function NhostEmail({
         <Section className="px-5">
           <Text>{t('description')}</Text>
         </Section>
-        <Section className="text-center mt-8">
-          <CtaButton href="${link}">{t('cta')}</CtaButton>
+        <Section className="text-center mt-5">
+          <Text className="bg-[#f5f5f5] text-[#29241f] py-3 rounded-lg text-xl tracking-widest font-semibold text-center">
+            {'${ticket}'}
+          </Text>
         </Section>
       </Card>
     </Layout>

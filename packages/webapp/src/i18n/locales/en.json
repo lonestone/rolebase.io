@@ -246,6 +246,11 @@
     "passwordPlaceholder": "New password...",
     "toastSuccess": "Information updated"
   },
+  "UserNamePage": {
+    "heading": "Welcome! What's your name?",
+    "name": "First and last name",
+    "submit": "Continue"
+  },
   "DashboardMyInfosItem": {
     "footer": "See more"
   },
@@ -366,6 +371,23 @@
     "resetPassword": "Forgot your password?",
     "submit": "Log in",
     "signup": "Create an account"
+  },
+  "OtpForm": {
+    "heading": "Where autonomous teams come together to do great work",
+    "subheading": "Log in to your Rolebase account",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email address...",
+    "submit": "Continue",
+    "terms": "By continuing, you acknowledge that you have understood and accepted {{termsAndPrivacy}}",
+    "codeHeading": "We've sent a 6-digit code to {{email}}",
+    "codeDescription": "Enter your code"
+  },
+  "AuthPage": {
+    "loginWithPassword": "Log in with password",
+    "loginWithOtp": "Log in with code",
+    "createAccount": "Create an account",
+    "haveAccount": "Already have an account?",
+    "invitationInfo": "You have been invited to join a Rolebase organization. Please sign in or sign up by entering your email address to accept the invitation."
   },
   "LogsList": {
     "empty": "No action"
@@ -611,6 +633,9 @@
     }
   },
   "MemberInvitationPage": {
+    "title": "Invitation to join organization {{orgName}}",
+    "accept": "Accept Invitation",
+    "cancel": "Cancel",
     "toastSuccess": "Invite accepted"
   },
   "MemberPictureCropModal": {
@@ -877,7 +902,7 @@
     "phone": "Phone number",
     "email": "Email",
     "password": "Password",
-    "terms": "I accept the <a href=\"https://en.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</term> and the <a href=\"https://en.rolebase.io/privacy\">Privacy Policy</policy>",
+    "terms": "I accept {{termsAndPrivacy}}",
     "submit": "Create my account",
     "haveAccount": "Already have an account?",
     "login": "Log in"
@@ -1199,6 +1224,7 @@
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",
     "emptyParagraphPlaceholder": "Press '/' for commands…",
+    "termsAndPrivacy": "the <a href=\"https://en.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</a> and the <a href=\"https://en.rolebase.io/privacy\">Privacy Policy</a>",
     "dates": {
       "today": "Today",
       "tomorrow": "Tomorrow",

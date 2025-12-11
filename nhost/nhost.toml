@@ -161,6 +161,9 @@ name = 'Rolebase'
 [auth.method.webauthn.attestation]
 timeout = 0
 
+[auth.method.otp.email]
+enabled = true
+
 [auth.totp]
 enabled = false
 issuer = 'nhost'

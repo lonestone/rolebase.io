@@ -1,5 +1,4 @@
 import BrandModal from '@/common/atoms/BrandModal'
-import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import useQueryParams from '@/common/hooks/useQueryParams'
 import {
@@ -12,6 +11,7 @@ import {
   Heading,
   Input,
   Spinner,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -39,6 +39,7 @@ export default function ResetPasswordPage() {
   const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
   const navigate = useNavigate()
+  const toast = useToast()
 
   const {
     handleSubmit,
@@ -56,7 +57,6 @@ export default function ResetPasswordPage() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isSent, setIsSent] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
 
   const onSubmit = async ({ email }: Values) => {
     setIsLoading(true)
@@ -68,8 +68,13 @@ export default function ResetPasswordPage() {
         },
       })
       setIsSent(true)
-    } catch (error) {
-      setError(error as Error)
+    } catch (error: any) {
+      toast({
+        title: error?.response?.data || error?.message || t('common.error'),
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
     } finally {
       setIsLoading(false)
     }
@@ -110,8 +115,6 @@ export default function ResetPasswordPage() {
               {isLoading && <Spinner ml={2} />}
             </Button>
           </VStack>
-
-          <TextErrors errors={[error]} />
         </form>
       )}
     </BrandModal>

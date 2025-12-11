@@ -1,17 +1,17 @@
 import Homepage from '@/common/pages/Homepage'
-import LoginPage from '@/user/pages/LoginPage'
+import AuthPage from '@/user/pages/AuthPage'
 import ResetPasswordPage from '@/user/pages/ResetPasswordPage'
-import SignupPage from '@/user/pages/SignupPage'
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 export default function PublicRoute() {
   return (
     <Routes>
       <Route index element={<Homepage />} />
-      <Route path="signup" element={<SignupPage />} />
+      <Route path="login" element={<AuthPage />} />
+      <Route path="signup" element={<Navigate to="/login" replace />} />
       <Route path="reset-password" element={<ResetPasswordPage />} />
-      <Route path="*" element={<LoginPage />} />
+      <Route path="*" element={<AuthPage />} />
     </Routes>
   )
 }

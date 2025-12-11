@@ -15,20 +15,22 @@ interface Props extends ModalProps {
   size: ModalProps['size']
   bodyProps?: ModalBodyProps
   children: React.ReactNode
+  backButton?: boolean
 }
 
 export default function BrandModal({
   size,
   bodyProps,
   children,
+  backButton = true,
   ...modalProps
 }: Props) {
   return (
     <Modal size={size} closeOnOverlayClick={false} {...modalProps}>
       <ModalOverlay bg="menulight" _dark={{ bg: 'menudark' }} />
 
-      <ModalContent my="115px">
-        <ModalBackButton />
+      <ModalContent boxShadow="none" my="115px">
+        {backButton && <ModalBackButton />}
 
         <Center w="100%" textAlign="center" position="absolute" top="-70px">
           <BrandLogo size="md" />

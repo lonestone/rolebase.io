@@ -1,8 +1,6 @@
 import PasswordConfirmInputDummy from '@/common/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@/common/atoms/PasswordInput'
-import TextErrors from '@/common/atoms/TextErrors'
 import {
-  Box,
   Button,
   Checkbox,
   FormControl,
@@ -10,6 +8,8 @@ import {
   Heading,
   Input,
   Link,
+  Text,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -22,13 +22,15 @@ import { getTimeZone } from '@utils/dates'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Link as ReachLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { nhost } from 'src/nhost'
 
 import * as yup from 'yup'
+import { AuthStep } from '../pages/AuthPage'
 
 interface Props {
   defaultEmail?: string
+  onStepChange?: (step: AuthStep) => void
 }
 
 const schema = yup.object().shape({
@@ -39,15 +41,15 @@ const schema = yup.object().shape({
 
 type Values = yup.InferType<typeof schema>
 
-export default function SignupForm({ defaultEmail }: Props) {
+export default function SignupForm({ defaultEmail, onStepChange }: Props) {
   const {
     t,
     i18n: { language },
   } = useTranslation()
   const navigate = useNavigate()
+  const toast = useToast()
 
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
 
   const onSubmit = async ({
     name,
@@ -76,8 +78,13 @@ export default function SignupForm({ defaultEmail }: Props) {
       }
 
       navigate('/')
-    } catch (err) {
-      setError(err as Error)
+    } catch (error: any) {
+      toast({
+        title: error?.response?.data || error?.message || t('common.error'),
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
     } finally {
       setIsLoading(false)
     }
@@ -86,7 +93,6 @@ export default function SignupForm({ defaultEmail }: Props) {
   const {
     handleSubmit,
     register,
-    watch,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(schema),
@@ -94,8 +100,6 @@ export default function SignupForm({ defaultEmail }: Props) {
       email: defaultEmail,
     },
   })
-
-  const email = watch('email')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -111,6 +115,7 @@ export default function SignupForm({ defaultEmail }: Props) {
             type="name"
             required
             autoComplete="name"
+            autoFocus
           />
         </FormControl>
 
@@ -139,26 +144,32 @@ export default function SignupForm({ defaultEmail }: Props) {
             required
             sx={{ a: { textDecoration: 'underline' } }}
           >
-            <div dangerouslySetInnerHTML={{ __html: t('SignupForm.terms') }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: t('SignupForm.terms', {
+                  termsAndPrivacy: t('common.termsAndPrivacy'),
+                }),
+              }}
+            />
           </Checkbox>
         </FormControl>
 
         <PasswordConfirmInputDummy />
-        <TextErrors errors={[error]} />
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('SignupForm.submit')}
         </Button>
 
-        <Box>
-          {t('SignupForm.haveAccount')}
-          <Link
-            to={`/login${email ? `?email=${email}` : ''}`}
-            as={ReachLink}
-            ml={2}
-          >
-            {t('SignupForm.login')}
-          </Link>
-        </Box>
+        {onStepChange && (
+          <Text fontSize="sm" color="gray.500" _dark={{ color: 'gray.400' }}>
+            <Link
+              onClick={() => onStepChange('otp')}
+              textDecoration="underline"
+              cursor="pointer"
+            >
+              {t('AuthPage.haveAccount')}
+            </Link>
+          </Text>
+        )}
       </VStack>
     </form>
   )

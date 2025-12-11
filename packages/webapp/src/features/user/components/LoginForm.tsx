@@ -1,13 +1,15 @@
 import PasswordInput from '@/common/atoms/PasswordInput'
-import TextError from '@/common/atoms/TextError'
 import { Title } from '@/common/atoms/Title'
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
   Heading,
   Input,
   Link,
+  Text,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -18,9 +20,11 @@ import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
 import { nhost } from 'src/nhost'
 import * as yup from 'yup'
+import { AuthStep } from '../pages/AuthPage'
 
 interface Props {
   defaultEmail?: string
+  onStepChange?: (step: AuthStep) => void
 }
 
 export interface Values {
@@ -33,11 +37,11 @@ const schema = yup.object().shape({
   ['current-password']: yup.string().required(),
 })
 
-export default function LoginForm({ defaultEmail }: Props) {
+export default function LoginForm({ defaultEmail, onStepChange }: Props) {
   const { t } = useTranslation()
+  const toast = useToast()
 
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
 
   const onSubmit = async (values: Values) => {
     try {
@@ -46,8 +50,13 @@ export default function LoginForm({ defaultEmail }: Props) {
         email: values.email,
         password: values['current-password'],
       })
-    } catch (err) {
-      setError(err as Error)
+    } catch (error: any) {
+      toast({
+        title: error?.response?.data || error?.message || t('common.error'),
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
     } finally {
       setIsLoading(false)
     }
@@ -103,15 +112,31 @@ export default function LoginForm({ defaultEmail }: Props) {
           </Link>
         </FormControl>
 
-        {error && <TextError error={error} />}
-
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('LoginForm.submit')}
         </Button>
 
-        <Link to={`/signup${email ? `?email=${email}` : ''}`} as={ReachLink}>
-          {t('LoginForm.signup')}
-        </Link>
+        {onStepChange && (
+          <Text fontSize="sm" color="gray.500" _dark={{ color: 'gray.400' }}>
+            <Link
+              onClick={() => onStepChange('otp')}
+              textDecoration="underline"
+              cursor="pointer"
+            >
+              {t('AuthPage.loginWithOtp')}
+            </Link>
+            <Box as="span" mx={2}>
+              •
+            </Box>
+            <Link
+              onClick={() => onStepChange('signup')}
+              textDecoration="underline"
+              cursor="pointer"
+            >
+              {t('AuthPage.createAccount')}
+            </Link>
+          </Text>
+        )}
       </VStack>
     </form>
   )

@@ -23,6 +23,11 @@
       "title": "Connexion à Rolebase",
       "description": "Cliquez sur ce lien à usage unique pour vous connecter à votre compte Rolebase.",
       "cta": "Connexion"
+    },
+    "signin-otp": {
+      "subject": "Connexion à Rolebase",
+      "title": "Connexion à Rolebase",
+      "description": "Pour vous connecter à votre compte Rolebase, merci de bien vouloir saisir le code ci-dessous."
     }
   },
   "Meeting": {

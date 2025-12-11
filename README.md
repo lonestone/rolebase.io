@@ -8,7 +8,7 @@ It's an open source SaaS that helps various organizations implement Holacracy, S
 
 ### NPM dependencies
 
-Install npm dependencies in webapp and functions
+Install npm dependencies in all packages:
 
 ```
 npm i
@@ -158,7 +158,7 @@ Webapp configuration can be written in `settings.ts`:
 
 ### Server config
 
-The server config is localized in `functions/_src/utils/settings.ts`. You can edit in it:
+The server config is localized in `packages/backend/src/settings.ts`. You can edit in it:
 
 - url: URL of the webapp
 - mail.sender: Name and address to use in send mail
@@ -187,13 +187,13 @@ Finally, restart local server (`yarn dev`).
 
 ### Preview
 
-All email templates are React components using `react-emails` in the folder `functions/_src/emails`
+All email templates are React components using `react-emails` in the folder `packages/emails`
 
 To preview emails:
 
 ```
-cd functions
-npm run emails:preview
+cd packages/emails
+npm run dev
 ```
 
 Then open `http://localhost:8090/`
@@ -204,20 +204,20 @@ Email templates for Nhost are defined in `nhost/emails` folder.
 
 Check the [documentation](https://docs.nhost.io/authentication/email-templates) to learn more about it.
 
-We generate them with the template `functions/_src/emails/templates/NhostEmail.tsx`
+We generate them with the template `packages/emails/components/templates/NhostLinkEmail.tsx`
 
-Translations are in `functions/_src/i18n/locales`
+Translations are in `packages/emails/i18n/locales`
 
 To build `body.html` and `subject.txt` files, run:
 
 ```
-cd functions
-npm run emails:build
+cd packages/emails
+npm run build
 ```
 
 ### Fonts
 
-Fonts used in emails are included here as static files to be loaded in emails by `functions/_src/emails/common/Layout.tsx`
+Fonts used in emails are included here as static files to be loaded in emails by `packages/emails/components/common/Layout.tsx`
 
 ### Icons
 
@@ -246,7 +246,6 @@ npm run build-emails-icons
 - Database
 - GraphQL API
 - Storage
-- Functions
 - Run: @rolebase/backend (docker)
 
 ## Upgrade Nhost
