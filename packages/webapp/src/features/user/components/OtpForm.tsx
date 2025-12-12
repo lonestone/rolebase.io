@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { emailSchema } from '@rolebase/shared/schemas'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { nhost } from 'src/nhost'
@@ -45,17 +45,23 @@ export default function OtpForm({ defaultEmail, onStepChange }: Props) {
 
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState<'email' | 'code'>('email')
-  const [email, setEmail] = useState(defaultEmail || '')
+  const [email, setEmail] = useState('')
   const [otp, setOtp] = useState('')
 
   const {
     handleSubmit: handleEmailSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<EmailValues>({
     resolver: yupResolver(emailFormSchema),
-    defaultValues: { email: defaultEmail || '' },
   })
+
+  useEffect(() => {
+    if (defaultEmail) {
+      setValue('email', defaultEmail)
+    }
+  }, [defaultEmail])
 
   const onEmailSubmit = async (values: EmailValues) => {
     try {

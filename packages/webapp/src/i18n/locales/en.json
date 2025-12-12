@@ -387,7 +387,7 @@
     "loginWithOtp": "Log in with code",
     "createAccount": "Create an account",
     "haveAccount": "Already have an account?",
-    "invitationInfo": "You have been invited to join a Rolebase organization. Please sign in or sign up by entering your email address to accept the invitation."
+    "invitationInfo": "You have been invited to join {{orgName}}. Please sign in or sign up by entering your email address to accept the invitation."
   },
   "LogsList": {
     "empty": "No action"

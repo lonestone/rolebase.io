@@ -19,7 +19,7 @@ import {
   passwordSchema,
 } from '@rolebase/shared/schemas'
 import { getTimeZone } from '@utils/dates'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -93,13 +93,17 @@ export default function SignupForm({ defaultEmail, onStepChange }: Props) {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      email: defaultEmail,
-    },
   })
+
+  useEffect(() => {
+    if (defaultEmail) {
+      setValue('email', defaultEmail)
+    }
+  }, [defaultEmail])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

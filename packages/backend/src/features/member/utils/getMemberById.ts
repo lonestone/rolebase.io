@@ -23,6 +23,7 @@ const GET_MEMBER = gql(`
       name
       role
       inviteDate
+      inviteEmail
     }
   }
 `)

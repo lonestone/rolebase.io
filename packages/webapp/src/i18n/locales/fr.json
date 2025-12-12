@@ -421,7 +421,7 @@
     "loginWithOtp": "Connexion avec code",
     "createAccount": "Créer un compte",
     "haveAccount": "Vous avez déjà un compte ?",
-    "invitationInfo": "Vous avez été invité à rejoindre une organisation Rolebase. Veuillez vous connecter ou créer un compte en saisissant votre adresse email pour accepter l'invitation."
+    "invitationInfo": "Vous avez été invité à rejoindre {{orgName}}. Veuillez vous connecter ou créer un compte en saisissant votre adresse email pour accepter l'invitation."
   },
   "LogsList": {
     "empty": "Aucune action"

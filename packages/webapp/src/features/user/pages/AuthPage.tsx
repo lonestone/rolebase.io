@@ -1,6 +1,7 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import ThemeSwitch from '@/common/atoms/ThemeSwitch'
 import useQueryParams from '@/common/hooks/useQueryParams'
+import { useMemberInvitationInfo } from '@/member/hooks/useMemberInvitationInfo'
 import { Alert, AlertIcon, Box, Flex } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +16,8 @@ export type AuthStep = 'otp' | 'login' | 'signup'
 type Params = {
   email: string
   mode?: AuthStep
+  memberId?: string
+  token?: string
 }
 
 export default function AuthPage() {
@@ -24,6 +27,15 @@ export default function AuthPage() {
   const [mode, setMode] = useState<AuthStep>(queryParams.mode || 'otp')
 
   const isInvitationPage = location.pathname.includes('/invitation')
+
+  // Get invitation info if this is an invitation page
+  const { data: invitationData } = useMemberInvitationInfo({
+    memberId: isInvitationPage ? queryParams.memberId : undefined,
+    token: isInvitationPage ? queryParams.token : undefined,
+  })
+
+  // Use email from invitation data if available, otherwise use query param
+  const defaultEmail = invitationData?.email || queryParams.email
 
   return (
     <>
@@ -50,25 +62,19 @@ export default function AuthPage() {
         {isInvitationPage && (
           <Alert status="info" mb={10} borderRadius="md">
             <AlertIcon />
-            {t('AuthPage.invitationInfo')}
+            {t('AuthPage.invitationInfo', { orgName: invitationData?.orgName })}
           </Alert>
         )}
 
         <Box mx={10}>
           {mode === 'otp' && (
-            <OtpForm defaultEmail={queryParams.email} onStepChange={setMode} />
+            <OtpForm defaultEmail={defaultEmail} onStepChange={setMode} />
           )}
           {mode === 'login' && (
-            <LoginForm
-              defaultEmail={queryParams.email}
-              onStepChange={setMode}
-            />
+            <LoginForm defaultEmail={defaultEmail} onStepChange={setMode} />
           )}
           {mode === 'signup' && (
-            <SignupForm
-              defaultEmail={queryParams.email}
-              onStepChange={setMode}
-            />
+            <SignupForm defaultEmail={defaultEmail} onStepChange={setMode} />
           )}
         </Box>
       </BrandModal>

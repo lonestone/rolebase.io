@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { emailSchema } from '@rolebase/shared/schemas'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
@@ -65,14 +65,20 @@ export default function LoginForm({ defaultEmail, onStepChange }: Props) {
   const {
     handleSubmit,
     register,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(schema),
-    defaultValues: { email: defaultEmail || '' },
   })
 
   const email = watch('email')
+
+  useEffect(() => {
+    if (defaultEmail) {
+      setValue('email', defaultEmail)
+    }
+  }, [defaultEmail])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

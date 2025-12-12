@@ -39,7 +39,7 @@ const documents = {
     "\n  query checkOrgUser($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: { userId: { _eq: $userId } }) {\n        id\n      }\n    }\n    user(id: $userId) {\n      email\n    }\n  }\n": types.CheckOrgUserDocument,
     "\n  query getOrgName($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      name\n    }\n  }\n": types.GetOrgNameDocument,
     "\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n": types.GetOrgAndMemberDocument,
-    "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n": types.GetMemberDocument,
+    "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n      inviteEmail\n    }\n  }\n": types.GetMemberDocument,
     "\n  mutation updateMember($id: uuid!, $values: member_set_input!) {\n    update_member_by_pk(pk_columns: { id: $id }, _set: $values) {\n      id\n    }\n  }\n": types.UpdateMemberDocument,
     "\n    query getOrgSubscriptionStripeStatus($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }": types.GetOrgSubscriptionStripeStatusDocument,
     "\n  mutation archiveOrg($orgId: uuid!) {\n    update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {\n      id\n    }\n  }": types.ArchiveOrgDocument,
@@ -247,7 +247,7 @@ export function gql(source: "\n  query getOrgAndMember($orgId: uuid!, $userId: u
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n"): (typeof documents)["\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n"];
+export function gql(source: "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n      inviteEmail\n    }\n  }\n"): (typeof documents)["\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n      inviteEmail\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

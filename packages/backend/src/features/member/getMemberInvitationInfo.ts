@@ -1,19 +1,19 @@
 import { TRPCError } from '@trpc/server'
+import { publicProcedure } from '../../trpc'
 import * as yup from 'yup'
 import { gql } from '../../gql'
-import { authedProcedure } from '../../trpc/authedProcedure'
 import { adminRequest } from '../../utils/adminRequest'
 import { generateInviteToken } from './utils/generateInviteToken'
 import { getMemberById } from './utils/getMemberById'
 
-export default authedProcedure
+export default publicProcedure
   .input(
     yup.object().shape({
       memberId: yup.string().required(),
       token: yup.string().required(),
     })
   )
-  .query(async (opts): Promise<{ orgName: string }> => {
+  .query(async (opts): Promise<{ orgName: string; email: string | null }> => {
     const { memberId, token } = opts.input
 
     // Get member
@@ -45,7 +45,7 @@ export default authedProcedure
       })
     }
 
-    return { orgName }
+    return { orgName, email: member.inviteEmail ?? null }
   })
 
 const GET_ORG_NAME = gql(`
