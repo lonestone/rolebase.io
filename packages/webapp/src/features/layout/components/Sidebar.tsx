@@ -1,5 +1,11 @@
+import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import MeetingEditModal from '@/meeting/modals/MeetingEditModal'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
+import useOrgAdmin from '@/member/hooks/useOrgAdmin'
+import useOrgOwner from '@/member/hooks/useOrgOwner'
 import OrgSwitch from '@/org/components/OrgSwitch'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { useOrgId } from '@/org/hooks/useOrgId'
@@ -7,7 +13,9 @@ import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import SearchGlobalModal from '@/search/components/SearchGlobalModal'
 import TaskModal from '@/task/modals/TaskModal'
 import ThreadEditModal from '@/thread/modals/ThreadEditModal'
+import { useAuth } from '@/user/hooks/useAuth'
 import {
+  Avatar,
   Flex,
   IconButton,
   Menu,
@@ -25,18 +33,19 @@ import {
   BackIcon,
   HelpIcon,
   MeetingsIcon,
+  MembersIcon,
   MenuIcon,
   NewsIcon,
   OrgChartIcon,
   SearchIcon,
   SettingsIcon,
   SidebarLeftIcon,
+  SubscriptionIcon,
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
 import BrandIcon from 'src/images/icon.svg'
 import { SidebarContext } from '../contexts/SidebarContext'
-import SettingsMenuList from './SettingsMenuList'
 import SidebarItem from './SidebarItem'
 import SidebarItemLink from './SidebarItemLink'
 import SidebarLayout from './SidebarLayout'
@@ -45,7 +54,7 @@ import SidebarTasks from './SidebarTasks'
 import SidebarThreads from './SidebarThreads'
 import SidebarTopIcon from './SidebarTopIcon'
 import SidebarTopIconLink from './SidebarTopIconLink'
-import { useAuth } from '@/user/hooks/useAuth'
+import UserSettingsMenuList from './UserSettingsMenuList'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -54,7 +63,7 @@ const logoContainerHeight = 65
 
 export default function Sidebar() {
   const { t } = useTranslation()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
@@ -62,6 +71,14 @@ export default function Sidebar() {
     (state) => state.memberStatus.currentMeetingId
   )
   const navigate = useNavigateOrg()
+  const isAdmin = useOrgAdmin()
+  const isOwner = useOrgOwner()
+
+  // User display name and avatar
+  const displayName = currentMember?.name || user?.displayName || ''
+  const avatarSrc = currentMember?.picture
+    ? getResizedImageUrl(currentMember.picture, AVATAR_SM_WIDTH) || undefined
+    : undefined
 
   // Get Sidebar context
   const context = useContext(SidebarContext)
@@ -287,6 +304,34 @@ export default function Sidebar() {
             </>
           )}
 
+          {orgId && (
+            <>
+              <SidebarItemLink to={`${rootPath}members`} icon={MembersIcon}>
+                {t('Sidebar.members')}
+              </SidebarItemLink>
+
+              {isOwner && (
+                <SidebarItemLink
+                  to={`${rootPath}subscription`}
+                  icon={SubscriptionIcon}
+                >
+                  {t('Sidebar.subscription')}
+                </SidebarItemLink>
+              )}
+            </>
+          )}
+
+          <SidebarItemLink
+            to={
+              isAdmin
+                ? `${rootPath}settings/org`
+                : `${rootPath}settings/credentials`
+            }
+            icon={SettingsIcon}
+          >
+            {t('Sidebar.settings')}
+          </SidebarItemLink>
+
           <SidebarItem
             className="userflow-sidebar-help"
             icon={HelpIcon}
@@ -298,12 +343,21 @@ export default function Sidebar() {
           <Menu>
             <MenuButton
               as={SidebarItem}
-              className="userflow-sidebar-settings"
-              icon={SettingsIcon}
+              iconNode={
+                <Avatar
+                  name={displayName}
+                  src={avatarSrc}
+                  size="sm"
+                  w="24px"
+                  h="24px"
+                  ml={4}
+                  mr={3}
+                />
+              }
             >
-              {t('Sidebar.settings')}
+              {displayName}
             </MenuButton>
-            <SettingsMenuList />
+            <UserSettingsMenuList />
           </Menu>
         </Flex>
       )}

@@ -1,8 +1,9 @@
-import { Button, Container, Heading, VStack } from '@chakra-ui/react'
+import { Button, Heading, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { trpc } from 'src/trpc'
 import Loading from '../atoms/Loading'
+import { Title } from '../atoms/Title'
 
 export default function SuperAdminPage() {
   const { t } = useTranslation()
@@ -23,14 +24,15 @@ export default function SuperAdminPage() {
   }
 
   return (
-    <Container maxW="md" mt="60px">
+    <>
+      <Title>{t('SuperAdminPage.heading')}</Title>
       {loading && <Loading active center />}
 
-      <Heading size="md" mb={10}>
+      <Heading size="lg" mb={10}>
         {t('SuperAdminPage.heading')}
       </Heading>
 
-      <VStack mb={10} align="start">
+      <VStack align="start">
         <Button
           size="sm"
           colorScheme="orange"
@@ -49,6 +51,6 @@ export default function SuperAdminPage() {
           {t('SuperAdminPage.recomputeCircleParticipantCache')}
         </Button>
       </VStack>
-    </Container>
+    </>
   )
 }

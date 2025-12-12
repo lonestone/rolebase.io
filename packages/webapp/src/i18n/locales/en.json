@@ -882,6 +882,14 @@
       "signout": "Logout"
     }
   },
+  "Settings": {
+    "heading": "Settings",
+    "members": "Members",
+    "orgSettings": "Organization",
+    "subscription": "Subscription",
+    "apps": "Integrations & API",
+    "superAdmin": "Administration"
+  },
   "Sidebar": {
     "close": "Close sidebar",
     "lock": "Lock sidebar open",
@@ -894,6 +902,8 @@
     "meetings": "Meetings",
     "tasks": "Tasks",
     "search": "Search",
+    "members": "Members",
+    "subscription": "Subscription",
     "help": "Help"
   },
   "SignupForm": {

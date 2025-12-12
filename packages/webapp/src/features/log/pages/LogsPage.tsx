@@ -3,7 +3,7 @@ import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { Box, Container, Flex, Heading } from '@chakra-ui/react'
+import { Box, Flex, Heading } from '@chakra-ui/react'
 import { useLastLogsQuery } from '@gql'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -75,7 +75,8 @@ export default function LogsPage() {
       }
     >
       <Title>{t('LogsPage.heading')}</Title>
-      <Container maxW="xl" my={10}>
+
+      <Box maxW="3xl" p={{ base: 5, sm: 10 }}>
         {logs && <LogsList logs={logs} />}
 
         <Box ref={bottomRef} mt={3} textAlign="center">
@@ -83,7 +84,7 @@ export default function LogsPage() {
         </Box>
 
         <TextErrors errors={[error]} />
-      </Container>
+      </Box>
     </ScrollableLayout>
   )
 }

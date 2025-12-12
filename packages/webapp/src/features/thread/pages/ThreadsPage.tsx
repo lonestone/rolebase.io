@@ -6,9 +6,10 @@ import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import useUpdatableQueryParams from '@/common/hooks/useUpdatableQueryParams'
 import useOrgMember from '@/member/hooks/useOrgMember'
+import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
 import {
+  Box,
   Button,
-  Container,
   Flex,
   Heading,
   Menu,
@@ -28,7 +29,6 @@ import ThreadsList from '../components/ThreadsList'
 import useFilterThreadsByMember from '../hooks/useFilterThreadsByMember'
 import useThreads from '../hooks/useThreads'
 import ThreadEditModal from '../modals/ThreadEditModal'
-import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
 
 type Params = {
   member: string
@@ -156,7 +156,7 @@ export default function ThreadsPage() {
           </Flex>
         }
       >
-        <Container maxW="3xl" my={10}>
+        <Box maxW="3xl" my={10} px={{ base: 5, sm: 10 }}>
           {loading && <Loading active center />}
           <TextErrors errors={[error]} />
 
@@ -173,7 +173,7 @@ export default function ThreadsPage() {
             // Video: Comment utiliser les sujets et tâches
             <OnboardingVideoThreadsAndTasks mt={10} />
           )}
-        </Container>
+        </Box>
       </ScrollableLayout>
 
       {isCreateOpen && <ThreadEditModal isOpen onClose={onCreateClose} />}

@@ -13,7 +13,8 @@ import { AddIcon } from 'src/icons'
 import SidebarIcon from './SidebarIcon'
 
 export interface SidebarItemProps extends ButtonProps {
-  icon: Icon
+  icon?: Icon
+  iconNode?: React.ReactNode
   isPathExact?: boolean
   isPathStart?: boolean
   alert?: boolean
@@ -23,6 +24,7 @@ export interface SidebarItemProps extends ButtonProps {
 export default forwardRef(function SidebarItem(
   {
     icon,
+    iconNode,
     isPathExact,
     isPathStart,
     alert,
@@ -73,13 +75,17 @@ export default forwardRef(function SidebarItem(
       isActive={isPathExact}
       {...buttonProps}
     >
-      <SidebarIcon
-        icon={icon}
-        isActive={isPathStart}
-        alert={alert}
-        ml={4}
-        mr={3}
-      />
+      {icon ? (
+        <SidebarIcon
+          icon={icon}
+          isActive={isPathStart}
+          alert={alert}
+          ml={4}
+          mr={3}
+        />
+      ) : (
+        iconNode
+      )}
 
       {children}
 

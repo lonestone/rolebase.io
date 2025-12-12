@@ -915,6 +915,14 @@
       "signout": "Déconnexion"
     }
   },
+  "Settings": {
+    "heading": "Paramètres",
+    "members": "Membres",
+    "orgSettings": "Organisation",
+    "subscription": "Abonnement",
+    "apps": "Intégrations & API",
+    "superAdmin": "Administration"
+  },
   "Sidebar": {
     "close": "Fermer la barre latérale",
     "lock": "Garder la barre latérale ouverte",
@@ -927,6 +935,8 @@
     "meetings": "Réunions",
     "tasks": "Tâches",
     "search": "Rechercher",
+    "members": "Membres",
+    "subscription": "Abonnement",
     "help": "Aide"
   },
   "SignupForm": {

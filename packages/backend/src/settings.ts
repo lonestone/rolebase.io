@@ -22,7 +22,6 @@ export default {
     'profile',
     'settings',
     'reset-password',
-    'user-info',
     'www',
     'backoffice',
     'orgs',

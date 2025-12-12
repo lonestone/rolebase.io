@@ -1,18 +1,25 @@
+import AppsPage from '@/apps/pages/AppsPage'
 import CirclesPage from '@/circle/pages/CirclesPage'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import Page404 from '@/common/pages/Page404'
+import SuperAdminPage from '@/common/pages/SuperAdminPage'
 import DashboardPage from '@/dashboard/pages/DashboardPage'
 import DecisionPage from '@/decision/pages/DecisionPage '
+import SettingsLayout from '@/layout/components/SettingsLayout'
 import LogsPage from '@/log/pages/LogsPage'
 import MeetingPage from '@/meeting/pages/MeetingPage'
 import MeetingRecurringPage from '@/meeting/pages/MeetingRecurringPage'
 import { useSubscribeCurrentMeeting } from '@/member/hooks/useSubscribeCurrentMeeting'
 import MembersPage from '@/member/pages/MembersPage'
+import OrgSettingsPage from '@/org/pages/OrgSettingsPage'
 import TaskPage from '@/task/pages/TaskPage'
 import TasksPage from '@/task/pages/TasksPage'
 import ThreadPage from '@/thread/pages/ThreadPage'
 import ThreadsPage from '@/thread/pages/ThreadsPage'
+import useSuperAdmin from '@/user/hooks/useSuperAdmin'
+import CredentialsSettingsPage from '@/user/pages/CredentialsSettingsPage'
+import NotificationsSettingsPage from '@/user/pages/NotificationsSettingsPage'
 import { useOrgBySlugSubscription, useOrgSubscription } from '@gql'
 import { useStoreActions } from '@store/hooks'
 import React, { Suspense, lazy, useEffect } from 'react'
@@ -32,6 +39,7 @@ type Params = {
 
 export default function OrgRoute() {
   const { orgId, slug } = useParams<Params>()
+  const superAdmin = useSuperAdmin()
 
   // Subscribe to org structure
   // either by id or slug
@@ -117,6 +125,16 @@ export default function OrgRoute() {
           <Route path="decisions/:decisionId" element={<DecisionPage />} />
           <Route path="logs" element={<LogsPage />} />
           <Route path="export-circle" element={<CircleExportPage />} />
+          <Route path="settings" element={<SettingsLayout />}>
+            <Route path="org" element={<OrgSettingsPage />} />
+            <Route path="apps" element={<AppsPage />} />
+            <Route path="credentials" element={<CredentialsSettingsPage />} />
+            <Route
+              path="notifications"
+              element={<NotificationsSettingsPage />}
+            />
+            {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
+          </Route>
           <Route path="*" element={<Page404 />} />
         </Routes>
       )}

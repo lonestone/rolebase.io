@@ -5,9 +5,9 @@ import { useHoverItemStyle } from '@/common/hooks/useHoverItemStyle'
 import { useAlgoliaSearch } from '@/search/hooks/useAlgoliaSearch'
 import { SearchIcon } from '@chakra-ui/icons'
 import {
+  Box,
   Button,
   CloseButton,
-  Container,
   Flex,
   Heading,
   HStack,
@@ -151,7 +151,7 @@ export default function MembersPage() {
           </Flex>
         }
       >
-        <Container maxW="2xl" my={10}>
+        <Box maxW="2xl" my={10} px={{ base: 5, sm: 10 }}>
           {filteredMembers?.map((member) => (
             <LinkBox key={member.id} px={2} py={1} _hover={hover}>
               <HStack>
@@ -208,7 +208,7 @@ export default function MembersPage() {
               </HStack>
             </LinkBox>
           ))}
-        </Container>
+        </Box>
 
         <Loading active={loading} size="md" />
       </ScrollableLayout>

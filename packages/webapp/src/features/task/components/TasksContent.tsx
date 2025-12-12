@@ -3,16 +3,16 @@ import OverflowContainer, {
   OverflowContainerParams,
 } from '@/common/atoms/OverflowContainer'
 import TextErrors from '@/common/atoms/TextErrors'
+import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import useOrgMember from '@/member/hooks/useOrgMember'
-import { Container } from '@chakra-ui/react'
+import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
+import { Box } from '@chakra-ui/react'
 import { TasksViewTypes } from '@rolebase/shared/model/task'
 import React, { useContext } from 'react'
 import { TasksModuleContext } from '../contexts/TasksModuleContext'
 import { useTasks } from '../hooks/useTasks'
 import TasksKanban from './TasksKanban'
 import TasksList from './TasksList'
-import useOrgAdmin from '@/member/hooks/useOrgAdmin'
-import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
 
 interface Props {
   overflowContainer?: OverflowContainerParams
@@ -51,7 +51,7 @@ export default function TasksContent({ overflowContainer, isFullPage }: Props) {
       )}
 
       {!loading && view === TasksViewTypes.List && (
-        <Container maxW="3xl" p={0}>
+        <Box maxW="3xl" px={{ base: 0, sm: 3 }}>
           <TasksList
             tasks={tasks}
             onOrderChange={isMember ? changeOrder : undefined}
@@ -65,7 +65,7 @@ export default function TasksContent({ overflowContainer, isFullPage }: Props) {
             // Video: Comment utiliser les sujets et tâches
             <OnboardingVideoThreadsAndTasks mt={10} />
           )}
-        </Container>
+        </Box>
       )}
 
       {loading && <Loading active size="md" />}

@@ -6,13 +6,16 @@ import TextError from '@/common/atoms/TextError'
 import Page404 from '@/common/pages/Page404'
 import SuperAdminPage from '@/common/pages/SuperAdminPage'
 import LoggedLayout from '@/layout/components/LoggedLayout'
+import SettingsLayout from '@/layout/components/SettingsLayout'
+import MemberInvitationPage from '@/member/pages/MemberInvitationPage'
 import Onboarding from '@/onboarding/components/Onboarding'
 import ImportPage from '@/org/pages/ImportPage'
 import OrgsPage from '@/org/pages/OrgsPage'
-import MemberInvitationPage from '@/member/pages/MemberInvitationPage'
+import { useAuth } from '@/user/hooks/useAuth'
 import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import VerifyEmailModal from '@/user/modals/VerifiyEmailModal'
-import UserInfoPage from '@/user/pages/UserInfoPage'
+import CredentialsSettingsPage from '@/user/pages/CredentialsSettingsPage'
+import NotificationsSettingsPage from '@/user/pages/NotificationsSettingsPage'
 import { App_Type_Enum, useOrgsSubscription } from '@gql'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect } from 'react'
@@ -20,7 +23,6 @@ import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { langs, locales } from 'src/i18n'
 import OrgRoute from './OrgRoute'
-import { useAuth } from '@/user/hooks/useAuth'
 
 export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
@@ -67,7 +69,6 @@ export default function PrivateRoute() {
           path="orgs/:orgId/invitation"
           element={<MemberInvitationPage />}
         />
-        <Route path="user-info" element={<UserInfoPage />} />
 
         <Route path="login" element={<Navigate to="/" />} />
         <Route path="reset-password" element={<Navigate to="/" />} />
@@ -75,7 +76,16 @@ export default function PrivateRoute() {
         <Route path="import" element={<ImportPage />} />
 
         <Route path="orgs/:orgId/*" element={<OrgRoute />} />
-        <Route path="apps" element={<AppsPage />} />
+
+        <Route path="settings" element={<SettingsLayout />}>
+          <Route path="apps" element={<AppsPage />} />
+          <Route path="credentials" element={<CredentialsSettingsPage />} />
+          <Route path="notifications" element={<NotificationsSettingsPage />} />
+          {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
+        </Route>
+
+        <Route path="apps" element={<Navigate to="/settings/apps" replace />} />
+
         <Route
           path="apps/office365-auth-redirect"
           element={<OAuthRedirectPage type={App_Type_Enum.Office365} />}
@@ -85,8 +95,6 @@ export default function PrivateRoute() {
           element={<OAuthRedirectPage type={App_Type_Enum.GoogleCalendar} />}
         />
         <Route path=":slug/*" element={<OrgRoute />} />
-
-        {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
 
         <Route path="*" element={<Page404 />} />
       </Routes>

@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
       await nhost.auth.sendPasswordResetEmail({
         email,
         options: {
-          redirectTo: `${window.location.origin}/user-info`,
+          redirectTo: `${window.location.origin}/settings/credentials`,
         },
       })
       setIsSent(true)
