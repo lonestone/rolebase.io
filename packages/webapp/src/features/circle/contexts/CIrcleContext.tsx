@@ -72,27 +72,29 @@ export function CircleProvider({ circleId, children }: Props) {
   const isOwner = owners.some((p) => p.member.id === currentMember?.id)
 
   // Can edit circle
-  const canEditCircle = org?.protectGovernance
-    ? isOrgOwner || isOwner
-    : isOrgMember
+  const canEditCircle =
+    isOrgMember && (!org?.protectGovernance || isOrgOwner || isOwner)
 
   // Can edit role
   const canEditRole = role?.base ? isOrgOwner : canEditCircle
 
   // Can edit sub circles
   const canEditSubCircles =
+    isOrgMember &&
     role?.singleMember === false &&
     role?.parentLink === false &&
-    (org?.protectGovernance ? isOrgOwner || isLeader : isOrgMember)
+    (!org?.protectGovernance || isOrgOwner || isLeader)
 
   // Can edit sub-circles with parent link
   const canEditSubCirclesParentLinks =
     canEditCircle && role?.singleMember === false && role?.parentLink === false
 
   // Can edit members
-  const canEditMembers = org?.protectGovernance
-    ? isOrgOwner || (hasParentLinkMembers ? isLeader : isOwner)
-    : isOrgMember
+  const canEditMembers =
+    isOrgMember &&
+    (!org?.protectGovernance ||
+      isOrgOwner ||
+      (hasParentLinkMembers ? isLeader : isOwner))
 
   // Prepare context value
   const value = circle &&
