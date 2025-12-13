@@ -22,7 +22,6 @@ export const ThreadStatusMenu = ({
     <Menu>
       <MenuButton
         as={Button}
-        className="userflow-threads-status"
         size={size}
         variant="outline"
         rightIcon={<ChevronDownIcon size="1em" />}

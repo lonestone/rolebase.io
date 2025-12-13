@@ -38,7 +38,6 @@ export default function CircleAndMemberFilters({
             value={circleId}
             placeholder={t('CircleAndMemberFilters.circle')}
             maxW="170px"
-            className="userflow-filter-role"
             onChange={onCircleChange}
             onClear={() => onCircleChange(undefined)}
           />
@@ -46,7 +45,6 @@ export default function CircleAndMemberFilters({
           <CircleSearchButton
             rightIcon={<ChevronDownIcon size="1em" />}
             fontWeight="normal"
-            className="userflow-filter-role"
             onSelect={onCircleChange}
           >
             {t('CircleAndMemberFilters.circle')}
@@ -59,7 +57,6 @@ export default function CircleAndMemberFilters({
             value={memberId}
             placeholder={t('CircleAndMemberFilters.member')}
             maxW="170px"
-            className="userflow-filter-member"
             onChange={onMemberChange}
             onClear={() => onMemberChange(undefined)}
           />
@@ -67,7 +64,6 @@ export default function CircleAndMemberFilters({
           <MemberSearchButton
             rightIcon={<ChevronDownIcon size="1em" />}
             fontWeight="normal"
-            className="userflow-filter-member"
             onSelect={onMemberChange}
           >
             {t('CircleAndMemberFilters.member')}

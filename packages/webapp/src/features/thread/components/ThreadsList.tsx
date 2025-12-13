@@ -34,10 +34,9 @@ export default function ThreadsList({
   const { t } = useTranslation()
   const expanded = useDisclosure()
 
-  const items = threads.map((thread, i) => (
+  const items = threads.map((thread) => (
     <ThreadItem
       key={thread.id}
-      className={i < 3 ? `userflow-thread-${i}` : undefined}
       thread={thread}
       noModal={noModal}
       showIcon={showIcon}

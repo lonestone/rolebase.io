@@ -59,7 +59,6 @@ export default function CirclesGraphOptions({
   return (
     <HStack spacing={2} flexWrap="wrap" {...styleProps}>
       <GraphViewsSelect
-        className="userflow-graph-views"
         value={view}
         onChange={onViewChange}
         {...buttonsProps}

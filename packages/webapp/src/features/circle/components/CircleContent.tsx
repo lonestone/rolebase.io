@@ -126,7 +126,6 @@ export default function CircleContent({ changeTitle, headerIcons }: Props) {
 
           {isMember && (
             <ActionsMenu
-              className="userflow-circle-actions"
               onEdit={canEditRole ? editRoleModal.onOpen : undefined}
               onDelete={
                 canEditCircle && circle.parentId

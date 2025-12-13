@@ -44,7 +44,6 @@ export default function CircleRoleLinkParents() {
       <VStack spacing={2} align="start">
         {parentCircle && (
           <CircleWithLeaderItem
-            className="userflow-direct-parent-circle"
             circle={parentCircle}
             parentCircle={circle}
             participants={participants}
@@ -54,7 +53,6 @@ export default function CircleRoleLinkParents() {
         {invitingParentCircles?.map((invitingCircle, i) => (
           <Flex key={invitingCircle.id} alignItems="center">
             <CircleWithLeaderItem
-              className={`userflow-inviting-parent-circle-${i}`}
               circle={invitingCircle}
               parentCircle={circle}
               participants={participants}

@@ -48,7 +48,6 @@ export default function TasksHeader({
       {onViewChange && (
         <ButtonGroup isAttached variant="outline" size="sm" my={2}>
           <IconTextButton
-            className="userflow-tasks-kanban"
             aria-label={t('TasksHeader.kanban')}
             showText
             icon={<KanbanIcon size={18} />}
@@ -56,7 +55,6 @@ export default function TasksHeader({
             onClick={() => onViewChange(TasksViewTypes.Kanban)}
           />
           <IconTextButton
-            className="userflow-tasks-list"
             aria-label={t('TasksHeader.list')}
             showText
             icon={<TasksListIcon size={18} />}
@@ -83,7 +81,6 @@ export default function TasksHeader({
 
       {showCreateBtn && openCreateTask && isMember && (
         <Button
-          className="userflow-tasks-create"
           size="md"
           colorScheme="blue"
           my={1}

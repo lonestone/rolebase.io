@@ -317,7 +317,6 @@ export default function MeetingsPage() {
             <Menu placement="bottom-end">
               <MenuButton
                 as={Button}
-                className="userflow-meetings-actions"
                 size="sm"
                 variant="outline"
                 fontWeight="normal"
@@ -355,17 +354,13 @@ export default function MeetingsPage() {
                     : t('MeetingsPage.showWeekend')}
                 </MenuItem>
                 <MenuItem
-                  className="userflow-meetings-export"
                   icon={<ExportIcon size={20} />}
                   onClick={exportModal.onOpen}
                 >
                   {t('MeetingsPage.export')}
                 </MenuItem>
                 <Link to="/apps">
-                  <MenuItem
-                    className="userflow-meetings-apps"
-                    icon={<AppsIcon size={20} />}
-                  >
+                  <MenuItem icon={<AppsIcon size={20} />}>
                     {t('MeetingsPage.apps')}
                   </MenuItem>
                 </Link>
@@ -374,7 +369,6 @@ export default function MeetingsPage() {
 
             {isMember && (
               <Button
-                className="userflow-meetings-create"
                 size="md"
                 colorScheme="blue"
                 ml={5}

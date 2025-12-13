@@ -214,7 +214,6 @@ export default function CircleRoleSubCircles() {
         {subCircles?.map((subCircle, i) => (
           <CircleWithLeaderItem
             key={subCircle.id}
-            className={`userflow-circle-${i}`}
             circle={subCircle}
             parentCircle={circle}
             participants={participants}
@@ -224,7 +223,6 @@ export default function CircleRoleSubCircles() {
         {invitedCircles?.map((invitedCircle, i) => (
           <Flex key={invitedCircle.id} alignItems="center">
             <CircleWithLeaderItem
-              className={`userflow-invited-circle-${i}`}
               circle={invitedCircle}
               parentCircle={circle}
               participants={participants}
@@ -262,7 +260,6 @@ export default function CircleRoleSubCircles() {
         <HStack>
           {(canEditSubCircles || canEditSubCirclesParentLinks) && (
             <BaseRoleSearchButton
-              className="userflow-add-role-btn"
               excludeIds={subRolesIds}
               size="sm"
               variant={highlightButton ? 'solid' : 'outline'}
@@ -285,7 +282,6 @@ export default function CircleRoleSubCircles() {
 
           {canEditSubCircles && (
             <CircleSearchButton
-              className="userflow-invite-circle-btn"
               excludeIds={excludedCirclesIds}
               size="sm"
               variant="outline"

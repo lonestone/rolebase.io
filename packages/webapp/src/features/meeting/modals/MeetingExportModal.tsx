@@ -89,7 +89,6 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                   />
                   <InputRightElement>
                     <IconTextButton
-                      className="userflow-copy-url"
                       aria-label={t('common.copy')}
                       icon={<CopyIcon size={20} />}
                       onClick={copyUrl}

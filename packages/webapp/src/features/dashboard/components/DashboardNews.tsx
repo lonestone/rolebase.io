@@ -45,7 +45,6 @@ export default function DashboardNews(boxProps: BoxProps) {
           <ButtonGroup size="sm" variant="outline" spacing={2}>
             {circleId ? (
               <CircleSearchInput
-                className="userflow-tasks-role"
                 value={circleId}
                 placeholder={t('DashboardNews.circle')}
                 maxW="170px"
@@ -54,7 +53,6 @@ export default function DashboardNews(boxProps: BoxProps) {
               />
             ) : (
               <CircleSearchButton
-                className="userflow-tasks-role"
                 rightIcon={<ChevronDownIcon size="1em" />}
                 fontWeight="normal"
                 onSelect={setCircleId}

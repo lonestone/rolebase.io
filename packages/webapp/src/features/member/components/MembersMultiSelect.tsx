@@ -49,10 +49,9 @@ export default function MembersMultiSelect({
 
   return (
     <VStack spacing={2} alignItems="start">
-      {selectedMembers.map((m, i) => (
+      {selectedMembers.map((m) => (
         <CircleMemberLink
           key={m.id}
-          className={`userflow-member-${i}`}
           memberId={m.id}
           circleId={circleId}
           tabIndex={-1}
@@ -77,7 +76,6 @@ export default function MembersMultiSelect({
       {onAdd && (!max || selectedMembers.length < max) ? (
         <MemberSearchButton
           excludeIds={excludeMembersIdsMemo}
-          className="userflow-add-member-btn"
           size="sm"
           variant="outline"
           leftIcon={<CreateIcon size={20} />}

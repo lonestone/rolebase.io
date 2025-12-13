@@ -117,7 +117,6 @@ export default function ThreadsPage() {
                 <MenuButton
                   as={Button}
                   rightIcon={<ChevronDownIcon size="1em" />}
-                  className="userflow-threads-status-filter"
                   fontWeight="normal"
                 >
                   {t(`common.threadStatus.${status ?? threadStatusNotClosed}`)}
@@ -142,7 +141,6 @@ export default function ThreadsPage() {
 
             {isMember && (
               <Button
-                className="userflow-threads-create"
                 size="md"
                 colorScheme="blue"
                 ml={5}

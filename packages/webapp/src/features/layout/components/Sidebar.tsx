@@ -140,24 +140,15 @@ export default function Sidebar() {
 
             {!expand.isOpen && orgId && (
               <>
-                <SidebarTopIconLink
-                  className="userflow-sidebar-news"
-                  to={`${rootPath}news`}
-                  icon={NewsIcon}
-                >
+                <SidebarTopIconLink to={`${rootPath}news`} icon={NewsIcon}>
                   {t('Sidebar.news')}
                 </SidebarTopIconLink>
 
-                <SidebarTopIconLink
-                  className="userflow-sidebar-roles"
-                  to={`${rootPath}roles`}
-                  icon={OrgChartIcon}
-                >
+                <SidebarTopIconLink to={`${rootPath}roles`} icon={OrgChartIcon}>
                   {t('Sidebar.roles')}
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
-                  className="userflow-sidebar-meetings"
                   to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                   icon={MeetingsIcon}
                   alert={!!currentMeetingId}
@@ -166,7 +157,6 @@ export default function Sidebar() {
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
-                  className="userflow-sidebar-threads"
                   to={`${rootPath}threads?member=${currentMember?.id || ''}`}
                   icon={ThreadsIcon}
                 >
@@ -174,7 +164,6 @@ export default function Sidebar() {
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
-                  className="userflow-sidebar-tasks"
                   to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                   icon={TasksIcon}
                 >
@@ -236,24 +225,15 @@ export default function Sidebar() {
 
           {orgId && (
             <>
-              <SidebarItemLink
-                className="userflow-sidebar-news"
-                to={`${rootPath}news`}
-                icon={NewsIcon}
-              >
+              <SidebarItemLink to={`${rootPath}news`} icon={NewsIcon}>
                 {t('Sidebar.news')}
               </SidebarItemLink>
 
-              <SidebarItemLink
-                className="userflow-sidebar-roles"
-                to={`${rootPath}roles`}
-                icon={OrgChartIcon}
-              >
+              <SidebarItemLink to={`${rootPath}roles`} icon={OrgChartIcon}>
                 {t('Sidebar.roles')}
               </SidebarItemLink>
 
               <SidebarItemLink
-                className="userflow-sidebar-meetings"
                 to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                 icon={MeetingsIcon}
                 alert={!!currentMeetingId}
@@ -265,7 +245,6 @@ export default function Sidebar() {
               <SidebarMeetings max={3} />
 
               <SidebarItemLink
-                className="userflow-sidebar-threads"
                 to={`${rootPath}threads?member=${currentMember?.id || ''}`}
                 icon={ThreadsIcon}
                 onAdd={threadModal.onOpen}
@@ -276,7 +255,6 @@ export default function Sidebar() {
               <SidebarThreads />
 
               <SidebarItemLink
-                className="userflow-sidebar-tasks"
                 to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                 icon={TasksIcon}
                 onAdd={taskModal.onOpen}
@@ -293,11 +271,7 @@ export default function Sidebar() {
                 placement="right"
                 hasArrow
               >
-                <SidebarItem
-                  className="userflow-sidebar-search"
-                  icon={SearchIcon}
-                  onClick={searchModal.onOpen}
-                >
+                <SidebarItem icon={SearchIcon} onClick={searchModal.onOpen}>
                   {t('Sidebar.search')}
                 </SidebarItem>
               </Tooltip>
@@ -332,11 +306,7 @@ export default function Sidebar() {
             {t('Sidebar.settings')}
           </SidebarItemLink>
 
-          <SidebarItem
-            className="userflow-sidebar-help"
-            icon={HelpIcon}
-            onClick={handleHelp}
-          >
+          <SidebarItem icon={HelpIcon} onClick={handleHelp}>
             {t('Sidebar.help')}
           </SidebarItem>
 
