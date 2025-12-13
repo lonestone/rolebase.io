@@ -610,7 +610,13 @@
   },
   "MemberContent": {
     "notFound": "Membre introuvable",
-    "memberRolesHeading": "Rôles assignés"
+    "memberRolesHeading": "Rôles assignés",
+    "description": "Description",
+    "descriptionPlaceholder": "Qui est {{name}} ?"
+  },
+  "MemberNameEditable": {
+    "tooltip": "Modifier le nom du membre",
+    "toastSuccess": "Nom du membre modifié"
   },
   "MemberCreateModal": {
     "heading": "Ajouter un membre"
@@ -621,50 +627,58 @@
   },
   "MemberEditModal": {
     "heading": "Modifier le membre {{member}}",
-    "toastInvited": "Vous avez invité {{member}} à rejoindre l'organisation !",
-    "toastReInvited": "Vous avez réinvité {{member}} à rejoindre l'organisation.",
-    "toastRevocated": "Invitation révoquée",
-    "description": "Description",
-    "descriptionPlaceholder": "Qui est {{name}} ?",
     "workingTime": "Temps de travail pour l'organisation",
     "invitation": {
       "heading": "Permissions",
-      "roles": {
-        "None": {
-          "title": "Non invité",
-          "description": "Le membre n'a aucun accès à l'organisation et ne compte pas comme membre actif ou invité. Il peut être utilisé dans l'organigramme."
-        },
-        "Readonly": {
-          "title": "Lecture seule",
-          "description": "Le membre peut uniquement consulter l'organigramme sans pouvoir le modifier. Il peut consulter les réunions, sujets et tâches publics mais ne peut pas y participer."
-        },
-        "Member": {
-          "title": "Membre",
-          "description": "Le membre peut modifier les rôles où il est leader, ou tout modifier si la gouvernance n'est pas protégée (voir paramètres de l'organisation). Il peut participer aux réunions, sujets et tâches."
-        },
-        "Admin": {
-          "title": "Administrateur",
-          "description": "Le membre peut inviter des membres et gérer le partage de l'organigramme."
-        },
-        "Owner": {
-          "title": "Propriétaire",
-          "description": "Le membre peut gérer l'abonnement, nommer des propriétaires et administrateurs, modifier les rôles de base de l'organisation et modifier tout l'organigramme même si la gouvernance est protégée."
-        }
-      },
-      "options": {
-        "revoke": "Révoquer l'invitation",
-        "readonly": "Lecture seule",
-        "member": "Membre",
-        "admin": "Admin",
-        "owner": "Propriétaire"
-      },
-      "awaiting": "Invitation envoyée à {{email}} le {{date}}, en attente d'acceptation.",
-      "resend": "Renvoyer",
-      "revoke": "Révoquer",
-      "invite": "Inviter",
       "email": "Email",
       "emailPlaceholder": "Adresse email..."
     }
+  },
+  "MemberOrgRoleSelect": {
+    "invite": "Inviter à rejoindre l'organisation",
+    "inviteDescription": "Envoyer une invitation à rejoindre l'organisation avec un rôle spécifique",
+    "removeAccess": "Retirer l'accès à l'organisation",
+    "saved": "Rôle mis à jour avec succès",
+    "viewPendingInvitation": "Voir l'invitation en attente",
+    "roles": {
+      "Readonly": {
+        "title": "Lecture seule",
+        "description": "Le membre peut uniquement consulter l'organigramme sans pouvoir le modifier. Il peut consulter les réunions, sujets et tâches publics mais ne peut pas y participer."
+      },
+      "Member": {
+        "title": "Membre",
+        "description": "Le membre peut modifier les rôles où il est leader, ou tout modifier si la gouvernance n'est pas protégée (voir paramètres de l'organisation). Il peut participer aux réunions, sujets et tâches."
+      },
+      "Admin": {
+        "title": "Administrateur",
+        "description": "Le membre peut inviter des membres et gérer le partage de l'organigramme."
+      },
+      "Owner": {
+        "title": "Propriétaire",
+        "description": "Le membre peut gérer l'abonnement, nommer des propriétaires et administrateurs, modifier les rôles de base de l'organisation et modifier tout l'organigramme même si la gouvernance est protégée."
+      }
+    }
+  },
+  "MemberRemoveAccessModal": {
+    "title": "Retirer l'accès à l'organisation",
+    "description": "Êtes-vous sûr de vouloir retirer l'accès de {{name}} à cette organisation ? Il ne pourra plus consulter ni participer à aucune activité.",
+    "confirm": "Retirer l'accès",
+    "success": "Accès retiré avec succès"
+  },
+  "MemberInviteModal": {
+    "heading": "Inviter un membre",
+    "email": "Email",
+    "emailPlaceholder": "membre@exemple.com",
+    "invite": "Envoyer l'invitation",
+    "toastInvited": "Vous avez invité {{member}} à rejoindre l'organisation !"
+  },
+  "MemberInvitationModal": {
+    "heading": "Invitation en attente pour {{member}}",
+    "awaiting": "Invitation envoyée à {{email}} le {{date}}, en attente d'acceptation.",
+    "resend": "Envoyer à nouveau",
+    "revoke": "Révoquer l'invitation",
+    "toastReInvited": "Vous avez réinvité {{member}} à rejoindre l'organisation.",
+    "toastRevocated": "Invitation révoquée"
   },
   "MemberInvitationPage": {
     "title": "Invitation à rejoindre l'organisation {{orgName}}",

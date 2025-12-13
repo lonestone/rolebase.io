@@ -2,7 +2,6 @@ import {
   AVATAR_HEADING_WIDTH,
   getResizedImageUrl,
 } from '@/common/api/storage_images'
-import ActionsMenu from '@/common/atoms/ActionsMenu'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import { Title } from '@/common/atoms/Title'
 import { useAuth } from '@/user/hooks/useAuth'
@@ -16,14 +15,14 @@ import {
   Heading,
   ModalCloseButton,
   VStack,
-  useDisclosure,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import useMember from '../hooks/useMember'
 import useOrgAdmin from '../hooks/useOrgAdmin'
-import MemberEditModal from './MemberEditModal'
 import { MemberEditableField } from './MemberEditableField'
+import MemberNameEditable from './MemberNameEditable'
+import MemberOrgRoleSelect from './MemberOrgRoleSelect'
 import MemberPictureEdit from './MemberPictureEdit'
 import MemberRoles from './MemberRoles'
 import MemberWorkingTime from './MemberWorkingTime'
@@ -47,13 +46,6 @@ export default function MemberContent({
   const isAdmin = useOrgAdmin()
   const canEdit = isAdmin || (user ? member?.userId === user.id : false)
 
-  // Edit modal
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
-
   if (!member) {
     return (
       <>
@@ -72,7 +64,6 @@ export default function MemberContent({
 
       <Box pt={3} pb={10} position="relative">
         <Box position="absolute" top={2} right={2}>
-          {canEdit && <ActionsMenu onEdit={onEditOpen} />}
           {headerIcons}
           <ModalCloseStaticButton />
         </Box>
@@ -99,17 +90,17 @@ export default function MemberContent({
             />
           )}
 
-          <Heading as="h2" size="md" textAlign="center" mt={2}>
-            {member.name}
-          </Heading>
+          <MemberNameEditable member={member} isDisabled={!canEdit} mt={2} />
+
+          {canEdit && <MemberOrgRoleSelect member={member} size="sm" mt={2} />}
         </Flex>
       </Box>
 
-      <Box px={6} pb={7}>
+      <Box px={6}>
         <VStack spacing={5} align="stretch">
           <MemberEditableField
-            label={t('MemberEditModal.description')}
-            placeholder={t('MemberEditModal.descriptionPlaceholder', {
+            label={t('MemberContent.description')}
+            placeholder={t('MemberContent.descriptionPlaceholder', {
               name: member.name,
             })}
             member={member}
@@ -137,8 +128,6 @@ export default function MemberContent({
           </Box>
         </VStack>
       </Box>
-
-      {isEditOpen && <MemberEditModal id={id} isOpen onClose={onEditClose} />}
     </>
   )
 }

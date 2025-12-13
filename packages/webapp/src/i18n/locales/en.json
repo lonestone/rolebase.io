@@ -576,7 +576,13 @@
   },
   "MemberContent": {
     "notFound": "Member not found",
-    "memberRolesHeading": "Assigned roles"
+    "memberRolesHeading": "Assigned roles",
+    "description": "Description",
+    "descriptionPlaceholder": "Who is {{name}}?"
+  },
+  "MemberNameEditable": {
+    "tooltip": "Edit member name",
+    "toastSuccess": "Member name updated"
   },
   "MemberCreateModal": {
     "heading": "Add Member"
@@ -587,50 +593,58 @@
   },
   "MemberEditModal": {
     "heading": "Edit member {{member}}",
-    "toastInvited": "You have invited {{member}} to join the organization!",
-    "toastReInvited": "You have re-invited {{member}} to join the organization.",
-    "toastRevocated": "Invite revoked",
-    "description": "Description",
-    "descriptionPlaceholder": "Who is {{name}}?",
     "workingTime": "Working time for organization",
     "invitation": {
       "heading": "Permissions",
-      "roles": {
-        "None": {
-          "title": "Not invited",
-          "description": "The member has no access to the organization and does not count as an active or invited member. Can be used in the org chart."
-        },
-        "Readonly": {
-          "title": "Read only",
-          "description": "The member can only view the org chart without being able to modify it. Can view public meetings, topics, and tasks but cannot participate."
-        },
-        "Member": {
-          "title": "Member",
-          "description": "The member can modify roles where they are leader, or edit everything if governance is not protected (see organization settings). Can participate in meetings, topics, and tasks."
-        },
-        "Admin": {
-          "title": "Admin",
-          "description": "The member can invite members and manage org chart sharing."
-        },
-        "Owner": {
-          "title": "Owner",
-          "description": "The member can manage subscription, appoint owners and admins, modify organization base roles, and edit the entire org chart even if governance is protected."
-        }
-      },
-      "options": {
-        "revoke": "Revoke invitation",
-        "readonly": "Read only",
-        "member": "Member",
-        "admin": "Admin",
-        "owner": "Owner"
-      },
-      "awaiting": "Invitation sent to {{email}} on {{date}}, awaiting acceptance.",
-      "resend": "Resend",
-      "revoke": "Revoke",
-      "invite": "Invite",
       "email": "Email",
       "emailPlaceholder": "Email address..."
     }
+  },
+  "MemberOrgRoleSelect": {
+    "invite": "Invite",
+    "inviteDescription": "Send an invitation to join the organization with a specific role",
+    "removeAccess": "Remove access to organization",
+    "saved": "Role updated successfully",
+    "viewPendingInvitation": "View pending invitation",
+    "roles": {
+      "Readonly": {
+        "title": "Read only",
+        "description": "The member can only view the org chart without being able to modify it. Can view public meetings, topics, and tasks but cannot participate."
+      },
+      "Member": {
+        "title": "Member",
+        "description": "The member can modify roles where they are leader, or edit everything if governance is not protected (see organization settings). Can participate in meetings, topics, and tasks."
+      },
+      "Admin": {
+        "title": "Admin",
+        "description": "The member can invite members and manage org chart sharing."
+      },
+      "Owner": {
+        "title": "Owner",
+        "description": "The member can manage subscription, appoint owners and admins, modify organization base roles, and edit the entire org chart even if governance is protected."
+      }
+    }
+  },
+  "MemberRemoveAccessModal": {
+    "title": "Remove access to organization",
+    "description": "Are you sure you want to remove {{name}}'s access to this organization? They will no longer be able to view or participate in any activities.",
+    "confirm": "Remove access",
+    "success": "Access removed successfully"
+  },
+  "MemberInviteModal": {
+    "heading": "Invite member",
+    "email": "Email",
+    "emailPlaceholder": "member@example.com",
+    "invite": "Send invitation",
+    "toastInvited": "You have invited {{member}} to join the organization!"
+  },
+  "MemberInvitationModal": {
+    "heading": "Pending invitation for {{member}}",
+    "awaiting": "Invitation sent to {{email}} on {{date}}, awaiting acceptance.",
+    "resend": "Send again",
+    "revoke": "Revoke invitation",
+    "toastReInvited": "You have re-invited {{member}} to join the organization.",
+    "toastRevocated": "Invite revoked"
   },
   "MemberInvitationPage": {
     "title": "Invitation to join organization {{orgName}}",

@@ -18,27 +18,28 @@ import {
   InputRightElement,
   LinkBox,
   Spacer,
-  Tag,
   useDisclosure,
 } from '@chakra-ui/react'
-import { Member_Role_Enum } from '@gql'
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import { SearchTypes } from '@rolebase/shared/model/search'
 import { useStoreState } from '@store/hooks'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon, EditIcon, EmailIcon } from 'src/icons'
 import MemberEditModal from '../components/MemberEditModal'
 import MemberLinkOverlay from '../components/MemberLinkOverlay'
+import MemberOrgRoleSelect from '../components/MemberOrgRoleSelect'
 import useOrgAdmin from '../hooks/useOrgAdmin'
 import MemberCreateModal from '../modals/MemberCreateModal'
 import MembersInviteModal from '../modals/MembersInviteModal'
+import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 
 export default function MembersPage() {
   const { t } = useTranslation()
   const isAdmin = useOrgAdmin()
   const members = useStoreState((state) => state.org.members)
   const hover = useHoverItemStyle()
+  const circleMemberContext = useContext(CircleMemberContext)
 
   // Create modal
   const {
@@ -53,19 +54,6 @@ export default function MembersPage() {
     onOpen: onInviteOpen,
     onClose: onInviteClose,
   } = useDisclosure()
-
-  // Edit modal
-  const [editMemberId, setEditMemberId] = useState<string | undefined>()
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
-
-  const handleOpenEdit = (id: string) => {
-    setEditMemberId(id)
-    onEditOpen()
-  }
 
   // Search
   const { items, search, loading } = useAlgoliaSearch()
@@ -156,55 +144,7 @@ export default function MembersPage() {
             <LinkBox key={member.id} px={2} py={1} _hover={hover}>
               <HStack>
                 <MemberLinkOverlay member={member} />
-
-                {member.userId ? (
-                  <>
-                    {member.role === Member_Role_Enum.Readonly && (
-                      <Tag colorScheme="gray">
-                        {t('MembersPage.tags.readonly')}
-                      </Tag>
-                    )}
-                    {member.role === Member_Role_Enum.Member && (
-                      <Tag colorScheme="blue">
-                        {t('MembersPage.tags.member')}
-                      </Tag>
-                    )}
-                    {member.role === Member_Role_Enum.Admin && (
-                      <Tag colorScheme="red">{t('MembersPage.tags.admin')}</Tag>
-                    )}
-                    {member.role === Member_Role_Enum.Owner && (
-                      <Tag colorScheme="purple">
-                        {t('MembersPage.tags.owner')}
-                      </Tag>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {member.inviteDate ? (
-                      <Tag colorScheme="transparent">
-                        {t('MembersPage.tags.invited')}
-                      </Tag>
-                    ) : (
-                      <Tag
-                        colorScheme="transparent"
-                        color="gray.500"
-                        _dark={{ color: 'gray.300' }}
-                      >
-                        {t('MembersPage.tags.notInvited')}
-                      </Tag>
-                    )}
-                  </>
-                )}
-
-                {isAdmin && (
-                  <IconButton
-                    aria-label={t('common.edit')}
-                    size="sm"
-                    icon={<EditIcon size={18} />}
-                    zIndex={2}
-                    onClick={() => handleOpenEdit(member.id)}
-                  />
-                )}
+                <MemberOrgRoleSelect member={member} size="sm" />
               </HStack>
             </LinkBox>
           ))}
@@ -217,17 +157,11 @@ export default function MembersPage() {
         <MemberCreateModal
           isOpen
           onClose={onCreateClose}
-          onCreate={(id) => handleOpenEdit(id)}
+          onCreate={(id) => circleMemberContext?.goTo(undefined, id)}
         />
       )}
 
       {isInviteOpen && <MembersInviteModal isOpen onClose={onInviteClose} />}
-
-      {isEditOpen &&
-        editMemberId &&
-        members?.some((m) => m.id === editMemberId) && (
-          <MemberEditModal id={editMemberId} isOpen onClose={onEditClose} />
-        )}
     </>
   )
 }

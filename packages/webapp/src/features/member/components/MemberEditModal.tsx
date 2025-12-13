@@ -7,11 +7,7 @@ import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import EditorController from '@/editor/components/EditorController'
 import useCreateLog from '@/log/hooks/useCreateLog'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
-import SubscriptionReachedMemberLimitModal from '@/orgSubscription/modals/SubscriptionReachedMemberLimitModal'
 import {
-  Alert,
-  AlertIcon,
-  Box,
   Button,
   Flex,
   FormControl,
@@ -25,27 +21,23 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
-  Text,
   UseModalProps,
   VStack,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react'
-import { Member_Role_Enum, useUpdateMemberMutation } from '@gql'
+import { useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getEntityChanges } from '@rolebase/shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { nameSchema } from '@rolebase/shared/schemas'
-import { format } from 'date-fns'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { trpc } from 'src/trpc'
 import * as yup from 'yup'
 import useMember from '../hooks/useMember'
 import useOrgAdmin from '../hooks/useOrgAdmin'
 import MemberDeleteModal from '../modals/MemberDeleteModal'
-import MemberOrgRoleCard from './MemberOrgRoleCard'
+import MemberOrgRoleSelect from './MemberOrgRoleSelect'
 import MemberPictureEdit from './MemberPictureEdit'
 
 interface Props extends UseModalProps {
@@ -56,8 +48,6 @@ interface Values {
   name: string
   description: string
   workedMinPerWeek?: number | null
-  role: Member_Role_Enum | ''
-  inviteEmail: string
 }
 
 const resolver = yupResolver(
@@ -65,7 +55,6 @@ const resolver = yupResolver(
     name: nameSchema.required(),
     description: yup.string(),
     workedMinPerWeek: yup.number().nullable(),
-    inviteEmail: yup.string().email(),
   })
 )
 
@@ -74,19 +63,15 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const member = useMember(id)
   const org = useCurrentOrg()
   const isAdmin = useOrgAdmin()
-  const toast = useToast()
   const createLog = useCreateLog()
   const [updateMember] = useUpdateMemberMutation()
 
   const deleteModal = useDisclosure()
-  const limitReachedModal = useDisclosure()
 
   const {
     handleSubmit,
     register,
     control,
-    watch,
-    setValue,
     formState: { errors },
   } = useForm<Values>({
     resolver,
@@ -94,126 +79,40 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
       name: member.name,
       description: member.description,
       workedMinPerWeek: member.workedMinPerWeek || null,
-      role: member.role || '',
-      inviteEmail: '',
     },
   })
 
   const [loading, setLoading] = useState(false)
-  const role = watch('role')
 
-  const onSubmit = handleSubmit(
-    async ({ role, inviteEmail, ...memberUpdate }) => {
-      if (!org || !member) return
+  const onSubmit = handleSubmit(async (memberUpdate) => {
+    if (!org || !member) return
 
-      setLoading(true)
-
-      // Update member data
-      await updateMember({ variables: { id, values: memberUpdate } })
-
-      // Log change
-      createLog({
-        display: {
-          type: LogType.MemberUpdate,
-          id,
-          name: member.name,
-        },
-        changes: {
-          members: [
-            {
-              type: EntityChangeType.Update,
-              id,
-              ...getEntityChanges(member, memberUpdate),
-            },
-          ],
-        },
-      })
-
-      // Change role
-      try {
-        const newRole = role || undefined
-        if (newRole !== member.role) {
-          if (member.userId) {
-            // Update role
-            await trpc.member.updateMemberRole.mutate({
-              memberId: id,
-              role: newRole,
-            })
-          } else if (newRole && inviteEmail) {
-            // Invite member
-            await trpc.member.inviteMember.mutate({
-              memberId: member.id,
-              role: newRole,
-              email: inviteEmail,
-            })
-            toast({
-              title: t('MemberEditModal.toastInvited', {
-                member: member.name,
-              }),
-              status: 'success',
-              duration: 4000,
-              isClosable: true,
-            })
-          }
-        }
-
-        modalProps.onClose()
-      } catch (error: any) {
-        if (error?.response?.status === 402) {
-          limitReachedModal.onOpen()
-        } else {
-          toast({
-            title: t('common.error'),
-            description: error?.response?.data || error?.message || undefined,
-            status: 'error',
-          })
-        }
-      }
-      setLoading(false)
-    }
-  )
-
-  const handleReInvite = useCallback(async () => {
-    if (!member?.inviteEmail || !member.role) return
     setLoading(true)
-    try {
-      await trpc.member.inviteMember.mutate({
-        memberId: member.id,
-        role: member.role,
-        email: member.inviteEmail,
-      })
-      toast({
-        title: t('MemberEditModal.toastReInvited', {
-          member: member.name,
-        }),
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      })
-    } catch (error: any) {
-      toast({
-        title: t('common.error'),
-        description: error?.response?.data || error?.message || undefined,
-        status: 'error',
-      })
-    }
-    setLoading(false)
-  }, [member])
 
-  const handleRevokeInvite = useCallback(async () => {
-    if (!member?.inviteEmail || !member.role) return
-    setLoading(true)
-    await trpc.member.updateMemberRole.mutate({
-      memberId: member.id,
+    // Update member data
+    await updateMember({ variables: { id, values: memberUpdate } })
+
+    // Log change
+    createLog({
+      display: {
+        type: LogType.MemberUpdate,
+        id,
+        name: member.name,
+      },
+      changes: {
+        members: [
+          {
+            type: EntityChangeType.Update,
+            id,
+            ...getEntityChanges(member, memberUpdate),
+          },
+        ],
+      },
     })
+
+    modalProps.onClose()
     setLoading(false)
-    toast({
-      title: t('MemberEditModal.toastRevocated'),
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    })
-  }, [member])
+  })
 
   if (!member) return null
 
@@ -276,94 +175,12 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
               </FormControl>
 
               {isAdmin && (
-                <>
-                  <FormControl>
-                    <FormLabel>
-                      {t('MemberEditModal.invitation.heading')}
-                    </FormLabel>
-                    <VStack spacing={2} align="stretch">
-                      <MemberOrgRoleCard
-                        role={undefined}
-                        isSelected={!role}
-                        onClick={() => setValue('role', '')}
-                      />
-                      <MemberOrgRoleCard
-                        role={Member_Role_Enum.Readonly}
-                        isSelected={role === Member_Role_Enum.Readonly}
-                        onClick={() =>
-                          setValue('role', Member_Role_Enum.Readonly)
-                        }
-                      />
-                      <MemberOrgRoleCard
-                        role={Member_Role_Enum.Member}
-                        isSelected={role === Member_Role_Enum.Member}
-                        onClick={() =>
-                          setValue('role', Member_Role_Enum.Member)
-                        }
-                      />
-                      <MemberOrgRoleCard
-                        role={Member_Role_Enum.Admin}
-                        isSelected={role === Member_Role_Enum.Admin}
-                        onClick={() => setValue('role', Member_Role_Enum.Admin)}
-                      />
-                      <MemberOrgRoleCard
-                        role={Member_Role_Enum.Owner}
-                        isSelected={role === Member_Role_Enum.Owner}
-                        onClick={() => setValue('role', Member_Role_Enum.Owner)}
-                      />
-                    </VStack>
-                  </FormControl>
-
-                  {role &&
-                    (member.userId ? (
-                      <FormControl isInvalid={!!errors.inviteEmail}>
-                        <FormLabel>
-                          {t('MemberEditModal.invitation.email')}
-                        </FormLabel>
-                        <Text>{member.inviteEmail}</Text>
-                      </FormControl>
-                    ) : member.inviteDate && member.inviteEmail ? (
-                      <Alert status="info">
-                        <AlertIcon />
-                        <Box>
-                          {t('MemberEditModal.invitation.awaiting', {
-                            email: member.inviteEmail,
-                            date: format(new Date(member.inviteDate), 'P'),
-                          })}
-                          <Button
-                            variant="link"
-                            colorScheme="blue"
-                            ml={3}
-                            isLoading={loading}
-                            onClick={handleReInvite}
-                          >
-                            {t('MemberEditModal.invitation.resend')}
-                          </Button>
-                          <Button
-                            variant="link"
-                            colorScheme="blue"
-                            ml={3}
-                            isLoading={loading}
-                            onClick={handleRevokeInvite}
-                          >
-                            {t('MemberEditModal.invitation.revoke')}
-                          </Button>
-                        </Box>
-                      </Alert>
-                    ) : (
-                      <FormControl isInvalid={!!errors.inviteEmail}>
-                        <FormLabel>
-                          {t('MemberEditModal.invitation.email')}
-                        </FormLabel>
-                        <Input
-                          {...register('inviteEmail')}
-                          placeholder={t(
-                            'MemberEditModal.invitation.emailPlaceholder'
-                          )}
-                        />
-                      </FormControl>
-                    ))}
-                </>
+                <FormControl>
+                  <FormLabel>
+                    {t('MemberEditModal.invitation.heading')}
+                  </FormLabel>
+                  <MemberOrgRoleSelect member={member} />
+                </FormControl>
               )}
             </VStack>
           </ModalBody>
@@ -383,13 +200,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      {limitReachedModal.isOpen && (
-        <SubscriptionReachedMemberLimitModal
-          isOpen
-          onClose={limitReachedModal.onClose}
-        />
-      )}
 
       {deleteModal.isOpen && (
         <MemberDeleteModal
