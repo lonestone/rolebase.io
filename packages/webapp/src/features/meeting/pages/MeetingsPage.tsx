@@ -331,18 +331,22 @@ export default function MeetingsPage() {
                 fontWeight="normal"
                 zIndex={1000}
               >
-                <MenuItem
-                  icon={<CopyIcon size={20} />}
-                  onClick={templatesModal.onOpen}
-                >
-                  {t('MeetingsPage.templates')}
-                </MenuItem>
-                <MenuItem
-                  icon={<MeetingRecurringIcon size={20} />}
-                  onClick={recurringListModal.onOpen}
-                >
-                  {t('MeetingsPage.recurring')}
-                </MenuItem>
+                {isMember && (
+                  <>
+                    <MenuItem
+                      icon={<CopyIcon size={20} />}
+                      onClick={templatesModal.onOpen}
+                    >
+                      {t('MeetingsPage.templates')}
+                    </MenuItem>
+                    <MenuItem
+                      icon={<MeetingRecurringIcon size={20} />}
+                      onClick={recurringListModal.onOpen}
+                    >
+                      {t('MeetingsPage.recurring')}
+                    </MenuItem>
+                  </>
+                )}
                 <MenuItem
                   icon={
                     weekend ? <HideIcon size={20} /> : <ShowIcon size={20} />

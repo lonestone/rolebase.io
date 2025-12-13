@@ -55,6 +55,7 @@ import SidebarThreads from './SidebarThreads'
 import SidebarTopIcon from './SidebarTopIcon'
 import SidebarTopIconLink from './SidebarTopIconLink'
 import UserSettingsMenuList from './UserSettingsMenuList'
+import useOrgMember from '@/member/hooks/useOrgMember'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -71,6 +72,7 @@ export default function Sidebar() {
     (state) => state.memberStatus.currentMeetingId
   )
   const navigate = useNavigateOrg()
+  const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const isOwner = useOrgOwner()
 
@@ -237,7 +239,7 @@ export default function Sidebar() {
                 to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                 icon={MeetingsIcon}
                 alert={!!currentMeetingId}
-                onAdd={meetingModal.onOpen}
+                onAdd={isMember ? meetingModal.onOpen : undefined}
               >
                 {t('Sidebar.meetings')}
               </SidebarItemLink>
@@ -247,7 +249,7 @@ export default function Sidebar() {
               <SidebarItemLink
                 to={`${rootPath}threads?member=${currentMember?.id || ''}`}
                 icon={ThreadsIcon}
-                onAdd={threadModal.onOpen}
+                onAdd={isMember ? threadModal.onOpen : undefined}
               >
                 {t('Sidebar.threads')}
               </SidebarItemLink>
@@ -257,7 +259,7 @@ export default function Sidebar() {
               <SidebarItemLink
                 to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                 icon={TasksIcon}
-                onAdd={taskModal.onOpen}
+                onAdd={isMember ? taskModal.onOpen : undefined}
               >
                 {t('Sidebar.tasks')}
               </SidebarItemLink>
