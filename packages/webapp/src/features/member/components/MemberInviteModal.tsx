@@ -72,7 +72,9 @@ export default function MemberInviteModal({
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleConfirm}>
-            <ModalHeader>{t('MemberInviteModal.heading')}</ModalHeader>
+            <ModalHeader>
+              {t('MemberInviteModal.heading', { member: member.name })}
+            </ModalHeader>
             <ModalBody>
               <FormControl>
                 <FormLabel>{t('MemberInviteModal.email')}</FormLabel>

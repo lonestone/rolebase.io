@@ -665,7 +665,7 @@
     "success": "Accès retiré avec succès"
   },
   "MemberInviteModal": {
-    "heading": "Inviter un membre",
+    "heading": "Inviter {{member}}",
     "email": "Email",
     "emailPlaceholder": "membre@exemple.com",
     "invite": "Envoyer l'invitation",

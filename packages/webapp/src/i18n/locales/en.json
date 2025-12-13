@@ -631,7 +631,7 @@
     "success": "Access removed successfully"
   },
   "MemberInviteModal": {
-    "heading": "Invite member",
+    "heading": "Invite {{member}}",
     "email": "Email",
     "emailPlaceholder": "member@example.com",
     "invite": "Send invitation",
