@@ -635,11 +635,11 @@
   },
   "MemberOrgRoleSelect": {
     "invite": "Inviter à rejoindre l'organisation",
-    "inviteDescription": "Envoyer une invitation à rejoindre l'organisation avec un rôle spécifique",
     "removeAccess": "Retirer l'accès à l'organisation",
-    "saved": "Rôle mis à jour avec succès",
+    "saved": "Permission mise à jour avec succès",
     "viewPendingInvitation": "Voir l'invitation en attente",
     "roles": {
+      "title": "Changer la permission",
       "Readonly": {
         "title": "Lecture seule",
         "description": "Le membre peut uniquement consulter l'organigramme sans pouvoir le modifier. Il peut consulter les réunions, sujets et tâches publics mais ne peut pas y participer."

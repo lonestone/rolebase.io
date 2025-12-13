@@ -601,11 +601,11 @@
   },
   "MemberOrgRoleSelect": {
     "invite": "Invite",
-    "inviteDescription": "Send an invitation to join the organization with a specific role",
     "removeAccess": "Remove access to organization",
-    "saved": "Role updated successfully",
+    "saved": "Permission updated successfully",
     "viewPendingInvitation": "View pending invitation",
     "roles": {
+      "title": "Change permission",
       "Readonly": {
         "title": "Read only",
         "description": "The member can only view the org chart without being able to modify it. Can view public meetings, topics, and tasks but cannot participate."

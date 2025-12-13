@@ -6,6 +6,7 @@ import {
   Menu,
   MenuButton,
   MenuDivider,
+  MenuGroup,
   MenuItem,
   MenuList,
   Text,
@@ -131,21 +132,23 @@ export default function MemberOrgRoleSelect({
                 t(`MemberOrgRoleSelect.roles.${currentRole}.title`)}
             </MenuButton>
             <MenuList zIndex={10} shadow="lg">
-              {ROLES.map((role) => (
-                <MenuItem key={role} onClick={() => handleRoleChange(role)}>
-                  <Text flex={1}>
-                    {t(`MemberOrgRoleSelect.roles.${role}.title`)}
-                  </Text>
-                  <Tooltip
-                    label={t(`MemberOrgRoleSelect.roles.${role}.description`)}
-                    placement="left"
-                  >
-                    <span>
-                      <Icon as={FiHelpCircle} ml={2} color="gray.500" />
-                    </span>
-                  </Tooltip>
-                </MenuItem>
-              ))}
+              <MenuGroup title={t('MemberOrgRoleSelect.roles.title')}>
+                {ROLES.map((role) => (
+                  <MenuItem key={role} onClick={() => handleRoleChange(role)}>
+                    <Text flex={1}>
+                      {t(`MemberOrgRoleSelect.roles.${role}.title`)}
+                    </Text>
+                    <Tooltip
+                      label={t(`MemberOrgRoleSelect.roles.${role}.description`)}
+                      placement="left"
+                    >
+                      <span>
+                        <Icon as={FiHelpCircle} ml={2} color="gray.500" />
+                      </span>
+                    </Tooltip>
+                  </MenuItem>
+                ))}
+              </MenuGroup>
               <MenuDivider />
               <MenuItem onClick={() => handleRoleChange('')}>
                 <Icon as={FiX} mr={2} color="red.500" />
