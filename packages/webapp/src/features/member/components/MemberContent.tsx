@@ -44,6 +44,8 @@ export default function MemberContent({
   const member = useMember(id)
   const isAdmin = useOrgAdmin()
   const canEdit = isAdmin || (user ? member?.userId === user.id : false)
+  const avatarSrc =
+    getResizedImageUrl(member?.picture, AVATAR_HEADING_WIDTH) || undefined
 
   if (!member) {
     return (
@@ -72,20 +74,16 @@ export default function MemberContent({
             <MemberPictureEdit
               id={id}
               name={member.name}
-              src={
-                getResizedImageUrl(member.picture, AVATAR_HEADING_WIDTH) ||
-                undefined
-              }
+              src={avatarSrc}
               size="2xl"
+              key={member.id /* force re-render when member changes */}
             />
           ) : (
             <Avatar
               name={member.name}
-              src={
-                getResizedImageUrl(member.picture, AVATAR_HEADING_WIDTH) ||
-                undefined
-              }
+              src={avatarSrc}
               size="2xl"
+              key={member.id /* force re-render when member changes */}
             />
           )}
 

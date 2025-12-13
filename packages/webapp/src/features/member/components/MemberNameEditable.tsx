@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { MemberFragment, useUpdateMemberMutation } from '@gql'
 import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props extends StyleProps {
@@ -31,6 +31,10 @@ export default function MemberNameEditable({
   const hoverStyle = useHoverItemStyle()
 
   const [value, setValue] = useState(member.name)
+
+  useEffect(() => {
+    setValue(member.name)
+  }, [member.name])
 
   const handleSave = async () => {
     if (value === member.name) return
