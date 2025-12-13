@@ -6,18 +6,17 @@ The `org` entity represents an organization in Rolebase. It is the top-level ent
 
 ## Fields
 
-| Field Name                | Type      | Description                                  | Default           |
-| ------------------------- | --------- | -------------------------------------------- | ----------------- |
-| `id`                      | UUID      | Unique identifier for the organization       | Auto-generated    |
-| `name`                    | String    | Name of the organization                     | Required          |
-| `slug`                    | String    | URL-friendly unique identifier               | Optional          |
-| `archived`                | Boolean   | Whether the organization is archived         | `false`           |
-| `createdAt`               | Timestamp | When the organization was created            | Current timestamp |
-| `defaultWorkedMinPerWeek` | Integer   | Default working minutes per week for members | Required          |
-| `defaultGraphView`        | String    | Default graph view setting                   | Optional          |
-| `protectGovernance`       | Boolean   | Whether governance is protected              | `false`           |
-| `shareMembers`            | Boolean   | Whether member information is shared         | `false`           |
-| `shareOrg`                | Boolean   | Whether organization information is shared   | `false`           |
+| Field Name          | Type      | Description                                | Default           |
+| ------------------- | --------- | ------------------------------------------ | ----------------- |
+| `id`                | UUID      | Unique identifier for the organization     | Auto-generated    |
+| `name`              | String    | Name of the organization                   | Required          |
+| `slug`              | String    | URL-friendly unique identifier             | Optional          |
+| `archived`          | Boolean   | Whether the organization is archived       | `false`           |
+| `createdAt`         | Timestamp | When the organization was created          | Current timestamp |
+| `defaultGraphView`  | String    | Default graph view setting                 | Optional          |
+| `protectGovernance` | Boolean   | Whether governance is protected            | `false`           |
+| `shareMembers`      | Boolean   | Whether member information is shared       | `false`           |
+| `shareOrg`          | Boolean   | Whether organization information is shared | `false`           |
 
 ## Relationships
 
@@ -53,7 +52,6 @@ query GetOrganization($id: uuid!) {
     slug
     archived
     createdAt
-    defaultWorkedMinPerWeek
     members {
       id
       name
@@ -100,4 +98,3 @@ The organization entity has different access levels based on user roles:
 - The `slug` field must be unique across all organizations
 - When `protectGovernance` is enabled, only specific roles can modify governance-related entities
 - `shareMembers` and `shareOrg` control visibility of organization data to external users
-- `defaultWorkedMinPerWeek` is used as the default value for new member work time allocations

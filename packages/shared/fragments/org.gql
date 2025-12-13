@@ -3,7 +3,6 @@ fragment Org on org {
   name
   archived
   createdAt
-  defaultWorkedMinPerWeek
   slug
   shareOrg
   shareMembers
@@ -34,7 +33,6 @@ fragment OrgFullLight on org {
     members(where: { archived: { _eq: false } }) {
       id
       memberId
-      avgMinPerWeek
     }
     invitedCircleLinks {
       invitedCircle {

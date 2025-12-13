@@ -73,7 +73,6 @@ export default function OrgPage() {
             archived: false,
             createdAt: new Date().toISOString(),
             name: 'Org',
-            defaultWorkedMinPerWeek: 0,
             defaultGraphView: view,
             shareMembers: true,
             shareOrg: true,
@@ -84,7 +83,6 @@ export default function OrgPage() {
               members: c.members.map((m) => ({
                 ...m,
                 archived: false,
-                avgMinPerWeek: 0,
               })),
             })),
             roles: data.roles,

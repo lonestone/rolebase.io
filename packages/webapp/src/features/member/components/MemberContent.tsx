@@ -25,7 +25,6 @@ import MemberNameEditable from './MemberNameEditable'
 import MemberOrgRoleSelect from './MemberOrgRoleSelect'
 import MemberPictureEdit from './MemberPictureEdit'
 import MemberRoles from './MemberRoles'
-import MemberWorkingTime from './MemberWorkingTime'
 
 interface Props {
   id: string
@@ -124,7 +123,6 @@ export default function MemberContent({
               mx={-4}
               mb={10}
             />
-            <MemberWorkingTime member={member} />
           </Box>
         </VStack>
       </Box>

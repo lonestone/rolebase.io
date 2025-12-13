@@ -110,7 +110,6 @@ select_permissions:
         - archived
         - createdAt
         - defaultGraphView
-        - defaultWorkedMinPerWeek
         - id
         - name
         - protectGovernance
@@ -127,7 +126,6 @@ update_permissions:
     permission:
       columns:
         - defaultGraphView
-        - defaultWorkedMinPerWeek
         - name
         - protectGovernance
         - shareMembers

@@ -5,7 +5,6 @@ export const org: OrgFragment = {
   name: 'SuperOrga',
   archived: false,
   createdAt: new Date().toISOString(),
-  defaultWorkedMinPerWeek: 35 * 60,
   shareOrg: false,
   shareMembers: false,
   protectGovernance: false,

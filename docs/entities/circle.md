@@ -128,7 +128,6 @@ Circle members are managed through the `circle_member` entity, which has the fol
 
 - `circleId`: Reference to the circle
 - `memberId`: Reference to the member
-- `avgMinPerWeek`: Average minutes per week allocated to this circle
 - `archived`: Whether the membership is archived
 
 ## Circle Leaders

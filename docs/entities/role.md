@@ -6,23 +6,22 @@ The `role` entity represents a role within an organization in Rolebase. Roles de
 
 ## Fields
 
-| Field Name          | Type     | Description                                      | Default        |
-| ------------------- | -------- | ------------------------------------------------ | -------------- |
-| `id`                | UUID     | Unique identifier for the role                   | Auto-generated |
-| `orgId`             | UUID     | Reference to the organization                    | Required       |
-| `name`              | String   | Name of the role                                 | Required       |
-| `purpose`           | String   | The role's purpose or mission                    | Required       |
-| `domain`            | String   | Areas of authority and control                   | Required       |
-| `accountabilities`  | String   | List of accountabilities                         | Required       |
-| `checklist`         | String   | Checklist of responsibilities                    | Required       |
-| `indicators`        | String   | Performance indicators                           | Required       |
-| `notes`             | String   | Additional notes                                 | Required       |
-| `archived`          | Boolean  | Whether the role is archived                     | `false`        |
-| `base`              | Boolean  | Whether this is a base role                      | `false`        |
-| `singleMember`      | Boolean  | Whether the role can only have one member        | `false`        |
-| `parentLink`        | Boolean  | Whether the role can be linked to parent circles | `false`        |
-| `defaultMinPerWeek` | Integer  | Default minutes per week for this role           | Optional       |
-| `colorHue`          | Smallint | Color hue for visual representation              | Optional       |
+| Field Name         | Type     | Description                                      | Default        |
+| ------------------ | -------- | ------------------------------------------------ | -------------- |
+| `id`               | UUID     | Unique identifier for the role                   | Auto-generated |
+| `orgId`            | UUID     | Reference to the organization                    | Required       |
+| `name`             | String   | Name of the role                                 | Required       |
+| `purpose`          | String   | The role's purpose or mission                    | Required       |
+| `domain`           | String   | Areas of authority and control                   | Required       |
+| `accountabilities` | String   | List of accountabilities                         | Required       |
+| `checklist`        | String   | Checklist of responsibilities                    | Required       |
+| `indicators`       | String   | Performance indicators                           | Required       |
+| `notes`            | String   | Additional notes                                 | Required       |
+| `archived`         | Boolean  | Whether the role is archived                     | `false`        |
+| `base`             | Boolean  | Whether this is a base role                      | `false`        |
+| `singleMember`     | Boolean  | Whether the role can only have one member        | `false`        |
+| `parentLink`       | Boolean  | Whether the role can be linked to parent circles | `false`        |
+| `colorHue`         | Smallint | Color hue for visual representation              | Optional       |
 
 ## Relationships
 
@@ -79,7 +78,6 @@ mutation CreateRole {
       indicators: "Code quality metrics, Bug resolution time"
       notes: "Focus on maintainable and scalable code"
       singleMember: false
-      defaultMinPerWeek: 2400
     }
   ) {
     id
@@ -98,13 +96,11 @@ mutation UpdateRole {
     _set: {
       name: "Senior Software Engineer"
       accountabilities: "Lead development, Mentor team members, Architect solutions"
-      defaultMinPerWeek: 3000
     }
   ) {
     id
     name
     accountabilities
-    defaultMinPerWeek
   }
 }
 ```
@@ -122,5 +118,4 @@ The role entity has different access levels based on user roles:
 - Base roles (`base: true`) are fundamental to the organization and can only be modified by owners
 - The `singleMember` flag indicates if the role should be assigned to only one person
 - `parentLink` allows the role to be linked to parent circles for cross-functional work
-- `defaultMinPerWeek` helps in workload planning and time allocation
 - The combination of purpose, domain, and accountabilities defines the complete scope of the role

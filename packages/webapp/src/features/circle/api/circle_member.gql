@@ -4,17 +4,9 @@ query getCircleMember($id: uuid!) {
   }
 }
 
-mutation createCircleMember(
-  $circleId: uuid!
-  $memberId: uuid!
-  $avgMinPerWeek: Int
-) {
+mutation createCircleMember($circleId: uuid!, $memberId: uuid!) {
   insert_circle_member_one(
-    object: {
-      circleId: $circleId
-      memberId: $memberId
-      avgMinPerWeek: $avgMinPerWeek
-    }
+    object: { circleId: $circleId, memberId: $memberId }
   ) {
     ...CircleMember
     member {

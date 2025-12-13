@@ -9,7 +9,6 @@ fragment Member on member {
   userId
   inviteEmail
   inviteDate
-  workedMinPerWeek
   role
 }
 

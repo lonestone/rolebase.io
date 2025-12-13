@@ -627,7 +627,6 @@
   },
   "MemberEditModal": {
     "heading": "Modifier le membre {{member}}",
-    "workingTime": "Temps de travail pour l'organisation",
     "invitation": {
       "heading": "Permissions",
       "email": "Email",
@@ -694,9 +693,6 @@
   "MemberPictureEdit": {
     "editPicture": "Modifier la photo"
   },
-  "MemberRoleItem": {
-    "workingTime": "Temps de travail"
-  },
   "MemberRoles": {
     "empty": {
       "noRole": "{{name}} n'a aucun rôle pour le moment.",
@@ -706,10 +702,6 @@
       "noRole": "Vous n'avez aucun rôle pour le moment.",
       "canEdit": "Vous pouvez vous ajouter à un rôle dans l'Organigramme."
     }
-  },
-  "MemberWorkingTime": {
-    "totalAllocatedTime": "Temps total alloué :",
-    "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },
   "MembersInviteModal": {
     "heading": "Inviter des membres par email",
@@ -792,7 +784,6 @@
   "OrgEditModal": {
     "heading": "Modifier l'organisation {{org}}",
     "slug": "URL",
-    "workingTime": "Temps de travail par défaut",
     "security": "Paramètres de sécurité",
     "protectGovernance": "Protéger la gouvernance",
     "protectGovernanceHelp": "Seuls les propriétaires et les représentants d'un rôle peuvent modifier ses sous-rôles directs et leurs membres.",
@@ -864,8 +855,6 @@
     "singleMember": "Ne peut être occupé que par un seul membre",
     "parentLink": "Représente son rôle parent (lien)",
     "parentLinkHelp": "Seuls les propriétaires de l'organisation et les membres à la fois représentant des rôles parent et grand parent peuvent modifier ce rôle.",
-    "defaultWorkingTime": "Temps par défaut",
-    "defaultWorkingTimeHelp": "Temps alloué par défaut à chaque membre ayant ce rôle.",
     "color": "Personnaliser la couleur"
   },
   "RoleGeneratorModal": {

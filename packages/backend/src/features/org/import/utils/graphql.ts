@@ -13,7 +13,6 @@ export const CREATE_ORG = gql(`
   mutation createOrgImport($name: String!) {
     insert_org_one(object: {
       name: $name
-      defaultWorkedMinPerWeek: 2100
     }) {
       id
     }

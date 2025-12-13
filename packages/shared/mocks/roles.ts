@@ -11,7 +11,6 @@ const roleBase = {
   notes: '',
   singleMember: false,
   parentLink: false,
-  defaultMinPerWeek: null,
   colorHue: null,
 }
 

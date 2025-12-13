@@ -593,7 +593,6 @@
   },
   "MemberEditModal": {
     "heading": "Edit member {{member}}",
-    "workingTime": "Working time for organization",
     "invitation": {
       "heading": "Permissions",
       "email": "Email",
@@ -660,9 +659,6 @@
   "MemberPictureEdit": {
     "editPicture": "Edit Picture"
   },
-  "MemberRoleItem": {
-    "workingTime": "Working time"
-  },
   "MemberRoles": {
     "empty": {
       "noRole": "{{name}} has no role at the moment.",
@@ -672,10 +668,6 @@
       "noRole": "You have no role at the moment.",
       "canEdit": "You can add yourself to a role in the Org chart."
     }
-  },
-  "MemberWorkingTime": {
-    "totalAllocatedTime": "Total allocated time:",
-    "alertTooMuchTime": "Total allocated time is too large, you need to lower the total time allocated to a role or increase the member's working time."
   },
   "MembersInviteModal": {
     "heading": "Invite members by email",
@@ -758,7 +750,6 @@
   "OrgEditModal": {
     "heading": "Edit Organization {{org}}",
     "slug": "URL",
-    "workingTime": "Default working time",
     "security": "Security settings",
     "protectGovernance": "Protect governance",
     "protectGovernanceHelp": "Only owners and representatives of a role can modify its direct sub-roles and their members.",
@@ -830,8 +821,6 @@
     "singleMember": "Can only be occupied by a single member",
     "parentLink": "Represents its parent role (link)",
     "parentLinkHelp": "Only owners of the organization and members who are both representing parent and grandparent roles can modify this role.",
-    "defaultWorkingTime": "Default Time",
-    "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
     "color": "Customize color"
   },
   "RoleGeneratorModal": {

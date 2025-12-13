@@ -44,7 +44,6 @@ insert_permissions:
         - base
         - checklist
         - colorHue
-        - defaultMinPerWeek
         - domain
         - indicators
         - name
@@ -62,7 +61,6 @@ select_permissions:
         - base
         - checklist
         - colorHue
-        - defaultMinPerWeek
         - domain
         - id
         - indicators
@@ -87,7 +85,6 @@ update_permissions:
         - base
         - checklist
         - colorHue
-        - defaultMinPerWeek
         - domain
         - indicators
         - name

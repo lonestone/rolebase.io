@@ -30,14 +30,7 @@ function getCircleAndChildren(
     // New role
     input.role = {
       data: {
-        ...pick(
-          circle.role,
-          'name',
-          'singleMember',
-          'parentLink',
-          'defaultMinPerWeek',
-          'colorHue'
-        ),
+        ...pick(circle.role, 'name', 'singleMember', 'parentLink', 'colorHue'),
         orgId: circle.orgId,
       },
     }
@@ -60,7 +53,6 @@ function getCircleAndChildren(
     input.members = {
       data: circle.members.map((cm) => ({
         memberId: cm.member.id,
-        avgMinPerWeek: cm.avgMinPerWeek,
       })),
     }
   }

@@ -98,7 +98,6 @@ export const circlesFull: CircleFullFragment[] = circles.map((circle) => {
       id: `${circle.id}-${member.id}`,
       circleId: circle.id,
       memberId: member.id,
-      avgMinPerWeek: 0,
       createdAt: new Date().toISOString(),
       archived: false,
       member,

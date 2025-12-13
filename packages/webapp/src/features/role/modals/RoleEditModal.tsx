@@ -1,5 +1,4 @@
 import ColorController from '@/common/atoms/ColorController'
-import DurationSelect from '@/common/atoms/DurationSelect'
 import Loading from '@/common/atoms/Loading'
 import SwitchController from '@/common/atoms/SwitchController'
 import TextError from '@/common/atoms/TextError'
@@ -13,7 +12,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -40,7 +38,7 @@ import { EntityChangeType, LogType } from '@rolebase/shared/model/log'
 import { nameSchema } from '@rolebase/shared/schemas'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
@@ -53,21 +51,18 @@ interface Values {
   name: string
   singleMember: boolean
   parentLink: boolean
-  defaultMinPerWeek: number | null
   colorHue: number | null
 }
 
 const resolver = yupResolver(
   yup.object().shape({
     name: nameSchema.required(),
-    defaultMinPerWeek: yup.number().nullable(),
   })
 )
 
 function getDefaultValues(role: RoleSummaryFragment): Values {
   return {
     name: role.name,
-    defaultMinPerWeek: role.defaultMinPerWeek ?? null,
     singleMember: role.singleMember,
     parentLink: role.parentLink,
     colorHue: role.colorHue ?? null,
@@ -211,23 +206,6 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                     </Box>
                   </Tooltip>
                 </Stack>
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.defaultMinPerWeek}>
-                <FormLabel>{t('RoleEditModal.defaultWorkingTime')}</FormLabel>
-                <Controller
-                  name="defaultMinPerWeek"
-                  control={control}
-                  render={({ field }) => (
-                    <DurationSelect
-                      value={field.value ?? null}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-                <FormHelperText>
-                  {t('RoleEditModal.defaultWorkingTimeHelp')}
-                </FormHelperText>
               </FormControl>
 
               <FormControl>

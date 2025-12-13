@@ -1,3 +1,4 @@
+import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
@@ -11,7 +12,6 @@ import {
   Flex,
   Heading,
   HStack,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -25,14 +25,12 @@ import { SearchTypes } from '@rolebase/shared/model/search'
 import { useStoreState } from '@store/hooks'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CreateIcon, EditIcon, EmailIcon } from 'src/icons'
-import MemberEditModal from '../components/MemberEditModal'
+import { CreateIcon, EmailIcon } from 'src/icons'
 import MemberLinkOverlay from '../components/MemberLinkOverlay'
 import MemberOrgRoleSelect from '../components/MemberOrgRoleSelect'
 import useOrgAdmin from '../hooks/useOrgAdmin'
 import MemberCreateModal from '../modals/MemberCreateModal'
 import MembersInviteModal from '../modals/MembersInviteModal'
-import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 
 export default function MembersPage() {
   const { t } = useTranslation()

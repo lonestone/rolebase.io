@@ -52,7 +52,6 @@ insert_permissions:
         - name
         - orgId
         - picture
-        - workedMinPerWeek
 select_permissions:
   - role: user
     permission:
@@ -68,7 +67,6 @@ select_permissions:
         - pictureFileId
         - role
         - userId
-        - workedMinPerWeek
       filter:
         org:
           members:
@@ -83,7 +81,6 @@ update_permissions:
         - name
         - picture
         - pictureFileId
-        - workedMinPerWeek
       filter:
         _or:
           - userId:

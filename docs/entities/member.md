@@ -6,20 +6,19 @@ The `member` entity represents a member of an organization in Rolebase. Members 
 
 ## Fields
 
-| Field Name         | Type             | Description                                  | Default        |
-| ------------------ | ---------------- | -------------------------------------------- | -------------- |
-| `id`               | UUID             | Unique identifier for the member             | Auto-generated |
-| `orgId`            | UUID             | Reference to the organization                | Required       |
-| `name`             | String           | Name of the member                           | Required       |
-| `description`      | String           | Description or bio of the member             | Required       |
-| `archived`         | Boolean          | Whether the member is archived               | `false`        |
-| `picture`          | String           | URL of the member's profile picture          | Optional       |
-| `pictureFileId`    | UUID             | Reference to the stored profile picture file | Optional       |
-| `userId`           | UUID             | Reference to the user account                | Optional       |
-| `inviteEmail`      | String           | Email used for invitation                    | Optional       |
-| `inviteDate`       | Timestamp        | When the invitation was sent                 | Optional       |
-| `workedMinPerWeek` | Integer          | Actual working minutes per week              | Optional       |
-| `role`             | Member_Role_Enum | Member's role in the organization            | Optional       |
+| Field Name      | Type             | Description                                  | Default        |
+| --------------- | ---------------- | -------------------------------------------- | -------------- |
+| `id`            | UUID             | Unique identifier for the member             | Auto-generated |
+| `orgId`         | UUID             | Reference to the organization                | Required       |
+| `name`          | String           | Name of the member                           | Required       |
+| `description`   | String           | Description or bio of the member             | Required       |
+| `archived`      | Boolean          | Whether the member is archived               | `false`        |
+| `picture`       | String           | URL of the member's profile picture          | Optional       |
+| `pictureFileId` | UUID             | Reference to the stored profile picture file | Optional       |
+| `userId`        | UUID             | Reference to the user account                | Optional       |
+| `inviteEmail`   | String           | Email used for invitation                    | Optional       |
+| `inviteDate`    | Timestamp        | When the invitation was sent                 | Optional       |
+| `role`          | Member_Role_Enum | Member's role in the organization            | Optional       |
 
 ## Relationships
 
@@ -45,7 +44,6 @@ query GetMembers($orgId: uuid!) {
     name
     description
     role
-    workedMinPerWeek
     circle_members {
       circle {
         name
@@ -75,7 +73,6 @@ mutation CreateMember {
       name: "John Doe"
       description: "Software Engineer"
       orgId: "your-org-id"
-      workedMinPerWeek: 2400
     }
   ) {
     id
@@ -91,16 +88,11 @@ mutation CreateMember {
 mutation UpdateMember {
   update_member_by_pk(
     pk_columns: { id: "member-id" }
-    _set: {
-      name: "Jane Doe"
-      description: "Senior Engineer"
-      workedMinPerWeek: 3000
-    }
+    _set: { name: "Jane Doe", description: "Senior Engineer" }
   ) {
     id
     name
     description
-    workedMinPerWeek
   }
 }
 ```
@@ -117,4 +109,3 @@ The member entity has different access levels based on user roles:
 - The combination of `orgId` and `userId` must be unique
 - When a member is invited, `inviteEmail` and `inviteDate` are set
 - When the invitation is accepted, `userId` is set and linked to the user account
-- `workedMinPerWeek` can be used to track actual work time, different from the organization's default

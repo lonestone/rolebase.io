@@ -85,7 +85,6 @@ insert_permissions:
                               userId:
                                 _eq: X-Hasura-User-Id
       columns:
-        - avgMinPerWeek
         - circleId
         - memberId
 select_permissions:
@@ -109,7 +108,6 @@ select_permissions:
     permission:
       columns:
         - archived
-        - avgMinPerWeek
         - circleId
         - createdAt
         - id
@@ -121,7 +119,6 @@ update_permissions:
     permission:
       columns:
         - archived
-        - avgMinPerWeek
       filter:
         circle:
           _or:

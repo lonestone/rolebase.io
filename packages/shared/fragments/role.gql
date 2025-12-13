@@ -12,7 +12,6 @@ fragment Role on role {
   notes
   singleMember
   parentLink
-  defaultMinPerWeek
   colorHue
 }
 
@@ -22,6 +21,5 @@ fragment RoleSummary on role {
   name
   singleMember
   parentLink
-  defaultMinPerWeek
   colorHue
 }

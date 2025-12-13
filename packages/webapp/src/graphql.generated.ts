@@ -3363,7 +3363,6 @@ export type Circle_Max_Order_By = {
 export type Circle_Member = {
   __typename?: 'circle_member';
   archived: Scalars['Boolean']['output'];
-  avgMinPerWeek?: Maybe<Scalars['Int']['output']>;
   /** An object relationship */
   circle: Circle;
   circleId: Scalars['uuid']['output'];
@@ -3411,17 +3410,9 @@ export type Circle_Member_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "circle_member" */
 export type Circle_Member_Aggregate_Fields = {
   __typename?: 'circle_member_aggregate_fields';
-  avg?: Maybe<Circle_Member_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Circle_Member_Max_Fields>;
   min?: Maybe<Circle_Member_Min_Fields>;
-  stddev?: Maybe<Circle_Member_Stddev_Fields>;
-  stddev_pop?: Maybe<Circle_Member_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Circle_Member_Stddev_Samp_Fields>;
-  sum?: Maybe<Circle_Member_Sum_Fields>;
-  var_pop?: Maybe<Circle_Member_Var_Pop_Fields>;
-  var_samp?: Maybe<Circle_Member_Var_Samp_Fields>;
-  variance?: Maybe<Circle_Member_Variance_Fields>;
 };
 
 
@@ -3433,17 +3424,9 @@ export type Circle_Member_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "circle_member" */
 export type Circle_Member_Aggregate_Order_By = {
-  avg?: InputMaybe<Circle_Member_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Circle_Member_Max_Order_By>;
   min?: InputMaybe<Circle_Member_Min_Order_By>;
-  stddev?: InputMaybe<Circle_Member_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Circle_Member_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Circle_Member_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Circle_Member_Sum_Order_By>;
-  var_pop?: InputMaybe<Circle_Member_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Circle_Member_Var_Samp_Order_By>;
-  variance?: InputMaybe<Circle_Member_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "circle_member" */
@@ -3453,24 +3436,12 @@ export type Circle_Member_Arr_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Circle_Member_On_Conflict>;
 };
 
-/** aggregate avg on columns */
-export type Circle_Member_Avg_Fields = {
-  __typename?: 'circle_member_avg_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by avg() on columns of table "circle_member" */
-export type Circle_Member_Avg_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
-};
-
 /** Boolean expression to filter rows from the table "circle_member". All fields are combined with a logical 'AND'. */
 export type Circle_Member_Bool_Exp = {
   _and?: InputMaybe<Array<Circle_Member_Bool_Exp>>;
   _not?: InputMaybe<Circle_Member_Bool_Exp>;
   _or?: InputMaybe<Array<Circle_Member_Bool_Exp>>;
   archived?: InputMaybe<Boolean_Comparison_Exp>;
-  avgMinPerWeek?: InputMaybe<Int_Comparison_Exp>;
   circle?: InputMaybe<Circle_Bool_Exp>;
   circleId?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -3485,15 +3456,9 @@ export enum Circle_Member_Constraint {
   CircleMemberPkey = 'circle_member_pkey'
 }
 
-/** input type for incrementing numeric columns in table "circle_member" */
-export type Circle_Member_Inc_Input = {
-  avgMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
-};
-
 /** input type for inserting data into table "circle_member" */
 export type Circle_Member_Insert_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
-  avgMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   circleId?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -3505,7 +3470,6 @@ export type Circle_Member_Insert_Input = {
 /** aggregate max on columns */
 export type Circle_Member_Max_Fields = {
   __typename?: 'circle_member_max_fields';
-  avgMinPerWeek?: Maybe<Scalars['Int']['output']>;
   circleId?: Maybe<Scalars['uuid']['output']>;
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
@@ -3514,7 +3478,6 @@ export type Circle_Member_Max_Fields = {
 
 /** order by max() on columns of table "circle_member" */
 export type Circle_Member_Max_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
   circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -3524,7 +3487,6 @@ export type Circle_Member_Max_Order_By = {
 /** aggregate min on columns */
 export type Circle_Member_Min_Fields = {
   __typename?: 'circle_member_min_fields';
-  avgMinPerWeek?: Maybe<Scalars['Int']['output']>;
   circleId?: Maybe<Scalars['uuid']['output']>;
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
@@ -3533,7 +3495,6 @@ export type Circle_Member_Min_Fields = {
 
 /** order by min() on columns of table "circle_member" */
 export type Circle_Member_Min_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
   circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -3559,7 +3520,6 @@ export type Circle_Member_On_Conflict = {
 /** Ordering options when selecting data from "circle_member". */
 export type Circle_Member_Order_By = {
   archived?: InputMaybe<Order_By>;
-  avgMinPerWeek?: InputMaybe<Order_By>;
   circle?: InputMaybe<Circle_Order_By>;
   circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
@@ -3577,8 +3537,6 @@ export type Circle_Member_Pk_Columns_Input = {
 export enum Circle_Member_Select_Column {
   /** column name */
   Archived = 'archived',
-  /** column name */
-  AvgMinPerWeek = 'avgMinPerWeek',
   /** column name */
   CircleId = 'circleId',
   /** column name */
@@ -3604,44 +3562,10 @@ export enum Circle_Member_Select_Column_Circle_Member_Aggregate_Bool_Exp_Bool_Or
 /** input type for updating data in table "circle_member" */
 export type Circle_Member_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
-  avgMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   circleId?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Circle_Member_Stddev_Fields = {
-  __typename?: 'circle_member_stddev_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev() on columns of table "circle_member" */
-export type Circle_Member_Stddev_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Circle_Member_Stddev_Pop_Fields = {
-  __typename?: 'circle_member_stddev_pop_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_pop() on columns of table "circle_member" */
-export type Circle_Member_Stddev_Pop_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Circle_Member_Stddev_Samp_Fields = {
-  __typename?: 'circle_member_stddev_samp_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_samp() on columns of table "circle_member" */
-export type Circle_Member_Stddev_Samp_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "circle_member" */
@@ -3655,30 +3579,16 @@ export type Circle_Member_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Circle_Member_Stream_Cursor_Value_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
-  avgMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   circleId?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** aggregate sum on columns */
-export type Circle_Member_Sum_Fields = {
-  __typename?: 'circle_member_sum_fields';
-  avgMinPerWeek?: Maybe<Scalars['Int']['output']>;
-};
-
-/** order by sum() on columns of table "circle_member" */
-export type Circle_Member_Sum_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
-};
-
 /** update columns of table "circle_member" */
 export enum Circle_Member_Update_Column {
   /** column name */
   Archived = 'archived',
-  /** column name */
-  AvgMinPerWeek = 'avgMinPerWeek',
   /** column name */
   CircleId = 'circleId',
   /** column name */
@@ -3690,45 +3600,10 @@ export enum Circle_Member_Update_Column {
 }
 
 export type Circle_Member_Updates = {
-  /** increments the numeric columns with given value of the filtered values */
-  _inc?: InputMaybe<Circle_Member_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Circle_Member_Set_Input>;
   /** filter the rows which have to be updated */
   where: Circle_Member_Bool_Exp;
-};
-
-/** aggregate var_pop on columns */
-export type Circle_Member_Var_Pop_Fields = {
-  __typename?: 'circle_member_var_pop_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_pop() on columns of table "circle_member" */
-export type Circle_Member_Var_Pop_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Circle_Member_Var_Samp_Fields = {
-  __typename?: 'circle_member_var_samp_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_samp() on columns of table "circle_member" */
-export type Circle_Member_Var_Samp_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Circle_Member_Variance_Fields = {
-  __typename?: 'circle_member_variance_fields';
-  avgMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by variance() on columns of table "circle_member" */
-export type Circle_Member_Variance_Order_By = {
-  avgMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -7577,7 +7452,6 @@ export type Member = {
   /** An object relationship */
   user?: Maybe<Users>;
   userId?: Maybe<Scalars['uuid']['output']>;
-  workedMinPerWeek?: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -7657,17 +7531,9 @@ export type Member_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "member" */
 export type Member_Aggregate_Fields = {
   __typename?: 'member_aggregate_fields';
-  avg?: Maybe<Member_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Member_Max_Fields>;
   min?: Maybe<Member_Min_Fields>;
-  stddev?: Maybe<Member_Stddev_Fields>;
-  stddev_pop?: Maybe<Member_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Member_Stddev_Samp_Fields>;
-  sum?: Maybe<Member_Sum_Fields>;
-  var_pop?: Maybe<Member_Var_Pop_Fields>;
-  var_samp?: Maybe<Member_Var_Samp_Fields>;
-  variance?: Maybe<Member_Variance_Fields>;
 };
 
 
@@ -7679,17 +7545,9 @@ export type Member_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "member" */
 export type Member_Aggregate_Order_By = {
-  avg?: InputMaybe<Member_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Member_Max_Order_By>;
   min?: InputMaybe<Member_Min_Order_By>;
-  stddev?: InputMaybe<Member_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Member_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Member_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Member_Sum_Order_By>;
-  var_pop?: InputMaybe<Member_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Member_Var_Samp_Order_By>;
-  variance?: InputMaybe<Member_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "member" */
@@ -7697,17 +7555,6 @@ export type Member_Arr_Rel_Insert_Input = {
   data: Array<Member_Insert_Input>;
   /** upsert condition */
   on_conflict?: InputMaybe<Member_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Member_Avg_Fields = {
-  __typename?: 'member_avg_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by avg() on columns of table "member" */
-export type Member_Avg_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "member". All fields are combined with a logical 'AND'. */
@@ -7733,7 +7580,6 @@ export type Member_Bool_Exp = {
   role?: InputMaybe<Member_Role_Enum_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
-  workedMinPerWeek?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "member" */
@@ -7743,11 +7589,6 @@ export enum Member_Constraint {
   /** unique or primary key constraint on columns "id" */
   MemberPkey = 'member_pkey'
 }
-
-/** input type for incrementing numeric columns in table "member" */
-export type Member_Inc_Input = {
-  workedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
-};
 
 /** input type for inserting data into table "member" */
 export type Member_Insert_Input = {
@@ -7767,7 +7608,6 @@ export type Member_Insert_Input = {
   role?: InputMaybe<Member_Role_Enum>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
-  workedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
@@ -7782,7 +7622,6 @@ export type Member_Max_Fields = {
   picture?: Maybe<Scalars['String']['output']>;
   pictureFileId?: Maybe<Scalars['uuid']['output']>;
   userId?: Maybe<Scalars['uuid']['output']>;
-  workedMinPerWeek?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by max() on columns of table "member" */
@@ -7796,7 +7635,6 @@ export type Member_Max_Order_By = {
   picture?: InputMaybe<Order_By>;
   pictureFileId?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -7811,7 +7649,6 @@ export type Member_Min_Fields = {
   picture?: Maybe<Scalars['String']['output']>;
   pictureFileId?: Maybe<Scalars['uuid']['output']>;
   userId?: Maybe<Scalars['uuid']['output']>;
-  workedMinPerWeek?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by min() on columns of table "member" */
@@ -7825,7 +7662,6 @@ export type Member_Min_Order_By = {
   picture?: InputMaybe<Order_By>;
   pictureFileId?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "member" */
@@ -7869,7 +7705,6 @@ export type Member_Order_By = {
   role?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: member */
@@ -8054,9 +7889,7 @@ export enum Member_Select_Column {
   /** column name */
   Role = 'role',
   /** column name */
-  UserId = 'userId',
-  /** column name */
-  WorkedMinPerWeek = 'workedMinPerWeek'
+  UserId = 'userId'
 }
 
 /** select "member_aggregate_bool_exp_bool_and_arguments_columns" columns of table "member" */
@@ -8084,40 +7917,6 @@ export type Member_Set_Input = {
   pictureFileId?: InputMaybe<Scalars['uuid']['input']>;
   role?: InputMaybe<Member_Role_Enum>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
-  workedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Member_Stddev_Fields = {
-  __typename?: 'member_stddev_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev() on columns of table "member" */
-export type Member_Stddev_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Member_Stddev_Pop_Fields = {
-  __typename?: 'member_stddev_pop_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_pop() on columns of table "member" */
-export type Member_Stddev_Pop_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Member_Stddev_Samp_Fields = {
-  __typename?: 'member_stddev_samp_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_samp() on columns of table "member" */
-export type Member_Stddev_Samp_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "member" */
@@ -8141,18 +7940,6 @@ export type Member_Stream_Cursor_Value_Input = {
   pictureFileId?: InputMaybe<Scalars['uuid']['input']>;
   role?: InputMaybe<Member_Role_Enum>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
-  workedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** aggregate sum on columns */
-export type Member_Sum_Fields = {
-  __typename?: 'member_sum_fields';
-  workedMinPerWeek?: Maybe<Scalars['Int']['output']>;
-};
-
-/** order by sum() on columns of table "member" */
-export type Member_Sum_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "member" */
@@ -8178,51 +7965,14 @@ export enum Member_Update_Column {
   /** column name */
   Role = 'role',
   /** column name */
-  UserId = 'userId',
-  /** column name */
-  WorkedMinPerWeek = 'workedMinPerWeek'
+  UserId = 'userId'
 }
 
 export type Member_Updates = {
-  /** increments the numeric columns with given value of the filtered values */
-  _inc?: InputMaybe<Member_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Member_Set_Input>;
   /** filter the rows which have to be updated */
   where: Member_Bool_Exp;
-};
-
-/** aggregate var_pop on columns */
-export type Member_Var_Pop_Fields = {
-  __typename?: 'member_var_pop_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_pop() on columns of table "member" */
-export type Member_Var_Pop_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Member_Var_Samp_Fields = {
-  __typename?: 'member_var_samp_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_samp() on columns of table "member" */
-export type Member_Var_Samp_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Member_Variance_Fields = {
-  __typename?: 'member_variance_fields';
-  workedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by variance() on columns of table "member" */
-export type Member_Variance_Order_By = {
-  workedMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** mutation root */
@@ -10511,7 +10261,6 @@ export type Mutation_RootUpdate_Circle_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Circle_MemberArgs = {
-  _inc?: InputMaybe<Circle_Member_Inc_Input>;
   _set?: InputMaybe<Circle_Member_Set_Input>;
   where: Circle_Member_Bool_Exp;
 };
@@ -10519,7 +10268,6 @@ export type Mutation_RootUpdate_Circle_MemberArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Circle_Member_By_PkArgs = {
-  _inc?: InputMaybe<Circle_Member_Inc_Input>;
   _set?: InputMaybe<Circle_Member_Set_Input>;
   pk_columns: Circle_Member_Pk_Columns_Input;
 };
@@ -10721,7 +10469,6 @@ export type Mutation_RootUpdate_Meeting_Template_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_MemberArgs = {
-  _inc?: InputMaybe<Member_Inc_Input>;
   _set?: InputMaybe<Member_Set_Input>;
   where: Member_Bool_Exp;
 };
@@ -10729,7 +10476,6 @@ export type Mutation_RootUpdate_MemberArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Member_By_PkArgs = {
-  _inc?: InputMaybe<Member_Inc_Input>;
   _set?: InputMaybe<Member_Set_Input>;
   pk_columns: Member_Pk_Columns_Input;
 };
@@ -10783,7 +10529,6 @@ export type Mutation_RootUpdate_Old_Id_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_OrgArgs = {
-  _inc?: InputMaybe<Org_Inc_Input>;
   _set?: InputMaybe<Org_Set_Input>;
   where: Org_Bool_Exp;
 };
@@ -10791,7 +10536,6 @@ export type Mutation_RootUpdate_OrgArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Org_By_PkArgs = {
-  _inc?: InputMaybe<Org_Inc_Input>;
   _set?: InputMaybe<Org_Set_Input>;
   pk_columns: Org_Pk_Columns_Input;
 };
@@ -11555,7 +11299,6 @@ export type Org = {
   /** An aggregate relationship */
   decisions_aggregate: Decision_Aggregate;
   defaultGraphView: Scalars['graph_views']['output'];
-  defaultWorkedMinPerWeek: Scalars['Int']['output'];
   /** An array relationship */
   files: Array<Org_File>;
   /** An aggregate relationship */
@@ -11880,17 +11623,9 @@ export type Org_Aggregate = {
 /** aggregate fields of "org" */
 export type Org_Aggregate_Fields = {
   __typename?: 'org_aggregate_fields';
-  avg?: Maybe<Org_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Org_Max_Fields>;
   min?: Maybe<Org_Min_Fields>;
-  stddev?: Maybe<Org_Stddev_Fields>;
-  stddev_pop?: Maybe<Org_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Org_Stddev_Samp_Fields>;
-  sum?: Maybe<Org_Sum_Fields>;
-  var_pop?: Maybe<Org_Var_Pop_Fields>;
-  var_samp?: Maybe<Org_Var_Samp_Fields>;
-  variance?: Maybe<Org_Variance_Fields>;
 };
 
 
@@ -11898,12 +11633,6 @@ export type Org_Aggregate_Fields = {
 export type Org_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Org_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type Org_Avg_Fields = {
-  __typename?: 'org_avg_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "org". All fields are combined with a logical 'AND'. */
@@ -11918,7 +11647,6 @@ export type Org_Bool_Exp = {
   decisions?: InputMaybe<Decision_Bool_Exp>;
   decisions_aggregate?: InputMaybe<Decision_Aggregate_Bool_Exp>;
   defaultGraphView?: InputMaybe<String_Comparison_Exp>;
-  defaultWorkedMinPerWeek?: InputMaybe<Int_Comparison_Exp>;
   files?: InputMaybe<Org_File_Bool_Exp>;
   files_aggregate?: InputMaybe<Org_File_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -12153,11 +11881,6 @@ export type Org_File_Updates = {
   where: Org_File_Bool_Exp;
 };
 
-/** input type for incrementing numeric columns in table "org" */
-export type Org_Inc_Input = {
-  defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
-};
-
 /** input type for inserting data into table "org" */
 export type Org_Insert_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
@@ -12165,7 +11888,6 @@ export type Org_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   decisions?: InputMaybe<Decision_Arr_Rel_Insert_Input>;
   defaultGraphView?: InputMaybe<Scalars['String']['input']>;
-  defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   files?: InputMaybe<Org_File_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
@@ -12191,7 +11913,6 @@ export type Org_Max_Fields = {
   __typename?: 'org_max_fields';
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   defaultGraphView?: Maybe<Scalars['String']['output']>;
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
@@ -12202,7 +11923,6 @@ export type Org_Min_Fields = {
   __typename?: 'org_min_fields';
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   defaultGraphView?: Maybe<Scalars['String']['output']>;
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
@@ -12238,7 +11958,6 @@ export type Org_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   decisions_aggregate?: InputMaybe<Decision_Aggregate_Order_By>;
   defaultGraphView?: InputMaybe<Order_By>;
-  defaultWorkedMinPerWeek?: InputMaybe<Order_By>;
   files_aggregate?: InputMaybe<Org_File_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
@@ -12273,8 +11992,6 @@ export enum Org_Select_Column {
   /** column name */
   DefaultGraphView = 'defaultGraphView',
   /** column name */
-  DefaultWorkedMinPerWeek = 'defaultWorkedMinPerWeek',
-  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
@@ -12293,31 +12010,12 @@ export type Org_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   defaultGraphView?: InputMaybe<Scalars['String']['input']>;
-  defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   protectGovernance?: InputMaybe<Scalars['Boolean']['input']>;
   shareMembers?: InputMaybe<Scalars['Boolean']['input']>;
   shareOrg?: InputMaybe<Scalars['Boolean']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Org_Stddev_Fields = {
-  __typename?: 'org_stddev_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Org_Stddev_Pop_Fields = {
-  __typename?: 'org_stddev_pop_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Org_Stddev_Samp_Fields = {
-  __typename?: 'org_stddev_samp_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "org" */
@@ -12333,7 +12031,6 @@ export type Org_Stream_Cursor_Value_Input = {
   archived?: InputMaybe<Scalars['Boolean']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   defaultGraphView?: InputMaybe<Scalars['String']['input']>;
-  defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   protectGovernance?: InputMaybe<Scalars['Boolean']['input']>;
@@ -12538,12 +12235,6 @@ export type Org_Subscription_Updates = {
   where: Org_Subscription_Bool_Exp;
 };
 
-/** aggregate sum on columns */
-export type Org_Sum_Fields = {
-  __typename?: 'org_sum_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Int']['output']>;
-};
-
 /** update columns of table "org" */
 export enum Org_Update_Column {
   /** column name */
@@ -12552,8 +12243,6 @@ export enum Org_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   DefaultGraphView = 'defaultGraphView',
-  /** column name */
-  DefaultWorkedMinPerWeek = 'defaultWorkedMinPerWeek',
   /** column name */
   Id = 'id',
   /** column name */
@@ -12569,30 +12258,10 @@ export enum Org_Update_Column {
 }
 
 export type Org_Updates = {
-  /** increments the numeric columns with given value of the filtered values */
-  _inc?: InputMaybe<Org_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Org_Set_Input>;
   /** filter the rows which have to be updated */
   where: Org_Bool_Exp;
-};
-
-/** aggregate var_pop on columns */
-export type Org_Var_Pop_Fields = {
-  __typename?: 'org_var_pop_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type Org_Var_Samp_Fields = {
-  __typename?: 'org_var_samp_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type Org_Variance_Fields = {
-  __typename?: 'org_variance_fields';
-  defaultWorkedMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Query_Root = {
@@ -14091,7 +13760,6 @@ export type Role = {
   /** An aggregate relationship */
   circles_aggregate: Circle_Aggregate;
   colorHue?: Maybe<Scalars['smallint']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Int']['output']>;
   domain: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
   indicators: Scalars['String']['output'];
@@ -14428,13 +14096,11 @@ export type Role_Arr_Rel_Insert_Input = {
 export type Role_Avg_Fields = {
   __typename?: 'role_avg_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "role" */
 export type Role_Avg_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "role". All fields are combined with a logical 'AND'. */
@@ -14449,7 +14115,6 @@ export type Role_Bool_Exp = {
   circles?: InputMaybe<Circle_Bool_Exp>;
   circles_aggregate?: InputMaybe<Circle_Aggregate_Bool_Exp>;
   colorHue?: InputMaybe<Smallint_Comparison_Exp>;
-  defaultMinPerWeek?: InputMaybe<Int_Comparison_Exp>;
   domain?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   indicators?: InputMaybe<String_Comparison_Exp>;
@@ -14471,7 +14136,6 @@ export enum Role_Constraint {
 /** input type for incrementing numeric columns in table "role" */
 export type Role_Inc_Input = {
   colorHue?: InputMaybe<Scalars['smallint']['input']>;
-  defaultMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "role" */
@@ -14482,7 +14146,6 @@ export type Role_Insert_Input = {
   checklist?: InputMaybe<Scalars['String']['input']>;
   circles?: InputMaybe<Circle_Arr_Rel_Insert_Input>;
   colorHue?: InputMaybe<Scalars['smallint']['input']>;
-  defaultMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   domain?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   indicators?: InputMaybe<Scalars['String']['input']>;
@@ -14501,7 +14164,6 @@ export type Role_Max_Fields = {
   accountabilities?: Maybe<Scalars['String']['output']>;
   checklist?: Maybe<Scalars['String']['output']>;
   colorHue?: Maybe<Scalars['smallint']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Int']['output']>;
   domain?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   indicators?: Maybe<Scalars['String']['output']>;
@@ -14516,7 +14178,6 @@ export type Role_Max_Order_By = {
   accountabilities?: InputMaybe<Order_By>;
   checklist?: InputMaybe<Order_By>;
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
@@ -14532,7 +14193,6 @@ export type Role_Min_Fields = {
   accountabilities?: Maybe<Scalars['String']['output']>;
   checklist?: Maybe<Scalars['String']['output']>;
   colorHue?: Maybe<Scalars['smallint']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Int']['output']>;
   domain?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   indicators?: Maybe<Scalars['String']['output']>;
@@ -14547,7 +14207,6 @@ export type Role_Min_Order_By = {
   accountabilities?: InputMaybe<Order_By>;
   checklist?: InputMaybe<Order_By>;
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
@@ -14588,7 +14247,6 @@ export type Role_Order_By = {
   checklist?: InputMaybe<Order_By>;
   circles_aggregate?: InputMaybe<Circle_Aggregate_Order_By>;
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
@@ -14618,8 +14276,6 @@ export enum Role_Select_Column {
   Checklist = 'checklist',
   /** column name */
   ColorHue = 'colorHue',
-  /** column name */
-  DefaultMinPerWeek = 'defaultMinPerWeek',
   /** column name */
   Domain = 'domain',
   /** column name */
@@ -14671,7 +14327,6 @@ export type Role_Set_Input = {
   base?: InputMaybe<Scalars['Boolean']['input']>;
   checklist?: InputMaybe<Scalars['String']['input']>;
   colorHue?: InputMaybe<Scalars['smallint']['input']>;
-  defaultMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   domain?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   indicators?: InputMaybe<Scalars['String']['input']>;
@@ -14687,39 +14342,33 @@ export type Role_Set_Input = {
 export type Role_Stddev_Fields = {
   __typename?: 'role_stddev_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "role" */
 export type Role_Stddev_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Role_Stddev_Pop_Fields = {
   __typename?: 'role_stddev_pop_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "role" */
 export type Role_Stddev_Pop_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Role_Stddev_Samp_Fields = {
   __typename?: 'role_stddev_samp_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "role" */
 export type Role_Stddev_Samp_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "role" */
@@ -14737,7 +14386,6 @@ export type Role_Stream_Cursor_Value_Input = {
   base?: InputMaybe<Scalars['Boolean']['input']>;
   checklist?: InputMaybe<Scalars['String']['input']>;
   colorHue?: InputMaybe<Scalars['smallint']['input']>;
-  defaultMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
   domain?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   indicators?: InputMaybe<Scalars['String']['input']>;
@@ -14753,13 +14401,11 @@ export type Role_Stream_Cursor_Value_Input = {
 export type Role_Sum_Fields = {
   __typename?: 'role_sum_fields';
   colorHue?: Maybe<Scalars['smallint']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "role" */
 export type Role_Sum_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "role" */
@@ -14774,8 +14420,6 @@ export enum Role_Update_Column {
   Checklist = 'checklist',
   /** column name */
   ColorHue = 'colorHue',
-  /** column name */
-  DefaultMinPerWeek = 'defaultMinPerWeek',
   /** column name */
   Domain = 'domain',
   /** column name */
@@ -14809,39 +14453,33 @@ export type Role_Updates = {
 export type Role_Var_Pop_Fields = {
   __typename?: 'role_var_pop_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "role" */
 export type Role_Var_Pop_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Role_Var_Samp_Fields = {
   __typename?: 'role_var_samp_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "role" */
 export type Role_Var_Samp_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Role_Variance_Fields = {
   __typename?: 'role_variance_fields';
   colorHue?: Maybe<Scalars['Float']['output']>;
-  defaultMinPerWeek?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "role" */
 export type Role_Variance_Order_By = {
   colorHue?: InputMaybe<Order_By>;
-  defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
@@ -20965,13 +20603,13 @@ export type ApiKeyFragment = { __typename?: 'api_key', id: string, name: string,
 
 export type CircleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };
 
-export type CircleSummaryFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } };
+export type CircleSummaryFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } };
 
-export type CircleFullFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } };
+export type CircleFullFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } };
 
 export type CircleLinkFragment = { __typename?: 'circle_link', id: string, parentId: string, circleId: string, createdAt: string };
 
-export type CircleMemberFragment = { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean };
+export type CircleMemberFragment = { __typename?: 'circle_member', id: string, circleId: string, memberId: string, createdAt: string, archived: boolean };
 
 export type DecisionFragment = { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean };
 
@@ -20987,21 +20625,21 @@ export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: s
 
 export type MeetingStepFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData };
 
-export type MemberFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null };
+export type MemberFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null };
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
 export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null, startNotified: boolean }> } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, reactions: Array<{ __typename?: 'thread_activity_reaction', id: string, userId: string, shortcode: string }>, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null, startNotified: boolean }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null };
 
-export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews };
+export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews };
 
-export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null }> };
+export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null }> };
 
-export type OrgFullLightFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null }> };
+export type OrgFullLightFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null }> };
 
-export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null };
+export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null };
 
-export type RoleSummaryFragment = { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null };
+export type RoleSummaryFragment = { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null };
 
 export type RoleAiFragment = { __typename?: 'role_ai', id: string, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string };
 
@@ -21102,7 +20740,7 @@ export type CreateCirclesMutationVariables = Exact<{
 }>;
 
 
-export type CreateCirclesMutation = { __typename?: 'mutation_root', insert_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } }> } | null };
+export type CreateCirclesMutation = { __typename?: 'mutation_root', insert_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } }> } | null };
 
 export type UpdateCircleMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21141,16 +20779,15 @@ export type GetCircleMemberQueryVariables = Exact<{
 }>;
 
 
-export type GetCircleMemberQuery = { __typename?: 'query_root', circle_member_by_pk?: { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean } | null };
+export type GetCircleMemberQuery = { __typename?: 'query_root', circle_member_by_pk?: { __typename?: 'circle_member', id: string, circleId: string, memberId: string, createdAt: string, archived: boolean } | null };
 
 export type CreateCircleMemberMutationVariables = Exact<{
   circleId: Scalars['uuid']['input'];
   memberId: Scalars['uuid']['input'];
-  avgMinPerWeek?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type CreateCircleMemberMutation = { __typename?: 'mutation_root', insert_circle_member_one?: { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string }, circle: { __typename?: 'circle', role: { __typename?: 'role', id: string, name: string } } } | null };
+export type CreateCircleMemberMutation = { __typename?: 'mutation_root', insert_circle_member_one?: { __typename?: 'circle_member', id: string, circleId: string, memberId: string, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string }, circle: { __typename?: 'circle', role: { __typename?: 'role', id: string, name: string } } } | null };
 
 export type UpdateCircleMemberMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21158,7 +20795,7 @@ export type UpdateCircleMemberMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCircleMemberMutation = { __typename?: 'mutation_root', update_circle_member_by_pk?: { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean } | null };
+export type UpdateCircleMemberMutation = { __typename?: 'mutation_root', update_circle_member_by_pk?: { __typename?: 'circle_member', id: string, circleId: string, memberId: string, createdAt: string, archived: boolean } | null };
 
 export type ArchiveCircleMemberMutationVariables = Exact<{
   circleId: Scalars['uuid']['input'];
@@ -21166,7 +20803,7 @@ export type ArchiveCircleMemberMutationVariables = Exact<{
 }>;
 
 
-export type ArchiveCircleMemberMutation = { __typename?: 'mutation_root', update_circle_member?: { __typename?: 'circle_member_mutation_response', returning: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string }, circle: { __typename?: 'circle', role: { __typename?: 'role', id: string, name: string } } }> } | null };
+export type ArchiveCircleMemberMutation = { __typename?: 'mutation_root', update_circle_member?: { __typename?: 'circle_member_mutation_response', returning: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string }, circle: { __typename?: 'circle', role: { __typename?: 'role', id: string, name: string } } }> } | null };
 
 export type GetDecisionQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21436,7 +21073,7 @@ export type GetMemberQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null } | null };
+export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null } | null };
 
 export type MembersSubscriptionVariables = Exact<{
   orgId: Scalars['uuid']['input'];
@@ -21444,7 +21081,7 @@ export type MembersSubscriptionVariables = Exact<{
 }>;
 
 
-export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null }> };
+export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null }> };
 
 export type CurrentMeetingsSubscriptionVariables = Exact<{
   memberId: Scalars['uuid']['input'];
@@ -21459,7 +21096,7 @@ export type CreateMemberMutationVariables = Exact<{
 }>;
 
 
-export type CreateMemberMutation = { __typename?: 'mutation_root', insert_member_one?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null } | null };
+export type CreateMemberMutation = { __typename?: 'mutation_root', insert_member_one?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null } | null };
 
 export type UpdateMemberMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21467,7 +21104,7 @@ export type UpdateMemberMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null } | null };
+export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null } | null };
 
 export type LastNewsQueryVariables = Exact<{
   where: News_Bool_Exp;
@@ -21483,28 +21120,28 @@ export type GetOrgQueryVariables = Exact<{
 }>;
 
 
-export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews } | null };
+export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews } | null };
 
 export type OrgsSubscriptionVariables = Exact<{
   userId: Scalars['uuid']['input'];
 }>;
 
 
-export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } }> } }> };
+export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } }> } }> };
 
 export type OrgSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null }> } | null };
+export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null }> } | null };
 
 export type OrgBySlugSubscriptionVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type OrgBySlugSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null }> }> };
+export type OrgBySlugSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean, defaultGraphView: CirclesGraphViews, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }> }>, roles: Array<{ __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, role?: Member_Role_Enum | null }> }> };
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21519,14 +21156,14 @@ export type GetRoleQueryVariables = Exact<{
 }>;
 
 
-export type GetRoleQuery = { __typename?: 'query_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
+export type GetRoleQuery = { __typename?: 'query_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } | null };
 
 export type RoleSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type RoleSubscription = { __typename?: 'subscription_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
+export type RoleSubscription = { __typename?: 'subscription_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } | null };
 
 export type RolesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid']['input'];
@@ -21534,14 +21171,14 @@ export type RolesSubscriptionVariables = Exact<{
 }>;
 
 
-export type RolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null }> };
+export type RolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null }> };
 
 export type CreateRoleMutationVariables = Exact<{
   values: Role_Insert_Input;
 }>;
 
 
-export type CreateRoleMutation = { __typename?: 'mutation_root', insert_role_one?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
+export type CreateRoleMutation = { __typename?: 'mutation_root', insert_role_one?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } | null };
 
 export type UpdateRoleMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21549,7 +21186,7 @@ export type UpdateRoleMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRoleMutation = { __typename?: 'mutation_root', update_role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
+export type UpdateRoleMutation = { __typename?: 'mutation_root', update_role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, parentLink: boolean, colorHue?: number | null } | null };
 
 export type ArchiveRoleMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21850,7 +21487,6 @@ export const CircleMemberFragmentDoc = gql`
   id
   circleId
   memberId
-  avgMinPerWeek
   createdAt
   archived
 }
@@ -22066,7 +21702,6 @@ export const OrgFragmentDoc = gql`
   name
   archived
   createdAt
-  defaultWorkedMinPerWeek
   slug
   shareOrg
   shareMembers
@@ -22090,7 +21725,6 @@ export const RoleSummaryFragmentDoc = gql`
   name
   singleMember
   parentLink
-  defaultMinPerWeek
   colorHue
 }
     `;
@@ -22116,7 +21750,6 @@ export const CircleFullFragmentDoc = gql`
   ...CircleSummary
   members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {
     id
-    avgMinPerWeek
     member {
       ...MemberSummary
     }
@@ -22141,7 +21774,6 @@ export const MemberFragmentDoc = gql`
   userId
   inviteEmail
   inviteDate
-  workedMinPerWeek
   role
 }
     `;
@@ -22170,7 +21802,6 @@ export const OrgFullLightFragmentDoc = gql`
     members(where: {archived: {_eq: false}}) {
       id
       memberId
-      avgMinPerWeek
     }
     invitedCircleLinks {
       invitedCircle {
@@ -22204,7 +21835,6 @@ export const RoleFragmentDoc = gql`
   notes
   singleMember
   parentLink
-  defaultMinPerWeek
   colorHue
 }
     `;
@@ -22906,10 +22536,8 @@ export function refetchGetCircleMemberQuery(variables: GetCircleMemberQueryVaria
       return { query: GetCircleMemberDocument, variables: variables }
     }
 export const CreateCircleMemberDocument = gql`
-    mutation createCircleMember($circleId: uuid!, $memberId: uuid!, $avgMinPerWeek: Int) {
-  insert_circle_member_one(
-    object: {circleId: $circleId, memberId: $memberId, avgMinPerWeek: $avgMinPerWeek}
-  ) {
+    mutation createCircleMember($circleId: uuid!, $memberId: uuid!) {
+  insert_circle_member_one(object: {circleId: $circleId, memberId: $memberId}) {
     ...CircleMember
     member {
       id
@@ -22941,7 +22569,6 @@ export type CreateCircleMemberMutationFn = Apollo.MutationFunction<CreateCircleM
  *   variables: {
  *      circleId: // value for 'circleId'
  *      memberId: // value for 'memberId'
- *      avgMinPerWeek: // value for 'avgMinPerWeek'
  *   },
  * });
  */

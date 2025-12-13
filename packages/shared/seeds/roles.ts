@@ -11,7 +11,6 @@ export const defaultSeedRole = {
   notes: '',
   singleMember: true,
   parentLink: false,
-  defaultMinPerWeek: null,
   colorHue: null,
 }
 

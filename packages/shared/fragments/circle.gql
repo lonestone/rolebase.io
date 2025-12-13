@@ -19,7 +19,6 @@ fragment CircleFull on circle {
     where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
   ) {
     id
-    avgMinPerWeek
     member {
       ...MemberSummary
     }

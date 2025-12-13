@@ -6,14 +6,13 @@ The `circle_member` entity represents a membership relationship between a member
 
 ## Fields
 
-| Field Name      | Type      | Description                                       | Default        |
-| --------------- | --------- | ------------------------------------------------- | -------------- |
-| `id`            | UUID      | Unique identifier for the circle membership       | Auto-generated |
-| `circleId`      | UUID      | Reference to the circle                           | Required       |
-| `memberId`      | UUID      | Reference to the member                           | Required       |
-| `avgMinPerWeek` | Integer   | Average minutes per week allocated to this circle | Optional       |
-| `createdAt`     | Timestamp | When the membership was created                   | Current time   |
-| `archived`      | Boolean   | Whether the membership is archived                | `false`        |
+| Field Name  | Type      | Description                                 | Default        |
+| ----------- | --------- | ------------------------------------------- | -------------- |
+| `id`        | UUID      | Unique identifier for the circle membership | Auto-generated |
+| `circleId`  | UUID      | Reference to the circle                     | Required       |
+| `memberId`  | UUID      | Reference to the member                     | Required       |
+| `createdAt` | Timestamp | When the membership was created             | Current time   |
+| `archived`  | Boolean   | Whether the membership is archived          | `false`        |
 
 ## Relationships
 
@@ -43,7 +42,6 @@ query GetCircleMembers($circleId: uuid!) {
       name
       description
     }
-    avgMinPerWeek
     createdAt
   }
 }
@@ -54,11 +52,7 @@ query GetCircleMembers($circleId: uuid!) {
 ```graphql
 mutation AddCircleMember {
   insert_circle_member_one(
-    object: {
-      circleId: "circle-id"
-      memberId: "member-id"
-      avgMinPerWeek: 1200
-    }
+    object: { circleId: "circle-id", memberId: "member-id" }
   ) {
     id
     circle {
@@ -80,10 +74,9 @@ mutation AddCircleMember {
 mutation UpdateCircleMember {
   update_circle_member_by_pk(
     pk_columns: { id: "circle-member-id" }
-    _set: { avgMinPerWeek: 1800, archived: true }
+    _set: { archived: true }
   ) {
     id
-    avgMinPerWeek
     archived
   }
 }
@@ -103,7 +96,6 @@ Circle member access is controlled based on the following rules:
 
 ## Notes
 
-- Circle members contribute to the circle's capacity through their `avgMinPerWeek` allocation
 - The `archived` flag allows for maintaining membership history while marking inactive memberships
 - Circle membership affects access to circle resources like meetings, tasks, and decisions
 - Members can belong to multiple circles with different time allocations

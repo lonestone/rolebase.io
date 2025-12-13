@@ -1,5 +1,4 @@
 import GraphViewsSelect from '@/circle/components/GraphViewsSelect'
-import DurationSelect from '@/common/atoms/DurationSelect'
 import IconTextButton from '@/common/atoms/IconTextButton'
 import SwitchController from '@/common/atoms/SwitchController'
 import { Title } from '@/common/atoms/Title'
@@ -35,7 +34,6 @@ import OrgSlugModal from '../modals/OrgSlugModal '
 
 interface Values {
   name: string
-  defaultWorkedMinPerWeek: number | null
   protectGovernance: boolean
   defaultGraphView: CirclesGraphViews
 }
@@ -43,7 +41,6 @@ interface Values {
 const resolver = yupResolver(
   yup.object().shape({
     name: nameSchema.required(),
-    defaultWorkedMinPerWeek: yup.number(),
   })
 )
 
@@ -69,7 +66,6 @@ export default function OrgSettingsPage() {
     if (!org) return
     reset({
       name: org.name,
-      defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek,
       defaultGraphView: org.defaultGraphView || CirclesGraphViews.AllCircles,
       protectGovernance: org.protectGovernance,
     })
@@ -120,17 +116,6 @@ export default function OrgSettingsPage() {
                 {t('common.edit')}
               </Button>
             </Flex>
-          </FormControl>
-
-          <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
-            <FormLabel>{t('OrgEditModal.workingTime')}</FormLabel>
-            <Controller
-              name="defaultWorkedMinPerWeek"
-              control={control}
-              render={({ field }) => (
-                <DurationSelect value={field.value} onChange={field.onChange} />
-              )}
-            />
           </FormControl>
 
           <FormControl>
