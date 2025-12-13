@@ -11,6 +11,7 @@ import {
   AlertIcon,
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -40,6 +41,7 @@ import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { InfoTooltipIcon } from 'src/icons'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -187,31 +189,28 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                     {t('RoleEditModal.singleMember')}
                   </SwitchController>
 
-                  <Tooltip
-                    label={
-                      canChangeParentLink || role.base
-                        ? ''
-                        : t('RoleEditModal.parentLinkHelp')
-                    }
-                    hasArrow
+                  <SwitchController
+                    name="parentLink"
+                    control={control}
+                    isDisabled={!canChangeParentLink}
                   >
-                    <Box>
-                      <SwitchController
-                        name="parentLink"
-                        control={control}
-                        isDisabled={!canChangeParentLink}
+                    <Flex alignItems="center" gap={2}>
+                      {t('RoleEditModal.parentLink')}
+                      <Tooltip
+                        label={t('RoleEditModal.parentLinkHelp')}
+                        hasArrow
                       >
-                        {t('RoleEditModal.parentLink')}
-                      </SwitchController>
-                    </Box>
-                  </Tooltip>
-                </Stack>
-              </FormControl>
+                        <Box>
+                          <InfoTooltipIcon />
+                        </Box>
+                      </Tooltip>
+                    </Flex>
+                  </SwitchController>
 
-              <FormControl>
-                <ColorController name="colorHue" control={control}>
-                  {t('RoleEditModal.color')}
-                </ColorController>
+                  <ColorController name="colorHue" control={control}>
+                    {t('RoleEditModal.color')}
+                  </ColorController>
+                </Stack>
               </FormControl>
             </VStack>
           </ModalBody>
