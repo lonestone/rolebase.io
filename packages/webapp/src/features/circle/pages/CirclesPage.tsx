@@ -178,11 +178,7 @@ export default function CirclesPage() {
 
       {panel === Panels.Member && memberId && (
         <ModalPanel isOpen onClose={handleClosePanel}>
-          <MemberContent
-            id={memberId}
-            selectedCircleId={circleId || undefined}
-            changeTitle
-          />
+          <MemberContent id={memberId} changeTitle />
         </ModalPanel>
       )}
 

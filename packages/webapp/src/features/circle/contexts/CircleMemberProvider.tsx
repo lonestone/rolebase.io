@@ -35,28 +35,27 @@ export function CircleMemberProvider({ children }: Props) {
   const navigateOrg = useNavigateOrg()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [state, setState] = useState<State>({})
+  const [canFocus, setCanFocus] = useState(false)
   const location = useLocation()
 
   const value: CircleMemberContextValue = useMemo(
     () => ({
       circleId: state.circleId,
       memberId: state.memberId,
+      parentId: state.parentId,
+      canFocus,
       goTo(circleId?: string, memberId?: string, parentId?: string) {
         setState({ circleId, memberId, parentId })
       },
     }),
-    [state]
+    [state, canFocus]
   )
 
+  // Navigate to page/modal after state change
   useEffect(() => {
     if (!state.circleId && !state.memberId) return
 
-    // Detect if at least one modal is open
-    const hasModal = !!document.getElementsByClassName(
-      'chakra-modal__content'
-    )[0]
-    const isGraphPage = /\/(roles|news)$/.test(location.pathname)
-    if (hasModal || !isGraphPage) {
+    if (!canFocus) {
       // Open modal
       onOpen()
       return
@@ -73,6 +72,26 @@ export function CircleMemberProvider({ children }: Props) {
     // Reset state
     setState({})
   }, [state])
+
+  // Change canFocus when location changes or modal opens/closes
+  const isGraphPage = /\/(roles|news)$/.test(location.pathname)
+  const computeCanFocus = () => {
+    const hasModal = !!document.getElementsByClassName(
+      'chakra-modal__content'
+    )[0]
+    return isGraphPage && !hasModal
+  }
+
+  useEffect(() => {
+    setCanFocus(computeCanFocus())
+  }, [location.pathname])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCanFocus(computeCanFocus())
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleModalClose = useCallback(() => {
     onClose()

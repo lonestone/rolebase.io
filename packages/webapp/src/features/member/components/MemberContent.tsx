@@ -28,17 +28,11 @@ import MemberRoles from './MemberRoles'
 
 interface Props {
   id: string
-  selectedCircleId?: string
   changeTitle?: boolean
   headerIcons?: React.ReactNode
 }
 
-export default function MemberContent({
-  id,
-  changeTitle,
-  selectedCircleId,
-  headerIcons,
-}: Props) {
+export default function MemberContent({ id, changeTitle, headerIcons }: Props) {
   const { t } = useTranslation()
   const { user } = useAuth()
   const member = useMember(id)
@@ -93,7 +87,7 @@ export default function MemberContent({
         </Flex>
       </Box>
 
-      <Box px={6}>
+      <Box p={6}>
         <VStack spacing={5} align="stretch">
           <MemberEditableField
             label={t('MemberContent.description')}
@@ -108,20 +102,13 @@ export default function MemberContent({
             mb={10}
           />
 
-          <Box>
-            <Flex mb={2} alignItems="center" justifyContent="space-between">
-              <Heading as="h3" size="sm">
-                {t('MemberContent.memberRolesHeading')}
-              </Heading>
-            </Flex>
+          <Flex alignItems="center" justifyContent="space-between">
+            <Heading as="h3" size="sm">
+              {t('MemberContent.memberRolesHeading')}
+            </Heading>
+          </Flex>
 
-            <MemberRoles
-              member={member}
-              selectedCircleId={selectedCircleId}
-              mx={-4}
-              mb={10}
-            />
-          </Box>
+          <MemberRoles member={member} />
         </VStack>
       </Box>
     </>

@@ -1,35 +1,30 @@
 import CircleAndParentsLinks from '@/circle/components/CircleAndParentsLinks'
-import CircleMemberDeleteModal from '@/circle/modals/CircleMemberDeleteModal'
-import {
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Button,
-  HStack,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react'
+import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
+import { Flex, IconButton, Tooltip } from '@chakra-ui/react'
 import { CircleFullFragment } from '@gql'
-import React, { useMemo } from 'react'
+import { Eye } from 'iconsax-react'
+import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronRightIcon } from 'src/icons'
-import useOrgMember from '../hooks/useOrgMember'
+import { FiX } from 'react-icons/fi'
 
 interface Props {
   memberId: string
   circle: CircleFullFragment
-  iconRightArrow?: boolean
+  hideActions?: boolean
+  onDelete?(): void
+  onFocus?(): void
 }
 
 export default function MemberRoleItem({
   memberId,
   circle,
-  iconRightArrow,
+  hideActions,
+  onDelete,
+  onFocus,
 }: Props) {
   const { t } = useTranslation()
-  const isMember = useOrgMember()
+  const circleMemberContext = useContext(CircleMemberContext)
+  const canFocus = circleMemberContext?.canFocus
 
   // Circle member data
   const circleMember = useMemo(
@@ -37,66 +32,48 @@ export default function MemberRoleItem({
     [memberId, circle]
   )
 
-  const deleteModal = useDisclosure()
-
   if (!circleMember) return null
 
   return (
-    <AccordionItem border="none">
-      {({ isExpanded }) => (
-        <Box
-          borderWidth="1px"
-          borderColor={isExpanded ? undefined : 'transparent'}
-          borderRadius="md"
-          boxShadow={isExpanded ? 'md' : undefined}
-          bg={isExpanded ? 'whiteAlpha.500' : 'transparent'}
-          _dark={{ bg: isExpanded ? 'whiteAlpha.100' : 'transparent' }}
-        >
-          <AccordionButton
-            as={Box}
-            cursor="pointer"
-            _hover={{ bg: 'blackAlpha.50' }}
-            _dark={{ _hover: { bg: 'whiteAlpha.100' } }}
-          >
-            <CircleAndParentsLinks circle={circle} flex={1} />
-            {iconRightArrow ? (
-              <ChevronRightIcon size={18} />
-            ) : (
-              <AccordionIcon />
-            )}
-          </AccordionButton>
-          <AccordionPanel
-            pt={3}
-            pb={5}
-            pl={10}
-            display={!isMember ? 'none' : undefined}
-          >
-            <VStack spacing={3} align="stretch">
-              {isMember && (
-                <HStack justifyContent="end">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    colorScheme="red"
-                    onClick={deleteModal.onOpen}
-                  >
-                    {t(`common.delete`)}
-                  </Button>
-                </HStack>
-              )}
-            </VStack>
-          </AccordionPanel>
+    <Flex alignItems="center">
+      <CircleAndParentsLinks circle={circle} flex={1} />
 
-          {deleteModal.isOpen && (
-            <CircleMemberDeleteModal
-              circleId={circle.id}
-              memberId={memberId}
-              isOpen
-              onClose={deleteModal.onClose}
-            />
-          )}
-        </Box>
+      {canFocus && !hideActions && (
+        <Tooltip
+          label={t('MemberRoleItem.focusTooltip', {
+            role: circle.role.name,
+          })}
+          placement="top"
+          hasArrow
+        >
+          <IconButton
+            aria-label={''}
+            icon={<Eye size={18} />}
+            variant="ghost"
+            size="sm"
+            onClick={onFocus}
+          />
+        </Tooltip>
       )}
-    </AccordionItem>
+
+      {!hideActions && (
+        <Tooltip
+          label={t('MemberRoleItem.removeTooltip', {
+            member: circleMember.member.name,
+            role: circle.role.name,
+          })}
+          placement="top"
+          hasArrow
+        >
+          <IconButton
+            aria-label={t('common.remove')}
+            icon={<FiX />}
+            variant="ghost"
+            size="sm"
+            onClick={onDelete}
+          />
+        </Tooltip>
+      )}
+    </Flex>
   )
 }

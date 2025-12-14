@@ -664,6 +664,10 @@
     "confirm": "Retirer l'accès",
     "success": "Accès retiré avec succès"
   },
+  "MemberRoleItem": {
+    "removeTooltip": "Retirer {{member}} du rôle {{role}}",
+    "focusTooltip": "Centrer le graphique sur le rôle {{role}}"
+  },
   "MemberInviteModal": {
     "heading": "Inviter {{member}}",
     "email": "Email",

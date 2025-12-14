@@ -630,6 +630,10 @@
     "confirm": "Remove access",
     "success": "Access removed successfully"
   },
+  "MemberRoleItem": {
+    "removeTooltip": "Remove {{member}} from {{role}}",
+    "focusTooltip": "Focus the graph on the role {{role}}"
+  },
   "MemberInviteModal": {
     "heading": "Invite {{member}}",
     "email": "Email",

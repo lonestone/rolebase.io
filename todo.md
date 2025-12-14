@@ -1,7 +1,5 @@
 # TODO
 
-- Fix accept invitation after signup (url changes and loses token)
-- OTP to signin/signup?
 - Fix asking for subscription when batch invitation
 - Notif réu par mail
 - Reponse auto demande de démo

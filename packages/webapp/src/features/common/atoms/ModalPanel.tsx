@@ -20,6 +20,7 @@ export default function ModalPanel({ isOpen, children, ...props }: ModalProps) {
         overflowY="auto"
         zIndex={1}
         borderLeftWidth={{ lg: '1px' }}
+        borderTopWidth={{ md: '1px', lg: 0 }}
         bg="white"
         _dark={{ bg: 'gray.900' }}
       >

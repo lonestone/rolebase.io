@@ -1,15 +1,17 @@
 import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
+import CircleMemberDeleteModal from '@/circle/modals/CircleMemberDeleteModal'
 import {
-  Accordion,
   Alert,
   AlertDescription,
   AlertIcon,
   BoxProps,
   Text,
+  useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import useCurrentMember from '../hooks/useCurrentMember'
 import useOrgOwner from '../hooks/useOrgOwner'
@@ -17,14 +19,12 @@ import MemberRoleItem from './MemberRoleItem'
 
 interface Props extends BoxProps {
   member: MemberFragment
-  selectedCircleId?: string
-  iconRightArrow?: boolean
+  hideActions?: boolean
 }
 
 export default function MemberRoles({
   member,
-  selectedCircleId,
-  iconRightArrow,
+  hideActions,
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
@@ -33,6 +33,9 @@ export default function MemberRoles({
   const currentMember = useCurrentMember()
   const isCurrentMember = currentMember?.id === member.id
   const isOwner = useOrgOwner()
+
+  const deleteModal = useDisclosure()
+  const [deleteCircleId, setDeleteCircleId] = useState<string | undefined>()
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
@@ -52,29 +55,24 @@ export default function MemberRoles({
       })
   }, [member.id, circles])
 
-  // Index of the currently selected circle in list
-  const selectedCircleIndex = useMemo(
-    () => memberCircles.findIndex((mc) => mc.id === selectedCircleId),
-    [memberCircles, selectedCircleId]
+  // Change URL path when a circle is selected in the accordion
+  const handleFocusCircle = useCallback(
+    (circleId: string) => {
+      circleMemberContext?.goTo(circleId, member.id)
+    },
+    [circleMemberContext, member.id]
   )
 
-  // Change URL path when a circle is selected in the accordion
-  const handleAccordionChange = useCallback(
-    (index: number | number[]) => {
-      if (typeof index !== 'number') return
-      if (index === -1) {
-        circleMemberContext?.goTo(undefined, member.id)
-      } else {
-        const memberCircle = memberCircles[index]
-        if (!memberCircle) return
-        circleMemberContext?.goTo(memberCircle.id, member.id)
-      }
+  const handleDelete = useCallback(
+    (circleId: string) => {
+      setDeleteCircleId(circleId)
+      deleteModal.onOpen()
     },
-    [selectedCircleIndex, memberCircles]
+    [deleteModal]
   )
 
   return (
-    <>
+    <VStack spacing={2} align="stretch" {...boxProps}>
       {memberCircles.length === 0 && (
         <Alert status="info">
           <AlertIcon />
@@ -98,21 +96,25 @@ export default function MemberRoles({
         </Alert>
       )}
 
-      <Accordion
-        index={selectedCircleIndex}
-        allowToggle
-        {...boxProps}
-        onChange={handleAccordionChange}
-      >
-        {memberCircles.map((circle) => (
-          <MemberRoleItem
-            key={circle.id}
-            memberId={member.id}
-            circle={circle}
-            iconRightArrow={iconRightArrow}
-          />
-        ))}
-      </Accordion>
-    </>
+      {memberCircles.map((circle) => (
+        <MemberRoleItem
+          key={circle.id}
+          memberId={member.id}
+          circle={circle}
+          hideActions={hideActions}
+          onFocus={() => handleFocusCircle(circle.id)}
+          onDelete={() => handleDelete(circle.id)}
+        />
+      ))}
+
+      {deleteModal.isOpen && deleteCircleId && (
+        <CircleMemberDeleteModal
+          circleId={deleteCircleId}
+          memberId={member.id}
+          isOpen
+          onClose={deleteModal.onClose}
+        />
+      )}
+    </VStack>
   )
 }

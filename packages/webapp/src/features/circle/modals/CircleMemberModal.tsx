@@ -36,7 +36,6 @@ export default function CircleMemberModal({
         {memberId ? (
           <MemberContent
             id={memberId}
-            selectedCircleId={circleId}
             headerIcons={
               <ModalMaximizeButton
                 to={`${path}?memberId=${memberId}${
