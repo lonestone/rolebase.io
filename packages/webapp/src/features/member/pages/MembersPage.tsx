@@ -1,4 +1,3 @@
-import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
@@ -23,13 +22,12 @@ import {
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import { SearchTypes } from '@rolebase/shared/model/search'
 import { useStoreState } from '@store/hooks'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CreateIcon, EmailIcon } from 'src/icons'
+import { EmailIcon } from 'src/icons'
 import MemberLinkOverlay from '../components/MemberLinkOverlay'
 import MemberOrgRoleSelect from '../components/MemberOrgRoleSelect'
 import useOrgAdmin from '../hooks/useOrgAdmin'
-import MemberCreateModal from '../modals/MemberCreateModal'
 import MembersInviteModal from '../modals/MembersInviteModal'
 
 export default function MembersPage() {
@@ -37,14 +35,6 @@ export default function MembersPage() {
   const isAdmin = useOrgAdmin()
   const members = useStoreState((state) => state.org.members)
   const hover = useHoverItemStyle()
-  const circleMemberContext = useContext(CircleMemberContext)
-
-  // Create modal
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
 
   // Invite modal
   const {
@@ -113,26 +103,15 @@ export default function MembersPage() {
             </InputGroup>
 
             {isAdmin && (
-              <>
-                <Button
-                  size="sm"
-                  leftIcon={<EmailIcon size={20} />}
-                  ml={3}
-                  onClick={onInviteOpen}
-                >
-                  {t('MembersPage.invite')}
-                </Button>
-
-                <Button
-                  size="md"
-                  colorScheme="blue"
-                  leftIcon={<CreateIcon size={20} />}
-                  ml={2}
-                  onClick={onCreateOpen}
-                >
-                  {t('common.create')}
-                </Button>
-              </>
+              <Button
+                size="md"
+                colorScheme="blue"
+                leftIcon={<EmailIcon size={20} />}
+                ml={3}
+                onClick={onInviteOpen}
+              >
+                {t('MembersPage.invite')}
+              </Button>
             )}
           </Flex>
         }
@@ -150,14 +129,6 @@ export default function MembersPage() {
 
         <Loading active={loading} size="md" />
       </ScrollableLayout>
-
-      {isCreateOpen && (
-        <MemberCreateModal
-          isOpen
-          onClose={onCreateClose}
-          onCreate={(id) => circleMemberContext?.goTo(undefined, id)}
-        />
-      )}
 
       {isInviteOpen && <MembersInviteModal isOpen onClose={onInviteClose} />}
     </>

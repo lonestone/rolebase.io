@@ -14,6 +14,7 @@ import {
   Flex,
   Heading,
   ModalCloseButton,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 import React from 'react'
@@ -25,6 +26,8 @@ import MemberNameEditable from './MemberNameEditable'
 import MemberOrgRoleSelect from './MemberOrgRoleSelect'
 import MemberPictureEdit from './MemberPictureEdit'
 import MemberRoles from './MemberRoles'
+import ActionsMenu from '@/common/atoms/ActionsMenu'
+import MemberDeleteModal from '../modals/MemberDeleteModal'
 
 interface Props {
   id: string
@@ -40,6 +43,7 @@ export default function MemberContent({ id, changeTitle, headerIcons }: Props) {
   const canEdit = isAdmin || (user ? member?.userId === user.id : false)
   const avatarSrc =
     getResizedImageUrl(member?.picture, AVATAR_HEADING_WIDTH) || undefined
+  const deleteModal = useDisclosure()
 
   if (!member) {
     return (
@@ -60,6 +64,7 @@ export default function MemberContent({ id, changeTitle, headerIcons }: Props) {
       <Box pt={3} pb={10} position="relative">
         <Box position="absolute" top={2} right={2}>
           {headerIcons}
+          {isAdmin && <ActionsMenu onDelete={deleteModal.onOpen} />}
           <ModalCloseStaticButton />
         </Box>
 
@@ -111,6 +116,14 @@ export default function MemberContent({ id, changeTitle, headerIcons }: Props) {
           <MemberRoles member={member} />
         </VStack>
       </Box>
+
+      {deleteModal.isOpen && (
+        <MemberDeleteModal
+          id={id}
+          isOpen={deleteModal.isOpen}
+          onClose={deleteModal.onClose}
+        />
+      )}
     </>
   )
 }

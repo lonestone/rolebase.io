@@ -679,13 +679,7 @@
     "toastSuccess_other": "{{count}} members have been invited!",
     "empty1": "All existing members are already linked to a user account.",
     "empty2": "You can create a new member and then invite them.",
-    "searchPlaceholder": "Search...",
     "emailPlaceholder": "Email...",
-    "options": {
-      "readonly": "Read only",
-      "member": "Member",
-      "admin": "Admin"
-    },
     "invite": "Invite ({{count}})"
   },
   "MembersMultiSelect": {
@@ -695,7 +689,8 @@
   "MembersPage": {
     "heading": "Members",
     "searchPlaceholder": "Search...",
-    "invite": "Invite",
+    "invite": "Invite members",
+    "create": "Create a member",
     "tags": {
       "readonly": "Read only",
       "member": "Participant",

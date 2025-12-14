@@ -1,9 +1,9 @@
+import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
-  HStack,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -11,141 +11,120 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
-  Spacer,
   UseModalProps,
   useToast,
   VStack,
 } from '@chakra-ui/react'
 import { Member_Role_Enum } from '@gql'
 import { useStoreState } from '@store/hooks'
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from 'react'
+import { nanoid } from 'nanoid'
+import React, { useContext, useEffect } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { EmailIcon } from 'src/icons'
+import { FiX } from 'react-icons/fi'
+import { AddIcon, EmailIcon } from 'src/icons'
 import { trpc } from 'src/trpc'
 import MemberButton from '../components/MemberButton'
-import {
-  getEmailFromName,
-  guessEmailPattern,
-  memberInviteReducer,
-} from '../components/membersInvite'
+import useCreateMember from '../hooks/useCreateMember'
+
+interface MemberFormData {
+  id: string
+  name: string
+  email: string
+  create?: boolean
+}
+
+interface FormValues {
+  members: MemberFormData[]
+}
 
 export default function MembersInviteModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
   const toast = useToast()
   const members = useStoreState((state) => state.org.members)
+  const circleMemberContext = useContext(CircleMemberContext)
+  const createMember = useCreateMember()
 
-  const notInvitedMembers = useMemo(
-    () => members?.filter((m) => !m.userId && !m.inviteDate) || [],
-    [members]
-  )
+  const { control, register, handleSubmit, formState, watch } =
+    useForm<FormValues>({
+      defaultValues: {
+        members: [],
+      },
+    })
 
-  const [state, dispatch] = useReducer(memberInviteReducer, {})
-  const [isInviting, setIsInviting] = useState(false)
-  const [role, setRole] = useState(Member_Role_Enum.Member)
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'members',
+    keyName: 'key', // Preserve the original 'id' field
+  })
 
-  // Set emails when members change
+  const watchedMembers = watch('members')
+
+  // Initialize form with existing non-invited members
   useEffect(() => {
-    if (!notInvitedMembers) return
-    for (const member of notInvitedMembers) {
-      const memberState = state[member.id]
-      if (memberState?.email || !member.inviteEmail) return
-      dispatch({
-        type: 'SetEmail',
-        id: member.id,
-        email: member.inviteEmail,
+    if (fields.length > 0) return
+    const notInvitedMembers = members?.filter((m) => !m.userId && !m.inviteDate)
+    if (!notInvitedMembers?.length) {
+      handleAddMember()
+    } else {
+      notInvitedMembers.forEach((member) => {
+        append({
+          id: member.id,
+          name: member.name,
+          email: '',
+          create: false,
+        })
       })
     }
-  }, [notInvitedMembers])
+  }, [members])
 
-  // Count selected members
-  const nbSelectedMembers = useMemo(
-    () =>
-      Object.values(state).reduce(
-        (count, memberState) => count + (memberState?.selected ? 1 : 0),
-        0
-      ),
-    [state]
-  )
+  const handleMemberClick = (memberId: string) => {
+    console.log({ memberId, members, fields })
+    circleMemberContext?.goTo(undefined, memberId)
+  }
 
-  // Toggle a member
-  const handleCheck = useCallback(
-    (id: string) =>
-      dispatch({
-        type: 'Toggle',
-        id,
-      }),
-    []
-  )
+  const handleAddMember = () => {
+    append({
+      id: nanoid(),
+      name: '',
+      email: '',
+      create: true,
+    })
+  }
 
-  // Auto-fill email addresses from a detected patterxn
-  const handleEmailBlur = useCallback(
-    (id: string) => {
-      if (!notInvitedMembers) return
-      const refMemberState = state[id]
-      const refMember = notInvitedMembers.find((m) => m.id === id)
-      if (!refMemberState || !refMember) return
-
-      // Enable member invitation
-      if (!refMemberState.selected && refMemberState.email !== '') {
-        dispatch({ type: 'Toggle', id })
-      }
-
-      // Guess email pattern
-      const emailPattern = guessEmailPattern(
-        refMemberState.email,
-        refMember.name
-      )
-      if (emailPattern) {
-        for (const member of notInvitedMembers) {
-          const memberState = state[member.id]
-          if (!memberState || memberState.emailAuto || !memberState.email) {
-            const email = getEmailFromName(member.name, emailPattern)
-            if (email && email != memberState?.email) {
-              dispatch({
-                type: 'SetEmail',
-                id: member.id,
-                email,
-                emailAuto: true,
-              })
-            }
-          }
-        }
-      }
-    },
-    [state, notInvitedMembers]
-  )
-
-  const handleInvite = useCallback(async () => {
-    setIsInviting(true)
+  const onSubmit = async (data: FormValues) => {
     try {
-      let n = 0
-      for (const member of notInvitedMembers) {
-        const memberState = state[member.id]
-        if (memberState && memberState.email && memberState.selected) {
-          await trpc.member.inviteMember.mutate({
-            memberId: member.id,
-            role,
-            email: memberState.email,
-          })
-          n++
+      let invitedCount = 0
+      for (let i = data.members.length - 1; i >= 0; i--) {
+        const member = data.members[i]
+        if (!member.email.trim()) continue
+
+        let memberId = member.id
+
+        // Create member if needed
+        if (member.create && member.name.trim()) {
+          memberId = await createMember(member.name.trim())
         }
+
+        // Invite member
+        await trpc.member.inviteMember.mutate({
+          memberId,
+          role: Member_Role_Enum.Member,
+          email: member.email.trim(),
+        })
+        invitedCount++
+
+        // Remove the invited member from the form
+        remove(i)
       }
       toast({
         title: t('MembersInviteModal.toastSuccess', {
-          count: n,
+          count: invitedCount,
         }),
         status: 'success',
         duration: 4000,
         isClosable: true,
       })
-      modalProps.onClose()
     } catch (error) {
       toast({
         title: t('common.error'),
@@ -154,93 +133,95 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
         duration: 4000,
         isClosable: true,
       })
-      setIsInviting(false)
     }
-  }, [state, role, modalProps.onClose])
+  }
+
+  const emailCount = watchedMembers?.filter((m) => m?.email?.trim()).length || 0
 
   return (
-    <Modal {...modalProps} size="xl">
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{t('MembersInviteModal.heading')}</ModalHeader>
-        <ModalCloseButton />
+    <>
+      <Modal {...modalProps} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <ModalHeader>{t('MembersInviteModal.heading')}</ModalHeader>
+            <ModalCloseButton />
 
-        <ModalBody>
-          {notInvitedMembers.length === 0 ? (
-            <Box mb={5}>
-              <p>{t('MembersInviteModal.empty1')}</p>
-              <p>{t('MembersInviteModal.empty2')}</p>
-            </Box>
-          ) : (
-            <>
-              <VStack spacing={2} align="stretch">
-                {notInvitedMembers.map((member) => {
-                  const memberState = state[member.id]
-                  return (
-                    <Flex key={member.id} alignItems="center" wrap="wrap">
-                      <Checkbox
-                        mr={2}
-                        isChecked={memberState?.selected || false}
-                        onChange={() => handleCheck(member.id)}
-                      />
-                      <MemberButton
-                        member={member}
-                        variant="ghost"
-                        onClick={() => handleCheck(member.id)}
-                      />
-                      <Spacer />
-                      <Input
-                        placeholder={t('MembersInviteModal.emailPlaceholder')}
-                        width="220px"
-                        value={memberState?.email || ''}
-                        onChange={(e) =>
-                          dispatch({
-                            type: 'SetEmail',
-                            id: member.id,
-                            email: e.target.value,
-                          })
-                        }
-                        onBlur={() => handleEmailBlur(member.id)}
-                      />
-                    </Flex>
-                  )
-                })}
-              </VStack>
+            <ModalBody>
+              {fields.length === 0 ? (
+                <Box mb={5}>
+                  <p>{t('MembersInviteModal.empty1')}</p>
+                  <p>{t('MembersInviteModal.empty2')}</p>
+                </Box>
+              ) : (
+                <>
+                  <VStack spacing={2} align="stretch" mb={5}>
+                    {fields.map((field, index) => (
+                      <Flex key={field.key} gap={2} alignItems="center">
+                        <Flex flex={1}>
+                          {field.create ? (
+                            <>
+                              <IconButton
+                                aria-label={t('common.delete')}
+                                icon={<FiX />}
+                                onClick={() => remove(index)}
+                                variant="ghost"
+                              />
+                              <Input
+                                placeholder={t('common.name')}
+                                {...register(`members.${index}.name`)}
+                              />
+                            </>
+                          ) : (
+                            <MemberButton
+                              member={{ name: field.name, picture: '' }}
+                              variant="ghost"
+                              flex={1}
+                              justifyContent="start"
+                              onClick={() => handleMemberClick(field.id)}
+                            />
+                          )}
+                        </Flex>
+                        <Box flex={1}>
+                          <Input
+                            type="email"
+                            placeholder={t(
+                              'MembersInviteModal.emailPlaceholder'
+                            )}
+                            {...register(`members.${index}.email`)}
+                          />
+                        </Box>
+                      </Flex>
+                    ))}
+                  </VStack>
 
-              <HStack justify="end" mt={5} mb={2}>
-                <Select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value as Member_Role_Enum)}
-                  mr={2}
-                  w="200px"
-                >
-                  <option value={Member_Role_Enum.Readonly}>
-                    {t('MembersInviteModal.options.readonly')}
-                  </option>
-                  <option value={Member_Role_Enum.Member}>
-                    {t('MembersInviteModal.options.member')}
-                  </option>
-                  <option value={Member_Role_Enum.Admin}>
-                    {t('MembersInviteModal.options.admin')}
-                  </option>
-                </Select>
-
-                <Button
-                  colorScheme="blue"
-                  isLoading={isInviting}
-                  isDisabled={nbSelectedMembers === 0}
-                  leftIcon={<EmailIcon />}
-                  onClick={handleInvite}
-                >
-                  {t('MembersInviteModal.invite', {
-                    count: nbSelectedMembers,
-                  })}
-                </Button>
-              </HStack>
-            </>
-          )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+                  <Flex justify="space-between" align="center">
+                    <Button
+                      leftIcon={<AddIcon size={20} />}
+                      size="sm"
+                      variant="outline"
+                      onClick={handleAddMember}
+                    >
+                      Ajouter un membre
+                    </Button>
+                    <Button
+                      type="submit"
+                      colorScheme="blue"
+                      isLoading={formState.isSubmitting}
+                      isDisabled={emailCount === 0}
+                      leftIcon={<EmailIcon size={20} />}
+                    >
+                      {t('MembersInviteModal.invite', {
+                        count: emailCount,
+                      })}
+                    </Button>
+                  </Flex>
+                </>
+              )}
+            </ModalBody>
+          </form>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }

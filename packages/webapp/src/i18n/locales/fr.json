@@ -713,13 +713,7 @@
     "toastSuccess_other": "{{count}} membres invités !",
     "empty1": "Tous les membres existants sont déjà liés à un compte utilisateur.",
     "empty2": "Vous pouvez créer un nouveau membre puis l'inviter.",
-    "searchPlaceholder": "Rechercher...",
     "emailPlaceholder": "Email...",
-    "options": {
-      "readonly": "Lecture seule",
-      "member": "Membre",
-      "admin": "Admin"
-    },
     "invite": "Inviter ({{count}})"
   },
   "MembersMultiSelect": {
@@ -729,7 +723,8 @@
   "MembersPage": {
     "heading": "Membres",
     "searchPlaceholder": "Rechercher...",
-    "invite": "Inviter",
+    "invite": "Inviter des membres",
+    "create": "Créer un membre",
     "tags": {
       "readonly": "Lecture seule",
       "member": "Participant",
