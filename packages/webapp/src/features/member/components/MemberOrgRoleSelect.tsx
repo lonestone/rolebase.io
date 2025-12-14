@@ -2,13 +2,15 @@ import { useAuth } from '@/user/hooks/useAuth'
 import {
   Button,
   ButtonProps,
+  Flex,
   Icon,
   Menu,
   MenuButton,
   MenuDivider,
-  MenuGroup,
   MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   Text,
   Tooltip,
   VStack,
@@ -20,10 +22,11 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiHelpCircle, FiX } from 'react-icons/fi'
 import { trpc } from 'src/trpc'
+import useOrgAdmin from '../hooks/useOrgAdmin'
+import useOrgOwner from '../hooks/useOrgOwner'
 import MemberInvitationModal from './MemberInvitationModal'
 import MemberInviteModal from './MemberInviteModal'
 import MemberRemoveAccessModal from './MemberRemoveAccessModal'
-import useOrgAdmin from '../hooks/useOrgAdmin'
 
 interface MemberOrgRoleSelectProps
   extends Omit<ButtonProps, 'onClick' | 'isLoading'> {
@@ -49,20 +52,25 @@ export default function MemberOrgRoleSelect({
   const removeAccessModal = useDisclosure()
   const { user } = useAuth()
   const isAdmin = useOrgAdmin()
+  const isOwner = useOrgOwner()
 
-  const isCurrentMember = user?.id === member.userId
-  const isDisabled = !isAdmin || isCurrentMember
   const currentRole = member.role || ''
+  const isCurrentMember = user?.id === member.userId
+  const isDisabled =
+    !isAdmin ||
+    (!isOwner && currentRole === Member_Role_Enum.Owner) ||
+    isCurrentMember
 
+  const canChangeRole = (newRole: Member_Role_Enum | '') => {
+    return (
+      !isCurrentMember &&
+      currentRole !== newRole &&
+      (isOwner || newRole !== Member_Role_Enum.Owner)
+    )
+  }
   const handleRoleChange = useCallback(
-    async (newRole: Member_Role_Enum | '') => {
+    async (newRole: Member_Role_Enum) => {
       if (newRole === currentRole) return
-
-      // Show confirmation modal when removing access
-      if (!newRole) {
-        removeAccessModal.onOpen()
-        return
-      }
 
       setLoading(true)
       try {
@@ -132,25 +140,41 @@ export default function MemberOrgRoleSelect({
                 t(`MemberOrgRoleSelect.roles.${currentRole}.title`)}
             </MenuButton>
             <MenuList zIndex={10} shadow="lg">
-              <MenuGroup title={t('MemberOrgRoleSelect.roles.title')}>
+              <MenuOptionGroup
+                type="radio"
+                value={currentRole}
+                title={t('MemberOrgRoleSelect.roles.title')}
+                onChange={(value) =>
+                  handleRoleChange(value as Member_Role_Enum)
+                }
+              >
                 {ROLES.map((role) => (
-                  <MenuItem key={role} onClick={() => handleRoleChange(role)}>
-                    <Text flex={1}>
+                  <MenuItemOption
+                    key={role}
+                    value={role}
+                    isDisabled={!canChangeRole(role)}
+                  >
+                    <Flex justify="space-between" align="center">
                       {t(`MemberOrgRoleSelect.roles.${role}.title`)}
-                    </Text>
-                    <Tooltip
-                      label={t(`MemberOrgRoleSelect.roles.${role}.description`)}
-                      placement="left"
-                    >
-                      <span>
-                        <Icon as={FiHelpCircle} ml={2} color="gray.500" />
-                      </span>
-                    </Tooltip>
-                  </MenuItem>
+                      <Tooltip
+                        label={t(
+                          `MemberOrgRoleSelect.roles.${role}.description`
+                        )}
+                        placement="left"
+                      >
+                        <span>
+                          <Icon as={FiHelpCircle} ml={2} color="gray.500" />
+                        </span>
+                      </Tooltip>
+                    </Flex>
+                  </MenuItemOption>
                 ))}
-              </MenuGroup>
+              </MenuOptionGroup>
               <MenuDivider />
-              <MenuItem onClick={() => handleRoleChange('')}>
+              <MenuItem
+                isDisabled={!canChangeRole('')}
+                onClick={removeAccessModal.onOpen}
+              >
                 <Icon as={FiX} mr={2} color="red.500" />
                 <Text flex={1} color="red.500">
                   {t('MemberOrgRoleSelect.removeAccess')}
