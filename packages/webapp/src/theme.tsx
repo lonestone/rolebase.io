@@ -108,6 +108,13 @@ const theme = extendTheme({
     outline: `0 0 0 3px hsl(35 97% 50%)`,
   },
   components: {
+    Alert: {
+      baseStyle: {
+        container: {
+          borderRadius: 'md',
+        },
+      },
+    },
     Link: {
       baseStyle: {
         fontWeight: 'bold',
