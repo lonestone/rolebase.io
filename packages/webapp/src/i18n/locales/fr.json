@@ -724,7 +724,16 @@
     "heading": "Membres",
     "searchPlaceholder": "Rechercher...",
     "invite": "Inviter des membres",
-    "create": "Créer un membre",
+    "stats": {
+      "active": "Membres actifs",
+      "invited": "Membres invités",
+      "inactive": "Membres inactifs"
+    },
+    "encouragement": {
+      "message": "Invitez des membres dans votre organisation pour exploiter tout le potentiel de Rolebase !",
+      "limitWarning": "Vous êtes actuellement sur le plan gratuit avec une limite de {{limit}} membres actifs.",
+      "upgradePlan": "Passer à un plan payant"
+    },
     "tags": {
       "readonly": "Lecture seule",
       "member": "Participant",

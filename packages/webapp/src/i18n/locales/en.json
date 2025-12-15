@@ -690,7 +690,16 @@
     "heading": "Members",
     "searchPlaceholder": "Search...",
     "invite": "Invite members",
-    "create": "Create a member",
+    "stats": {
+      "active": "Active members",
+      "invited": "Invited members",
+      "inactive": "Inactive members"
+    },
+    "encouragement": {
+      "message": "Invite members to your organization to unlock the full potential of Rolebase!",
+      "limitWarning": "You are currently on the free plan with a limit of {{limit}} active members.",
+      "upgradePlan": "Upgrade to a paid plan"
+    },
     "tags": {
       "readonly": "Read only",
       "member": "Participant",
