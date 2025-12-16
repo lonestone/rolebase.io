@@ -49,6 +49,7 @@ export default authedProcedure
       await guardMultipleOwnersOrg(opts.ctx, memberToArchive.orgId)
     }
 
+    // Update subscription
     if (memberToArchive.userId) {
       const { subscription, activeMembers } =
         await getOrgSubscriptionAndActiveMembers(memberToArchive.orgId)
@@ -66,6 +67,7 @@ export default authedProcedure
 
     return updateMember(memberId, {
       userId: null,
+      role: null,
       archived: true,
       inviteDate: null,
       inviteEmail: null,

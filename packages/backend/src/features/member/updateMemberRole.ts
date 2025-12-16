@@ -7,6 +7,9 @@ import { guardOrg } from '../../guards/guardOrg'
 import { authedProcedure } from '../../trpc/authedProcedure'
 import { getMemberById } from './utils/getMemberById'
 import { updateMember } from './utils/updateMember'
+import { getOrgSubscriptionAndActiveMembers } from '../orgSubscription/utils/getOrgSubscriptionAndActiveMembers'
+import { isSubscriptionActive } from '@rolebase/shared/model/subscription'
+import { updateStripeSubscription } from '../orgSubscription/utils/stripe'
 
 export default authedProcedure
   .input(
@@ -49,6 +52,22 @@ export default authedProcedure
         inviteEmail: null,
         inviteDate: null,
       })
+
+      // Update subscription
+      if (memberToUpdate.userId) {
+        const { subscription, activeMembers } =
+          await getOrgSubscriptionAndActiveMembers(memberToUpdate.orgId)
+
+        if (
+          subscription?.stripeSubscriptionId &&
+          isSubscriptionActive(subscription.status)
+        ) {
+          await updateStripeSubscription(
+            subscription.stripeSubscriptionId,
+            activeMembers
+          )
+        }
+      }
     } else if (role in Member_Role_Enum) {
       // Update role
       await updateMember(memberId, { role: role as Member_Role_Enum })
