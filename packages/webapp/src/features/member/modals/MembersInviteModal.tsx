@@ -151,82 +151,71 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
             <ModalCloseButton />
 
             <ModalBody>
-              {fields.length === 0 ? (
-                <Box mb={5}>
-                  <p>{t('MembersInviteModal.empty1')}</p>
-                  <p>{t('MembersInviteModal.empty2')}</p>
-                </Box>
-              ) : (
-                <>
-                  <VStack spacing={2} align="stretch" mb={5}>
-                    {fields.map((field, index) => (
-                      <Flex key={field.key} gap={2} alignItems="center">
-                        <Flex flex={1}>
-                          {field.create ? (
-                            <>
-                              <IconButton
-                                aria-label={t('common.delete')}
-                                icon={<FiX />}
-                                onClick={() => remove(index)}
-                                variant="ghost"
-                              />
-                              <Input
-                                placeholder={t('common.name')}
-                                {...register(`members.${index}.name`)}
-                              />
-                            </>
-                          ) : (
-                            <MemberButton
-                              member={{ name: field.name, picture: '' }}
-                              variant="ghost"
-                              flex={1}
-                              justifyContent="start"
-                              onClick={() => handleMemberClick(field.id)}
-                            />
-                          )}
-                        </Flex>
-                        <Box flex={1}>
-                          <Input
-                            type="email"
-                            placeholder={t(
-                              'MembersInviteModal.emailPlaceholder'
-                            )}
-                            {...register(`members.${index}.email`)}
+              <VStack spacing={2} align="stretch" mb={5}>
+                {fields.map((field, index) => (
+                  <Flex key={field.key} gap={2} alignItems="center">
+                    <Flex flex={1}>
+                      {field.create ? (
+                        <>
+                          <IconButton
+                            aria-label={t('common.delete')}
+                            icon={<FiX />}
+                            onClick={() => remove(index)}
+                            variant="ghost"
                           />
-                        </Box>
-                      </Flex>
-                    ))}
-                  </VStack>
-
-                  <Flex justify="space-between" align="center">
-                    <Button
-                      leftIcon={<AddIcon size={20} />}
-                      size="sm"
-                      variant="outline"
-                      onClick={handleAddMember}
-                    >
-                      Ajouter un membre
-                    </Button>
-                    <Button
-                      type="submit"
-                      colorScheme="blue"
-                      isLoading={formState.isSubmitting}
-                      isDisabled={emailCount === 0 || !hasEnoughSeats}
-                      leftIcon={<EmailIcon size={20} />}
-                    >
-                      {t('MembersInviteModal.invite', {
-                        count: emailCount,
-                      })}
-                    </Button>
+                          <Input
+                            placeholder={t('common.name')}
+                            {...register(`members.${index}.name`)}
+                          />
+                        </>
+                      ) : (
+                        <MemberButton
+                          member={{ name: field.name, picture: '' }}
+                          variant="ghost"
+                          flex={1}
+                          justifyContent="start"
+                          onClick={() => handleMemberClick(field.id)}
+                        />
+                      )}
+                    </Flex>
+                    <Box flex={1}>
+                      <Input
+                        type="email"
+                        placeholder={t('MembersInviteModal.emailPlaceholder')}
+                        {...register(`members.${index}.email`)}
+                      />
+                    </Box>
                   </Flex>
+                ))}
+              </VStack>
 
-                  {!hasEnoughSeats && (
-                    <SubscriptionLimitsAlert
-                      subscriptionSeats={subscriptionSeats}
-                      my={4}
-                    />
-                  )}
-                </>
+              <Flex justify="space-between" align="center">
+                <Button
+                  leftIcon={<AddIcon size={20} />}
+                  size="sm"
+                  variant="outline"
+                  onClick={handleAddMember}
+                >
+                  Ajouter un membre
+                </Button>
+                <Button
+                  type="submit"
+                  colorScheme="blue"
+                  isLoading={formState.isSubmitting}
+                  isDisabled={emailCount === 0 || !hasEnoughSeats}
+                  leftIcon={<EmailIcon size={20} />}
+                >
+                  {t('MembersInviteModal.invite', {
+                    count: emailCount,
+                  })}
+                </Button>
+              </Flex>
+
+              {!hasEnoughSeats && (
+                <SubscriptionLimitsAlert
+                  subscriptionSeats={subscriptionSeats}
+                  my={4}
+                />
               )}
             </ModalBody>
           </form>

@@ -711,8 +711,6 @@
     "heading": "Inviter des membres par email",
     "toastSuccess_one": "{{count}} membre invité !",
     "toastSuccess_other": "{{count}} membres invités !",
-    "empty1": "Tous les membres existants sont déjà liés à un compte utilisateur.",
-    "empty2": "Vous pouvez créer un nouveau membre puis l'inviter.",
     "emailPlaceholder": "Email...",
     "invite": "Inviter ({{count}})"
   },
