@@ -4,7 +4,13 @@ import {
 } from '@/common/api/storage_images'
 import MemberRoles from '@/member/components/MemberRoles'
 import useMember from '@/member/hooks/useMember'
-import { Avatar, Flex, Heading, ModalCloseButton } from '@chakra-ui/react'
+import {
+  Avatar,
+  Flex,
+  Heading,
+  ModalCloseButton,
+  VStack,
+} from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -38,13 +44,13 @@ export default function MemberCard({ id, selectedCircleId }: Props) {
         </Heading>
       </Flex>
 
-      <Flex ml={5} mb={2} alignItems="center" justifyContent="space-between">
+      <VStack m={5} mb={2} spacing={5} align="stretch">
         <Heading as="h3" size="sm">
           {t('MemberContent.memberRolesHeading')}
         </Heading>
-      </Flex>
 
-      <MemberRoles member={member} selectedCircleId={selectedCircleId} />
+        <MemberRoles member={member} />
+      </VStack>
     </>
   )
 }

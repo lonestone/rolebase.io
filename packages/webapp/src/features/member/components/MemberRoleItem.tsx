@@ -1,4 +1,5 @@
 import CircleAndParentsLinks from '@/circle/components/CircleAndParentsLinks'
+import { CircleContext } from '@/circle/contexts/CIrcleContext'
 import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react'
 import { CircleFullFragment } from '@gql'
@@ -23,6 +24,7 @@ export default function MemberRoleItem({
   onFocus,
 }: Props) {
   const { t } = useTranslation()
+  const circleContext = useContext(CircleContext)
   const circleMemberContext = useContext(CircleMemberContext)
   const canFocus = circleMemberContext?.canFocus
 
@@ -56,7 +58,7 @@ export default function MemberRoleItem({
         </Tooltip>
       )}
 
-      {!hideActions && (
+      {circleContext?.canEditMembers && !hideActions && (
         <Tooltip
           label={t('MemberRoleItem.removeTooltip', {
             member: circleMember.member.name,

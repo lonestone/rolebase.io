@@ -66,8 +66,6 @@ export default function UserNamePage() {
         status: 'success',
         duration: 2000,
       })
-
-      navigate('/')
     } catch (error: any) {
       toast({
         title: error?.message || t('common.error'),

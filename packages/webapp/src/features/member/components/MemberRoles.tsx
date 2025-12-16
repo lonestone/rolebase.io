@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import useCurrentMember from '../hooks/useCurrentMember'
 import useOrgOwner from '../hooks/useOrgOwner'
 import MemberRoleItem from './MemberRoleItem'
+import { CircleProvider } from '@/circle/contexts/CIrcleContext'
 
 interface Props extends BoxProps {
   member: MemberFragment
@@ -97,14 +98,16 @@ export default function MemberRoles({
       )}
 
       {memberCircles.map((circle) => (
-        <MemberRoleItem
-          key={circle.id}
-          memberId={member.id}
-          circle={circle}
-          hideActions={hideActions}
-          onFocus={() => handleFocusCircle(circle.id)}
-          onDelete={() => handleDelete(circle.id)}
-        />
+        <CircleProvider key={circle.id} circleId={circle.id}>
+          <MemberRoleItem
+            key={circle.id}
+            memberId={member.id}
+            circle={circle}
+            hideActions={hideActions}
+            onFocus={() => handleFocusCircle(circle.id)}
+            onDelete={() => handleDelete(circle.id)}
+          />
+        </CircleProvider>
       ))}
 
       {deleteModal.isOpen && deleteCircleId && (

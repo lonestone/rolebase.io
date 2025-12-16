@@ -2,7 +2,8 @@ import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
 import { useHoverItemStyle } from '@/common/hooks/useHoverItemStyle'
-import { useOrgId } from '@/org/hooks/useOrgId'
+import { usePathInOrg } from '@/org/hooks/usePathInOrg'
+import useSubscriptionData from '@/orgSubscription/hooks/useSubscriptionData'
 import { useAlgoliaSearch } from '@/search/hooks/useAlgoliaSearch'
 import { SearchIcon } from '@chakra-ui/icons'
 import {
@@ -25,40 +26,27 @@ import {
   Tag,
   Text,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
-import { Subscription_Payment_Status_Enum } from '@gql'
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import { SearchTypes } from '@rolebase/shared/model/search'
-import {
-  Subscription,
-  SubscriptionLimits,
-} from '@rolebase/shared/model/subscription'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as RouterLink } from 'react-router-dom'
 import { EmailIcon } from 'src/icons'
-import { trpc } from 'src/trpc'
 import MemberLinkOverlay from '../components/MemberLinkOverlay'
 import MemberOrgRoleSelect from '../components/MemberOrgRoleSelect'
 import useOrgAdmin from '../hooks/useOrgAdmin'
-import MembersInviteModal from '../modals/MembersInviteModal'
-import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import useOrgOwner from '../hooks/useOrgOwner'
+import MembersInviteModal from '../modals/MembersInviteModal'
 
 export default function MembersPage() {
   const { t } = useTranslation()
   const isAdmin = useOrgAdmin()
   const isOwner = useOrgOwner()
-  const orgId = useOrgId()
   const members = useStoreState((state) => state.org.members)
   const hover = useHoverItemStyle()
   const subscriptionPath = usePathInOrg('subscription')
-
-  // Subscription state
-  const [subscription, setSubscription] = useState<Subscription | null>(null)
-  const [subscriptionLoading, setSubscriptionLoading] = useState(true)
 
   // Invite modal
   const {
@@ -78,27 +66,6 @@ export default function MembersPage() {
     }
   }, [searchText])
 
-  // Fetch subscription data
-  useEffect(() => {
-    if (orgId) {
-      getSubscriptionData()
-    }
-  }, [orgId])
-
-  const getSubscriptionData = async () => {
-    setSubscriptionLoading(true)
-    try {
-      const res = await trpc.orgSubscription.getSubscription.query({
-        orgId: orgId!,
-      })
-      setSubscription(res)
-    } catch (e) {
-      // Silently fail - subscription is optional
-    } finally {
-      setSubscriptionLoading(false)
-    }
-  }
-
   // Calculate member statistics
   const memberStats = useMemo(() => {
     if (!members) {
@@ -110,21 +77,8 @@ export default function MembersPage() {
     return { active, invited, inactive }
   }, [members])
 
-  // Check subscription status
-  const hasActiveSubscription = useMemo(() => {
-    return (
-      subscription?.status === Subscription_Payment_Status_Enum.Active ||
-      subscription?.status === Subscription_Payment_Status_Enum.Trialing
-    )
-  }, [subscription])
-
-  // Get member limit
-  const memberLimit = useMemo(() => {
-    if (!subscription?.type) {
-      return SubscriptionLimits.free
-    }
-    return SubscriptionLimits[subscription.type] || SubscriptionLimits.free
-  }, [subscription])
+  // Subscription
+  const orgSubscription = useSubscriptionData()
 
   // Filter members
   const filteredMembers = useMemo(() => {
@@ -200,31 +154,29 @@ export default function MembersPage() {
           ))}
 
           {/* Member Statistics */}
-          {!subscriptionLoading && (
-            <HStack spacing={4} mt={6} ml={2} fontSize="sm">
-              <Flex gap={2}>
-                <Tag size="sm" colorScheme="gray">
-                  {memberStats.active}
-                </Tag>
-                <Text color="gray.500">{t('MembersPage.stats.active')}</Text>
-              </Flex>
-              <Flex gap={2}>
-                <Tag size="sm" colorScheme="gray">
-                  {memberStats.invited}
-                </Tag>
-                <Text color="gray.500">{t('MembersPage.stats.invited')}</Text>
-              </Flex>
-              <Flex gap={2}>
-                <Tag size="sm" colorScheme="gray">
-                  {memberStats.inactive}
-                </Tag>
-                <Text color="gray.500">{t('MembersPage.stats.inactive')}</Text>
-              </Flex>
-            </HStack>
-          )}
+          <HStack spacing={4} mt={6} ml={2} fontSize="sm">
+            <Flex gap={2}>
+              <Tag size="sm" colorScheme="gray">
+                {memberStats.active}
+              </Tag>
+              <Text color="gray.500">{t('MembersPage.stats.active')}</Text>
+            </Flex>
+            <Flex gap={2}>
+              <Tag size="sm" colorScheme="gray">
+                {memberStats.invited}
+              </Tag>
+              <Text color="gray.500">{t('MembersPage.stats.invited')}</Text>
+            </Flex>
+            <Flex gap={2}>
+              <Tag size="sm" colorScheme="gray">
+                {memberStats.inactive}
+              </Tag>
+              <Text color="gray.500">{t('MembersPage.stats.inactive')}</Text>
+            </Flex>
+          </HStack>
 
           {/* Subscription info */}
-          {isOwner && !hasActiveSubscription && memberLimit && (
+          {isOwner && !orgSubscription.isActive && (
             <Alert
               status="info"
               bg="yellow.50"
@@ -232,21 +184,19 @@ export default function MembersPage() {
               mt={6}
             >
               <AlertDescription>
-                {!hasActiveSubscription && memberLimit && (
-                  <Text>
-                    {t('MembersPage.encouragement.limitWarning', {
-                      limit: memberLimit,
-                    })}{' '}
-                    <Link
-                      as={RouterLink}
-                      to={subscriptionPath}
-                      color="blue.500"
-                      fontWeight="semibold"
-                    >
-                      {t('MembersPage.encouragement.upgradePlan')}
-                    </Link>
-                  </Text>
-                )}
+                <Text>
+                  {t('MembersPage.encouragement.limitWarning', {
+                    limit: orgSubscription.subscriptionSeats,
+                  })}{' '}
+                  <Link
+                    as={RouterLink}
+                    to={subscriptionPath}
+                    color="blue.500"
+                    fontWeight="semibold"
+                  >
+                    {t('MembersPage.encouragement.upgradePlan')}
+                  </Link>
+                </Text>
               </AlertDescription>
             </Alert>
           )}

@@ -25,6 +25,7 @@ export default function BottomFixedModal({
     >
       <Flex justifyContent="center" py={6} pl={left}>
         <Flex
+          position="relative"
           w={`${width}px`}
           maxW="98%"
           p={5}

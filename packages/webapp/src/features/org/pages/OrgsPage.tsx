@@ -63,6 +63,7 @@ export default function OrgsPage() {
   // Create modal
   const createModal = useDisclosure()
 
+  // Redirect to an org at mount if possible
   useEffect(() => {
     if (!orgs) return
     if (orgs.length === 0) {
@@ -76,6 +77,7 @@ export default function OrgsPage() {
       const org = orgs.find((org) => org.id === defaultOrgId)
       if (org) {
         navigate(`${getOrgPath(org)}/`)
+        return
       } else {
         localStorage.removeItem(UserLocalStorageKeys.DefaultOrgId)
       }
@@ -86,7 +88,7 @@ export default function OrgsPage() {
       navigate(`${getOrgPath(orgs[0])}/`)
       return
     }
-  }, [orgs])
+  }, [!!orgs])
 
   return (
     <ScrollableLayout

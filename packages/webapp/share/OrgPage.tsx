@@ -105,7 +105,8 @@ export default function OrgPage() {
       : CirclesGraphViews.AllCircles
 
   // Selected circle & member
-  const { circleId, memberId, goTo } = useContext(CircleMemberContext)!
+  const { circleId, memberId, parentId, goTo } =
+    useContext(CircleMemberContext)!
 
   // Data
   const circles = useStoreState((state) => state.org.circles)
@@ -152,7 +153,7 @@ export default function OrgPage() {
             events={events}
             width={boxSize.width}
             height={boxSize.height}
-            selectedCircleId={circleId}
+            selectedCircleId={parentId ? `${parentId}_${circleId}` : circleId}
             panzoomDisabled={queryParams.zoom === undefined}
           />
         )}

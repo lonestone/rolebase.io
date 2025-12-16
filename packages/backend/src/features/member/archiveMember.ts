@@ -1,10 +1,12 @@
+import { isSubscriptionActive } from '@rolebase/shared/model/subscription'
 import { TRPCError } from '@trpc/server'
 import * as yup from 'yup'
 import { Member_Role_Enum } from '../../gql'
 import { guardMultipleOwnersOrg } from '../../guards/guardMultipleOwnersOrg'
 import { guardOrg } from '../../guards/guardOrg'
 import { authedProcedure } from '../../trpc/authedProcedure'
-import { updateOrgSubscriptionAfterArchive } from '../orgSubscription/utils/updateOrgSubscriptionAfterArchive'
+import { getOrgSubscriptionAndActiveMembers } from '../orgSubscription/utils/getOrgSubscriptionAndActiveMembers'
+import { updateStripeSubscription } from '../orgSubscription/utils/stripe'
 import { getMemberById } from './utils/getMemberById'
 import { updateMember } from './utils/updateMember'
 
@@ -48,7 +50,18 @@ export default authedProcedure
     }
 
     if (memberToArchive.userId) {
-      await updateOrgSubscriptionAfterArchive(opts.ctx, memberToArchive.orgId)
+      const { subscription, activeMembers } =
+        await getOrgSubscriptionAndActiveMembers(memberToArchive.orgId)
+
+      if (
+        subscription?.stripeSubscriptionId &&
+        isSubscriptionActive(subscription.status)
+      ) {
+        await updateStripeSubscription(
+          subscription.stripeSubscriptionId,
+          activeMembers - 1
+        )
+      }
     }
 
     return updateMember(memberId, {

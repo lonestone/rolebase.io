@@ -1,3 +1,5 @@
+import SubscriptionLimitsAlert from '@/orgSubscription/components/SubscriptionLimitsAlert'
+import useSubscriptionData from '@/orgSubscription/hooks/useSubscriptionData'
 import {
   Button,
   FormControl,
@@ -10,15 +12,13 @@ import {
   ModalHeader,
   ModalOverlay,
   UseModalProps,
-  useDisclosure,
   useToast,
 } from '@chakra-ui/react'
 import { Member_Role_Enum, type MemberFragment } from '@gql'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { trpc } from 'src/trpc'
-import SubscriptionReachedMemberLimitModal from '@/orgSubscription/modals/SubscriptionReachedMemberLimitModal'
 import { SendIcon } from 'src/icons'
+import { trpc } from 'src/trpc'
 
 interface MemberInviteModalProps extends UseModalProps {
   member: MemberFragment
@@ -32,7 +32,8 @@ export default function MemberInviteModal({
   const toast = useToast()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const limitReachedModal = useDisclosure()
+  const { availableSeats, subscriptionSeats } = useSubscriptionData()
+  const hasEnoughSeats = availableSeats >= 1
 
   const handleConfirm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -53,64 +54,58 @@ export default function MemberInviteModal({
       })
       modalProps.onClose()
     } catch (error: any) {
-      if (error?.response?.status === 402) {
-        limitReachedModal.onOpen()
-      } else {
-        toast({
-          title: t('common.error'),
-          description: error?.response?.data || error?.message || undefined,
-          status: 'error',
-        })
-      }
+      toast({
+        title: t('common.error'),
+        description: error?.response?.data || error?.message || undefined,
+        status: 'error',
+      })
     }
     setLoading(false)
   }
 
   return (
-    <>
-      <Modal {...modalProps}>
-        <ModalOverlay />
-        <ModalContent>
-          <form onSubmit={handleConfirm}>
-            <ModalHeader>
-              {t('MemberInviteModal.heading', { member: member.name })}
-            </ModalHeader>
-            <ModalBody>
-              <FormControl>
-                <FormLabel>{t('MemberInviteModal.email')}</FormLabel>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('MemberInviteModal.emailPlaceholder')}
-                  autoFocus
-                />
-              </FormControl>
-            </ModalBody>
-            <ModalFooter>
-              <Button variant="ghost" mr={3} onClick={modalProps.onClose}>
-                {t('common.cancel')}
-              </Button>
-              <Button
-                type="submit"
-                colorScheme="blue"
-                leftIcon={<SendIcon size={20} />}
-                isDisabled={!email}
-                isLoading={loading}
-              >
-                {t('MemberInviteModal.invite')}
-              </Button>
-            </ModalFooter>
-          </form>
-        </ModalContent>
-      </Modal>
+    <Modal {...modalProps}>
+      <ModalOverlay />
+      <ModalContent>
+        <form onSubmit={handleConfirm}>
+          <ModalHeader>
+            {t('MemberInviteModal.heading', { member: member.name })}
+          </ModalHeader>
+          <ModalBody>
+            <FormControl>
+              <FormLabel>{t('MemberInviteModal.email')}</FormLabel>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t('MemberInviteModal.emailPlaceholder')}
+                autoFocus
+              />
+            </FormControl>
 
-      {limitReachedModal.isOpen && (
-        <SubscriptionReachedMemberLimitModal
-          isOpen
-          onClose={limitReachedModal.onClose}
-        />
-      )}
-    </>
+            {!hasEnoughSeats && (
+              <SubscriptionLimitsAlert
+                subscriptionSeats={subscriptionSeats}
+                my={4}
+              />
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={modalProps.onClose}>
+              {t('common.cancel')}
+            </Button>
+            <Button
+              type="submit"
+              colorScheme="blue"
+              leftIcon={<SendIcon size={20} />}
+              isDisabled={!email || !hasEnoughSeats}
+              isLoading={loading}
+            >
+              {t('MemberInviteModal.invite')}
+            </Button>
+          </ModalFooter>
+        </form>
+      </ModalContent>
+    </Modal>
   )
 }

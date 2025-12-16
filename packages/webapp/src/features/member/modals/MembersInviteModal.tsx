@@ -26,6 +26,8 @@ import { AddIcon, EmailIcon } from 'src/icons'
 import { trpc } from 'src/trpc'
 import MemberButton from '../components/MemberButton'
 import useCreateMember from '../hooks/useCreateMember'
+import useSubscriptionData from '@/orgSubscription/hooks/useSubscriptionData'
+import SubscriptionLimitsAlert from '@/orgSubscription/components/SubscriptionLimitsAlert'
 
 interface MemberFormData {
   id: string
@@ -44,6 +46,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
   const members = useStoreState((state) => state.org.members)
   const circleMemberContext = useContext(CircleMemberContext)
   const createMember = useCreateMember()
+  const { availableSeats, subscriptionSeats } = useSubscriptionData()
 
   const { control, register, handleSubmit, formState, watch } =
     useForm<FormValues>({
@@ -79,7 +82,6 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
   }, [members])
 
   const handleMemberClick = (memberId: string) => {
-    console.log({ memberId, members, fields })
     circleMemberContext?.goTo(undefined, memberId)
   }
 
@@ -137,6 +139,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
   }
 
   const emailCount = watchedMembers?.filter((m) => m?.email?.trim()).length || 0
+  const hasEnoughSeats = availableSeats >= (emailCount || 1)
 
   return (
     <>
@@ -208,7 +211,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                       type="submit"
                       colorScheme="blue"
                       isLoading={formState.isSubmitting}
-                      isDisabled={emailCount === 0}
+                      isDisabled={emailCount === 0 || !hasEnoughSeats}
                       leftIcon={<EmailIcon size={20} />}
                     >
                       {t('MembersInviteModal.invite', {
@@ -216,6 +219,13 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                       })}
                     </Button>
                   </Flex>
+
+                  {!hasEnoughSeats && (
+                    <SubscriptionLimitsAlert
+                      subscriptionSeats={subscriptionSeats}
+                      my={4}
+                    />
+                  )}
                 </>
               )}
             </ModalBody>

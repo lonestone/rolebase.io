@@ -24,7 +24,6 @@ export function route<F extends RouteFn>(routeFn: F) {
     const context = createContext({
       req,
       res,
-      info: { isBatchCall: false, calls: [] },
     })
 
     try {

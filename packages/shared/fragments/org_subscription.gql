@@ -1,0 +1,7 @@
+fragment OrgSubscription on org_subscription {
+  id
+  stripeSubscriptionId
+  stripeCustomerId
+  status
+  type
+}

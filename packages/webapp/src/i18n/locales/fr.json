@@ -1037,11 +1037,9 @@
     "desc2": "Si un utilisateur actif est ajouté pendant le mois, le montant est calculé au prorata entre la date actuelle et la fin du cycle de facturation et sera ajoutée à votre prochaine facture.",
     "desc3": "Si un utilisateur actif est supprimé pendant le mois, une note de crédit pour le temps restant pendant le mois sera appliquée à votre prochaine facture."
   },
-  "SubscriptionReachedMemberLimitModal": {
-    "title": "Oups, vous avez atteint le maximum de membres sur votre plan !",
-    "limitReached": "Vous pouvez passez à un forfait supérieur pour accueillir plus de personnes dans votre équipe.",
-    "upgradePlan": "Passer au plan supérieur",
-    "hide": "Masquer"
+  "SubscriptionLimitsAlert": {
+    "notEnoughSeats": "Votre abonnement actuel a une limite de {{limit}} membres actifs et n'a pas assez de places disponibles.",
+    "upgradePlan": "Passer à un plan supérieur"
   },
   "SubscriptionPlans": {
     "currentPlan": "Plan actuel",

@@ -28,7 +28,7 @@ export async function saveFile(
 
   // Upload file to Nhost Storage
   const { body } = await nhost.storage.uploadFiles({
-    'file[]': [new Blob([buffer])],
+    'file[]': [new Blob([new Uint8Array(buffer)])],
     'metadata[]': [{ name }],
   })
   const fileId = body.processedFiles[0].id

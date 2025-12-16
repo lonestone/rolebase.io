@@ -1,7 +1,6 @@
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { useDisclosure } from '@chakra-ui/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import CircleMemberModal from '../modals/CircleMemberModal'
 import {
   CircleMemberContext,
@@ -36,7 +35,6 @@ export function CircleMemberProvider({ children }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [state, setState] = useState<State>({})
   const [canFocus, setCanFocus] = useState(false)
-  const location = useLocation()
 
   const value: CircleMemberContextValue = useMemo(
     () => ({
@@ -74,17 +72,13 @@ export function CircleMemberProvider({ children }: Props) {
   }, [state])
 
   // Change canFocus when location changes or modal opens/closes
-  const isGraphPage = /\/(roles|news)$/.test(location.pathname)
   const computeCanFocus = () => {
+    const isGraphPage = /\/(roles|news)$/.test(window.location.pathname)
     const hasModal = !!document.getElementsByClassName(
       'chakra-modal__content'
     )[0]
     return isGraphPage && !hasModal
   }
-
-  useEffect(() => {
-    setCanFocus(computeCanFocus())
-  }, [location.pathname])
 
   useEffect(() => {
     const interval = setInterval(() => {

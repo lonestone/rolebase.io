@@ -6,24 +6,36 @@ export async function getOrgSubscriptionAndActiveMembers(orgId: string) {
     orgId,
   })
   const subscription = result.org_by_pk?.org_subscription
-  const activeMembers =
-    result.org_by_pk?.members_aggregate.aggregate?.count || 0
+  const activeMembers = result.org_by_pk?.active_members.aggregate?.count || 0
+  const invitedMembers = result.org_by_pk?.invited_members.aggregate?.count || 0
 
-  return { subscription, activeMembers }
+  return { subscription, activeMembers, invitedMembers }
 }
 
 const GET_ORG_SUB_AND_ACTIVE_MEMBERS = gql(`
   query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {
     org_by_pk(id: $orgId) {
       org_subscription {
-        id
-        stripeSubscriptionId
-        status
-        type
+        ...OrgSubscription
       }
-      members_aggregate(where: {
+      active_members: members_aggregate(where: {
         archived: { _eq: false },
         userId: { _is_null: false }
+      }) {
+        aggregate {
+          count
+        }
+      }
+      invited_members: members_aggregate(where: {
+        archived: { _eq: false },
+        _and: [
+          {
+            userId: { _is_null: true },
+          },
+          {
+            inviteEmail: { _is_null: false },
+          },
+        ],
       }) {
         aggregate {
           count

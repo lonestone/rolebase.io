@@ -3,6 +3,7 @@ import {
   MemberFragment,
   OrgFragment,
   OrgFullLightFragment,
+  OrgSubscriptionFragment,
   RoleSummaryFragment,
 } from '@gql'
 import { fixCirclesHue } from '@rolebase/shared/helpers/fixCirclesHue'
@@ -17,6 +18,7 @@ interface OrgModel {
   circles: CircleFullFragment[] | undefined
   baseRoles: RoleSummaryFragment[] | undefined
   members: MemberFragment[] | undefined
+  subscription: OrgSubscriptionFragment | undefined
   loading: boolean
   error: Error | undefined
   // Set Id instantly from URL params
@@ -38,6 +40,7 @@ const model: OrgModel = {
   circles: undefined,
   baseRoles: undefined,
   members: undefined,
+  subscription: undefined,
   loading: false,
   error: undefined,
 
@@ -47,6 +50,7 @@ const model: OrgModel = {
       state.circles = undefined
       state.baseRoles = undefined
       state.members = undefined
+      state.subscription = undefined
     }
   }),
 
@@ -95,6 +99,9 @@ const model: OrgModel = {
       state.members = [...result.members].sort((a, b) =>
         a.name.localeCompare(b.name)
       )
+
+      // Set subscription
+      state.subscription = result.org_subscription || undefined
     }
     state.loading = loading
     state.error = error

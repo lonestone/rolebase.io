@@ -1,13 +1,14 @@
 import sendMemberActivityEmail from '@rolebase/emails/helpers/sendMemberActivityEmail'
+import { checkSubscriptionSeats } from '@rolebase/shared/model/subscription'
 import { emailSchema, roleSchema } from '@rolebase/shared/schemas'
 import { TRPCError } from '@trpc/server'
 import * as yup from 'yup'
 import { Member_Role_Enum, gql } from '../../gql'
 import { guardOrg } from '../../guards/guardOrg'
-import { guardSubscriptionAvailableSeat } from '../../guards/guardSubscriptionAvailableSeat'
 import settings from '../../settings'
 import { authedProcedure } from '../../trpc/authedProcedure'
 import { adminRequest } from '../../utils/adminRequest'
+import { getOrgSubscriptionAndActiveMembers } from '../orgSubscription/utils/getOrgSubscriptionAndActiveMembers'
 import { generateInviteToken } from './utils/generateInviteToken'
 import { getMemberById } from './utils/getMemberById'
 import { updateMember } from './utils/updateMember'
@@ -55,7 +56,17 @@ export default authedProcedure
     }
 
     // Verify that the org has not reached it's member limit
-    await guardSubscriptionAvailableSeat(member.orgId)
+    const { subscription, activeMembers, invitedMembers } =
+      await getOrgSubscriptionAndActiveMembers(member.orgId)
+
+    if (
+      !checkSubscriptionSeats(subscription, activeMembers + invitedMembers + 1)
+    ) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: 'Reached user limit',
+      })
+    }
 
     // Update member
     const inviteDate = new Date()

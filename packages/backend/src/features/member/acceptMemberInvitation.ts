@@ -1,10 +1,13 @@
+import {
+  checkSubscriptionSeats,
+  isSubscriptionActive,
+} from '@rolebase/shared/model/subscription'
 import { TRPCError } from '@trpc/server'
 import * as yup from 'yup'
 import { gql } from '../../gql'
-import { guardSubscriptionAvailableSeat } from '../../guards/guardSubscriptionAvailableSeat'
 import { authedProcedure } from '../../trpc/authedProcedure'
 import { adminRequest } from '../../utils/adminRequest'
-import { isSubscriptionActive } from '../orgSubscription/utils/isSubscriptionActive'
+import { getOrgSubscriptionAndActiveMembers } from '../orgSubscription/utils/getOrgSubscriptionAndActiveMembers'
 import { updateStripeSubscription } from '../orgSubscription/utils/stripe'
 import { generateInviteToken } from './utils/generateInviteToken'
 import { getMemberById } from './utils/getMemberById'
@@ -64,8 +67,15 @@ export default authedProcedure
     }
 
     // Verify that the org has not reached it's member limit
-    const { activeMembers, subscription } =
-      await guardSubscriptionAvailableSeat(member.orgId)
+    const { subscription, activeMembers } =
+      await getOrgSubscriptionAndActiveMembers(member.orgId)
+
+    if (!checkSubscriptionSeats(subscription, activeMembers + 1)) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: 'Reached user limit',
+      })
+    }
 
     if (
       subscription &&

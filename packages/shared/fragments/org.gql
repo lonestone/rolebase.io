@@ -15,6 +15,9 @@ fragment Org on org {
 # then we reconstruct OrgFull in store/org.ts
 fragment OrgFull on org {
   ...Org
+  org_subscription {
+    ...OrgSubscription
+  }
   circles(where: { archived: { _eq: false } }) {
     ...CircleFull
   }
@@ -28,6 +31,9 @@ fragment OrgFull on org {
 
 fragment OrgFullLight on org {
   ...Org
+  org_subscription {
+    ...OrgSubscription
+  }
   circles(where: { archived: { _eq: false } }) {
     ...Circle
     members(where: { archived: { _eq: false } }) {

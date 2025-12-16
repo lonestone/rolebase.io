@@ -11,7 +11,7 @@ import { guardOrg } from '../../guards/guardOrg'
 import { authedProcedure } from '../../trpc/authedProcedure'
 import { adminRequest } from '../../utils/adminRequest'
 import { dateFromSeconds } from './utils/dateFromSeconds'
-import { isSubscriptionActive } from './utils/isSubscriptionActive'
+import { isSubscriptionActive } from '@rolebase/shared/model/subscription'
 import {
   ExtendedStripeCustomer,
   getStripeExtendedCustomer,

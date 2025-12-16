@@ -7,6 +7,7 @@ import {
 interface State {
   circleId?: string
   memberId?: string
+  parentId?: string
 }
 
 interface Props {
@@ -20,8 +21,10 @@ export function CircleMemberStateProvider({ children }: Props) {
     () => ({
       circleId: state.circleId,
       memberId: state.memberId,
-      goTo(circleId?: string, memberId?: string) {
-        setState({ circleId, memberId })
+      parentId: state.parentId,
+      canFocus: true,
+      goTo(circleId?: string, memberId?: string, parentId?: string) {
+        setState({ circleId, memberId, parentId })
       },
     }),
     [state]

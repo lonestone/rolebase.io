@@ -23,7 +23,7 @@ export type UserHasuraClaims = {
 export function createContext({
   req,
   res,
-}: CreateFastifyContextOptions): Context {
+}: Pick<CreateFastifyContextOptions, 'req' | 'res'>): Context {
   // User
   const userClaims = getUserClaims(req)
 
