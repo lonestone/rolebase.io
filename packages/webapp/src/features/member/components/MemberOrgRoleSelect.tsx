@@ -13,7 +13,6 @@ import {
   MenuOptionGroup,
   Text,
   Tooltip,
-  VStack,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
@@ -104,86 +103,79 @@ export default function MemberOrgRoleSelect({
 
   return (
     <>
-      <VStack spacing={3} align="stretch">
-        {!member.userId ? (
-          hasPendingInvitation ? (
-            <Button
-              variant="outline"
-              colorScheme="yellow"
-              onClick={invitationModal.onOpen}
-              {...boxProps}
-            >
-              {t('MemberOrgRoleSelect.viewPendingInvitation')}
-            </Button>
-          ) : (
-            <Button
-              variant="outline"
-              colorScheme="green"
-              onClick={inviteModal.onOpen}
-              isLoading={loading}
-              {...boxProps}
-            >
-              {t('MemberOrgRoleSelect.invite')}
-            </Button>
-          )
+      {!member.userId ? (
+        !isAdmin ? null : hasPendingInvitation ? (
+          <Button
+            variant="outline"
+            colorScheme="yellow"
+            onClick={invitationModal.onOpen}
+            {...boxProps}
+          >
+            {t('MemberOrgRoleSelect.viewPendingInvitation')}
+          </Button>
         ) : (
-          <Menu>
-            <MenuButton
-              as={Button}
-              rightIcon={isDisabled ? undefined : <FiChevronDown />}
-              variant="link"
-              isLoading={loading}
-              isDisabled={isDisabled}
-              {...boxProps}
+          <Button
+            variant="outline"
+            colorScheme="green"
+            onClick={inviteModal.onOpen}
+            isLoading={loading}
+            {...boxProps}
+          >
+            {t('MemberOrgRoleSelect.invite')}
+          </Button>
+        )
+      ) : (
+        <Menu>
+          <MenuButton
+            as={Button}
+            rightIcon={isDisabled ? undefined : <FiChevronDown />}
+            variant="link"
+            isLoading={loading}
+            isDisabled={isDisabled}
+            {...boxProps}
+          >
+            {currentRole && t(`MemberOrgRoleSelect.roles.${currentRole}.title`)}
+          </MenuButton>
+          <MenuList zIndex={10} shadow="lg">
+            <MenuOptionGroup
+              type="radio"
+              value={currentRole}
+              title={t('MemberOrgRoleSelect.roles.title')}
+              onChange={(value) => handleRoleChange(value as Member_Role_Enum)}
             >
-              {currentRole &&
-                t(`MemberOrgRoleSelect.roles.${currentRole}.title`)}
-            </MenuButton>
-            <MenuList zIndex={10} shadow="lg">
-              <MenuOptionGroup
-                type="radio"
-                value={currentRole}
-                title={t('MemberOrgRoleSelect.roles.title')}
-                onChange={(value) =>
-                  handleRoleChange(value as Member_Role_Enum)
-                }
-              >
-                {ROLES.map((role) => (
-                  <MenuItemOption
-                    key={role}
-                    value={role}
-                    isDisabled={!canChangeRole(role)}
-                  >
-                    <Flex justify="space-between" align="center">
-                      {t(`MemberOrgRoleSelect.roles.${role}.title`)}
-                      <Tooltip
-                        label={t(
-                          `MemberOrgRoleSelect.roles.${role}.description`
-                        )}
-                        placement="left"
-                      >
-                        <span>
-                          <Icon as={FiHelpCircle} ml={2} color="gray.500" />
-                        </span>
-                      </Tooltip>
-                    </Flex>
-                  </MenuItemOption>
-                ))}
-              </MenuOptionGroup>
-              <MenuDivider />
-              <MenuItem
-                isDisabled={!canChangeRole('')}
-                onClick={removeAccessModal.onOpen}
-              >
-                <Icon as={FiX} mr={2} color="red.500" />
-                <Text flex={1} color="red.500">
-                  {t('MemberOrgRoleSelect.removeAccess')}
-                </Text>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        )}
-      </VStack>
+              {ROLES.map((role) => (
+                <MenuItemOption
+                  key={role}
+                  value={role}
+                  isDisabled={!canChangeRole(role)}
+                >
+                  <Flex justify="space-between" align="center">
+                    {t(`MemberOrgRoleSelect.roles.${role}.title`)}
+                    <Tooltip
+                      label={t(`MemberOrgRoleSelect.roles.${role}.description`)}
+                      placement="left"
+                    >
+                      <span>
+                        <Icon as={FiHelpCircle} ml={2} color="gray.500" />
+                      </span>
+                    </Tooltip>
+                  </Flex>
+                </MenuItemOption>
+              ))}
+            </MenuOptionGroup>
+            <MenuDivider />
+            <MenuItem
+              isDisabled={!canChangeRole('')}
+              onClick={removeAccessModal.onOpen}
+            >
+              <Icon as={FiX} mr={2} color="red.500" />
+              <Text flex={1} color="red.500">
+                {t('MemberOrgRoleSelect.removeAccess')}
+              </Text>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      )}
 
       {inviteModal.isOpen && (
         <MemberInviteModal
