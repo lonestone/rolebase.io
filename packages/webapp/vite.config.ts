@@ -17,12 +17,18 @@ const plugins: PluginOption[] = [
 ]
 
 // Only upload sourcemaps in production when auth token is available
-if (process.env.SENTRY_AUTH_TOKEN) {
+if (
+  process.env.SENTRY_AUTH_TOKEN &&
+  process.env.SENTRY_URL &&
+  process.env.SENTRY_ORG &&
+  process.env.SENTRY_PROJECT
+) {
   plugins.push(
     sentryVitePlugin({
-      url: 'https://sentry.lonestone.io',
-      org: 'lonestone',
-      project: 'rolebase-webapp',
+      url: process.env.SENTRY_URL,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
     })
   )
 }
