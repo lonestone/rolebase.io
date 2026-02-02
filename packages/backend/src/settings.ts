@@ -59,7 +59,7 @@ export default {
   },
 
   sentry: {
-    dsn: 'https://96be3fef7522c1fed3e9f8b76b03c306@o297372.ingest.sentry.io/4506192581427200',
+    dsn: 'https://20336fa427da0be7bc9da97586db14e4@sentry.lonestone.io/4',
   },
 
   mailjet: {

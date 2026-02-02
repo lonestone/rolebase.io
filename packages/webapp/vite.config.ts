@@ -3,24 +3,33 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 // import visualizer from 'rollup-plugin-visualizer'
 import { fileURLToPath } from 'url'
-import { defineConfig } from 'vite'
+import { defineConfig, PluginOption } from 'vite'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+const plugins: PluginOption[] = [
+  svgr({ exportAsDefault: true }),
+  react(),
+  tsconfigPaths(),
+  // visualizer({
+  //   template: 'treemap',
+  // }),
+]
+
+// Only upload sourcemaps in production when auth token is available
+if (process.env.SENTRY_AUTH_TOKEN) {
+  plugins.push(
+    sentryVitePlugin({
+      url: 'https://sentry.lonestone.io',
+      org: 'lonestone',
+      project: 'rolebase-webapp',
+    })
+  )
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    svgr({ exportAsDefault: true }),
-    react(),
-    tsconfigPaths(),
-    sentryVitePlugin({
-      org: 'lone-stone',
-      project: 'rolebase-webapp',
-    }),
-    // visualizer({
-    //   template: 'treemap',
-    // }),
-  ],
+  plugins,
   build: {
     sourcemap: true,
     minify: 'esbuild',

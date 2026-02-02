@@ -1,6 +1,8 @@
 # TODO
 
 - Thread : bouton pour s'ajouter à un thread quand on n'en fait pas partie et qu'on veut participer
+- Thread : pouvoir inviter les sous-rôles comme en réunion
+- Tasks : pouvoir filtrer en incluant les sous-rôles
 - Notif réu par mail
 - Reponse auto demande de démo
 - Bouton diag / prise de rdv (https://calendar.app.google/Y1mM2Lgc1FjzWFRYA)

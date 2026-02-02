@@ -1,10 +1,10 @@
 import * as Sentry from '@sentry/node'
-// import { ProfilingIntegration } from '@sentry/profiling-node'
+import { nodeProfilingIntegration } from '@sentry/profiling-node'
 import settings from '../settings'
 
 Sentry.init({
   dsn: settings.sentry.dsn,
-  // integrations: [new ProfilingIntegration()],
+  integrations: [nodeProfilingIntegration()],
   // Performance Monitoring
   tracesSampleRate: 1.0,
   // Set sampling rate for profiling - this is relative to tracesSampleRate
@@ -12,10 +12,9 @@ Sentry.init({
 })
 
 export function startErrorHandling(name: string) {
-  return Sentry.startTransaction({ name })
+  return Sentry.startInactiveSpan({ name, op: 'http.server' })
 }
 
 export function captureError(error: Error) {
-  // DISABLED: This is not working in the cloud function environment, because source maps are not available
-  // Sentry.captureException(error)
+  Sentry.captureException(error)
 }

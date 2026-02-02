@@ -58,7 +58,7 @@ export default {
   },
 
   sentry: {
-    dsn: 'https://6dd0edde4d43a94558390034e243bd19@o297372.ingest.sentry.io/4506192457105408',
+    dsn: 'https://68e026695164824b4e6e2067784ceb7a@sentry.lonestone.io/5',
   },
 
   apps: {

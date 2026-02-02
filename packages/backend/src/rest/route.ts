@@ -49,7 +49,7 @@ export function route<F extends RouteFn>(routeFn: F) {
 
       res.status(status).send(message)
     } finally {
-      errorTransaction.finish()
+      errorTransaction.end()
     }
   }
 }
