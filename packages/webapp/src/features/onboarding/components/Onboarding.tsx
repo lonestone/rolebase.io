@@ -1,20 +1,12 @@
-import useUserMetadata from '@/user/hooks/useUserMetadata'
-import { add, isBefore } from 'date-fns'
 import React from 'react'
+import BookDemoTopBar from './BookDemoTopBar'
 import RateAppModal from './RateAppModal'
-import { useAuth } from '@/user/hooks/useAuth'
 
 export default function Onboarding() {
-  const { user } = useAuth()
-  const { metadata } = useUserMetadata()
-
-  // Show modal to ask user to rate the app
-  // if user signed up more than 7 days ago
-  const showRateModal =
-    user &&
-    metadata &&
-    !metadata.ratedApp &&
-    isBefore(new Date(user.createdAt), add(new Date(), { days: -7 }))
-
-  return showRateModal ? <RateAppModal /> : null
+  return (
+    <>
+      <BookDemoTopBar />
+      <RateAppModal />
+    </>
+  )
 }

@@ -837,6 +837,10 @@
     "feedback": "Merci ! Avez-vous des suggestions ? Est-ce qu'on peut vous aider ?",
     "helpButton": "Parler à un humain"
   },
+  "BookDemoTopBar": {
+    "message": "Vous souhaitez une visite gratuite et personnalisée de Rolebase ?",
+    "button": "Réserver une démo"
+  },
   "ReactionAddButton": {
     "tooltip": "Ajouter une réaction…"
   },

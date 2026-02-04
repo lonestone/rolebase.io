@@ -1,5 +1,6 @@
 import BottomFixedModal from '@/common/atoms/BottomFixedModal'
 import { StarsRating } from '@/common/atoms/StarsRating'
+import { useAuth } from '@/user/hooks/useAuth'
 import useUserMetadata from '@/user/hooks/useUserMetadata'
 import {
   Button,
@@ -11,11 +12,13 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Crisp } from 'crisp-sdk-web'
+import { add, isBefore } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function RateAppModal() {
   const { t } = useTranslation()
+  const { user } = useAuth()
   const { metadata, setMetadata } = useUserMetadata()
   const [rating, setRating] = useState(0)
   const [clickedGift, setClickedGift] = useState(false)
@@ -44,8 +47,14 @@ export default function RateAppModal() {
     Crisp.chat.open()
   }
 
-  // Don't show if already rated
-  const showModal = !metadata?.ratedApp && !closed
+  // Show modal to ask user to rate the app
+  // if user signed up more than 7 days ago
+  const showModal =
+    !!user &&
+    !!metadata &&
+    !metadata.ratedApp &&
+    !closed &&
+    isBefore(new Date(user.createdAt), add(new Date(), { days: -7 }))
 
   return (
     <BottomFixedModal isOpen={showModal}>
