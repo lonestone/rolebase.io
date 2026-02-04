@@ -803,7 +803,8 @@
     "feedback": "Thank you! Do you have any suggestions? Can we help you?",
     "helpButton": "Talk to a human"
   },
-  "BookDemoTopBar": {
+  "BookDemoModal": {
+    "title": "Discover Rolebase",
     "message": "Want a free personalized tour of Rolebase?",
     "button": "Book a demo"
   },

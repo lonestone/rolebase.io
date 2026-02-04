@@ -1,11 +1,11 @@
 import React from 'react'
-import BookDemoTopBar from './BookDemoTopBar'
+import BookDemoModal from './BookDemoModal'
 import RateAppModal from './RateAppModal'
 
 export default function Onboarding() {
   return (
     <>
-      <BookDemoTopBar />
+      <BookDemoModal />
       <RateAppModal />
     </>
   )

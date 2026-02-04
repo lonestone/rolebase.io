@@ -11,6 +11,7 @@ import { CirclesGraphViews } from '@/graph/types'
 import { SidebarContext } from '@/layout/contexts/SidebarContext'
 import MemberContent from '@/member/components/MemberContent'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
+import useUserMetadata from '@/user/hooks/useUserMetadata'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { Box, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
@@ -44,6 +45,7 @@ export default function CirclesPage() {
   useOverflowHidden()
   const { t } = useTranslation()
   const sidebarContext = useContext(SidebarContext)
+  const { metadata } = useUserMetadata()
 
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
@@ -198,15 +200,19 @@ export default function CirclesPage() {
 
       {/* Onboarding */}
       <BottomFixedModal
-        isOpen={circles?.length === 1 && panel === Panels.None}
+        isOpen={
+          circles?.length === 1 &&
+          panel === Panels.None &&
+          metadata?.bookDemoInfo === true
+        }
         width={450}
         textAlign="center"
         gap={3}
-        color="white"
-        bg="gray.600"
+        borderColor="yellow.800"
+        borderWidth="4px"
         _dark={{
-          color: 'black',
-          bg: 'gray.200',
+          bg: 'menudark',
+          borderColor: 'yellow.800',
         }}
       >
         <Text>{t('CirclesPage.empty')}</Text>
