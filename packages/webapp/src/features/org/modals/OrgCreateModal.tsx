@@ -29,7 +29,9 @@ import settings from 'src/settings'
 import { trpc } from 'src/trpc'
 import * as yup from 'yup'
 import useOrg from '../hooks/useOrg'
-import OnboardingVideoCreateOrg from '@/onboarding/components/OnboardingVideoCreateOrg'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 
 interface Values {
   name: string
@@ -157,8 +159,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
           </Link>
         </Box>
 
-        {/* Video: Comment créer une organisation */}
-        <OnboardingVideoCreateOrg />
+        <OnboardingVideo type={OnboardingVideoType.CreateOrg} />
       </SimpleGrid>
     </BrandModal>
   )

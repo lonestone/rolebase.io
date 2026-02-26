@@ -6,7 +6,9 @@ import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import useUpdatableQueryParams from '@/common/hooks/useUpdatableQueryParams'
 import useOrgMember from '@/member/hooks/useOrgMember'
-import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 import {
   Box,
   Button,
@@ -168,8 +170,10 @@ export default function ThreadsPage() {
           )}
 
           {threads?.length === 0 && (
-            // Video: Comment utiliser les sujets et tâches
-            <OnboardingVideoThreadsAndTasks mt={10} />
+            <OnboardingVideo
+              type={OnboardingVideoType.ThreadsAndTasks}
+              mt={10}
+            />
           )}
         </Box>
       </ScrollableLayout>

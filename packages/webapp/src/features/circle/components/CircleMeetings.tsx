@@ -10,7 +10,9 @@ import { useCircleMeetingsSubscription } from '@gql'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon, MeetingRecurringIcon } from 'src/icons'
-import OnboardingVideoCreateMeeting from '@/onboarding/components/OnboardingVideoCreateMeeting'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 
 interface Props {
   circleId: string
@@ -62,8 +64,7 @@ export default function CircleMeetings({ circleId }: Props) {
       {meetings && <MeetingsList meetings={meetings} noModal />}
 
       {isAdmin && meetings?.length === 0 && (
-        // Video: Comment créer une réunion Rolebase
-        <OnboardingVideoCreateMeeting mt={10} />
+        <OnboardingVideo type={OnboardingVideoType.CreateMeeting} mt={10} />
       )}
 
       {createModal.isOpen && (

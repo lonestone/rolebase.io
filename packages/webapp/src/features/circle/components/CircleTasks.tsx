@@ -11,7 +11,9 @@ import { useTranslation } from 'react-i18next'
 import { CreateIcon, KanbanIcon } from 'src/icons'
 import TasksList from '../../task/components/TasksList'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
-import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 
 interface Props {
   circleId: string
@@ -70,8 +72,7 @@ export default function CircleTasks({ circleId }: Props) {
       />
 
       {isAdmin && tasks.length === 0 && (
-        // Video: Comment utiliser les sujets et tâches
-        <OnboardingVideoThreadsAndTasks mt={10} />
+        <OnboardingVideo type={OnboardingVideoType.ThreadsAndTasks} mt={10} />
       )}
 
       {isCreateOpen && (

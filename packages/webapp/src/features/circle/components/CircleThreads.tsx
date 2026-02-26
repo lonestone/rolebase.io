@@ -9,7 +9,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon } from 'src/icons'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
-import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 
 interface Props {
   circleId: string
@@ -49,8 +51,7 @@ export default function CircleThreads({ circleId }: Props) {
       {threads && <ThreadsList threads={threads} showIcon showMember />}
 
       {isAdmin && threads?.length === 0 && (
-        // Video: Comment utiliser les sujets et tâches
-        <OnboardingVideoThreadsAndTasks mt={10} />
+        <OnboardingVideo type={OnboardingVideoType.ThreadsAndTasks} mt={10} />
       )}
 
       {isCreateOpen && (

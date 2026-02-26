@@ -15,8 +15,9 @@ import CircleRoleLinkParents from './CircleRoleLinkParents'
 import { RoleEditableField } from './RoleEditableField'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import { useStoreState } from '@store/hooks'
-import OnboardingVideoAddMembers from '@/onboarding/components/OnboardingVideoAddMembers'
-import OnboardingVideoCreateOrganization from '@/onboarding/components/OnboardingVideoCreateOrganization'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 
 interface Props {
   skipFetchRole?: boolean
@@ -126,11 +127,15 @@ export default function CircleRole({ skipFetchRole }: Props) {
       {isAdmin &&
         members?.length === 1 &&
         (circle.parentId ? (
-          // Video: Comment ajouter des membres
-          <OnboardingVideoAddMembers my={fieldsGap} />
+          <OnboardingVideo
+            type={OnboardingVideoType.AddMembers}
+            my={fieldsGap}
+          />
         ) : (
-          // Video: Comment créer un organigramme
-          <OnboardingVideoCreateOrganization my={fieldsGap} />
+          <OnboardingVideo
+            type={OnboardingVideoType.CreateOrgChart}
+            my={fieldsGap}
+          />
         ))}
 
       {sortedFields.map(({ field, initValue }) => (

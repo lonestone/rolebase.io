@@ -5,7 +5,9 @@ import OverflowContainer, {
 import TextErrors from '@/common/atoms/TextErrors'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import useOrgMember from '@/member/hooks/useOrgMember'
-import OnboardingVideoThreadsAndTasks from '@/onboarding/components/OnboardingVideoThreadsAndTasks'
+import OnboardingVideo, {
+  OnboardingVideoType,
+} from '@/onboarding/components/OnboardingVideo'
 import { Box } from '@chakra-ui/react'
 import { TasksViewTypes } from '@rolebase/shared/model/task'
 import React, { useContext } from 'react'
@@ -44,8 +46,12 @@ export default function TasksContent({ overflowContainer, isFullPage }: Props) {
           />
 
           {isAdmin && tasks.length === 0 && isFullPage && (
-            // Video: Comment utiliser les sujets et tâches
-            <OnboardingVideoThreadsAndTasks mt={10} maxW="3xl" mx="auto" />
+            <OnboardingVideo
+              type={OnboardingVideoType.ThreadsAndTasks}
+              mt={10}
+              maxW="3xl"
+              mx="auto"
+            />
           )}
         </OverflowContainer>
       )}
@@ -62,8 +68,10 @@ export default function TasksContent({ overflowContainer, isFullPage }: Props) {
           />
 
           {isAdmin && tasks.length === 0 && isFullPage && (
-            // Video: Comment utiliser les sujets et tâches
-            <OnboardingVideoThreadsAndTasks mt={10} />
+            <OnboardingVideo
+              type={OnboardingVideoType.ThreadsAndTasks}
+              mt={10}
+            />
           )}
         </Box>
       )}
