@@ -15,6 +15,7 @@ import {
   InputGroup,
   InputRightElement,
   useDisclosure,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import { useUpdateOrgMutation } from '@gql'
@@ -48,6 +49,7 @@ export default function OrgSettingsPage() {
   const orgId = useOrgId()
   const org = useOrg(orgId)
   const { t } = useTranslation()
+  const toast = useToast()
   const [editOrg] = useUpdateOrgMutation()
 
   const deleteModal = useDisclosure()
@@ -71,8 +73,14 @@ export default function OrgSettingsPage() {
     })
   }, [org])
 
-  const onSubmit = handleSubmit((values) => {
-    editOrg({ variables: { id: orgId!, values } })
+  const onSubmit = handleSubmit(async (values) => {
+    await editOrg({ variables: { id: orgId!, values } })
+    toast({
+      title: t('Settings.toastSaved'),
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    })
   })
 
   // URL

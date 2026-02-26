@@ -935,7 +935,8 @@
     "orgSettings": "Organisation",
     "subscription": "Abonnement",
     "apps": "Intégrations & API",
-    "superAdmin": "Administration"
+    "superAdmin": "Administration",
+    "toastSaved": "Paramètres enregistrés !"
   },
   "Sidebar": {
     "close": "Fermer la barre latérale",
