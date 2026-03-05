@@ -134,7 +134,7 @@ export default function APICard() {
           )}
 
           <Link
-            href="https://github.com/lonestone/rolebase.io/blob/main/docs/public-api.md"
+            href="https://github.com/Godefroy/rolebase/blob/main/docs/public-api.md"
             isExternal
             fontSize="sm"
             color="blue.500"

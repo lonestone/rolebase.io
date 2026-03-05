@@ -1,5 +1,8 @@
 # TODO
 
+- Pages solutions : annuaire privé, communauté, animation de réseau
+- Améliorer le système de décisions : UX, notifs...
+- Relances auto d'invitation
 - Thread : bouton pour s'ajouter à un thread quand on n'en fait pas partie et qu'on veut participer
 - Thread : pouvoir inviter les sous-rôles comme en réunion
 - Tasks : pouvoir filtrer en incluant les sous-rôles
