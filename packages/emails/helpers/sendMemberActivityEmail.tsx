@@ -1,13 +1,12 @@
 import { render } from '@react-email/components'
-import { SendEmailV3_1 } from 'node-mailjet'
 import React from 'react'
 import MemberActiviy from '../components/templates/MemberActivity'
 import i18n from '../i18n'
 import settings from '../settings'
-import { sendMailjetEmail } from './sendMailjetEmail'
+import { EmailAddress, sendEmail } from './sendEmail'
 
 interface Params {
-  recipients: SendEmailV3_1.IEmailAddressTo[]
+  recipients: EmailAddress[]
   type: string
   lang: string
   replace: Record<string, string>
@@ -40,7 +39,7 @@ export default async function sendMemberActivityEmail({
   )
 
   try {
-    await sendMailjetEmail({
+    await sendEmail({
       From: {
         Email: settings.sender.email,
         Name: settings.sender.name,

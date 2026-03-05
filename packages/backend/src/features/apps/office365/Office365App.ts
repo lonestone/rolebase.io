@@ -3,7 +3,7 @@ import type {
   Event as OfficeEvent,
   Subscription,
 } from '@microsoft/microsoft-graph-types-beta'
-import { sendMailjetEmail } from '@rolebase/emails/helpers/sendMailjetEmail'
+import { sendEmail } from '@rolebase/emails/helpers/sendEmail'
 import { truthy } from '@rolebase/shared/helpers/truthy'
 import {
   Calendar,
@@ -294,7 +294,7 @@ export default class Office365App
         const now = Date.now()
         const logs: TmpDataNotifyLog[] = this.tmpData?.notifyLogs || []
         if (logs.filter((log) => log.hash === newHash).length >= 3) {
-          await sendMailjetEmail({
+          await sendEmail({
             From: {
               Email: settings.mail.sender.email,
               Name: settings.mail.sender.name,

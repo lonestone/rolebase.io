@@ -1,13 +1,12 @@
 import { render } from '@react-email/components'
-import { SendEmailV3_1 } from 'node-mailjet'
 import React from 'react'
 import Digest, { OrgDigest } from '../components/templates/Digest'
 import i18n from '../i18n'
 import settings from '../settings'
-import { sendMailjetEmail } from './sendMailjetEmail'
+import { EmailAddress, sendEmail } from './sendEmail'
 
 interface Params {
-  recipient: SendEmailV3_1.IEmailAddressTo
+  recipient: EmailAddress
   lang: string
   timezone: string
   orgDigests: OrgDigest[]
@@ -27,7 +26,7 @@ export default async function sendDigestEmail({
   )
 
   try {
-    await sendMailjetEmail({
+    await sendEmail({
       From: {
         Email: settings.sender.email,
         Name: settings.sender.name,
