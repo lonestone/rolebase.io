@@ -56,11 +56,15 @@ export default authedProcedure
     }
 
     // Verify that the org has not reached it's member limit
+    const isResend = !!member.inviteEmail
     const { subscription, activeMembers, invitedMembers } =
       await getOrgSubscriptionAndActiveMembers(member.orgId)
 
     if (
-      !checkSubscriptionSeats(subscription, activeMembers + invitedMembers + 1)
+      !checkSubscriptionSeats(
+        subscription,
+        activeMembers + invitedMembers + (isResend ? 0 : 1)
+      )
     ) {
       throw new TRPCError({
         code: 'FORBIDDEN',
