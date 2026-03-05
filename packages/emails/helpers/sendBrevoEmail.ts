@@ -6,7 +6,7 @@ export async function sendBrevoEmail(...messages: EmailMessage[]) {
   const transporter = createTransport({
     host: 'smtp-relay.brevo.com',
     port: 587,
-    secure: true,
+    secure: false,
     auth: {
       user: settings.mailjet.public,
       pass: settings.mailjet.private,
