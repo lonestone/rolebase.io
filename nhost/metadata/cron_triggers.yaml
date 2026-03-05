@@ -16,6 +16,15 @@
     - name: x-nhost-webhook-secret
       value_from_env: NHOST_WEBHOOK_SECRET
   comment: ""
+- name: resend-invitations
+  webhook: '{{BACKEND_URL}}/cron.resendInvitations'
+  schedule: 0 12 * * *
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: x-nhost-webhook-secret
+      value_from_env: NHOST_WEBHOOK_SECRET
+  comment: ""
 - name: send-digest-emails
   webhook: '{{BACKEND_URL}}/cron.sendDigestEmails'
   schedule: 30 * * * *
