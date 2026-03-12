@@ -1,0 +1,73 @@
+---
+---
+import GuidePage from '../../../components/GuidePage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<GuidePage title="Import" description="Migrate your organizational structure from Holaspirit and other tools.">
+
+## Overview
+
+Rolebase supports importing organizational data from other governance tools, making it straightforward to migrate without rebuilding your structure from scratch. The primary supported source is **Holaspirit**, with the framework designed to support additional providers in the future.
+
+## Importing from Holaspirit
+
+[Holaspirit](https://www.holaspirit.com/) is a popular Holacracy and governance platform. Rolebase can import your Holaspirit data including roles, members, and their relationships.
+
+### Step-by-Step Import
+
+1. **Export from Holaspirit.** In Holaspirit, export your organizational data as a file. Refer to Holaspirit's documentation for the exact export procedure.
+
+2. **Open the Import Tool.** In Rolebase, navigate to your organization's settings and find the **Import** section.
+
+3. **Select Provider.** Choose **Holaspirit** as the import source.
+
+4. **Upload File.** Select the exported file from your computer and upload it.
+
+5. **Processing.** Rolebase parses the file and maps Holaspirit entities to Rolebase equivalents:
+   - Holaspirit circles and roles both become Rolebase roles (with purpose, domain, and accountabilities). A Holaspirit circle is imported as a role that contains sub-roles.
+   - Members are created with their names and role assignments.
+
+6. **Review.** Check the import preview to confirm that roles and members look correct.
+
+7. **Confirm.** Accept the import. The organizational structure is created in Rolebase.
+
+<Callout type="warning" title="Existing Data">
+  Importing into an organization that already has roles may create duplicates. It is recommended to import into a fresh organization.
+</Callout>
+
+## What Gets Imported
+
+| Holaspirit Entity | Rolebase Equivalent |
+|---|---|
+| Organization structure | Top-level role and hierarchy |
+| Circles | Roles containing sub-roles (with purpose, domain, accountabilities) |
+| Roles | Roles (with purpose, domain, accountabilities) |
+| Members | Member entries (without user accounts) |
+| Role assignments | Members assigned to their roles |
+
+<Callout type="info" title="User Accounts">
+  Imported members are created as entries without linked user accounts. You will need to [invite them via email](/en/docs/members) so they can log in and access the organization.
+</Callout>
+
+## Error Handling
+
+If the import encounters issues:
+
+- **Invalid file format** means the file is not in the expected format. Verify that you exported correctly from the source tool.
+- **Missing required fields** indicates some entities could not be mapped. Check the error details for specifics.
+- **Partial import** occurs when some items fail. The successfully imported items are kept. Review and manually add any missing pieces.
+
+## Importing from Other Tools
+
+While Holaspirit is the primary supported import source, the import framework is extensible. If you use a different governance tool, you can:
+
+- **Manual setup** lets you use the Rolebase interface to recreate your structure. For small organizations this may be faster.
+- **API import** lets developers use the GraphQL API to programmatically create roles and members from any data source. See the [Custom Integrations](/en/developers/custom-integrations) guide.
+
+## Next Steps
+
+- [Review your imported roles](/en/docs/circles-and-roles) and adjust if needed.
+- [Invite members](/en/docs/members) so they can access their roles.
+- [Set up meetings](/en/docs/meetings) to start operating in Rolebase.
+
+</GuidePage>

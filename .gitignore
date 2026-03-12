@@ -8,6 +8,7 @@ node_modules
 .nhost
 .secrets
 .turbo
+.astro
 
 # Builds
 dist

@@ -1,0 +1,116 @@
+---
+---
+import GuidePage from '../../../components/GuidePage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<GuidePage title="Rôles" description="Comprendre comment Rolebase fusionne cercles et rôles en un seul concept : le rôle.">
+
+## Le modèle unifié
+
+En Holacratie ou Sociocratie, la structure organisationnelle est typiquement divisée en deux concepts distincts : les **cercles** (équipes) et les **rôles** (responsabilités individuelles). Dans Rolebase, ces deux concepts sont **fusionnés en un seul : le rôle**.
+
+Un rôle peut être une simple responsabilité individuelle, ou il peut contenir d'autres rôles, auquel cas il joue le rôle de ce que les cadres traditionnels appelleraient un « cercle ». Vous pouvez donc utiliser les termes « cercle » et « rôle » de manière interchangeable dans Rolebase.
+
+<Callout type="info" title="Concept clé">
+  Dans Rolebase, un cercle est simplement un rôle qui contient d'autres rôles. Il n'y a pas d'entité « cercle » séparée : tout est un rôle.
+</Callout>
+
+Cette approche unifiée vous offre une flexibilité maximale : n'importe quel rôle peut devenir un cercle à tout moment en y ajoutant des sous-rôles, sans avoir besoin de convertir ou restructurer quoi que ce soit.
+
+## Propriétés des rôles
+
+Chaque rôle possède les propriétés suivantes :
+
+| Propriété | Description |
+|---|---|
+| **Raison d'être** | Pourquoi ce rôle existe, sa mission |
+| **Domaine** | Ce sur quoi ce rôle a une autorité exclusive |
+| **Redevabilités** | Activités continues que le rôle est censé réaliser |
+| **Liste de contrôle** | Éléments récurrents à passer en revue (utilisés en réunion) |
+| **Indicateurs** | Métriques et indicateurs clés de performance à suivre |
+| **Notes** | Notes et documentation en texte libre |
+
+Ces propriétés sont les mêmes, que le rôle soit un simple rôle individuel ou un rôle agissant comme un cercle (contenant des sous-rôles).
+
+## Créer un rôle
+
+1. Naviguez vers le rôle parent dans lequel vous souhaitez créer le nouveau rôle.
+2. Cliquez sur le bouton **Ajouter** et sélectionnez **Rôle**.
+3. Donnez-lui un nom et renseignez éventuellement la raison d'être, le domaine et les redevabilités.
+4. Le nouveau rôle apparaît comme un sous-rôle dans l'organigramme.
+
+Un rôle qui contient des sous-rôles est affiché comme un cercle dans l'organigramme, tandis qu'un rôle feuille (sans enfants) est affiché comme un simple rôle.
+
+## Imbrication : comment les cercles émergent
+
+Puisqu'un cercle est simplement un rôle avec des sous-rôles, la hiérarchie organisationnelle se construit naturellement en imbriquant des rôles :
+
+```
+Organisation (rôle de premier niveau)
+├── Produit (rôle avec sous-rôles = cercle)
+│   ├── Design (rôle feuille)
+│   ├── Ingénierie (rôle avec sous-rôles = cercle)
+│   │   ├── Frontend (rôle feuille)
+│   │   └── Backend (rôle feuille)
+│   └── QA (rôle feuille)
+├── Marketing (rôle avec sous-rôles = cercle)
+│   ├── Contenu (rôle feuille)
+│   └── Réseaux Sociaux (rôle feuille)
+└── Opérations (rôle feuille)
+```
+
+<Callout type="tip" title="Correspondance Holacratie / Sociocratie">
+  Un cercle holacratique ou sociocratique est implémenté dans Rolebase sous la forme d'un rôle contenant d'autres rôles. La raison d'être, le domaine et les redevabilités du cercle sont simplement les propriétés de ce rôle parent.
+</Callout>
+
+## Rôles de base
+
+Certains rôles sont des **rôles de base**, automatiquement assignés à tous les membres du rôle parent (cercle). C'est utile pour les responsabilités partagées que chaque membre devrait détenir.
+
+## Génération de rôles par IA
+
+Rolebase peut générer des suggestions de rôles en utilisant l'IA. En se basant sur la raison d'être et le contexte du rôle parent, l'IA propose des sous-rôles avec une raison d'être, un domaine et des redevabilités pré-remplis. Vous pouvez examiner et modifier les suggestions avant de les accepter.
+
+## Membres et leaders
+
+### Membres
+
+Les membres sont assignés directement à un rôle. Lorsqu'un rôle contient des sous-rôles (agit comme un cercle), une personne qui détient n'importe quel sous-rôle est également considérée comme membre du rôle parent.
+
+### Leaders
+
+Un leader de rôle (parfois appelé « Premier Lien » en Holacratie) est un membre avec une autorité spéciale sur le rôle et ses sous-rôles. Les leaders peuvent :
+
+- Assigner des membres aux sous-rôles.
+- Modifier la structure du rôle (lorsque la protection de la gouvernance est activée).
+- Représenter le rôle dans son rôle parent.
+
+### Liens parents
+
+Un **lien parent** connecte un rôle à son parent, indiquant qui représente les intérêts du sous-rôle dans le contexte plus large. C'est un concept fondamental de la gouvernance holacratique, car il garantit que l'information circule entre les niveaux.
+
+## Liens entre rôles
+
+Les **liens entre rôles** permettent la collaboration transversale entre des rôles qui ne sont pas dans une relation parent-enfant directe. En créant un lien, un membre d'un rôle peut participer à la gouvernance et aux opérations d'un autre rôle.
+
+C'est utile pour :
+
+- La coordination inter-équipes.
+- Les services partagés ou les équipes plateforme.
+- Les groupes de projet temporaires qui couvrent plusieurs rôles.
+
+## Paramètres de confidentialité
+
+Les rôles peuvent être marqués comme **privés**. Un rôle privé et son contenu (sous-rôles, réunions, discussions, tâches) ne sont visibles que par les membres de ce rôle. C'est utile pour les sujets sensibles comme les RH ou les finances.
+
+<Callout type="info" title="Visibilité">
+  Les rôles privés sont masqués pour les non-membres dans l'organigramme et dans les résultats de recherche. Seuls les membres du rôle peuvent voir et accéder au contenu d'un rôle privé.
+</Callout>
+
+## Prochaines étapes
+
+- [Ajouter des membres](/fr/docs/members) à vos rôles et leur assigner des responsabilités.
+- [Animer des réunions](/fr/docs/meetings) au sein de vos rôles.
+- [Créer des tâches](/fr/docs/tasks) et des [discussions](/fr/docs/threads) pour coordonner le travail.
+
+</GuidePage>

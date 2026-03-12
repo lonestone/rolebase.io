@@ -1,0 +1,111 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Actualités" entity="news" description="Une vue unifiée des activités récentes agrégeant les discussions actives, les décisions et les réunions terminées. Fournit un fil d'actualité centralisé à travers l'organisation.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'élément d'actualité (généré automatiquement)" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "circleId", type: "uuid", description: "Référence au cercle (optionnel)" },
+  { name: "threadId", type: "uuid", description: "Référence à la discussion source (le cas échéant)" },
+  { name: "decisionId", type: "uuid", description: "Référence à la décision source (le cas échéant)" },
+  { name: "meetingId", type: "uuid", description: "Référence à la réunion source (le cas échéant)" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de l'élément d'actualité" },
+]} />
+
+## Implémentation
+
+L'entité news est implémentée sous forme de vue SQL qui combine :
+
+1. **Discussions actives** — Discussions avec le statut "Active" ou "Preparation" qui ne sont pas archivées
+2. **Décisions non archivées** — Toutes les décisions qui n'ont pas été archivées
+3. **Réunions terminées** — Réunions qui sont terminées et non archivées
+
+## Relations
+
+### Relations objet
+
+- `org` — L'organisation à laquelle cet élément d'actualité appartient
+- `circle` — Le cercle associé à cet élément d'actualité (le cas échéant)
+- `thread` — La discussion source (si l'actualité provient d'une discussion)
+- `decision` — La décision source (si l'actualité provient d'une décision)
+- `meeting` — La réunion source (si l'actualité provient d'une réunion)
+
+## Exemples de requêtes
+
+### Lister les actualités récentes
+
+```graphql
+query GetRecentNews($orgId: uuid!) {
+  news(
+    where: { orgId: { _eq: $orgId } }
+    order_by: { createdAt: desc }
+    limit: 10
+  ) {
+    id
+    createdAt
+    thread {
+      title
+      status
+    }
+    decision {
+      title
+      description
+    }
+    meeting {
+      title
+      summary
+    }
+    circle {
+      role {
+        name
+      }
+    }
+  }
+}
+```
+
+### Requête d'actualités avec filtres et agrégation
+
+```graphql
+query GetFilteredNews($where: news_bool_exp!) {
+  news(
+    where: { _and: [{ orgId: { _eq: $orgId } }, $where] }
+    order_by: { createdAt: desc }
+  ) {
+    id
+    createdAt
+    threadId
+    decisionId
+    meetingId
+    org {
+      name
+    }
+  }
+  news_aggregate(where: { _and: [{ orgId: { _eq: $orgId } }, $where] }) {
+    aggregate {
+      count
+    }
+  }
+}
+```
+
+## Permissions
+
+L'accès aux actualités est contrôlé selon les règles suivantes :
+
+- Les membres de l'organisation peuvent consulter les éléments d'actualité de leur organisation
+- Les éléments d'actualité héritent des règles de visibilité de leurs entités sources (paramètres de confidentialité des discussions, décisions et réunions)
+- L'accès public est limité aux organisations avec des informations partagées
+
+<Callout type="info">
+Les éléments d'actualité sont générés automatiquement à partir des entités sources. Chaque élément d'actualité représente exactement une source (une discussion, une décision ou une réunion). Cette entité est en lecture seule car il s'agit d'une vue SQL.
+</Callout>
+
+</ApiReference>

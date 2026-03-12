@@ -49,9 +49,9 @@
   "Digest": {
     "subject": "Dernières activités sur Rolebase",
     "threads": {
-      "heading": "Sujets",
-      "description": "Nouveautés dans les sujets que vous suivez :",
-      "activities_zero": "Nouveau sujet !",
+      "heading": "Discussions",
+      "description": "Nouveautés dans les discussions que vous suivez :",
+      "activities_zero": "Nouvelle discussion !",
       "activities_one": "{{count}} nouveau message",
       "activities_other": "{{count}} nouveaux messages"
     },

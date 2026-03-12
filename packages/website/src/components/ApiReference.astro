@@ -1,0 +1,24 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro'
+
+interface Props {
+  title: string
+  entity: string
+  description?: string
+}
+
+const { title, entity, description } = Astro.props
+---
+
+<DocsLayout title={title} section="api">
+  <article>
+    <header class="mb-8">
+      <span class="inline-block bg-gray-800 text-white text-xs px-2.5 py-0.5 rounded font-semibold uppercase tracking-wide">API Reference</span>
+      <h1 class="mt-1 text-4xl font-bold font-mono"><code class="text-[1em] bg-transparent p-0">{entity}</code></h1>
+      {description && <p class="text-lg text-text-secondary">{description}</p>}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</DocsLayout>

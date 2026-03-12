@@ -1,0 +1,143 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Activité de discussion" entity="thread_activity" description="Représente une activité ou une interaction au sein d'une discussion. Les activités comprennent des messages, des sondages et des références à d'autres entités, constituant le contenu conversationnel d'une discussion.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'activité (généré automatiquement)" },
+  { name: "threadId", type: "uuid", description: "Référence à la discussion parente" },
+  { name: "userId", type: "uuid", description: "Référence à l'utilisateur qui a créé l'activité" },
+  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type d'activité : Message, Poll, Thread, Meeting, Task ou Decision" },
+  { name: "data", type: "JSON", description: "Contenu de l'activité (le format dépend du type)" },
+  { name: "createdAt", type: "timestamptz", description: "Date de création de l'activité (par défaut : horodatage actuel)" },
+  { name: "refThreadId", type: "uuid", description: "Référence optionnelle à une autre discussion" },
+  { name: "refMeetingId", type: "uuid", description: "Référence optionnelle à une réunion" },
+  { name: "refTaskId", type: "uuid", description: "Référence optionnelle à une tâche" },
+  { name: "refDecisionId", type: "uuid", description: "Référence optionnelle à une décision" },
+]} />
+
+## Types d'activité
+
+Le champ `type` accepte les valeurs d'énumération suivantes :
+
+- **Message** — Message texte ou contenu riche
+- **Poll** — Sondage pour recueillir des avis
+- **Thread** — Référence à une autre discussion
+- **Meeting** — Référence à une réunion
+- **Task** — Référence à une tâche
+- **Decision** — Référence à une décision
+
+## Relations
+
+### Relations objet
+
+- `thread` — La discussion à laquelle cette activité appartient
+- `member` — Le membre qui a créé l'activité
+- `refThread` — Discussion référencée (optionnel)
+- `refMeeting` — Réunion référencée (optionnel)
+- `refTask` — Tâche référencée (optionnel)
+- `refDecision` — Décision référencée (optionnel)
+
+### Relations tableau
+
+- `reactions` — Réactions à cette activité (voir [thread_activity_reaction](/fr/api/thread_activity_reaction))
+- `reactions_aggregate` — Données agrégées des réactions
+
+## Exemples de requêtes
+
+### Lister les activités d'une discussion
+
+```graphql
+query GetThreadActivities($threadId: uuid!) {
+  thread_activity(
+    where: { threadId: { _eq: $threadId } }
+    order_by: { createdAt: asc }
+  ) {
+    id
+    threadId
+    userId
+    createdAt
+    type
+    data
+    reactions {
+      id
+      shortcode
+      userId
+    }
+    refThread {
+      id
+      title
+    }
+    refMeeting {
+      id
+      title
+    }
+    refTask {
+      id
+      title
+    }
+    refDecision {
+      id
+      title
+    }
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer une activité de discussion
+
+```graphql
+mutation CreateThreadActivity {
+  insert_thread_activity_one(
+    object: {
+      threadId: "123e4567-e89b-12d3-a456-426614174000"
+      userId: "123e4567-e89b-12d3-a456-426614174001"
+      type: Message
+      data: { message: "Hello team!" }
+    }
+  ) {
+    id
+    type
+    data
+    createdAt
+  }
+}
+```
+
+### Mettre à jour une activité de discussion
+
+```graphql
+mutation UpdateThreadActivity {
+  update_thread_activity_by_pk(
+    pk_columns: { id: "123e4567-e89b-12d3-a456-426614174002" }
+    _set: { data: { message: "Updated message" } }
+  ) {
+    id
+    data
+    createdAt
+  }
+}
+```
+
+## Permissions
+
+L'accès aux activités de discussion est contrôlé via les permissions Hasura et la sécurité au niveau des lignes :
+
+- **Consultation** — Les utilisateurs peuvent consulter les activités des discussions auxquelles ils ont accès
+- **Création** — Les utilisateurs peuvent créer de nouvelles activités dans les discussions auxquelles ils ont accès
+- **Modification** — Les utilisateurs ne peuvent modifier que leurs propres activités
+- **Accès administrateur** — Les administrateurs de l'organisation ont un accès complet à toutes les activités de leur organisation
+
+<Callout type="info">
+La structure du champ `data` varie en fonction du type d'activité. Les activités sont ordonnées chronologiquement au sein d'une discussion et supportent les réactions avec agrégation. Les champs de référence permettent aux activités de se lier à d'autres entités pour le contexte.
+</Callout>
+
+</ApiReference>

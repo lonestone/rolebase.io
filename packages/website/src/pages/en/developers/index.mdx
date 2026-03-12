@@ -1,0 +1,45 @@
+---
+---
+import DocPage from '../../../components/DocPage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<DocPage title="Developers" section="developers" description="Build on Rolebase with the GraphQL API and self-hosting.">
+
+## Overview
+
+Rolebase is fully **open-source** and built on top of a powerful stack that makes it easy to extend, integrate, and self-host.
+
+Whether you want to build custom integrations, automate workflows, or contribute to the codebase, this section provides everything you need to get started.
+
+## Architecture
+
+Rolebase is structured as an npm workspace monorepo with the following packages:
+
+| Package | Description |
+|---|---|
+| `packages/webapp` | React frontend (Vite, Chakra UI) |
+| `packages/backend` | tRPC backend and serverless functions |
+| `packages/shared` | Shared types and utilities |
+| `packages/website` | Documentation site (Astro) |
+
+The backend runs on [Nhost](https://nhost.io), which provides authentication, a PostgreSQL database exposed via [Hasura](https://hasura.io) (GraphQL), and file storage.
+
+## What You Can Do
+
+- **Build custom integrations** using the GraphQL API to sync data with external tools.
+- **Self-host Rolebase** for full control over your data and infrastructure.
+- **Contribute** to the open-source codebase on GitHub.
+
+## Next Steps
+
+| Page | Description |
+|---|---|
+| [Getting Started](/en/developers/getting-started) | Set up the development environment and run Rolebase locally |
+| [Custom Integrations](/en/developers/custom-integrations) | Build integrations using the GraphQL API |
+| [API Reference](/en/api) | Browse the full GraphQL schema and entity documentation |
+
+<Callout type="tip" title="Open Source">
+  The source code is available at [github.com/lonestone/rolebase.io](https://github.com/lonestone/rolebase.io). Contributions are welcome.
+</Callout>
+
+</DocPage>

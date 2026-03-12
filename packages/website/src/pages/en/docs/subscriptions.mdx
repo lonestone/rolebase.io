@@ -1,0 +1,97 @@
+---
+---
+import GuidePage from '../../../components/GuidePage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<GuidePage title="Subscriptions" description="Plans, billing, and managing your Rolebase subscription.">
+
+## Overview
+
+Rolebase offers tiered subscription plans to fit organizations of different sizes. Subscriptions are managed per organization and billed through **Stripe**.
+
+## Plans
+
+| Plan | Pricing | Features |
+|---|---|---|
+| **Free** | $0 | Basic features. Limited number of members. Ideal for small teams getting started. |
+| **Startup** | Per seat/month | All core features. Suitable for growing teams that need full access to meetings, tasks, threads, and integrations. |
+| **Business** | Per seat/month | Everything in Startup, plus advanced features, priority support, and higher limits. |
+
+<Callout type="info" title="Per Seat Billing">
+  Paid plans are billed per active member (seat) per month. Archived members do not count toward your seat total.
+</Callout>
+
+## What is Included in Each Plan
+
+### Free Plan
+- Organization creation
+- Roles
+- Basic meetings
+- Tasks and threads
+- Limited member count
+
+### Startup Plan
+- Everything in Free
+- Unlimited members
+- Meeting templates and recurring meetings
+- Calendar integrations (Office 365, Google Calendar)
+- iCal export
+
+### Business Plan
+- Everything in Startup
+- Advanced governance features
+- Priority support
+- Higher storage and API limits
+
+<Callout type="tip" title="Try Before You Subscribe">
+  The Free plan is fully functional for small teams. You can explore all core features before deciding to upgrade.
+</Callout>
+
+## Managing Your Subscription
+
+Only the organization **Owner** can manage the subscription.
+
+### Subscribing
+
+1. Go to your organization's settings.
+2. Navigate to the **Subscription** or **Billing** section.
+3. Select a plan.
+4. Enter payment details via the Stripe checkout flow.
+5. Your subscription is activated immediately.
+
+### Changing Plans
+
+You can upgrade or downgrade your plan at any time:
+
+- **Upgrading** takes effect immediately. You are charged a prorated amount for the remainder of the billing cycle.
+- **Downgrading** takes effect at the end of the current billing cycle.
+
+### Cancelling
+
+To cancel your subscription:
+
+1. Go to billing settings.
+2. Click **Cancel Subscription**.
+3. Your plan remains active until the end of the current billing period, then reverts to the Free plan.
+
+No data is lost when downgrading or cancelling. Your organization, roles, and history remain intact.
+
+## Billing and Invoices
+
+Rolebase uses **Stripe** for payment processing. From the billing section you can:
+
+- View your current plan and next billing date.
+- Update your payment method.
+- Download **invoices** for past payments.
+- View billing history.
+
+<Callout type="info" title="Secure Payments">
+  All payment processing is handled by Stripe. Rolebase never stores your credit card details.
+</Callout>
+
+## Next Steps
+
+- [Invite members](/en/docs/members), since active members count toward your seat total.
+- [Explore all features](/en/docs) to get the most from your plan.
+
+</GuidePage>

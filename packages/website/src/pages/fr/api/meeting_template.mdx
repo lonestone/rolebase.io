@@ -1,0 +1,112 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Modèle de réunion" entity="meeting_template" description="Une configuration de réunion réutilisable qui définit la structure et le déroulement des réunions, aidant les organisations à standardiser leurs formats de réunion.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique du modèle" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "title", type: "String", description: "Titre du modèle" },
+  { name: "stepsConfig", type: "[meeting_step_config]", description: "Tableau de configurations d'étapes définissant la structure de la réunion" },
+]} />
+
+## Relations
+
+**Relations objet :**
+- `org` — L'organisation à laquelle ce modèle appartient
+
+## Configuration des étapes
+
+Le tableau `stepsConfig` définit la structure de la réunion. Chaque entrée comprend :
+
+- **id** — Identifiant unique de l'étape
+- **type** — Type d'étape (Tour, Threads, Checklist, Indicators, Tasks)
+- **title** — Titre affiché pour l'étape
+
+## Exemples de requêtes
+
+### Lister les modèles de réunion
+
+```graphql
+query meetingTemplates($orgId: uuid!) {
+  meeting_template(
+    where: { orgId: { _eq: $orgId } }
+    order_by: { title: asc }
+  ) {
+    id
+    orgId
+    title
+    stepsConfig
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer un modèle de réunion
+
+```graphql
+mutation createMeetingTemplate {
+  insert_meeting_template_one(
+    object: {
+      orgId: "org-id"
+      title: "Weekly Team Sync"
+      stepsConfig: [
+        { id: "step-1", type: Tour, title: "Notes" }
+        { id: "step-2", type: Threads, title: "Topics" }
+        { id: "step-3", type: Checklist, title: "Checklist" }
+        { id: "step-4", type: Indicators, title: "Indicators" }
+        { id: "step-5", type: Tasks, title: "Tasks" }
+      ]
+    }
+  ) {
+    id
+    title
+    stepsConfig
+  }
+}
+```
+
+### Mettre à jour un modèle de réunion
+
+```graphql
+mutation updateMeetingTemplate($id: uuid!) {
+  update_meeting_template_by_pk(
+    pk_columns: { id: $id }
+    _set: {
+      title: "Updated Team Sync"
+      stepsConfig: [{ id: "step-1", type: Tour, title: "Notes" }]
+    }
+  ) {
+    id
+    title
+    stepsConfig
+  }
+}
+```
+
+### Supprimer un modèle de réunion
+
+```graphql
+mutation deleteMeetingTemplate($id: uuid!) {
+  delete_meeting_template_by_pk(id: $id) {
+    id
+  }
+}
+```
+
+## Permissions
+
+Les membres de l'organisation peuvent consulter, créer, mettre à jour et supprimer des modèles au sein de leur organisation. Les modèles sont des ressources à l'échelle de l'organisation, accessibles à tous les membres.
+
+<Callout type="info" title="Notes">
+  Les modèles peuvent être utilisés pour des réunions ponctuelles et récurrentes. L'ordre des étapes dans `stepsConfig` détermine le déroulement de la réunion. Les modifications d'un modèle n'affectent pas les réunions existantes déjà créées à partir de celui-ci.
+</Callout>
+
+</ApiReference>

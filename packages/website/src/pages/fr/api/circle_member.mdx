@@ -1,0 +1,100 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Membre de cercle" entity="circle_member" description="Représente une relation d'appartenance entre un membre et un cercle, avec suivi du statut d'association et de l'historique.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'appartenance au cercle" },
+  { name: "circleId", type: "uuid", description: "Référence au cercle" },
+  { name: "memberId", type: "uuid", description: "Référence au membre" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de l'appartenance" },
+  { name: "archived", type: "Boolean", description: "Indique si l'appartenance est archivée (par défaut : false)" },
+]} />
+
+## Relations
+
+**Relations objet :**
+- `circle` — Le cercle auquel cette appartenance se rapporte
+- `member` — Le membre associé à cette appartenance au cercle
+
+## Exemples de requêtes
+
+### Obtenir les membres d'un cercle spécifique
+
+```graphql
+query GetCircleMembers($circleId: uuid!) {
+  circle_member(
+    where: { circleId: { _eq: $circleId }, archived: { _eq: false } }
+  ) {
+    id
+    circle {
+      id
+      role {
+        name
+      }
+    }
+    member {
+      id
+      name
+      description
+    }
+    createdAt
+  }
+}
+```
+
+## Exemples de mutations
+
+### Ajouter un membre à un cercle
+
+```graphql
+mutation AddCircleMember {
+  insert_circle_member_one(
+    object: { circleId: "circle-id", memberId: "member-id" }
+  ) {
+    id
+    circle {
+      id
+      role {
+        name
+      }
+    }
+    member {
+      name
+    }
+  }
+}
+```
+
+### Archiver une appartenance à un cercle
+
+```graphql
+mutation UpdateCircleMember {
+  update_circle_member_by_pk(
+    pk_columns: { id: "circle-member-id" }
+    _set: { archived: true }
+  ) {
+    id
+    archived
+  }
+}
+```
+
+## Permissions
+
+- **Propriétaires et administrateurs de l'organisation :** Peuvent ajouter et retirer des membres de n'importe quel cercle
+- **Leaders de cercle :** Peuvent gérer les membres de leurs cercles
+- **Membres :** Peuvent consulter les appartenances aux cercles auxquels ils appartiennent
+- Un membre ne peut pas être ajouté à un cercle s'il a déjà une appartenance active
+
+<Callout type="info" title="Notes">
+  L'indicateur `archived` préserve l'historique des appartenances tout en marquant les appartenances inactives. L'appartenance à un cercle détermine l'accès aux ressources du cercle comme les réunions, tâches et décisions. Les membres peuvent appartenir à plusieurs cercles simultanément.
+</Callout>
+
+</ApiReference>

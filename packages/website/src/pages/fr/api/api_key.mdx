@@ -1,0 +1,89 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Clé API" entity="api_key" description="Représente une clé API pour l'accès programmatique à l'API Rolebase. Les clés API authentifient et autorisent l'intégration avec des applications et services externes.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de la clé API (généré automatiquement)" },
+  { name: "userId", type: "uuid", description: "Référence à l'utilisateur propriétaire de cette clé" },
+  { name: "name", type: "String", description: "Nom descriptif de la clé API" },
+  { name: "value", type: "String", description: "Valeur de la clé API (générée automatiquement, affichée une seule fois à la création)" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de la clé API (par défaut : horodatage actuel)" },
+]} />
+
+## Relations
+
+### Relations objet
+
+- `user` — L'utilisateur auquel cette clé API appartient
+
+## Exemples de requêtes
+
+### Lister les clés API
+
+```graphql
+query apiKeys($userId: uuid!) {
+  api_key(where: { userId: { _eq: $userId } }) {
+    id
+    name
+    value
+    createdAt
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer une clé API
+
+```graphql
+mutation createApiKey($userId: uuid!, $name: String!) {
+  insert_api_key_one(object: { userId: $userId, name: $name }) {
+    id
+    name
+    value
+    createdAt
+  }
+}
+```
+
+### Renommer une clé API
+
+```graphql
+mutation renameApiKey($id: uuid!, $name: String!) {
+  update_api_key_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+    id
+    name
+    value
+    createdAt
+  }
+}
+```
+
+### Supprimer une clé API
+
+```graphql
+mutation deleteApiKey($id: uuid!) {
+  delete_api_key_by_pk(id: $id) {
+    id
+  }
+}
+```
+
+## Permissions
+
+La gestion des clés API est restreinte à l'utilisateur propriétaire :
+
+- Les utilisateurs peuvent créer, consulter, renommer et supprimer uniquement leurs propres clés API
+
+<Callout type="info">
+La `value` de la clé n'est affichée qu'une seule fois à la création -- conservez-la en lieu sûr. Les bonnes pratiques incluent la rotation régulière des clés, la surveillance de l'utilisation, la suppression des clés inutilisées et ne jamais les partager publiquement.
+</Callout>
+
+</ApiReference>

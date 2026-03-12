@@ -1,0 +1,21 @@
+---
+interface Props {
+  type?: 'info' | 'warning' | 'tip'
+  title?: string
+}
+
+const { type = 'info', title } = Astro.props
+
+const styles = {
+  info: 'bg-callout-info border-l-[#74c0fc]',
+  warning: 'bg-callout-warning border-l-[#ffc078]',
+  tip: 'bg-callout-tip border-l-[#69db7c]',
+}
+
+const icons = { info: 'i', warning: '!', tip: '*' }
+---
+
+<div class:list={['p-4 border-l-4 rounded-r-lg my-4', styles[type]]}>
+  {title && <strong class="block mb-1">{icons[type]} {title}</strong>}
+  <slot />
+</div>

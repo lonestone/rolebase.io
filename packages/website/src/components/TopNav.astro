@@ -1,0 +1,47 @@
+---
+import { translations, getLocaleFromPath, getOtherLocaleHref, localePath } from '../i18n'
+import Logo from './Logo.astro'
+
+const currentPath = Astro.url.pathname
+const locale = getLocaleFromPath(currentPath)
+const t = translations[locale]
+const otherLocaleHref = getOtherLocaleHref(currentPath, locale)
+
+const isDocumentation = currentPath.includes('/docs')
+const isGuides = currentPath.includes('/guides')
+const isBlog = currentPath.includes('/blog')
+
+const lp = (path: string) => localePath(locale, path)
+
+const navLinkClass = (active: boolean) => [
+  'px-3 py-1.5 rounded-md text-sm font-medium no-underline hover:no-underline',
+  active ? 'bg-primary text-white' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-main',
+]
+---
+
+<header class="flex items-center justify-between px-6 h-14 border-b border-border bg-white sticky top-0 z-50">
+  <div class="flex items-center gap-8">
+    <a href={lp('')} class="no-underline hover:no-underline"><Logo class="h-6" /></a>
+    <nav class="flex gap-1">
+      <a href={lp('/docs')} class:list={navLinkClass(isDocumentation)}>{t.documentation}</a>
+      <a href={lp('/guides/run-your-first-meeting')} class:list={navLinkClass(isGuides)}>{t.guides}</a>
+      <a href={lp('/blog')} class:list={navLinkClass(isBlog)}>{t.blog}</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-3">
+    <a
+      href={otherLocaleHref}
+      class="text-xs font-semibold px-2 py-0.5 border border-border rounded text-text-secondary no-underline hover:no-underline hover:bg-border"
+    >{t.switchLang}</a>
+    <a
+      href="https://calendar.app.google/Y1mM2Lgc1FjzWFRYA"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="px-3 py-1.5 rounded-md text-sm font-medium text-primary border border-primary no-underline hover:no-underline hover:bg-primary/5"
+    >{t.bookDemo}</a>
+    <a
+      href="https://rolebase.io/login"
+      class="px-3 py-1.5 rounded-md text-sm font-medium bg-primary text-white no-underline hover:no-underline hover:bg-primary-dark"
+    >{t.login}</a>
+  </div>
+</header>

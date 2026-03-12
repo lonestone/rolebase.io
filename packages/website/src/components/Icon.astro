@@ -1,0 +1,41 @@
+---
+interface Props {
+  icon: string;
+  class?: string;
+}
+
+const { icon, class: className } = Astro.props;
+
+const svgs = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/icons/**/*.svg",
+  { eager: true },
+);
+
+const entry =
+  svgs[`/src/assets/icons/${icon}.svg`] ??
+  svgs[`/src/assets/icons/references/${icon}.svg`];
+
+const img = entry?.default;
+---
+
+{
+  img && (
+    <span
+      class:list={["icon", className]}
+      style={`aspect-ratio:${img.width}/${img.height};-webkit-mask-image:url(${img.src});mask-image:url(${img.src})`}
+    />
+  )
+}
+
+<style>
+  .icon {
+    display: inline-block;
+    background: currentColor;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+  }
+</style>

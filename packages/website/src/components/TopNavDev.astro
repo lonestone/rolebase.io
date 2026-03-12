@@ -1,0 +1,36 @@
+---
+import { translations, getLocaleFromPath, getOtherLocaleHref, localePath } from '../i18n'
+import Logo from './Logo.astro'
+
+const currentPath = Astro.url.pathname
+const locale = getLocaleFromPath(currentPath)
+const t = translations[locale]
+const otherLocaleHref = getOtherLocaleHref(currentPath, locale)
+
+const isDevelopers = currentPath.includes('/developers')
+const isApi = currentPath.includes('/api')
+
+const lp = (path: string) => localePath(locale, path)
+
+const navLinkClass = (active: boolean) => [
+  'px-3 py-1.5 rounded-md text-sm font-medium no-underline hover:no-underline',
+  active ? 'bg-primary text-white' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-main',
+]
+---
+
+<header class="flex items-center justify-between px-6 h-14 border-b border-border bg-white sticky top-0 z-50">
+  <div class="flex items-center gap-8">
+    <div class="flex items-center gap-2">
+      <a href={lp('')} class="no-underline hover:no-underline"><Logo class="h-6" /></a>
+      <span class="font-bold text-lg text-text-secondary pt-1">{t.developers}</span>
+    </div>
+    <nav class="flex gap-1">
+      <a href={lp('/developers')} class:list={navLinkClass(isDevelopers)}>{t.documentation}</a>
+      <a href={lp('/api')} class:list={navLinkClass(isApi)}>{t.apiReference}</a>
+    </nav>
+  </div>
+  <a
+    href={otherLocaleHref}
+    class="text-xs font-semibold px-2 py-0.5 border border-border rounded text-text-secondary no-underline hover:no-underline hover:bg-border"
+  >{t.switchLang}</a>
+</header>

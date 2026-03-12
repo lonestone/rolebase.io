@@ -1,0 +1,63 @@
+---
+import { translations, getLocaleFromPath, localePath } from '../i18n'
+import Icon from './Icon.astro'
+import Logo from './Logo.astro'
+
+const currentPath = Astro.url.pathname
+const locale = getLocaleFromPath(currentPath)
+const t = translations[locale]
+
+const lp = (path: string) => localePath(locale, path)
+
+const linkClass = 'no-underline hover:underline'
+---
+
+<footer class="border-t border-border bg-bg-secondary py-12 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-text-secondary">
+
+      <div class="flex flex-col gap-4">
+        <a href={lp('')} class="no-underline hover:no-underline">
+          <Logo class="h-6" />
+        </a>
+        <a
+          href="https://github.com/Godefroy/rolebase"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 no-underline hover:underline"
+          aria-label="GitHub"
+        >
+          <Icon icon="github" class="w-5 h-5" />
+          GitHub
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="font-medium text-text-main">{t.footerProduct}</span>
+        <a href={lp('')} class={linkClass}>{t.footerFeatures}</a>
+        <a href={lp('')} class={linkClass}>{t.footerCaseStudies}</a>
+        <a href={lp('')} class={linkClass}>{t.footerPricing}</a>
+        <a href={lp('')} class={linkClass}>Alternative to Holaspirit</a>
+        <a href={lp('')} class={linkClass}>Alternative to Nestr</a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="font-medium text-text-main">{t.footerResources}</span>
+        <a href={lp('/docs')} class={linkClass}>{t.documentation}</a>
+        <a href={lp('/developers')} class={linkClass}>{t.developers}</a>
+        <a href={lp('')} class={linkClass}>{t.footerGlossary}</a>
+        <a href={lp('')} class={linkClass}>{t.footerSupport}</a>
+        <a href={lp('/blog')} class={linkClass}>{t.blog}</a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="font-medium text-text-main">{t.footerCompany}</span>
+        <a href={lp('')} class={linkClass}>{t.footerAbout}</a>
+        <a href={lp('/terms')} class={linkClass}>{t.terms}</a>
+        <a href={lp('')} class={linkClass}>{t.footerPrivacyPolicy}</a>
+        <a href={lp('')} class={linkClass}>{t.footerTermsOfSale}</a>
+      </div>
+
+    </div>
+  </div>
+</footer>

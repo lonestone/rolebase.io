@@ -1,0 +1,121 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Role" entity="role" description="Defines the purpose, domain, accountabilities, and other aspects of a position or function within an organization. Each circle is associated with a role.">
+
+## Fields
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Unique identifier for the role" },
+  { name: "orgId", type: "uuid", description: "Reference to the organization" },
+  { name: "name", type: "String", description: "Name of the role" },
+  { name: "purpose", type: "String", description: "The role's purpose or mission" },
+  { name: "domain", type: "String", description: "Areas of authority and control" },
+  { name: "accountabilities", type: "String", description: "List of accountabilities" },
+  { name: "checklist", type: "String", description: "Checklist of recurring responsibilities" },
+  { name: "indicators", type: "String", description: "Performance indicators to track" },
+  { name: "notes", type: "String", description: "Additional notes" },
+  { name: "archived", type: "Boolean", description: "Whether the role is archived (default: false)" },
+  { name: "base", type: "Boolean", description: "Whether this is a base role (default: false)" },
+  { name: "singleMember", type: "Boolean", description: "Whether the role can only have one member (default: false)" },
+  { name: "parentLink", type: "Boolean", description: "Whether the role can be linked to parent circles (default: false)" },
+  { name: "colorHue", type: "Smallint", description: "Color hue for visual representation (optional)" },
+]} />
+
+## Relationships
+
+**Object Relationships:**
+- `org` — The organization this role belongs to
+
+**Array Relationships:**
+- `circles` — Circles that use this role
+
+## Query Examples
+
+### List Roles in an Organization
+
+```graphql
+query GetRoles($orgId: uuid!) {
+  role(where: { orgId: { _eq: $orgId } }) {
+    id
+    name
+  }
+}
+```
+
+### Get a Specific Role with Full Details
+
+```graphql
+query GetRole($id: uuid!) {
+  role_by_pk(id: $id) {
+    id
+    name
+    purpose
+    domain
+    accountabilities
+    checklist
+    indicators
+    notes
+  }
+}
+```
+
+## Mutation Examples
+
+### Create a Role
+
+```graphql
+mutation CreateRole {
+  insert_role_one(
+    object: {
+      orgId: "your-org-id"
+      name: "Software Engineer"
+      purpose: "Develop and maintain software applications"
+      domain: "Application codebase and development tools"
+      accountabilities: "Write clean code, Review PRs, Debug issues"
+      checklist: "Daily code review, Weekly status updates"
+      indicators: "Code quality metrics, Bug resolution time"
+      notes: "Focus on maintainable and scalable code"
+      singleMember: false
+    }
+  ) {
+    id
+    name
+    purpose
+  }
+}
+```
+
+### Update a Role
+
+```graphql
+mutation UpdateRole {
+  update_role_by_pk(
+    pk_columns: { id: "role-id" }
+    _set: {
+      name: "Senior Software Engineer"
+      accountabilities: "Lead development, Mentor team members, Architect solutions"
+    }
+  ) {
+    id
+    name
+    accountabilities
+  }
+}
+```
+
+## Permissions
+
+- **Owner:** Full access to all roles
+- **Admin/Member:** Can create and modify non-base roles
+- All members can view roles in their organization
+
+<Callout type="info" title="Notes">
+  Base roles (`base: true`) are fundamental to the organization and can only be modified by owners. The `singleMember` flag restricts assignment to one person. The combination of purpose, domain, and accountabilities defines the complete scope of the role.
+</Callout>
+
+</ApiReference>

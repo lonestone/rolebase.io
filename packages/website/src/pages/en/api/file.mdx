@@ -1,0 +1,78 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="File" entity="file" description="Represents a stored file in Rolebase. Files can be associated with organizations and members for purposes such as profile pictures, document storage, and attachments.">
+
+## Fields
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Unique identifier for the file (auto-generated)" },
+  { name: "bucketId", type: "String", description: "Reference to the storage bucket" },
+  { name: "name", type: "String", description: "Original name of the file (optional)" },
+  { name: "mimeType", type: "String", description: "MIME type of the file (optional)" },
+  { name: "size", type: "Integer", description: "Size of the file in bytes (optional)" },
+  { name: "etag", type: "String", description: "Entity tag for caching and conditional requests (optional)" },
+  { name: "isUploaded", type: "Boolean", description: "Whether the file has been fully uploaded (optional)" },
+  { name: "metadata", type: "JSON", description: "Additional metadata about the file (optional)" },
+  { name: "createdAt", type: "Timestamp", description: "When the file was created (defaults to current timestamp)" },
+  { name: "updatedAt", type: "Timestamp", description: "When the file was last updated (defaults to current timestamp)" },
+  { name: "uploadedByUserId", type: "uuid", description: "Reference to the user who uploaded the file (optional)" },
+]} />
+
+## Relationships
+
+### Object Relationships
+
+- `bucket` — The storage bucket containing the file
+
+### Array Relationships
+
+- `members` — Members using this file (e.g., as a profile picture)
+- `orgs` — Organizations associated with this file
+
+## Storage Buckets
+
+Files are stored in buckets that define storage parameters:
+
+- `cacheControl` — Cache control settings
+- `downloadExpiration` — Download link expiration time
+- `maxUploadFileSize` — Maximum allowed file size
+- `minUploadFileSize` — Minimum allowed file size
+- `presignedUrlsEnabled` — Whether presigned URLs are enabled for secure temporary access
+
+## Query Examples
+
+### Get a Specific File
+
+```graphql
+query GetFile($id: uuid!) {
+  file_by_pk(id: $id) {
+    id
+    name
+    mimeType
+    size
+    createdAt
+    metadata
+  }
+}
+```
+
+## Permissions
+
+File access is controlled by several factors:
+
+- **Organization membership** — Members can access files associated with their organization
+- **Member role** — Upload and modification rights depend on the member's role
+- **Bucket permissions** — Storage bucket configuration governs access and size limits
+- **Uploader rights** — File metadata can be updated by the original uploader
+- **Virus scanning** — Uploaded files are scanned for security
+
+<Callout type="info">
+Files are stored securely in configurable storage buckets. Presigned URLs enable secure temporary access, and MIME type validation ensures proper file handling. ETags support caching and conditional requests for efficient file delivery.
+</Callout>
+
+</ApiReference>

@@ -1,0 +1,99 @@
+---
+---
+import GuidePage from '../../../components/GuidePage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<GuidePage title="Members" description="Manage team members, invitations, and organization roles.">
+
+## Overview
+
+Members are the people in your organization. Each member has a profile, one or more roles, and an organization-level role that determines their permissions.
+
+## Creating Members
+
+There are two ways to add members:
+
+### Direct Creation
+
+Admins and Owners can create a member entry directly by providing a name. This creates a placeholder member that can later be linked to a user account via invitation.
+
+### Invitation by Email
+
+The most common flow:
+
+1. Navigate to the members section of your organization.
+2. Click **Invite** and enter one or more email addresses.
+3. Each invitee receives an email with a link to join.
+4. When they accept, their user account is linked to the member entry.
+
+<Callout type="info" title="Pending Invitations">
+  Pending invitations are automatically resent with decreasing frequency until accepted or manually cancelled. You can track invitation status from the members list.
+</Callout>
+
+## Organization Roles
+
+Every member has an organization-level role that controls their permissions:
+
+| Role | Permissions |
+|---|---|
+| **Owner** | Full access. Can manage subscriptions, billing, delete the organization. Only one Owner per organization. |
+| **Admin** | Can invite and manage members, modify organization settings. |
+| **Member** | Can participate in roles, meetings, tasks, and threads. Can edit content they have access to. |
+| **Readonly** | Can view the organization structure and content but cannot make changes or participate. |
+
+<Callout type="warning" title="Owner Role">
+  There is typically one Owner per organization. The Owner role includes all Admin permissions plus the ability to manage subscriptions and perform destructive actions like deleting the organization.
+</Callout>
+
+## Member Profiles
+
+Each member has a profile that includes:
+
+- **Name** is the display name shown throughout the app.
+- **Picture** is the profile photo or avatar.
+- **Description** is a short bio or description of the member's background and skills.
+
+Profiles help team members get to know each other, especially in larger organizations or remote teams.
+
+## Assigning Roles
+
+Once a member exists in the organization, they can be assigned to roles:
+
+1. Navigate to a role.
+2. Select a sub-role or create a new one.
+3. Assign the member to that role.
+
+A member can hold multiple roles across the organization. Their role memberships are derived from the roles they hold.
+
+## Archiving Members
+
+When a member leaves the organization, you can **archive** them instead of deleting them:
+
+- Archived members are removed from all active roles.
+- Their historical participation in meetings, tasks, and threads is preserved.
+- Archived members no longer count toward seat-based subscription limits.
+- They can be restored if they return.
+
+<Callout type="tip" title="Prefer Archiving">
+  Archiving preserves the organization's history. Only delete a member if you want to remove all traces of their participation.
+</Callout>
+
+## Invitation Flow Details
+
+The invitation process works as follows:
+
+1. An Admin or Owner enters the invitee's email address.
+2. Rolebase creates a member entry and sends an invitation email.
+3. The invitee clicks the link and either signs up or logs into an existing account.
+4. Their user account is linked to the member entry.
+5. They immediately gain access based on their assigned organization role.
+
+If the invitee already has a Rolebase account, the invitation is linked automatically after login.
+
+## Next Steps
+
+- [Define your role structure](/en/docs/circles-and-roles) and assign members to roles.
+- [Run meetings](/en/docs/meetings) with your team.
+- [Set up subscriptions](/en/docs/subscriptions) if your member count exceeds the free tier.
+
+</GuidePage>

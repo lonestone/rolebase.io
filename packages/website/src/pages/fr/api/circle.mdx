@@ -1,0 +1,129 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Cercle" entity="circle" description="Représente un cercle organisationnel hiérarchique pouvant contenir des membres, des rôles et des cercles enfants. Les cercles organisent les équipes et les responsabilités au sein d'une organisation.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique du cercle" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "roleId", type: "uuid", description: "Référence au rôle associé à ce cercle" },
+  { name: "parentId", type: "uuid", description: "Référence au cercle parent (optionnel, null pour les cercles de premier niveau)" },
+  { name: "archived", type: "Boolean", description: "Indique si le cercle est archivé (par défaut : false)" },
+]} />
+
+## Relations
+
+**Relations objet :**
+- `org` — L'organisation à laquelle ce cercle appartient
+- `parent` — Le cercle parent (le cas échéant)
+- `role` — Le rôle qui définit la raison d'être et les redevabilités de ce cercle
+
+**Relations tableau :**
+- `children` — Cercles enfants au sein de ce cercle
+- `members` — Appartenances au cercle
+- `leaders` — Attributions de leadership du cercle
+- `participants` — Tous les participants (y compris ceux hérités des cercles enfants)
+- `meetings` — Réunions associées à ce cercle
+- `meetings_recurring` — Réunions récurrentes de ce cercle
+- `tasks` — Tâches assignées à ce cercle
+- `decisions` — Décisions prises au sein de ce cercle
+- `threads` — Fils de discussion dans ce cercle
+- `hostCircleLinks` — Liens où ce cercle héberge d'autres cercles
+- `invitedCircleLinks` — Liens où ce cercle est invité dans d'autres cercles
+
+## Exemples de requêtes
+
+### Lister les cercles d'une organisation
+
+```graphql
+query GetCircles($orgId: uuid!) {
+  circle(where: { orgId: { _eq: $orgId } }) {
+    id
+    role {
+      name
+      purpose
+    }
+    members {
+      member {
+        name
+      }
+    }
+    children {
+      id
+      role {
+        name
+      }
+    }
+    parent {
+      id
+      role {
+        name
+      }
+    }
+  }
+}
+```
+
+### Obtenir un cercle spécifique
+
+```graphql
+query GetCircle($id: uuid!) {
+  circle_by_pk(id: $id) {
+    id
+    role {
+      name
+    }
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer un cercle
+
+```graphql
+mutation CreateCircle {
+  insert_circle_one(
+    object: {
+      orgId: "your-org-id"
+      roleId: "role-id"
+      parentId: "parent-circle-id"
+    }
+  ) {
+    id
+    role {
+      name
+    }
+  }
+}
+```
+
+### Mettre à jour un cercle
+
+```graphql
+mutation UpdateCircle {
+  update_circle_by_pk(
+    pk_columns: { id: "circle-id" }
+    _set: { archived: true }
+  ) {
+    id
+    archived
+  }
+}
+```
+
+## Permissions
+
+L'accès aux cercles suit les règles de l'organisation et de gouvernance. Lorsque `protectGovernance` est activé sur l'organisation, seuls les leaders de cercle peuvent modifier la structure des cercles.
+
+<Callout type="info" title="Notes">
+  Les cercles forment un arbre hiérarchique via la relation `parentId`. Chaque cercle doit avoir un rôle associé qui définit sa raison d'être et ses redevabilités. Les participants d'un cercle incluent les membres directs ainsi que les leaders des cercles enfants et liés. Les réunions, tâches et décisions sont organisées au sein des cercles.
+</Callout>
+
+</ApiReference>

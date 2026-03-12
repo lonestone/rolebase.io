@@ -1,0 +1,121 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Rôle" entity="role" description="Définit la raison d'être, le domaine, les redevabilités et d'autres aspects d'une position ou fonction au sein d'une organisation. Chaque cercle est associé à un rôle.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique du rôle" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "name", type: "String", description: "Nom du rôle" },
+  { name: "purpose", type: "String", description: "Raison d'être ou mission du rôle" },
+  { name: "domain", type: "String", description: "Domaines d'autorité et de contrôle" },
+  { name: "accountabilities", type: "String", description: "Liste des redevabilités" },
+  { name: "checklist", type: "String", description: "Liste de vérification des responsabilités récurrentes" },
+  { name: "indicators", type: "String", description: "Indicateurs de performance à suivre" },
+  { name: "notes", type: "String", description: "Notes supplémentaires" },
+  { name: "archived", type: "Boolean", description: "Indique si le rôle est archivé (par défaut : false)" },
+  { name: "base", type: "Boolean", description: "Indique si c'est un rôle de base (par défaut : false)" },
+  { name: "singleMember", type: "Boolean", description: "Indique si le rôle ne peut avoir qu'un seul membre (par défaut : false)" },
+  { name: "parentLink", type: "Boolean", description: "Indique si le rôle peut être lié aux cercles parents (par défaut : false)" },
+  { name: "colorHue", type: "Smallint", description: "Teinte de couleur pour la représentation visuelle (optionnel)" },
+]} />
+
+## Relations
+
+**Relations objet :**
+- `org` — L'organisation à laquelle ce rôle appartient
+
+**Relations tableau :**
+- `circles` — Cercles qui utilisent ce rôle
+
+## Exemples de requêtes
+
+### Lister les rôles d'une organisation
+
+```graphql
+query GetRoles($orgId: uuid!) {
+  role(where: { orgId: { _eq: $orgId } }) {
+    id
+    name
+  }
+}
+```
+
+### Obtenir un rôle spécifique avec tous les détails
+
+```graphql
+query GetRole($id: uuid!) {
+  role_by_pk(id: $id) {
+    id
+    name
+    purpose
+    domain
+    accountabilities
+    checklist
+    indicators
+    notes
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer un rôle
+
+```graphql
+mutation CreateRole {
+  insert_role_one(
+    object: {
+      orgId: "your-org-id"
+      name: "Software Engineer"
+      purpose: "Develop and maintain software applications"
+      domain: "Application codebase and development tools"
+      accountabilities: "Write clean code, Review PRs, Debug issues"
+      checklist: "Daily code review, Weekly status updates"
+      indicators: "Code quality metrics, Bug resolution time"
+      notes: "Focus on maintainable and scalable code"
+      singleMember: false
+    }
+  ) {
+    id
+    name
+    purpose
+  }
+}
+```
+
+### Mettre à jour un rôle
+
+```graphql
+mutation UpdateRole {
+  update_role_by_pk(
+    pk_columns: { id: "role-id" }
+    _set: {
+      name: "Senior Software Engineer"
+      accountabilities: "Lead development, Mentor team members, Architect solutions"
+    }
+  ) {
+    id
+    name
+    accountabilities
+  }
+}
+```
+
+## Permissions
+
+- **Propriétaire :** Accès complet à tous les rôles
+- **Administrateur/Membre :** Peut créer et modifier les rôles non-base
+- Tous les membres peuvent consulter les rôles de leur organisation
+
+<Callout type="info" title="Notes">
+  Les rôles de base (`base: true`) sont fondamentaux pour l'organisation et ne peuvent être modifiés que par les propriétaires. L'indicateur `singleMember` restreint l'attribution à une seule personne. La combinaison de la raison d'être, du domaine et des redevabilités définit le périmètre complet du rôle.
+</Callout>
+
+</ApiReference>

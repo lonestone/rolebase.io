@@ -1,0 +1,11 @@
+---
+import logo from '../assets/icons/rolebase-logo.svg'
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<img src={logo.src} alt="Rolebase" class={className} />

@@ -1,0 +1,101 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Organisation" entity="org" description="L'entité de niveau supérieur qui contient toutes les autres entités telles que les cercles, rôles, membres, réunions et tâches.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'organisation" },
+  { name: "name", type: "String", description: "Nom de l'organisation" },
+  { name: "slug", type: "String", description: "Identifiant unique adapté aux URL (optionnel)" },
+  { name: "archived", type: "Boolean", description: "Indique si l'organisation est archivée (par défaut : false)" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de l'organisation" },
+  { name: "defaultGraphView", type: "String", description: "Paramètre de vue graphique par défaut (optionnel)" },
+  { name: "protectGovernance", type: "Boolean", description: "Indique si les modifications de gouvernance sont restreintes aux leaders (par défaut : false)" },
+  { name: "shareMembers", type: "Boolean", description: "Indique si les informations des membres sont partagées publiquement (par défaut : false)" },
+  { name: "shareOrg", type: "Boolean", description: "Indique si les informations de l'organisation sont partagées publiquement (par défaut : false)" },
+]} />
+
+## Relations
+
+**Un-à-un :**
+- `org_subscription` — Informations d'abonnement de l'organisation
+
+**Un-à-plusieurs :**
+- `circles` — Cercles organisationnels
+- `decisions` — Décisions de l'organisation
+- `files` — Fichiers de l'organisation
+- `logs` — Journaux d'activité
+- `meeting_templates` — Modèles de réunion
+- `meetings` — Réunions
+- `meetings_recurring` — Réunions récurrentes
+- `members` — Membres de l'organisation
+- `news` — Actualités
+- `roles` — Rôles de l'organisation
+- `task_views` — Vues de tâches
+- `tasks` — Tâches
+- `threads` — Fils de discussion
+
+## Exemples de requêtes
+
+### Obtenir une organisation spécifique
+
+```graphql
+query GetOrganization($id: uuid!) {
+  org_by_pk(id: $id) {
+    id
+    name
+    slug
+    archived
+    createdAt
+    members {
+      id
+      name
+      role
+    }
+    circles {
+      id
+      name
+    }
+  }
+}
+```
+
+## Exemples de mutations
+
+### Mettre à jour une organisation
+
+```graphql
+mutation UpdateOrganization {
+  update_org_by_pk(
+    pk_columns: { id: "your-org-id" }
+    _set: {
+      name: "New Organization Name"
+      shareMembers: true
+      protectGovernance: true
+    }
+  ) {
+    id
+    name
+    shareMembers
+    protectGovernance
+  }
+}
+```
+
+## Permissions
+
+- **Propriétaire :** Accès complet à tous les paramètres et données de l'organisation
+- **Administrateur :** Peut gérer la plupart des paramètres et données de l'organisation
+- **Membre :** Peut consulter les données de l'organisation selon les paramètres de partage
+
+<Callout type="info" title="Notes">
+  Le champ `slug` doit être unique parmi toutes les organisations. Lorsque `protectGovernance` est activé, seuls les leaders de cercle peuvent modifier les entités liées à la gouvernance. Les indicateurs `shareMembers` et `shareOrg` contrôlent la visibilité des données de l'organisation pour les utilisateurs externes.
+</Callout>
+
+</ApiReference>

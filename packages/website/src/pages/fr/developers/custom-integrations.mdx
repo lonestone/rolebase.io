@@ -1,0 +1,81 @@
+---
+---
+import DocPage from '../../../components/DocPage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<DocPage title="Intégrations personnalisées" section="developers" description="Créez des intégrations et des automatisations avec l'API GraphQL de Rolebase.">
+
+## Vue d'ensemble
+
+Rolebase expose une **API GraphQL** alimentée par Hasura. Vous pouvez utiliser cette API pour créer des intégrations personnalisées, des scripts ou des tableaux de bord qui interagissent avec vos données organisationnelles.
+
+## Accès à l'API
+
+- Le point d'accès de l'API est disponible à l'URL GraphQL de votre projet Nhost.
+- L'authentification est gérée via les jetons d'authentification Nhost.
+- Consultez la [Référence API](/fr/api) pour les requêtes, mutations et schémas d'entités disponibles.
+
+## Authentification
+
+Pour authentifier les requêtes API, vous avez besoin d'une **clé API** ou d'un **jeton d'authentification utilisateur** :
+
+- Les **clés API** peuvent être créées depuis les paramètres de l'organisation. Elles fournissent un accès programmatique limité à une organisation spécifique.
+- Les **jetons d'authentification utilisateur** sont obtenus via le flux d'authentification Nhost et portent les permissions de l'utilisateur authentifié.
+
+Incluez le jeton dans l'en-tête `Authorization` :
+
+```
+Authorization: Bearer <votre-jeton>
+```
+
+## Exemples d'utilisation
+
+- Synchroniser les tâches avec un outil de gestion de projet externe (Jira, Asana, Trello).
+- Créer un bot Slack qui publie les résumés de réunion dans un canal.
+- Créer un tableau de bord personnalisé qui agrège les données de plusieurs organisations.
+- Automatiser les attributions de rôles à partir de données RH externes.
+- Exporter l'historique des réunions et des décisions vers un outil de reporting.
+
+## Exemple : Récupérer les rôles d'une organisation
+
+```graphql
+query GetRoles($orgId: uuid!) {
+  role(where: { orgId: { _eq: $orgId } }) {
+    id
+    name
+    purpose
+    domain
+    accountabilities
+    parentRoleId
+  }
+}
+```
+
+## Exemple : Créer une tâche
+
+```graphql
+mutation CreateTask($input: task_insert_input!) {
+  insert_task_one(object: $input) {
+    id
+    title
+    status
+  }
+}
+```
+
+<Callout type="tip" title="Migration par API">
+  Pour les grandes organisations migrant depuis un autre outil, écrire un script qui lit vos données existantes et crée des entités via l'API GraphQL est l'approche la plus flexible.
+</Callout>
+
+## User Apps
+
+Rolebase supporte les **user apps** (applications connectées par OAuth comme les intégrations de calendrier). Si vous créez une intégration qui doit agir au nom d'un utilisateur, vous pouvez utiliser le framework user app.
+
+Consultez la [Référence API](/fr/api) pour les détails sur les entités `user_app` et `api_key`.
+
+## Prochaines étapes
+
+- Parcourez la [Référence API](/fr/api) pour la documentation complète du schéma.
+- [Configurez l'environnement de développement](/fr/developers/getting-started) pour explorer le code source.
+
+</DocPage>

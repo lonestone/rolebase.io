@@ -1,0 +1,152 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Log" entity="log" description="Represents an activity log entry tracking changes to entities, user actions, and providing an audit trail. Logs support undo/redo functionality through structured change tracking.">
+
+## Fields
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Unique identifier for the log entry (auto-generated)" },
+  { name: "orgId", type: "uuid", description: "Reference to the organization" },
+  { name: "userId", type: "uuid", description: "User who made the change" },
+  { name: "memberId", type: "uuid", description: "Member who made the change" },
+  { name: "memberName", type: "String", description: "Name of the member (preserved for deleted members)" },
+  { name: "createdAt", type: "Timestamp", description: "When the log entry was created (defaults to current timestamp)" },
+  { name: "display", type: "JSON", description: "Type of log and data to display in the UI" },
+  { name: "changes", type: "JSON", description: "Structured log of entity changes for undo/redo" },
+  { name: "canceled", type: "Boolean", description: "Whether this log entry has been canceled (defaults to false)" },
+  { name: "cancelLogId", type: "uuid", description: "Reference to the log entry that was canceled (optional)" },
+  { name: "cancelMemberId", type: "uuid", description: "Member who canceled the action (optional)" },
+  { name: "cancelMemberName", type: "String", description: "Name of the member who canceled (optional)" },
+  { name: "meetingId", type: "uuid", description: "Meeting during which this log was created (optional)" },
+  { name: "taskId", type: "uuid", description: "Task associated with this log (optional)" },
+  { name: "threadId", type: "uuid", description: "Thread associated with this log (optional)" },
+]} />
+
+## Entity Changes Structure
+
+The `changes` field tracks modifications to entities with the following structure:
+
+```typescript
+type EntityChange = {
+  type: 'Create' | 'Update' | 'Delete'
+  id: string
+  data?: Entity       // For Create/Delete
+  prevData?: Entity   // For Update (previous state)
+  newData?: Entity    // For Update (new state)
+}
+```
+
+## Relationships
+
+### Object Relationships
+
+- `org` — The organization this log belongs to
+- `user` — The user who made the change
+- `member` — The member who made the change
+- `cancelLog` — The log entry that was canceled (if this is a cancellation)
+- `cancelMember` — The member who canceled the action
+- `task` — The associated task (if any)
+- `thread` — The associated thread (if any)
+
+## Query Examples
+
+### List Recent Logs
+
+```graphql
+query GetRecentLogs($orgId: uuid!) {
+  log(
+    where: { orgId: { _eq: $orgId } }
+    order_by: { createdAt: desc }
+    limit: 10
+  ) {
+    id
+    createdAt
+    memberName
+    display
+    changes
+    canceled
+    task {
+      title
+    }
+    thread {
+      title
+    }
+  }
+}
+```
+
+## Mutation Examples
+
+### Create a Log Entry
+
+```graphql
+mutation CreateLog {
+  insert_log_one(
+    object: {
+      orgId: "your-org-id"
+      memberId: "member-id"
+      memberName: "John Doe"
+      display: { type: "task_created", title: "New Task" }
+      changes: {
+        type: "Create"
+        id: "task-id"
+        data: { title: "New Task", status: "TODO" }
+      }
+    }
+  ) {
+    id
+    createdAt
+    display
+  }
+}
+```
+
+### Cancel a Log Entry (Undo)
+
+```graphql
+mutation CancelLog {
+  insert_log_one(
+    object: {
+      orgId: "your-org-id"
+      memberId: "member-id"
+      memberName: "Jane Doe"
+      cancelLogId: "original-log-id"
+      cancelMemberId: "original-member-id"
+      cancelMemberName: "John Doe"
+      display: { type: "task_creation_canceled" }
+      changes: {
+        type: "Delete"
+        id: "task-id"
+        data: { title: "New Task", status: "TODO" }
+      }
+    }
+  ) {
+    id
+    cancelLog {
+      id
+      display
+    }
+  }
+}
+```
+
+## Permissions
+
+Log access is controlled based on the following rules:
+
+- Organization members can view logs from their organization
+- Log creation requires organization membership with an appropriate role
+- The `userId` is automatically set to the authenticated user
+- Log entries cannot be modified or deleted after creation
+- Cancellation is handled by creating new log entries (not modifying originals)
+
+<Callout type="info">
+The `display` field contains user-friendly information about the action, while the `changes` field stores technical details for undo/redo. Member names are preserved to maintain readability even if members are later deleted.
+</Callout>
+
+</ApiReference>

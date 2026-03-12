@@ -1,0 +1,167 @@
+---
+import { translations, getLocaleFromPath, localePath } from '../i18n'
+
+interface Props {
+  section: 'docs' | 'guides' | 'developers' | 'api'
+}
+
+const { section } = Astro.props
+
+const currentPath = Astro.url.pathname
+const locale = getLocaleFromPath(currentPath)
+const t = translations[locale]
+
+const lp = (path: string) => localePath(locale, path)
+
+const apiOrgLinks = [
+  { href: lp('/api/org'), label: 'org' },
+  { href: lp('/api/member'), label: 'member' },
+  { href: lp('/api/org_file'), label: 'org_file' },
+  { href: lp('/api/org_subscription'), label: 'org_subscription' },
+]
+
+const apiCircleLinks = [
+  { href: lp('/api/circle'), label: 'circle' },
+  { href: lp('/api/circle_leader'), label: 'circle_leader' },
+  { href: lp('/api/circle_link'), label: 'circle_link' },
+  { href: lp('/api/circle_member'), label: 'circle_member' },
+  { href: lp('/api/circle_participant'), label: 'circle_participant' },
+  { href: lp('/api/role'), label: 'role' },
+]
+
+const apiMeetingLinks = [
+  { href: lp('/api/meeting'), label: 'meeting' },
+  { href: lp('/api/meeting_attendee'), label: 'meeting_attendee' },
+  { href: lp('/api/meeting_recurring'), label: 'meeting_recurring' },
+  { href: lp('/api/meeting_step'), label: 'meeting_step' },
+  { href: lp('/api/meeting_template'), label: 'meeting_template' },
+]
+
+const apiTaskLinks = [
+  { href: lp('/api/task'), label: 'task' },
+  { href: lp('/api/task_view'), label: 'task_view' },
+]
+
+const apiThreadLinks = [
+  { href: lp('/api/thread'), label: 'thread' },
+  { href: lp('/api/thread_activity'), label: 'thread_activity' },
+  { href: lp('/api/thread_activity_reaction'), label: 'thread_activity_reaction' },
+  { href: lp('/api/thread_extra_member'), label: 'thread_extra_member' },
+  { href: lp('/api/thread_poll_answer'), label: 'thread_poll_answer' },
+]
+
+const apiOtherLinks = [
+  { href: lp('/api/decision'), label: 'decision' },
+  { href: lp('/api/news'), label: 'news' },
+  { href: lp('/api/log'), label: 'log' },
+  { href: lp('/api/users'), label: 'users' },
+  { href: lp('/api/api_key'), label: 'api_key' },
+  { href: lp('/api/user_app'), label: 'user_app' },
+  { href: lp('/api/file'), label: 'file' },
+]
+
+const linkClass = (href: string) =>
+  currentPath === href
+    ? 'block px-2.5 py-1 rounded text-sm text-white bg-primary no-underline hover:no-underline'
+    : 'block px-2.5 py-1 rounded text-sm text-text-main no-underline hover:no-underline hover:bg-border'
+
+const apiLinkClass = (href: string) =>
+  currentPath === href
+    ? 'block px-2.5 py-1 rounded text-sm text-white bg-primary no-underline hover:no-underline [&_code]:bg-transparent [&_code]:text-white'
+    : 'block px-2.5 py-1 rounded text-sm text-text-main no-underline hover:no-underline hover:bg-border'
+---
+
+<aside class="w-65 min-w-65 border-r border-border p-6 pr-4 bg-bg-secondary h-[calc(100vh-56px)] overflow-y-auto sticky top-14">
+  <nav>
+    {(section === 'docs' || section === 'guides') && (
+      <>
+        <div class="mb-6">
+          <h3 class="text-xs uppercase tracking-wide text-text-secondary mb-2 border-none p-0">{t.documentation}</h3>
+          <ul class="list-none p-0 m-0">
+            {t.docsLinks.map(link => {
+              const href = link.slug ? lp(`/docs/${link.slug}`) : lp('/docs')
+              return (
+                <li class="m-0"><a href={href} class={linkClass(href)}>{link.label}</a></li>
+              )
+            })}
+          </ul>
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xs uppercase tracking-wide text-text-secondary mb-2 border-none p-0">{t.guides}</h3>
+          <ul class="list-none p-0 m-0">
+            {t.guidesLinks.map(link => {
+              const href = lp(`/guides/${link.slug}`)
+              return (
+                <li class="m-0"><a href={href} class={linkClass(href)}>{link.label}</a></li>
+              )
+            })}
+          </ul>
+        </div>
+      </>
+    )}
+
+    {section === 'developers' && (
+      <div class="mb-6">
+        <h3 class="text-xs uppercase tracking-wide text-text-secondary mb-2 border-none p-0">{t.developers}</h3>
+        <ul class="list-none p-0 m-0">
+          {t.developersLinks.map(link => {
+            const href = link.slug ? lp(`/developers/${link.slug}`) : lp('/developers')
+            return (
+              <li class="m-0"><a href={href} class={linkClass(href)}>{link.label}</a></li>
+            )
+          })}
+        </ul>
+      </div>
+    )}
+
+    {section === 'api' && (
+      <div class="mb-6">
+        <h3 class="text-xs uppercase tracking-wide text-text-secondary mb-2 border-none p-0">
+          <a href={lp('/api')} class="text-text-secondary no-underline hover:no-underline">{t.apiReference}</a>
+        </h3>
+
+        <h4 class="text-xs text-text-secondary mt-3 mb-1 font-medium">{t.orgMembers}</h4>
+        <ul class="list-none p-0 m-0">
+          {apiOrgLinks.map(link => (
+            <li class="m-0"><a href={link.href} class={apiLinkClass(link.href)}><code class="text-xs bg-transparent p-0">{link.label}</code></a></li>
+          ))}
+        </ul>
+
+        <h4 class="text-xs text-text-secondary mt-3 mb-1 font-medium">{t.circlesRoles}</h4>
+        <ul class="list-none p-0 m-0">
+          {apiCircleLinks.map(link => (
+            <li class="m-0"><a href={link.href} class={apiLinkClass(link.href)}><code class="text-xs bg-transparent p-0">{link.label}</code></a></li>
+          ))}
+        </ul>
+
+        <h4 class="text-xs text-text-secondary mt-3 mb-1 font-medium">{t.meetings}</h4>
+        <ul class="list-none p-0 m-0">
+          {apiMeetingLinks.map(link => (
+            <li class="m-0"><a href={link.href} class={apiLinkClass(link.href)}><code class="text-xs bg-transparent p-0">{link.label}</code></a></li>
+          ))}
+        </ul>
+
+        <h4 class="text-xs text-text-secondary mt-3 mb-1 font-medium">{t.tasks}</h4>
+        <ul class="list-none p-0 m-0">
+          {apiTaskLinks.map(link => (
+            <li class="m-0"><a href={link.href} class={apiLinkClass(link.href)}><code class="text-xs bg-transparent p-0">{link.label}</code></a></li>
+          ))}
+        </ul>
+
+        <h4 class="text-xs text-text-secondary mt-3 mb-1 font-medium">{t.threads}</h4>
+        <ul class="list-none p-0 m-0">
+          {apiThreadLinks.map(link => (
+            <li class="m-0"><a href={link.href} class={apiLinkClass(link.href)}><code class="text-xs bg-transparent p-0">{link.label}</code></a></li>
+          ))}
+        </ul>
+
+        <h4 class="text-xs text-text-secondary mt-3 mb-1 font-medium">{t.other}</h4>
+        <ul class="list-none p-0 m-0">
+          {apiOtherLinks.map(link => (
+            <li class="m-0"><a href={link.href} class={apiLinkClass(link.href)}><code class="text-xs bg-transparent p-0">{link.label}</code></a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </nav>
+</aside>

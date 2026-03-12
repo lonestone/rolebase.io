@@ -92,7 +92,7 @@
     "notFound": "Rôle introuvable",
     "tabRole": "Rôle",
     "tabNews": "Actualités",
-    "tabThreads": "Sujets",
+    "tabThreads": "Discussions",
     "tabMeetings": "Réunions",
     "tabTasks": "Tâches",
     "tabDecisions": "Décisions"
@@ -115,8 +115,8 @@
     "recurringMeetings": "{{count}} réunions récurrentes seront supprimées.",
     "recurringMeetings_one": "1 réunion récurrente sera supprimée.",
     "entities": "Ce rôle et ses sous-rôles contiennent des éléments qui resteront accessibles :",
-    "threads": "{{count}} sujets",
-    "threads_one": "1 sujet",
+    "threads": "{{count}} discussions",
+    "threads_one": "1 discussion",
     "meetings": "{{count}} réunions",
     "meetings_one": "1 réunion",
     "tasks": "{{count}} tâches",
@@ -141,7 +141,7 @@
     "info": "Êtes-vous sûr(e) de vouloir retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
   },
   "CircleNews": {
-    "empty": "Les dernières activités apparaitront ici : nouveau sujets, réunions terminées, décisions prises, etc."
+    "empty": "Les dernières activités apparaitront ici : nouvelles discussions, réunions terminées, décisions prises, etc."
   },
   "CircleMoveModal": {
     "heading": "Déplacer un rôle",
@@ -216,8 +216,8 @@
     "create": "Créer une tâche"
   },
   "CircleThreads": {
-    "create": "Créer un sujet",
-    "empty": "Aucun sujet pour le moment"
+    "create": "Créer une discussion",
+    "empty": "Aucune discussion pour le moment"
   },
   "CirclesKeyboardShortcutsModal": {
     "heading": "Raccourcis clavier",
@@ -262,9 +262,9 @@
     "add": "Nouvelle réunion"
   },
   "DashboardMyThreads": {
-    "title": "Mes Sujets",
-    "add": "Nouveau sujet",
-    "empty": "Aucun sujet."
+    "title": "Mes Discussions",
+    "add": "Nouvelle discussion",
+    "empty": "Aucune discussion."
   },
   "DashboardMyTasks": {
     "title": "Mes Tâches",
@@ -272,7 +272,7 @@
   },
   "DashboardNews": {
     "heading": "Actualités",
-    "empty": "Les dernières activités de {{org}} apparaitront ici : nouveau sujets, réunions terminées, décisions prises, etc.",
+    "empty": "Les dernières activités de {{org}} apparaitront ici : nouvelles discussions, réunions terminées, décisions prises, etc.",
     "circle": "Rôle"
   },
   "DashboardNewsDecision": {
@@ -282,7 +282,7 @@
     "action": "Une réunion a eu lieu"
   },
   "DashboardNewsThread": {
-    "action": "<author /> a lancé un sujet"
+    "action": "<author /> a lancé une discussion"
   },
   "DashboardOrgChart": {
     "empty": "Votre organigramme est vide pour le moment.",
@@ -392,7 +392,7 @@
     "TaskCreate": "<author /> a créé la tâche <task />",
     "TaskUpdate": "<author /> a modifié la tâche <task />",
     "TaskStatusUpdate": "<author /> a marqué la tâche <task /> comme <status />",
-    "ThreadStatusUpdate": "<author /> a changé le sujet <task /> de <prevStatus /> à <status />",
+    "ThreadStatusUpdate": "<author /> a changé la discussion <task /> de <prevStatus /> à <status />",
     "TaskArchive": "<author /> a archivé la tâche <task />",
     "DecisionCreate": "<author /> a créé la décision <decision />",
     "DecisionUpdate": "<author /> a modifié la décision <decision />",
@@ -552,14 +552,14 @@
     "logs": "Tâches modifiées pendant la réunion"
   },
   "MeetingStepContentThreadItem": {
-    "notAllowed": "Sujet privé",
-    "privateWarning": "Ce sujet n'est pas privé alors que la réunion est privée. Tout le monde pourra voir les notes. Vous pouvez rendre le sujet privé en allant dans ses paramètres.",
-    "notAllowedParticipantsWarning": "{{count}} participants n'ont pas accès à ce sujet privé : {{participants}}",
-    "notAllowedParticipantsWarning_one": "{{count}} participant n'a pas accès à ce sujet privé : {{participants}}"
+    "notAllowed": "Discussion privée",
+    "privateWarning": "Cette discussion n'est pas privée alors que la réunion est privée. Tout le monde pourra voir les notes. Vous pouvez rendre la discussion privée en allant dans ses paramètres.",
+    "notAllowedParticipantsWarning": "{{count}} participants n'ont pas accès à cette discussion privée : {{participants}}",
+    "notAllowedParticipantsWarning_one": "{{count}} participant n'a pas accès à cette discussion privée : {{participants}}"
   },
   "MeetingStepContentThreads": {
-    "add": "Rattacher un sujet",
-    "create": "Nouveau sujet",
+    "add": "Rattacher une discussion",
+    "create": "Nouvelle discussion",
     "randomize": "Mélanger aléatoirement"
   },
   "MeetingStepSortableItem": {
@@ -642,11 +642,11 @@
       "title": "Changer la permission",
       "Readonly": {
         "title": "Lecture seule",
-        "description": "Le membre peut uniquement consulter l'organigramme sans pouvoir le modifier. Il peut consulter les réunions, sujets et tâches publics mais ne peut pas y participer."
+        "description": "Le membre peut uniquement consulter l'organigramme sans pouvoir le modifier. Il peut consulter les réunions, discussions et tâches publics mais ne peut pas y participer."
       },
       "Member": {
         "title": "Membre",
-        "description": "Le membre peut modifier les rôles où il est leader, ou tout modifier si la gouvernance n'est pas protégée (voir paramètres de l'organisation). Il peut participer aux réunions, sujets et tâches."
+        "description": "Le membre peut modifier les rôles où il est leader, ou tout modifier si la gouvernance n'est pas protégée (voir paramètres de l'organisation). Il peut participer aux réunions, discussions et tâches."
       },
       "Admin": {
         "title": "Administrateur",
@@ -753,7 +753,7 @@
   "NotificationsSettingsModal": {
     "heading": "Notifications",
     "digest": "Résumé des activités par email",
-    "disabledInfo": "En activant le résumé, vous pourrez régler la fréquence des emails. Nous vous recommandons de l'activer pour suivre les sujets importants de votre organisation.",
+    "disabledInfo": "En activant le résumé, vous pourrez régler la fréquence des emails. Nous vous recommandons de l'activer pour suivre les discussions importantes de votre organisation.",
     "toastSuccess": "Configuration des notifications enregistrée !"
   },
   "OAuthRedirectPage": {
@@ -946,7 +946,7 @@
     "settings": "Paramètres",
     "news": "Actualités",
     "roles": "Organigramme",
-    "threads": "Sujets",
+    "threads": "Discussions",
     "meetings": "Réunions",
     "tasks": "Tâches",
     "search": "Rechercher",
@@ -1145,14 +1145,14 @@
     "tooltip": "Thème clair/sombre"
   },
   "ThreadActivities": {
-    "emptyTitle": "Sujet créé",
+    "emptyTitle": "Discussion créée",
     "emptyDescription": "Vous pouvez envoyer un premier message 👇"
   },
   "ThreadActivityCreate": {
-    "archived": "Ce sujet a été supprimé. Vous pouvez le restaurer avec le menu en haut à droite.",
+    "archived": "Cette discussion a été supprimée. Vous pouvez la restaurer avec le menu en haut à droite.",
     "placeholder": "Message...",
     "poll": "Sondage",
-    "defaultEntityDescription": "Sujet : {{thread}}"
+    "defaultEntityDescription": "Discussion : {{thread}}"
   },
   "ThreadActivityDecision": {
     "text": "a créé une décision :",
@@ -1196,31 +1196,31 @@
     "notAllowed": "Vous n'avez pas accès à cette tâche."
   },
   "ThreadActivityThread": {
-    "text": "a créé un sujet :",
-    "notAllowed": "Vous n'avez pas accès à ce sujet."
+    "text": "a créé une discussion :",
+    "notAllowed": "Vous n'avez pas accès à cette discussion."
   },
   "ThreadActivityChangeStatus": {
-    "text": "a changé le statut du sujet : <status />"
+    "text": "a changé le statut de la discussion : <status />"
   },
   "ThreadContent": {
-    "private": "Sujet privé : Seuls les participants de {{role}} et les invités supplémentaires peuvent voir la décision."
+    "private": "Discussion privée : Seuls les participants de {{role}} et les invités supplémentaires peuvent voir la décision."
   },
   "ThreadEditModal": {
-    "headingEdit": "Paramètres du sujet",
-    "headingCreate": "Nouveau sujet",
+    "headingEdit": "Paramètres de la discussion",
+    "headingCreate": "Nouvelle discussion",
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",
     "status": "Statut",
-    "private": "Sujet privé",
-    "privateHelp": "Seuls les participants de {{role}} et les invités supplémentaires peuvent voir le sujet.",
-    "privateNotAllowed": "Vous devez être participant de {{role}} ou être invité dans le sujet pour pouvoir le rendre privé."
+    "private": "Discussion privée",
+    "privateHelp": "Seuls les participants de {{role}} et les invités supplémentaires peuvent voir la discussion.",
+    "privateNotAllowed": "Vous devez être participant de {{role}} ou être invité dans la discussion pour pouvoir la rendre privée."
   },
   "ThreadsList": {
-    "empty": "Aucun sujet."
+    "empty": "Aucune discussion."
   },
   "ThreadsPage": {
-    "heading": "Sujets",
-    "create": "Nouveau sujet"
+    "heading": "Discussions",
+    "create": "Nouvelle discussion"
   },
   "VacantRolesModal": {
     "heading": "Rôles vacants",
@@ -1244,7 +1244,7 @@
     "send": "Envoyer",
     "open": "Ouvrir",
     "skip": "Passer",
-    "createThread": "Sujet",
+    "createThread": "Discussion",
     "createMeeting": "Réunion",
     "createTask": "Tâche",
     "createDecision": "Décision",
@@ -1290,7 +1290,7 @@
       "All": "Tout",
       "Member": "Membres",
       "Circle": "Rôles",
-      "Thread": "Sujets",
+      "Thread": "Discussions",
       "Meeting": "Réunions",
       "Task": "Tâches",
       "Decision": "Décisions"
@@ -1298,8 +1298,8 @@
     "meetingSteps": {
       "Tour": "Note libre",
       "Tour_desc": "Pour avoir une discussion libre ou faire un tour de table. Vous pourrez prendre des notes.",
-      "Threads": "Sujets",
-      "Threads_desc": "Pour discuter de Sujets concernant le Rôle. Idéal pour un ordre du jour. Vous pourrez prendre des notes pour chaque Sujet choisi.",
+      "Threads": "Discussions",
+      "Threads_desc": "Pour passer en revue les Discussions du Rôle. Idéal pour un ordre du jour. Vous pourrez prendre des notes pour chaque Discussion choisie.",
       "Checklist": "Checklist",
       "Checklist_desc": "Pour faire un point sur les actions récurrentes du Rôle. La Checklist du Rôle est reprise automatiquement en note à la création de la Réunion.",
       "Indicators": "Indicateurs",

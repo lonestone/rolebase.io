@@ -1,0 +1,68 @@
+---
+---
+import GuidePage from '../../../components/GuidePage.astro'
+import Callout from '../../../components/Callout.astro'
+
+<GuidePage title="Apps & Integrations" description="Connect Rolebase with your calendar and stay in sync.">
+
+## Overview
+
+Rolebase integrates with external tools to keep your workflow connected. Currently supported integrations include calendar sync with **Microsoft Office 365** and **Google Calendar**.
+
+## Calendar Integrations
+
+Calendar integrations allow Rolebase meetings to appear directly in your preferred calendar app. When a meeting is created, updated, or deleted in Rolebase, the change is reflected in your connected calendar.
+
+### Office 365
+
+To connect Office 365:
+
+1. Go to your account settings or the organization's apps section.
+2. Select **Office 365**.
+3. You will be redirected to Microsoft's login page.
+4. Sign in and grant Rolebase permission to access your calendar.
+5. Once authorized, Rolebase meetings are synced to your Outlook calendar.
+
+### Google Calendar
+
+To connect Google Calendar:
+
+1. Go to your account settings or the organization's apps section.
+2. Select **Google Calendar**.
+3. You will be redirected to Google's consent screen.
+4. Sign in and grant Rolebase permission to manage calendar events.
+5. Once authorized, Rolebase meetings appear in your Google Calendar.
+
+<Callout type="info" title="Permissions">
+  Both integrations request only the minimum calendar permissions needed. You can revoke access at any time from your Microsoft or Google account settings.
+</Callout>
+
+## What Gets Synced
+
+| Item | Synced? |
+|---|---|
+| Meeting title | Yes |
+| Date and time | Yes |
+| Recurring schedule | Yes |
+| Participants | Yes |
+| Meeting link | Yes |
+| Tasks and threads | No (use Rolebase directly) |
+
+## iCal Export
+
+Even without connecting a calendar app, you can export meetings as **iCal feeds**. Copy the iCal URL and subscribe to it from any calendar app that supports `.ics` subscriptions. The feed updates automatically when meetings change.
+
+<Callout type="tip" title="Subscribe, Don't Download">
+  Use your calendar app's "subscribe to calendar" feature (not "import") so that updates are synced automatically.
+</Callout>
+
+## For Developers
+
+If you want to build custom integrations with Rolebase (sync tasks with external tools, build bots, create dashboards), check the [Developers](/en/developers) section and the [Custom Integrations](/en/developers/custom-integrations) guide.
+
+## Next Steps
+
+- [Set up recurring meetings](/en/docs/meetings) to keep your calendar in sync.
+- Explore [Subscriptions](/en/docs/subscriptions) to unlock calendar integrations on paid plans.
+
+</GuidePage>

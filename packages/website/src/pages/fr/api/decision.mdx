@@ -1,0 +1,151 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Décision" entity="decision" description="Représente une décision formelle prise au sein d'un cercle. Les décisions suivent les choix importants, les politiques et les accords, et peuvent être référencées dans les discussions et autres entités à des fins de documentation.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de la décision (généré automatiquement)" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "circleId", type: "uuid", description: "Référence au cercle où la décision a été prise" },
+  { name: "memberId", type: "uuid", description: "Référence au membre qui a pris la décision" },
+  { name: "title", type: "String", description: "Titre de la décision" },
+  { name: "description", type: "String", description: "Description détaillée de la décision (supporte le texte riche)" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de la décision (par défaut : horodatage actuel)" },
+  { name: "archived", type: "Boolean", description: "Indique si la décision est archivée (par défaut : false)" },
+  { name: "private", type: "Boolean", description: "Indique si la décision est privée (par défaut : false)" },
+]} />
+
+## Relations
+
+### Relations objet
+
+- `org` — L'organisation à laquelle cette décision appartient
+- `circle` — Le cercle où la décision a été prise
+- `member` — Le membre qui a pris la décision
+
+### Référencé par
+
+- `thread_activity` — Les décisions peuvent être référencées dans les activités de discussion
+- Index de recherche — Les décisions sont indexées pour la recherche à l'échelle de l'organisation
+
+## Exemples de requêtes
+
+### Lister les décisions
+
+```graphql
+query GetDecisions($orgId: uuid!) {
+  decision(where: { archived: { _eq: false }, orgId: { _eq: $orgId } }) {
+    id
+    title
+    description
+    createdAt
+    circle {
+      role {
+        name
+      }
+    }
+    member {
+      name
+    }
+  }
+}
+```
+
+### Obtenir une décision spécifique
+
+```graphql
+query GetDecision($decisionId: uuid!) {
+  decision_by_pk(id: $decisionId) {
+    id
+    title
+    description
+    createdAt
+    circle {
+      role {
+        name
+      }
+    }
+    member {
+      name
+    }
+    private
+    archived
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer une décision
+
+```graphql
+mutation CreateDecision {
+  insert_decision_one(
+    object: {
+      orgId: "your-org-id"
+      circleId: "circle-id"
+      memberId: "member-id"
+      title: "New Working Hours Policy"
+      description: "The organization will adopt flexible working hours..."
+      private: false
+    }
+  ) {
+    id
+    title
+    createdAt
+  }
+}
+```
+
+### Mettre à jour une décision
+
+```graphql
+mutation UpdateDecision {
+  update_decision_by_pk(
+    pk_columns: { id: "decision-id" }
+    _set: {
+      description: "Updated policy details..."
+      title: "Updated Working Hours Policy"
+    }
+  ) {
+    id
+    title
+    description
+  }
+}
+```
+
+### Archiver une décision
+
+```graphql
+mutation ArchiveDecision {
+  update_decision_by_pk(
+    pk_columns: { id: "decision-id" }
+    _set: { archived: true }
+  ) {
+    id
+  }
+}
+```
+
+## Permissions
+
+L'accès aux décisions est contrôlé par plusieurs facteurs :
+
+- **Appartenance au cercle** — Les participants du cercle peuvent accéder aux décisions et en créer dans leurs cercles
+- **Paramètres de confidentialité** — Les décisions privées ne sont visibles que par les participants du cercle
+- **Rôle dans l'organisation** — Les membres de l'organisation peuvent accéder aux décisions non privées
+- **Droits de modification** — Seul l'auteur de la décision et les responsables du cercle peuvent modifier les décisions
+- Les **décisions archivées** restent accessibles mais sont masquées des vues par défaut
+
+<Callout type="info">
+Les décisions fournissent un registre formel des choix organisationnels importants. Elles peuvent être référencées dans les discussions pour le contexte et la délibération, et sont recherchables à travers l'organisation.
+</Callout>
+
+</ApiReference>

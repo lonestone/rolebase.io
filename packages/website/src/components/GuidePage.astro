@@ -1,0 +1,23 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro'
+
+interface Props {
+  title: string
+  section?: 'docs' | 'guides'
+  description?: string
+}
+
+const { title, section = 'docs', description } = Astro.props
+---
+
+<DocsLayout title={title} section={section}>
+  <article>
+    <header class="mb-8">
+      <h1 class="mt-0 text-4xl font-bold">{title}</h1>
+      {description && <p class="text-lg text-text-secondary">{description}</p>}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</DocsLayout>

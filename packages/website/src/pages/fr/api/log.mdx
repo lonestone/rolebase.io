@@ -1,0 +1,152 @@
+---
+---
+
+import ApiReference from '../../../components/ApiReference.astro'
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+<ApiReference title="Journal" entity="log" description="Représente une entrée de journal d'activité suivant les modifications d'entités, les actions utilisateur et fournissant une piste d'audit. Les journaux supportent la fonctionnalité d'annulation/rétablissement via un suivi structuré des modifications.">
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'entrée de journal (généré automatiquement)" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "userId", type: "uuid", description: "Utilisateur qui a effectué la modification" },
+  { name: "memberId", type: "uuid", description: "Membre qui a effectué la modification" },
+  { name: "memberName", type: "String", description: "Nom du membre (conservé pour les membres supprimés)" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de l'entrée de journal (par défaut : horodatage actuel)" },
+  { name: "display", type: "JSON", description: "Type de journal et données à afficher dans l'interface" },
+  { name: "changes", type: "JSON", description: "Journal structuré des modifications d'entités pour l'annulation/rétablissement" },
+  { name: "canceled", type: "Boolean", description: "Indique si cette entrée de journal a été annulée (par défaut : false)" },
+  { name: "cancelLogId", type: "uuid", description: "Référence à l'entrée de journal qui a été annulée (optionnel)" },
+  { name: "cancelMemberId", type: "uuid", description: "Membre qui a annulé l'action (optionnel)" },
+  { name: "cancelMemberName", type: "String", description: "Nom du membre qui a annulé (optionnel)" },
+  { name: "meetingId", type: "uuid", description: "Réunion pendant laquelle ce journal a été créé (optionnel)" },
+  { name: "taskId", type: "uuid", description: "Tâche associée à ce journal (optionnel)" },
+  { name: "threadId", type: "uuid", description: "Discussion associée à ce journal (optionnel)" },
+]} />
+
+## Structure des modifications d'entités
+
+Le champ `changes` suit les modifications des entités avec la structure suivante :
+
+```typescript
+type EntityChange = {
+  type: 'Create' | 'Update' | 'Delete'
+  id: string
+  data?: Entity       // Pour Create/Delete
+  prevData?: Entity   // Pour Update (état précédent)
+  newData?: Entity    // Pour Update (nouvel état)
+}
+```
+
+## Relations
+
+### Relations objet
+
+- `org` — L'organisation à laquelle ce journal appartient
+- `user` — L'utilisateur qui a effectué la modification
+- `member` — Le membre qui a effectué la modification
+- `cancelLog` — L'entrée de journal qui a été annulée (s'il s'agit d'une annulation)
+- `cancelMember` — Le membre qui a annulé l'action
+- `task` — La tâche associée (le cas échéant)
+- `thread` — La discussion associée (le cas échéant)
+
+## Exemples de requêtes
+
+### Lister les journaux récents
+
+```graphql
+query GetRecentLogs($orgId: uuid!) {
+  log(
+    where: { orgId: { _eq: $orgId } }
+    order_by: { createdAt: desc }
+    limit: 10
+  ) {
+    id
+    createdAt
+    memberName
+    display
+    changes
+    canceled
+    task {
+      title
+    }
+    thread {
+      title
+    }
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer une entrée de journal
+
+```graphql
+mutation CreateLog {
+  insert_log_one(
+    object: {
+      orgId: "your-org-id"
+      memberId: "member-id"
+      memberName: "John Doe"
+      display: { type: "task_created", title: "New Task" }
+      changes: {
+        type: "Create"
+        id: "task-id"
+        data: { title: "New Task", status: "TODO" }
+      }
+    }
+  ) {
+    id
+    createdAt
+    display
+  }
+}
+```
+
+### Annuler une entrée de journal (Annulation)
+
+```graphql
+mutation CancelLog {
+  insert_log_one(
+    object: {
+      orgId: "your-org-id"
+      memberId: "member-id"
+      memberName: "Jane Doe"
+      cancelLogId: "original-log-id"
+      cancelMemberId: "original-member-id"
+      cancelMemberName: "John Doe"
+      display: { type: "task_creation_canceled" }
+      changes: {
+        type: "Delete"
+        id: "task-id"
+        data: { title: "New Task", status: "TODO" }
+      }
+    }
+  ) {
+    id
+    cancelLog {
+      id
+      display
+    }
+  }
+}
+```
+
+## Permissions
+
+L'accès aux journaux est contrôlé selon les règles suivantes :
+
+- Les membres de l'organisation peuvent consulter les journaux de leur organisation
+- La création de journaux nécessite l'appartenance à l'organisation avec un rôle approprié
+- Le `userId` est automatiquement défini sur l'utilisateur authentifié
+- Les entrées de journal ne peuvent pas être modifiées ou supprimées après leur création
+- L'annulation est gérée par la création de nouvelles entrées de journal (pas par la modification des originales)
+
+<Callout type="info">
+Le champ `display` contient des informations conviviales sur l'action, tandis que le champ `changes` stocke les détails techniques pour l'annulation/rétablissement. Les noms des membres sont conservés pour maintenir la lisibilité même si les membres sont supprimés ultérieurement.
+</Callout>
+
+</ApiReference>
