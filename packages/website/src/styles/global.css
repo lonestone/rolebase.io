@@ -23,6 +23,7 @@
   --color-gray-900: hsl(31.3, 12.7%, 9%);
 
   /* Semantic colors */
+  --color-bg-main: rgb(253, 246, 234);
   --color-bg-secondary: hsl(31.3, 44.2%, 97.9%);
   --color-text-main: hsl(31.3, 12.7%, 9%);
   --color-text-secondary: hsl(31.3, 15%, 48.4%);
