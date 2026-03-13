@@ -1,0 +1,24 @@
+---
+interface Props {
+  loomId: string
+  aspect?: string
+  class?: string
+}
+
+const { loomId, aspect = '16/9', class: className } = Astro.props
+const embedUrl = `https://www.loom.com/embed/${loomId}?hideEmbedTopBar=true`
+---
+
+{loomId && (
+  <div
+    class:list={["relative overflow-hidden rounded-2xl", className]}
+    style={`aspect-ratio: ${aspect}`}
+  >
+    <iframe
+      src={embedUrl}
+      class="absolute inset-0 w-full h-full border-0"
+      allowfullscreen
+      allow="autoplay; fullscreen; picture-in-picture"
+    />
+  </div>
+)}

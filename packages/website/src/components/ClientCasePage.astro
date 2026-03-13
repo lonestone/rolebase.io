@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
+import BlogLayout from '../layouts/BlogLayout.astro'
+import BlogSidebar from './BlogSidebar.astro'
+import { type Locale, translations } from '../i18n'
+
+interface Props {
+  item: CollectionEntry<'client-cases'>
+  locale: Locale
+}
+
+const { item, locale } = Astro.props
+const t = translations[locale]
+const { Content, headings } = await render(item)
+---
+
+<BlogLayout title={item.data.title}>
+  <article class="min-w-0 flex-1">
+    <header class="mb-10 pb-6 border-b border-gray-100">
+      <h1 class="mb-4 font-medium text-3xl md:text-4xl lg:text-5xl">
+        {item.data.title}
+      </h1>
+      <p class="text-lg text-gray-500 mb-4">{item.data.summary}</p>
+      {(item.data.sector || item.data.teamSize) && (
+        <p class="text-sm text-gray-400">
+          {item.data.sector && <span>{t.sector}: {item.data.sector}</span>}
+          {item.data.sector && item.data.teamSize && <span> | </span>}
+          {item.data.teamSize && <span>{t.teamSize}: {item.data.teamSize} {t.employees}</span>}
+        </p>
+      )}
+    </header>
+    {item.data.logo && <img src={item.data.logo} alt="" class="h-12 mb-6" />}
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+  <aside class="md:w-80 md:shrink-0 lg:w-88">
+    <BlogSidebar headings={headings} />
+  </aside>
+</BlogLayout>

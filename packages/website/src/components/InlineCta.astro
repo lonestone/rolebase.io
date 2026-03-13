@@ -1,0 +1,37 @@
+---
+import Button from './Button.astro'
+import { getLocaleFromPath, translations } from '../i18n'
+
+const locale = getLocaleFromPath(Astro.url.pathname)
+const t = translations[locale]
+---
+
+<div id="inline-cta-tpl" hidden>
+  <div class="relative my-10 overflow-hidden rounded-2xl bg-yellow-50 p-8 md:p-12">
+    <div class="relative z-10">
+      <p class="mb-2 text-2xl font-medium">
+        {t.ctaTitle}
+      </p>
+      <p class="mb-6 leading-relaxed md:pr-30">
+        {t.ctaDescription}
+      </p>
+      <Button href={`/${locale}/contact`} variant="orange">
+        {t.ctaButton}
+      </Button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tpl = document.getElementById("inline-cta-tpl");
+  if (tpl) {
+    const h2s = document.querySelectorAll(".prose h2");
+    if (h2s.length >= 2) {
+      const start = h2s.length === 2 ? 1 : 2;
+      for (let i = start; i < h2s.length; i += 3) {
+        const clone = tpl.firstElementChild!.cloneNode(true);
+        h2s[i].parentNode?.insertBefore(clone, h2s[i]);
+      }
+    }
+  }
+</script>

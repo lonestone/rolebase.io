@@ -13,6 +13,7 @@ const { title } = Astro.props
 const currentPath = Astro.url.pathname
 const locale = getLocaleFromPath(currentPath)
 const isDevSection = currentPath.includes('/developers') || currentPath.includes('/api')
+const isBlog = currentPath.includes('/blog') || currentPath.includes('/cas-clients') || currentPath.includes('/client-cases')
 ---
 
 <!doctype html>
@@ -30,7 +31,7 @@ const isDevSection = currentPath.includes('/developers') || currentPath.includes
     )}
   </head>
   <body class="min-h-dvh flex flex-col">
-    {isDevSection ? <TopNavDev /> : <TopNav />}
+    {isDevSection ? <TopNavDev /> : <TopNav staticHeader={isBlog} />}
     <div class="flex-1 flex flex-col">
       <slot />
     </div>

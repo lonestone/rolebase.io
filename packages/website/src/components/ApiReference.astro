@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../layouts/DocsLayout.astro'
+import { getLocaleFromPath, translations } from '../i18n'
 
 interface Props {
   title: string
@@ -8,12 +9,14 @@ interface Props {
 }
 
 const { title, entity, description } = Astro.props
+const locale = getLocaleFromPath(Astro.url.pathname)
+const t = translations[locale]
 ---
 
 <DocsLayout title={title} section="api">
   <article>
     <header class="mb-8">
-      <span class="inline-block bg-gray-800 text-white text-xs px-2.5 py-0.5 rounded font-semibold uppercase tracking-wide">API Reference</span>
+      <span class="inline-block bg-gray-800 text-white text-xs px-2.5 py-0.5 rounded font-semibold uppercase tracking-wide">{t.apiReference}</span>
       <h1 class="mt-1 text-4xl font-bold font-mono"><code class="text-[1em] bg-transparent p-0">{entity}</code></h1>
       {description && <p class="text-lg text-text-secondary">{description}</p>}
     </header>

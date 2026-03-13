@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content'
+import WebsiteLayout from '../layouts/WebsiteLayout.astro'
+import BlogCard from './BlogCard.astro'
+import { type Locale, translations } from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const t = translations[locale]
+
+const posts = (await getCollection('blog', (post) => post.data.lang === locale))
+  .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
+---
+
+<WebsiteLayout title={t.blog}>
+  <div class="mb-10">
+    <h1 class="text-4xl font-bold mb-3">{t.blog}</h1>
+    <p class="text-lg text-text-secondary">{t.blogSubtitle}</p>
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {posts.map((post) => (
+      <BlogCard post={post} locale={locale} />
+    ))}
+  </div>
+</WebsiteLayout>

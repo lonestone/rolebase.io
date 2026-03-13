@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content'
+import WebsiteLayout from '../layouts/WebsiteLayout.astro'
+import { type Locale, translations } from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const t = translations[locale]
+const basePath = `/${locale}${t.clientCasesPath}`
+
+const items = (await getCollection('client-cases', (item) => item.data.lang === locale))
+---
+
+<WebsiteLayout title={t.clientCases}>
+  <div class="mb-10">
+    <h1 class="text-4xl font-bold mb-3">{t.clientCases}</h1>
+    <p class="text-lg text-text-secondary">{t.clientCasesSubtitle}</p>
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {items.map((item) => (
+      <a
+        href={`${basePath}/${item.id}`}
+        class="group block overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-primary hover:shadow-lg no-underline"
+      >
+        <div class="flex items-center justify-center aspect-video bg-gray-50 p-8">
+          {item.data.logo ? (
+            <img src={item.data.logo} alt="" class="max-h-16 w-auto" />
+          ) : (
+            <span class="text-2xl font-medium text-gray-300">{item.data.title}</span>
+          )}
+        </div>
+        <div class="p-5">
+          {(item.data.sector || item.data.teamSize) && (
+            <p class="mb-2 text-sm text-text-secondary">
+              {item.data.sector}{item.data.sector && item.data.teamSize && ' · '}{item.data.teamSize && `${item.data.teamSize} ${t.employees}`}
+            </p>
+          )}
+          <h2 class="text-lg font-medium leading-snug group-hover:text-primary transition-colors">
+            {item.data.title}
+          </h2>
+          <p class="mt-2 text-sm text-text-secondary line-clamp-3">{item.data.summary}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</WebsiteLayout>

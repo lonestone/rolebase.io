@@ -1,0 +1,136 @@
+---
+import Button from './Button.astro'
+import { getLocaleFromPath, translations } from '../i18n'
+
+interface Props {
+  headings: { depth: number; slug: string; text: string }[]
+  image?: string
+}
+
+const { headings, image } = Astro.props
+const h2s = headings.filter((h) => h.depth === 2)
+const locale = getLocaleFromPath(Astro.url.pathname)
+const t = translations[locale]
+---
+
+{image && (
+  <img
+    src={image}
+    alt=""
+    class="hidden rounded-2xl aspect-video object-cover w-full md:block mb-8"
+  />
+)}
+
+<div id="toc-sentinel"></div>
+<div class="grid gap-6 md:sticky md:top-8">
+  {h2s.length > 0 && (
+    <div>
+      <nav
+        id="toc-nav"
+        class="space-y-1 rounded-2xl bg-gray-50 px-4 py-4 transition-all duration-300 ease-in-out overflow-hidden"
+      >
+        <p class="px-2 py-2 text-lg font-medium">{t.sidebarToc}</p>
+        {h2s.map((h, i) => (
+          <a
+            href={`#${h.slug}`}
+            data-heading={h.slug}
+            class="block px-2 py-2 text-base leading-snug text-gray-500 transition-colors hover:text-gray-900"
+          >
+            {i + 1}. {h.text}
+          </a>
+        ))}
+      </nav>
+      <select
+        id="toc-select"
+        class="block w-full rounded-xl bg-gray-50 px-4 text-base text-gray-700 outline-none transition-all duration-300 ease-in-out overflow-hidden opacity-0 h-0 border-0"
+      >
+        <option value="" disabled>{t.sidebarToc}</option>
+        {h2s.map((h, i) => (
+          <option value={h.slug}>
+            {i + 1}. {h.text}
+          </option>
+        ))}
+      </select>
+    </div>
+  )}
+
+  <div class="rounded-2xl bg-yellow-50 p-6 text-base leading-relaxed">
+    <p class="font-medium">
+      {t.sidebarTagline}
+    </p>
+    <p class="mt-3 text-gray-600">
+      {t.ctaDescription}
+    </p>
+    <p class="mt-3">
+      <a href={`/${locale}`} class="underline">{t.sidebarDiscover}</a>
+    </p>
+    <div class="text-center">
+      <Button href={`/${locale}/contact`} variant="orange" class="mt-4">
+        {t.ctaButton}
+      </Button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById("toc-nav")
+  const select = document.getElementById("toc-select") as HTMLSelectElement | null
+  const sentinel = document.getElementById("toc-sentinel")
+
+  if (nav && select && sentinel) {
+    const links = nav.querySelectorAll<HTMLAnchorElement>("a[data-heading]")
+    const slugs = Array.from(links).map((a) => a.dataset.heading!)
+    const headings = slugs
+      .map((s) => document.getElementById(s))
+      .filter(Boolean) as HTMLElement[]
+
+    select.addEventListener("change", () => {
+      const target = document.getElementById(select.value)
+      if (target) target.scrollIntoView({ behavior: "smooth" })
+    })
+
+    function updateActive() {
+      let activeSlug = slugs[0]
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top <= 100) {
+          activeSlug = heading.id
+        }
+      }
+      links.forEach((a) => {
+        const active = a.dataset.heading === activeSlug
+        a.classList.toggle("text-gray-900", active)
+        a.classList.toggle("text-gray-500", !active)
+        a.classList.toggle("font-medium", active)
+      })
+      if (activeSlug && select) select.value = activeSlug
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isSticky = !entry.isIntersecting
+        if (isSticky) {
+          nav.style.opacity = "0"
+          nav.style.maxHeight = "0"
+          nav.style.paddingTop = "0"
+          nav.style.paddingBottom = "0"
+          select.style.opacity = "1"
+          select.style.height = "3rem"
+        } else {
+          nav.style.opacity = "1"
+          nav.style.maxHeight = "9999px"
+          nav.style.paddingTop = ""
+          nav.style.paddingBottom = ""
+          select.style.opacity = "0"
+          select.style.height = "0"
+        }
+      },
+      { threshold: 0, rootMargin: "-1px 0px 0px 0px" },
+    )
+
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      observer.observe(sentinel)
+      updateActive()
+      document.addEventListener("scroll", updateActive, { passive: true })
+    }
+  }
+</script>

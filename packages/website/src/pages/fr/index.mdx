@@ -7,6 +7,7 @@ import SplitSection from '../../components/SplitSection.astro'
 import Button from '../../components/Button.astro'
 import FaqItem from '../../components/FaqItem.astro'
 import ClientLogos from '../../components/ClientLogos.astro'
+import LoomVideo from '../../components/LoomVideo.astro'
 export const contactLink = '/fr/contact'
 import icon from '../../assets/images/homepage/icon.svg'
 import capterraBestValue from '../../assets/images/homepage/capterra-best-value-2023.png'
@@ -45,14 +46,7 @@ import teamImg from '../../assets/images/homepage/LONESTONE-04-22-HD-29.jpg'
 
 {/* Video demo */}
 <Section>
-  <div class="relative w-full" style="padding-bottom: 56.25%">
-    <iframe
-      src="https://www.loom.com/embed/8ddd8113876444039ecb0a2728448f00?sid=f0dcdfb8-6b7c-4a5b-8e5c-9120506e5bb0&hideEmbedTopBar=true"
-      frameborder="0"
-      allowfullscreen
-      class="absolute inset-0 w-full h-full rounded-lg"
-    ></iframe>
-  </div>
+  <LoomVideo loomId="8ddd8113876444039ecb0a2728448f00" />
 </Section>
 
 {/* Logos clients */}

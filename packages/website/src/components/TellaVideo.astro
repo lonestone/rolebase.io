@@ -1,0 +1,22 @@
+---
+interface Props {
+  videoId: string
+  aspect?: string
+  class?: string
+}
+
+const { videoId, aspect = '16/9', class: className } = Astro.props
+const embedUrl = `https://www.tella.tv/video/${videoId}/embed?b=0&title=0&a=0&loop=0&autoPlay=false&t=0&muted=0&wt=0`
+---
+
+<div
+  class:list={["relative overflow-hidden rounded-2xl", className]}
+  style={`aspect-ratio: ${aspect}`}
+>
+  <iframe
+    src={embedUrl}
+    class="absolute inset-0 w-full h-full border-0"
+    allowfullscreen
+    allow="autoplay; fullscreen; picture-in-picture"
+  />
+</div>

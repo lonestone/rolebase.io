@@ -35,10 +35,10 @@ const linkClass = 'no-underline hover:underline'
       <div class="flex flex-col gap-2">
         <span class="font-medium text-text-main">{t.footerProduct}</span>
         <a href={lp('')} class={linkClass}>{t.footerFeatures}</a>
-        <a href={lp('')} class={linkClass}>{t.footerCaseStudies}</a>
+        <a href={lp(t.clientCasesPath)} class={linkClass}>{t.footerCaseStudies}</a>
         <a href={lp('')} class={linkClass}>{t.footerPricing}</a>
-        <a href={lp('')} class={linkClass}>Alternative to Holaspirit</a>
-        <a href={lp('')} class={linkClass}>Alternative to Nestr</a>
+        <a href={lp('')} class={linkClass}>{t.altHolaspirit}</a>
+        <a href={lp('')} class={linkClass}>{t.altNestr}</a>
       </div>
 
       <div class="flex flex-col gap-2">

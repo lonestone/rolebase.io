@@ -25,11 +25,11 @@ const sizeClasses = {
 }
 
 const variantClasses = {
-  yellow: 'bg-yellow-300 text-black',
-  orange: 'bg-orange-300 text-black',
-  primary: 'bg-primary text-white',
-  'outline-primary': 'border border-primary text-primary',
-  outline: 'border border-gray-200 bg-white text-black',
+  yellow: 'bg-yellow-300 !text-black',
+  orange: 'bg-orange-300 !text-black',
+  primary: 'bg-primary !text-white',
+  'outline-primary': 'border border-primary !text-primary',
+  outline: 'border border-gray-200 bg-white !text-black',
 }
 
 const rippleColor = {
@@ -46,7 +46,7 @@ const rippleColor = {
   target={target}
   rel={rel}
   class:list={[
-    'btn-hover relative overflow-hidden rounded-md font-medium no-underline hover:no-underline',
+    'btn-hover relative overflow-hidden rounded-md font-medium !no-underline !hover:no-underline',
     block ? 'block text-center' : 'inline-block',
     sizeClasses[size],
     variantClasses[variant],

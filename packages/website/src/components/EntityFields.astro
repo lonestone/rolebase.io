@@ -1,4 +1,6 @@
 ---
+import { getLocaleFromPath, translations } from '../i18n'
+
 interface Field {
   name: string
   type: string
@@ -10,14 +12,16 @@ interface Props {
 }
 
 const { fields } = Astro.props
+const locale = getLocaleFromPath(Astro.url.pathname)
+const t = translations[locale]
 ---
 
 <table class="my-8 w-full border-collapse text-sm">
   <thead>
     <tr>
-      <th class="border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold">Field</th>
-      <th class="border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold">Type</th>
-      <th class="border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold">Description</th>
+      <th class="border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold">{t.fieldLabel}</th>
+      <th class="border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold">{t.typeLabel}</th>
+      <th class="border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold">{t.descriptionLabel}</th>
     </tr>
   </thead>
   <tbody>
