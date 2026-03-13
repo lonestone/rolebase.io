@@ -1,6 +1,7 @@
 ---
 import { translations, getLocaleFromPath, getOtherLocaleHref, localePath } from '../i18n'
 import Logo from './Logo.astro'
+import Button from './Button.astro'
 
 const currentPath = Astro.url.pathname
 const locale = getLocaleFromPath(currentPath)
@@ -33,15 +34,7 @@ const navLinkClass = (active: boolean) => [
       href={otherLocaleHref}
       class="text-xs font-semibold px-2 py-0.5 border border-border rounded text-text-secondary no-underline hover:no-underline hover:bg-border"
     >{t.switchLang}</a>
-    <a
-      href="https://calendar.app.google/Y1mM2Lgc1FjzWFRYA"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="px-3 py-1.5 rounded-md text-sm font-medium text-primary border border-primary no-underline hover:no-underline hover:bg-primary/5"
-    >{t.bookDemo}</a>
-    <a
-      href="https://rolebase.io/login"
-      class="px-3 py-1.5 rounded-md text-sm font-medium bg-primary text-white no-underline hover:no-underline hover:bg-primary-dark"
-    >{t.login}</a>
+    <Button href={lp('/contact')} variant="outline-primary" size="sm">{t.bookDemo}</Button>
+    <Button href="https://rolebase.io/login" variant="primary" size="sm">{t.login}</Button>
   </div>
 </header>

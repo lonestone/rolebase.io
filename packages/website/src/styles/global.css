@@ -1,10 +1,10 @@
-@import "tailwindcss";
-@import "../fonts/Basier-Circle-regular-webfont/stylesheet.css";
-@import "../fonts/Basier-Circle-medium-webfont/stylesheet.css";
-@import "../fonts/Basier-Circle-semibold-webfont/stylesheet.css";
+@import 'tailwindcss';
+@import '../fonts/Basier-Circle-regular-webfont/stylesheet.css';
+@import '../fonts/Basier-Circle-medium-webfont/stylesheet.css';
+@import '../fonts/Basier-Circle-semibold-webfont/stylesheet.css';
 
 @theme {
-  --font-sans: "basier_circle", sans-serif;
+  --font-sans: 'basier_circle', sans-serif;
 
   /* Brand colors (same as webapp) */
   --color-primary: hsla(262, 89%, 68%, 1);
@@ -31,14 +31,22 @@
   --color-callout-info: #d0ebff;
   --color-callout-warning: #fff3bf;
   --color-callout-tip: #d3f9d8;
+
+  --animate-marquee: marquee var(--marquee-duration, 20s) linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Base styles (Tailwind Preflight resets everything) */
 body {
   @apply text-text-main leading-relaxed antialiased;
-}
-a {
-  @apply no-underline hover:underline;
 }
 
 /* Markdown styles */

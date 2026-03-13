@@ -1,0 +1,77 @@
+---
+interface Props {
+  href: string
+  variant?: 'yellow' | 'orange' | 'primary' | 'outline-primary' | 'outline'
+  size?: 'sm' | 'md'
+  class?: string
+  target?: string
+  rel?: string
+  block?: boolean
+}
+
+const {
+  href,
+  variant = 'yellow',
+  size = 'md',
+  class: className,
+  target,
+  rel,
+  block = false,
+} = Astro.props
+
+const sizeClasses = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-6 py-3',
+}
+
+const variantClasses = {
+  yellow: 'bg-yellow-300 text-black',
+  orange: 'bg-orange-300 text-black',
+  primary: 'bg-primary text-white',
+  'outline-primary': 'border border-primary text-primary',
+  outline: 'border border-gray-200 bg-white text-black',
+}
+
+const rippleColor = {
+  yellow: 'var(--color-yellow-400, #facc15)',
+  orange: 'var(--color-orange-400, #fb923c)',
+  primary: 'var(--color-primary-light)',
+  'outline-primary': 'hsla(262, 89%, 68%, 0.1)',
+  outline: 'var(--color-gray-100)',
+}
+---
+
+<a
+  href={href}
+  target={target}
+  rel={rel}
+  class:list={[
+    'btn-hover relative overflow-hidden rounded-md font-medium no-underline hover:no-underline',
+    block ? 'block text-center' : 'inline-block',
+    sizeClasses[size],
+    variantClasses[variant],
+    className,
+  ]}
+  style={`--ripple-color: ${rippleColor[variant]}`}
+>
+  <span class="relative z-10"><slot /></span>
+</a>
+
+<style>
+  .btn-hover::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: var(--ripple-color);
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+    transition: width 0.4s ease, height 0.4s ease;
+  }
+  .btn-hover:hover::before {
+    width: 300%;
+    height: 300%;
+  }
+</style>

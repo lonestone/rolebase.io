@@ -1,5 +1,6 @@
 # TODO
 
+- Ajouter pages partenaires : https://resiliences.co/ https://www.gokyp.fr/
 - Pages solutions : annuaire privé, communauté, animation de réseau
 - Améliorer le système de décisions : UX, notifs...
 - Thread : bouton pour s'ajouter à un thread quand on n'en fait pas partie et qu'on veut participer
@@ -7,7 +8,6 @@
 - Tasks : pouvoir filtrer en incluant les sous-rôles
 - Notif réu par mail
 - Reponse auto demande de démo
-- Bouton diag / prise de rdv (https://calendar.app.google/Y1mM2Lgc1FjzWFRYA)
 - Notifs Slack
 - Module gouvernance
 - Module prise de décision

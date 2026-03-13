@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string
+  reverse?: boolean
+  align?: 'center' | 'start'
+}
+
+const { class: className, reverse = false, align = 'center' } = Astro.props
+---
+
+<section class:list={[
+  "mt-24 flex flex-col md:flex-row gap-12",
+  align === 'start' ? 'md:items-start' : 'items-center',
+  reverse && "md:flex-row-reverse",
+  className,
+]}>
+  <div class="flex-1">
+    <slot name="left" />
+  </div>
+  <div class="flex-1">
+    <slot name="right" />
+  </div>
+</section>

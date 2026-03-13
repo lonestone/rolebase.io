@@ -1,0 +1,134 @@
+---
+/**
+ * Animated background circles with random drift + parallax scroll.
+ * All movement is JS-driven: each circle smoothly drifts toward
+ * a random target, picks a new one when close, and shifts with scroll.
+ */
+
+const circles = [
+  { size: 200, color: 'rgb(250, 166, 140)', top: 150, left: '-50px', wanderRadius: 120, driftSpeed: 0.4, parallaxY: 0.35, parallaxX: 0.08 },
+  { size: 400, color: 'rgb(140, 186, 250)', top: 500, left: 'calc(100% - 260px)', wanderRadius: 150, driftSpeed: 0.25, parallaxY: -0.25, parallaxX: -0.06 },
+  { size: 350, color: 'rgb(211, 167, 228)', top: 2800, left: '55%', wanderRadius: 130, driftSpeed: 0.3, parallaxY: 0.4, parallaxX: -0.1 },
+  { size: 400, color: 'rgb(253, 237, 153)', top: 2200, left: '10%', wanderRadius: 140, driftSpeed: 0.2, parallaxY: -0.3, parallaxX: 0.12 },
+  { size: 380, color: 'rgb(250, 166, 140)', top: 1800, left: '40%', wanderRadius: 110, driftSpeed: 0.35, parallaxY: 0.2, parallaxX: -0.08 },
+]
+---
+
+<div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none bg-[rgb(253,246,234)]" aria-hidden="true">
+  {circles.map((c, i) => (
+    <div
+      class="circle-wanderer absolute rounded-full blur-[100px] will-change-transform"
+      data-wander-radius={c.wanderRadius}
+      data-drift-speed={c.driftSpeed}
+      data-parallax-y={c.parallaxY}
+      data-parallax-x={c.parallaxX}
+      style={`
+        width: ${c.size}px;
+        height: ${c.size}px;
+        background: ${c.color};
+        top: ${c.top}px;
+        left: ${c.left};
+      `}
+    />
+  ))}
+</div>
+
+<script>
+  interface CircleState {
+    el: HTMLElement
+    // Current drift offset
+    x: number
+    y: number
+    // Current velocity
+    vx: number
+    vy: number
+    // Target drift offset
+    tx: number
+    ty: number
+    // Config
+    wanderRadius: number
+    driftSpeed: number
+    parallaxY: number
+    parallaxX: number
+  }
+
+  const elements = document.querySelectorAll<HTMLElement>('.circle-wanderer')
+  const states: CircleState[] = []
+
+  elements.forEach((el) => {
+    const wanderRadius = parseFloat(el.dataset.wanderRadius || '100')
+    const angle = Math.random() * Math.PI * 2
+    const dist = Math.random() * wanderRadius
+    states.push({
+      el,
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      tx: Math.cos(angle) * dist,
+      ty: Math.sin(angle) * dist,
+      wanderRadius,
+      driftSpeed: parseFloat(el.dataset.driftSpeed || '0.3'),
+      parallaxY: parseFloat(el.dataset.parallaxY || '0'),
+      parallaxX: parseFloat(el.dataset.parallaxX || '0'),
+    })
+  })
+
+  function pickNewTarget(s: CircleState) {
+    const angle = Math.random() * Math.PI * 2
+    const dist = (0.4 + Math.random() * 0.6) * s.wanderRadius
+    s.tx = Math.cos(angle) * dist
+    s.ty = Math.sin(angle) * dist
+  }
+
+  let lastTime = performance.now()
+
+  function animate(now: number) {
+    const dt = Math.min((now - lastTime) / 1000, 0.1) // cap delta to avoid jumps
+    lastTime = now
+    const scrollY = window.scrollY
+
+    for (const s of states) {
+      // Smoothly steer velocity toward target (spring-like)
+      const dx = s.tx - s.x
+      const dy = s.ty - s.y
+      const dist = Math.sqrt(dx * dx + dy * dy)
+
+      // Pick a new target when close enough
+      if (dist < 10) {
+        pickNewTarget(s)
+      }
+
+      // Acceleration toward target, proportional to distance but capped
+      const accel = s.driftSpeed * 0.8
+      const ax = dx * accel
+      const ay = dy * accel
+
+      // Apply acceleration with damping for smoothness
+      const damping = 0.92
+      s.vx = s.vx * damping + ax * dt
+      s.vy = s.vy * damping + ay * dt
+
+      // Clamp velocity
+      const maxSpeed = s.wanderRadius * 0.5
+      const speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy)
+      if (speed > maxSpeed) {
+        s.vx = (s.vx / speed) * maxSpeed
+        s.vy = (s.vy / speed) * maxSpeed
+      }
+
+      s.x += s.vx * dt * 60
+      s.y += s.vy * dt * 60
+
+      // Combine drift + parallax
+      const totalX = s.x + scrollY * s.parallaxX
+      const totalY = s.y + scrollY * s.parallaxY
+
+      s.el.style.transform = `translate(${totalX}px, ${totalY}px)`
+    }
+
+    requestAnimationFrame(animate)
+  }
+
+  requestAnimationFrame(animate)
+</script>

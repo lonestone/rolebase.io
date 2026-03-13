@@ -2,44 +2,281 @@
 ---
 
 import WebsiteLayout from '../../layouts/WebsiteLayout.astro'
-import Callout from '../../components/Callout.astro'
+import Section from '../../components/Section.astro'
+import SplitSection from '../../components/SplitSection.astro'
+import Button from '../../components/Button.astro'
+import FaqItem from '../../components/FaqItem.astro'
+import ClientLogos from '../../components/ClientLogos.astro'
+export const contactLink = '/fr/contact'
+import icon from '../../assets/images/homepage/icon.svg'
+import capterraBestValue from '../../assets/images/homepage/capterra-best-value-2023.png'
+import capterraBestEaseOfUse from '../../assets/images/homepage/capterra-best-ease-of-use-2023.png'
+import saCustomerSupport from '../../assets/images/homepage/sa-customer-support-2023.png'
+import greenCheck from '../../assets/images/homepage/green-check.svg'
+import calendarIcon from '../../assets/images/homepage/calendar.svg'
+import reunioniteIcon from '../../assets/images/homepage/reunionite.svg'
+import infoAccessIcon from '../../assets/images/homepage/info-access.svg'
+import quietQuittingIcon from '../../assets/images/homepage/quiet-quitting.svg'
+import newMethodsIcon from '../../assets/images/homepage/new-methods.svg'
+import rolesImg from '../../assets/images/homepage/roles-img.png'
+import teamImg from '../../assets/images/homepage/LONESTONE-04-22-HD-29.jpg'
 
-<WebsiteLayout title="Accueil">
-<div class="prose">
+<WebsiteLayout title="La plateforme qui simplifie la vie de vos équipes">
 
-# Documentation Rolebase
+{/* Hero */}
+<section class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+  <div class="flex-1">
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight">Gouvernez et collaborez avec vos équipes</h1>
+    <p class="mt-6 text-lg text-text-secondary">La seule app open source pour organisations libérées.</p>
+    <div class="mt-8">
+      <Button href="https://rolebase.io/signup">Commencer gratuitement</Button>
+      <p class="mt-2 text-sm text-text-secondary">Accès gratuit. Open Source. Plan payant.</p>
+    </div>
+    <div class="flex items-center gap-4 mt-6">
+      <img src={capterraBestValue.src} alt="Capterra Best Value 2023" class="h-16" />
+      <img src={capterraBestEaseOfUse.src} alt="Capterra Best Ease of Use 2023" class="h-16" />
+      <img src={saCustomerSupport.src} alt="Software Advice Customer Support 2023" class="h-16" />
+    </div>
+  </div>
+  <div class="flex-1">
+    <iframe class="w-full aspect-square" src="https://rive.app/s/osv6N0HDxE6NPHPdEzB6MQ/embed" style="border: none" allowfullscreen></iframe>
+  </div>
+</section>
 
-**[Rolebase](https://rolebase.io)** est le quartier général en ligne des [entreprises libérées](https://fr.wikipedia.org/wiki/Entreprise_lib%C3%A9r%C3%A9e). C'est un SaaS open-source qui aide les organisations à mettre en place l'Holacratie, la Sociocratie et d'autres formes d'auto-gouvernance.
+{/* Video demo */}
+<Section>
+  <div class="relative w-full" style="padding-bottom: 56.25%">
+    <iframe
+      src="https://www.loom.com/embed/8ddd8113876444039ecb0a2728448f00?sid=f0dcdfb8-6b7c-4a5b-8e5c-9120506e5bb0&hideEmbedTopBar=true"
+      frameborder="0"
+      allowfullscreen
+      class="absolute inset-0 w-full h-full rounded-lg"
+    ></iframe>
+  </div>
+</Section>
 
-<Callout type="tip" title="Nouveau sur Rolebase ?">
-  Commencez par l'[Introduction](/fr/docs) pour comprendre les concepts clés, puis suivez le guide [Premiers pas](/fr/docs/getting-started).
-</Callout>
+{/* Logos clients */}
+<Section fullWidth class="mt-16">
+  <ClientLogos />
+</Section>
 
-## Guides
+{/* Offres */}
+<Section class="text-center">
+  <p class="text-lg text-text-secondary">La plateforme qui vous aide à faire le premier pas vers le management horizontal</p>
+  <h2 class="text-3xl md:text-4xl font-bold mt-2">Explorez Rolebase<br/>en autonomie ou avec un accompagnement</h2>
 
-Apprenez à utiliser Rolebase pas à pas :
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
 
-- [Introduction](/fr/docs) — Qu'est-ce que Rolebase et à qui s'adresse-t-il
-- [Premiers pas](/fr/docs/getting-started) — Installation et configuration initiale
-- [Organisations](/fr/docs/organizations) — Créer et gérer votre organisation
-- [Organigramme](/fr/docs/org-chart) — Visualiser et naviguer dans votre structure
-- [Rôles](/fr/docs/circles-and-roles) — Comprendre la structure organisationnelle
-- [Membres](/fr/docs/members) — Gérer les membres et les invitations
-- [Réunions](/fr/docs/meetings) — Organiser des réunions efficaces
-- [Tâches](/fr/docs/tasks) — Gestion des tâches avec kanban et vue liste
-- [Discussions](/fr/docs/threads) — Discussions asynchrones et sondages
-- [Décisions](/fr/docs/decisions) — Enregistrer les décisions formelles
-- [Fil d'actualité](/fr/docs/news-feed) — Suivre l'activité de l'organisation
-- [Apps & Intégrations](/fr/docs/apps-integrations) — Synchronisation calendrier et apps tierces
-- [Abonnements](/fr/docs/subscriptions) — Plans et facturation
-- [Import](/fr/docs/import) — Migrer depuis d'autres outils
+    <div class="bg-white rounded-xl p-6 flex flex-col">
+      <img src={icon.src} alt="Rolebase" class="h-8 w-8" />
+      <h3 class="text-xl font-bold mt-4">Autonomie</h3>
+      <p class="text-text-secondary mt-2">Vous disposez de tous les outils pour créer votre propre système de gouvernance et inviter votre équipe en autonomie.</p>
+      <ul class="mt-6 space-y-2 flex-1">
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Organigramme</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Rôles</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Réunions</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Sujets</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Tâches</li>
+      </ul>
+      <Button href="https://rolebase.io/signup" block class="mt-6">Je m'inscris</Button>
+    </div>
 
-## Référence API
+    <div class="bg-white rounded-xl p-6 flex flex-col">
+      <img src={icon.src} alt="Rolebase" class="h-8 w-8" />
+      <h3 class="text-xl font-bold mt-4">Plateforme + Aide au démarrage</h3>
+      <p class="text-text-secondary mt-2">Notre équipe vous accompagne et vous autonomise dans la gestion de votre organisation avec Rolebase.</p>
+      <ul class="mt-6 space-y-2 flex-1">
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Accès complet à la plateforme</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Audit de votre organisation</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Coaching de 2h</li>
+      </ul>
+      <Button href={contactLink} block class="mt-6">On discute</Button>
+    </div>
 
-Construisez des intégrations avec l'API GraphQL de Rolebase :
+    <div class="bg-white rounded-xl p-6 flex flex-col">
+      <img src={icon.src} alt="Rolebase" class="h-8 w-8" />
+      <h3 class="text-xl font-bold mt-4">Plateforme + Coaching</h3>
+      <p class="text-text-secondary mt-2">Nos coachs certifiés partenaires vous accompagnent durablement pour donner un nouveau souffle à votre organisation.</p>
+      <ul class="mt-6 space-y-2 flex-1">
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Accès complet à la plateforme</li>
+        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Plan d'accompagnement personnalisé</li>
+      </ul>
+      <Button href={contactLink} block class="mt-6">On discute</Button>
+    </div>
 
-- [Vue d'ensemble de l'API](/fr/api) — Authentification, endpoints et exemples
-- [Référence des entités](/fr/api#entities) — Référence complète de toutes les entités API
+  </div>
+</Section>
 
-</div>
+{/* Problématiques */}
+<Section class="bg-purple-100 rounded-2xl p-8 md:p-12">
+  <h2 class="text-3xl md:text-4xl font-bold text-center">Rolebase vous aide à résoudre des problématiques clés</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mt-12 text-center">
+    <div class="flex flex-col items-center gap-3">
+      <img src={calendarIcon.src} alt="Calendrier" class="h-16" />
+      <p>Vous avez du mal à vous y retrouver dans qui fait quoi au sein de l'entreprise</p>
+    </div>
+    <div class="flex flex-col items-center gap-3">
+      <img src={reunioniteIcon.src} alt="Réunions successives" class="h-16" />
+      <p>Les réunions s'enchainent et les équipes parlent de réunionite</p>
+    </div>
+    <div class="flex flex-col items-center gap-3">
+      <img src={infoAccessIcon.src} alt="Lenteur" class="h-16" />
+      <p>Les collaborateurs n'arrivent pas toujours à retrouver les infos clés ni à qui s'adresser</p>
+    </div>
+    <div class="flex flex-col items-center gap-3">
+      <img src={quietQuittingIcon.src} alt="Quiet Quitting" class="h-16" />
+      <p>Vous identifiez des signaux de Quiet Quitting</p>
+    </div>
+    <div class="flex flex-col items-center gap-3">
+      <img src={newMethodsIcon.src} alt="Nouvelles méthodes" class="h-16" />
+      <p>Vous rencontrez des difficultés à engager les collaborateurs sur de nouvelles méthodes</p>
+    </div>
+  </div>
+</Section>
+
+{/* Boîte noire */}
+<SplitSection>
+  <Fragment slot="left">
+    <h2 class="text-3xl md:text-4xl font-bold">La fin de l'effet "boîte noire"</h2>
+    <p class="mt-6 text-lg">Souvent en entreprise on ne comprend pas bien quels sont les rôles et redevabilités de chacun.</p>
+    <p class="mt-4 text-lg">Cet effet "boîte noire" freine la prise d'initiative des collaborateurs et les désengage.</p>
+    <p class="mt-4 text-lg">Cet impact sur les contributions individuelles ralenti la génération de valeur au sein de l'entreprise !</p>
+  </Fragment>
+  <Fragment slot="right">
+    <img
+      src={teamImg.src}
+      alt="Une équipe collaborant avec Rolebase."
+      class="rounded-full w-full max-w-md mx-auto aspect-square object-cover"
+    />
+  </Fragment>
+</SplitSection>
+
+{/* Simplicité */}
+<SplitSection>
+  <Fragment slot="left">
+    <img
+      src={rolesImg.src}
+      alt="Un groupe de collègues enthousiastes."
+      class="rounded-full w-full max-w-md mx-auto"
+    />
+  </Fragment>
+  <Fragment slot="right">
+    <h2 class="text-3xl md:text-4xl font-bold">Apportez de la simplicité à vos équipes</h2>
+    <p class="mt-2 text-lg text-text-secondary italic">Libérez du temps à chacun pour se concentrer sur ses expertises</p>
+    <p class="mt-6">Vos équipes ont besoin de visualiser clairement leur situation au sein de l'entreprise pour réussir à s'aligner.</p>
+    <p class="mt-4">Leur temps passé en réunion doit être vecteur de création de savoir, d'alignement et de convivialité.</p>
+    <p class="mt-4">L'information pertinente pour avancer dans les projets doit être facilement accessible en 2 clics et en autonomie.</p>
+    <p class="mt-4">Avec Rolebase nous vous donnons une solution simple et intuitive pour permettre à vos collaborateurs de bien collaborer.</p>
+    <Button href={contactLink} variant="orange" class="mt-6">Demander une démo</Button>
+  </Fragment>
+</SplitSection>
+
+{/* Témoignages Senja */}
+<Section>
+  <div class="senja-embed" data-id="a4d9f5fc-38c0-490c-9034-9e69233c5444" data-lazyload="false"></div>
+  <script async type="text/javascript" src="https://static.senja.io/dist/platform.js"></script>
+</Section>
+
+{/* FAQ */}
+<SplitSection align="start">
+  <Fragment slot="left">
+    <h2 class="text-3xl md:text-4xl font-bold">FAQ</h2>
+    <p class="mt-2 text-lg text-text-secondary italic">Rolebase répond à vos questions</p>
+    <p class="mt-6">Vous avez des questions sur Rolebase, son fonctionnement ou ses possibilités ? Voici les réponses les plus fréquentes. Si vous ne trouvez pas ce que vous cherchez, contactez-nous !</p>
+  </Fragment>
+  <Fragment slot="right">
+
+<FaqItem question="Rolebase pour les associations ça donne quoi ?">
+
+Nous proposons des réductions importantes ou la gratuité totale pour les associations selon votre statut.
+
+[Rentrez en contact]({contactLink}) avec nous pour en savoir plus.
+
+</FaqItem>
+<FaqItem question="Qui utilise Rolebase ?">
+
+Des organisations de tous types et de toutes tailles utilisent Rolebase pour apporter plus de transparence et de collaborations à leurs équipes.
+
+Des agences de 35 personnes ([Lonestone](https://lonestone.io/), Yeswedev, Troopers, IDS Media) ou plus de 150 personnes (Evea Scop), des startups, des associations, des coopératives...
+
+</FaqItem>
+<FaqItem question="Puis-je proposer des modifications à l'outil ?">
+
+Oui avec plaisir !
+
+- Vous pouvez rentrer en contact avec nous via la [page Contact](https://www.rolebase.io/contact).
+- Si vous êtes développeur, vous pouvez faire un fork du [dépôt GitHub officiel](https://github.com/Godefroy/rolebase) et proposer une pull request ou une [issue GitHub](https://github.com/Godefroy/rolebase/issues).
+
+</FaqItem>
+<FaqItem question="Puis-je héberger moi-même une instance de Rolebase ?">
+
+Oui, le [code source de Rolebase](https://github.com/Godefroy/rolebase) est disponible sous licence libre, vous pouvez l'héberger vous-même. Les coûts de serveurs seront alors à votre charge et vous n'aurez ni garantie ni support.
+
+</FaqItem>
+<FaqItem question="La confidentialité de mes données est-elle garantie ?">
+
+Seules les personnes que vous avez invitées dans votre organisation peuvent consulter celle-ci.
+
+Les données sont stockées en Europe dans un datacenter sécurisé chez Nhost.
+
+L'équipe de Rolebase ne peut les consulter qu'avec votre autorisation ou à des fins purement techniques.
+
+</FaqItem>
+<FaqItem question="Quelles intégrations sont disponibles ?">
+
+Il est possible de synchroniser son agenda Rolebase dans n'importe quel calendrier avec un lien d'abonnement iCal.
+
+Nous prévoyons d'ajouter des intégrations Google Calendar, Outlook Calendar, Slack, Zapier et bien d'autres. Partagez-nous vos besoins pour nous aider à les prioriser !
+
+</FaqItem>
+<FaqItem question="Est-ce que Rolebase s'interface à des applications tierces ?">
+
+Rolebase peut s'intégrer facilement à vos outils habituels grâce à des connexions API.
+
+</FaqItem>
+<FaqItem question="En quelles langues est disponible Rolebase">
+
+Rolebase est disponible en Français et en Anglais.
+
+</FaqItem>
+<FaqItem question="Quel est le business model de Rolebase ?">
+
+Rolebase est un SaaS (Software as a Service) avec un abonnement mensuel et annuel par utilisateur.
+
+Cet abonnement comprend l'accès à la plateforme ainsi qu'à un support personnalisé. Notre code source est intégralement disponible sur GitHub sous licence MIT pour les entreprises souhaitant le déploiement on-premise.
+
+</FaqItem>
+<FaqItem question="Est-ce que Rolebase respecte la RGPD ?">
+
+Rolebase respecte le cadre de la protection des données établi par les principes de la RGPD.
+
+Nos serveurs sont localisés en Europe et nous ne transitons aucune donnée en dehors du territoire Européen.
+
+</FaqItem>
+<FaqItem question="Puis-je forcer les règles de Holacratie ?">
+
+Nous croyons qu'un bon outil doit faciliter la vie sans trop contraindre. Rolebase permet d'implémenter une Holacratie sans en forcer les règles.
+
+</FaqItem>
+
+  </Fragment>
+</SplitSection>
+
+{/* CTA final */}
+<Section class="bg-yellow-100 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
+  <div class="flex-shrink-0">
+    <iframe style="border: none" width="250" height="200" src="https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed" allowfullscreen></iframe>
+  </div>
+  <div>
+    <h2 class="text-3xl md:text-4xl font-bold">Votre organisation le mérite bien</h2>
+    <p class="mt-4 text-text-secondary">C'est gratuit jusqu'à ce que vous soyez prêt(e) à embarquer toute votre équipe ! Testez vous-même en quelques minutes ou demandez une démo pour nous parler.</p>
+    <div class="flex flex-wrap gap-4 mt-6">
+      <Button href={contactLink} variant="outline">Demander une démo</Button>
+      <Button href="https://rolebase.io/signup" variant="orange">Tester en autonomie</Button>
+    </div>
+  </div>
+</Section>
+
+
 </WebsiteLayout>

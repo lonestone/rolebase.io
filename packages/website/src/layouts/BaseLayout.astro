@@ -22,10 +22,16 @@ const isDevSection = currentPath.includes('/developers') || currentPath.includes
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} - Rolebase</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {import.meta.env.PROD && (
+      <script
+        defer
+        src="https://umami.internal.lonestone.io/script.js"
+        data-website-id="b551cd9c-5426-410a-83ed-94d46b6a7865"></script>
+    )}
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-dvh flex flex-col">
     {isDevSection ? <TopNavDev /> : <TopNav />}
-    <div class="flex-1">
+    <div class="flex-1 flex flex-col">
       <slot />
     </div>
     <Footer />

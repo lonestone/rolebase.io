@@ -1,5 +1,7 @@
 export type Locale = 'en' | 'fr'
 
+export const bookDemoLink = 'https://calendar.app.google/Y1mM2Lgc1FjzWFRYA'
+
 export const translations = {
   en: {
     documentation: 'Documentation',

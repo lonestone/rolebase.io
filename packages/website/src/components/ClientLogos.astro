@@ -1,0 +1,51 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  class?: string;
+  theme?: "light" | "dark";
+}
+
+const { class: className, theme = "light" } = Astro.props;
+
+const logos = [
+  { icon: "references/ippon", alt: "Ippon" },
+  { icon: "references/collectif-energie", alt: "Collectif Énergie" },
+  { icon: "references/croix-rouge", alt: "Croix-Rouge française" },
+  { icon: "references/protection-civile", alt: "Protection Civile" },
+  { icon: "references/lonestone", alt: "Lonestone" },
+  { icon: "references/evea", alt: "Evea" },
+  { icon: "references/ids-media", alt: "IDS Media" },
+  { icon: "references/externatic", alt: "Externatic" },
+];
+
+const gradientFrom = theme === "dark" ? "from-black" : "from-white";
+const textColor = theme === "dark" ? "text-white" : "text-black";
+---
+
+<section class:list={["overflow-hidden py-20", className]}>
+  <div class="relative">
+    <div
+      class={`pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-48 bg-linear-to-r ${gradientFrom} to-transparent`}
+    >
+    </div>
+    <div
+      class={`pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-48 bg-linear-to-l ${gradientFrom} to-transparent`}
+    >
+    </div>
+    <div
+      class={`animate-marquee flex w-max items-center ${textColor}`}
+      style="--marquee-duration: 20s"
+    >
+      {
+        [...logos, ...logos].map(({ icon, alt }) => (
+          <Icon
+            icon={icon}
+            class="h-8 md:h-9 lg:h-11 w-auto mr-20"
+            aria-label={alt}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string
+  fullWidth?: boolean
+}
+
+const { class: className, fullWidth = false } = Astro.props
+---
+
+{fullWidth ? (
+  <section class:list={["mt-24 w-screen relative left-1/2 -translate-x-1/2", className]}>
+    <slot />
+  </section>
+) : (
+  <section class:list={["mt-24", className]}>
+    <slot />
+  </section>
+)}

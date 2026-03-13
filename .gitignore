@@ -25,3 +25,7 @@ stats.html
 # Sentry Config File
 .env.sentry-build-plugin
 .sentryclirc
+
+# MCP cache
+.mcp-web-inspector
+.playwright-mcp
