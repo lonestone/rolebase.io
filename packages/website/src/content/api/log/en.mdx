@@ -141,7 +141,7 @@ Log access is controlled based on the following rules:
 - Organization members can view logs from their organization
 - Log creation requires organization membership with an appropriate role
 - The `userId` is automatically set to the authenticated user
-- Log entries cannot be modified or deleted after creation
+- Log entries cannot be deleted after creation. Only the `canceled` field can be updated
 - Cancellation is handled by creating new log entries (not modifying originals)
 
 <Callout type="info">

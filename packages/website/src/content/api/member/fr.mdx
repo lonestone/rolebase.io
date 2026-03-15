@@ -19,7 +19,7 @@ import Callout from '../../../components/Callout.astro'
   { name: "userId", type: "uuid", description: "Référence au compte utilisateur associé (optionnel)" },
   { name: "inviteEmail", type: "String", description: "Adresse e-mail utilisée pour l'invitation (optionnel)" },
   { name: "inviteDate", type: "Timestamp", description: "Date d'envoi de l'invitation (optionnel)" },
-  { name: "role", type: "Member_Role_Enum", description: "Rôle du membre dans l'organisation (ex. : Owner, Admin, Member)" },
+  { name: "role", type: "Member_Role_Enum", description: "Rôle du membre dans l'organisation : Owner, Admin, Member ou Readonly" },
 ]} />
 
 ## Relations
@@ -102,7 +102,7 @@ mutation UpdateMember {
 ## Permissions
 
 - **Propriétaire/Administrateur :** Peut créer, mettre à jour et archiver des membres
-- **Membre :** Peut consulter les informations des membres selon les paramètres de partage de l'organisation
+- Tous les membres de l'organisation peuvent consulter les informations des membres au sein de leur organisation
 
 <Callout type="info" title="Notes">
   La combinaison de `orgId` et `userId` doit être unique. Lorsqu'un membre est invité, `inviteEmail` et `inviteDate` sont définis. Une fois l'invitation acceptée, `userId` est lié au compte utilisateur.

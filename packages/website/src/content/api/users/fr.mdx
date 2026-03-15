@@ -18,7 +18,7 @@ import Callout from '../../../components/Callout.astro'
   { name: "avatarUrl", type: "String", description: "URL de l'image d'avatar de l'utilisateur" },
   { name: "locale", type: "String", description: "Langue préférée de l'utilisateur" },
   { name: "metadata", type: "JSON", description: "Métadonnées supplémentaires de l'utilisateur (ex. : fuseau horaire, préférences)" },
-  { name: "defaultRole", type: "String", description: "Rôle par défaut de l'utilisateur dans le système" },
+  { name: "newEmail", type: "String", description: "Nouvelle adresse e-mail en attente de vérification (optionnel)" },
   { name: "isAnonymous", type: "Boolean", description: "Indique si c'est un utilisateur anonyme (par défaut : false)" },
   { name: "disabled", type: "Boolean", description: "Indique si le compte utilisateur est désactivé (par défaut : false)" },
   { name: "lastSeen", type: "Timestamp", description: "Dernière activité de l'utilisateur (optionnel)" },
@@ -38,14 +38,9 @@ import Callout from '../../../components/Callout.astro'
   { name: "ticket", type: "String", description: "Ticket d'authentification (optionnel)" },
   { name: "ticketExpiresAt", type: "Timestamp", description: "Date d'expiration du ticket d'authentification" },
   { name: "currentChallenge", type: "String", description: "Défi d'authentification en cours (optionnel)" },
-  { name: "newEmail", type: "String", description: "Nouvelle adresse e-mail en attente de vérification (optionnel)" },
 ]} />
 
 ## Relations
-
-### Relations objet
-
-- `defaultRoleByRole` — La configuration du rôle par défaut pour cet utilisateur
 
 ### Relations tableau
 
@@ -70,7 +65,7 @@ query GetUserProfile($userId: uuid!) {
     avatarUrl
     locale
     metadata
-    defaultRole
+    newEmail
     lastSeen
     members {
       id

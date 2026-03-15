@@ -49,7 +49,7 @@ Les fichiers sont stockés dans des buckets qui définissent les paramètres de 
 
 ```graphql
 query GetFile($id: uuid!) {
-  file_by_pk(id: $id) {
+  file(id: $id) {
     id
     name
     mimeType
@@ -62,13 +62,10 @@ query GetFile($id: uuid!) {
 
 ## Permissions
 
-L'accès aux fichiers est contrôlé par plusieurs facteurs :
+L'accès aux fichiers est ouvert à tous les utilisateurs authentifiés et aux requêtes publiques :
 
-- **Appartenance à l'organisation** — Les membres peuvent accéder aux fichiers associés à leur organisation
-- **Rôle du membre** — Les droits de téléversement et de modification dépendent du rôle du membre
-- **Permissions du bucket** — La configuration du bucket de stockage régit l'accès et les limites de taille
-- **Droits du téléverseur** — Les métadonnées du fichier peuvent être mises à jour par le téléverseur original
-- **Analyse antivirus** — Les fichiers téléversés sont analysés pour la sécurité
+- **Consultation** — Tous les utilisateurs authentifiés et les requêtes publiques peuvent consulter les métadonnées des fichiers (limité à 1 résultat)
+- **Création** — Tous les utilisateurs authentifiés peuvent téléverser des fichiers
 
 <Callout type="info">
 Les fichiers sont stockés de manière sécurisée dans des buckets de stockage configurables. Les URL pré-signées permettent un accès temporaire sécurisé, et la validation du type MIME assure un traitement correct des fichiers. Les ETags supportent la mise en cache et les requêtes conditionnelles pour une livraison efficace des fichiers.

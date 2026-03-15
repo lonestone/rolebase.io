@@ -24,27 +24,6 @@ import Callout from '../../../components/Callout.astro'
 - `circle` — Le cercle auquel cette attribution de leadership appartient
 - `member` — Le membre désigné comme leader du cercle
 
-## Exemples de requêtes
-
-### Obtenir les leaders d'un cercle spécifique
-
-```graphql
-query GetCircleLeaders($circleId: uuid!) {
-  circle_leader(where: { circleId: { _eq: $circleId } }) {
-    circle {
-      id
-      role {
-        name
-      }
-    }
-    member {
-      id
-      name
-    }
-  }
-}
-```
-
 ## Permissions
 
 - **Propriétaires et administrateurs de l'organisation :** Peuvent attribuer des leaders de cercle

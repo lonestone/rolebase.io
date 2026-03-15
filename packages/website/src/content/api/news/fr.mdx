@@ -22,7 +22,7 @@ import Callout from '../../../components/Callout.astro'
 
 L'entité news est implémentée sous forme de vue SQL qui combine :
 
-1. **Discussions actives** — Discussions avec le statut "Active" ou "Preparation" qui ne sont pas archivées
+1. **Discussions hors préparation** — Toutes les discussions non archivées sauf celles avec le statut "Preparation"
 2. **Décisions non archivées** — Toutes les décisions qui n'ont pas été archivées
 3. **Réunions terminées** — Réunions qui sont terminées et non archivées
 
@@ -97,11 +97,9 @@ query GetFilteredNews($where: news_bool_exp!) {
 
 ## Permissions
 
-L'accès aux actualités est contrôlé selon les règles suivantes :
+L'accès aux actualités est contrôlé en fonction de l'appartenance à l'organisation :
 
-- Les membres de l'organisation peuvent consulter les éléments d'actualité de leur organisation
-- Les éléments d'actualité héritent des règles de visibilité de leurs entités sources (paramètres de confidentialité des discussions, décisions et réunions)
-- L'accès public est limité aux organisations avec des informations partagées
+- Les membres de l'organisation peuvent consulter toutes les entrées d'actualité de leur organisation. Chaque entrée contient uniquement des références (UUID) vers l'entité source. L'accès aux données de la discussion, décision ou réunion dépend des permissions de chaque entité liée
 
 <Callout type="info">
 Les éléments d'actualité sont générés automatiquement à partir des entités sources. Chaque élément d'actualité représente exactement une source (une discussion, une décision ou une réunion). Cette entité est en lecture seule car il s'agit d'une vue SQL.

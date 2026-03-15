@@ -103,10 +103,9 @@ mutation UpdateTaskView {
 
 Task view access is controlled based on organization membership:
 
-- Organization members with **Member**, **Admin**, or **Owner** roles can:
-  - Create task views
-  - View task views
-  - Update task views they have access to
+- All authenticated users can view task views
+- Organization members with **Member**, **Admin**, or **Owner** roles can create task views
+- Only the `tasksIds` field can be updated
 
 <Callout type="info">
 The combination of `orgId` and `key` must be unique. Task IDs in the view must correspond to existing tasks in the organization. Views can be shared among organization members.

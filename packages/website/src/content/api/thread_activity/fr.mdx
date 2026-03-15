@@ -12,7 +12,7 @@ import Callout from '../../../components/Callout.astro'
   { name: "id", type: "uuid", description: "Identifiant unique de l'activité (généré automatiquement)" },
   { name: "threadId", type: "uuid", description: "Référence à la discussion parente" },
   { name: "userId", type: "uuid", description: "Référence à l'utilisateur qui a créé l'activité" },
-  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type d'activité : Message, Poll, Thread, Meeting, Task ou Decision" },
+  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type d'activité : Message, Poll, Thread, Meeting, Task, Decision, MeetingNote ou ChangeStatus" },
   { name: "data", type: "JSON", description: "Contenu de l'activité (le format dépend du type)" },
   { name: "createdAt", type: "timestamptz", description: "Date de création de l'activité (par défaut : horodatage actuel)" },
   { name: "refThreadId", type: "uuid", description: "Référence optionnelle à une autre discussion" },
@@ -31,13 +31,15 @@ Le champ `type` accepte les valeurs d'énumération suivantes :
 - **Meeting** — Référence à une réunion
 - **Task** — Référence à une tâche
 - **Decision** — Référence à une décision
+- **MeetingNote** — Note créée pendant une réunion
+- **ChangeStatus** — Changement de statut de discussion
 
 ## Relations
 
 ### Relations objet
 
 - `thread` — La discussion à laquelle cette activité appartient
-- `member` — Le membre qui a créé l'activité
+- `user` — L'utilisateur qui a créé l'activité
 - `refThread` — Discussion référencée (optionnel)
 - `refMeeting` — Réunion référencée (optionnel)
 - `refTask` — Tâche référencée (optionnel)
@@ -46,7 +48,6 @@ Le champ `type` accepte les valeurs d'énumération suivantes :
 ### Relations tableau
 
 - `reactions` — Réactions à cette activité (voir [thread_activity_reaction](/fr/api/thread_activity_reaction))
-- `reactions_aggregate` — Données agrégées des réactions
 
 ## Exemples de requêtes
 
@@ -132,8 +133,8 @@ L'accès aux activités de discussion est contrôlé via les permissions Hasura 
 
 - **Consultation** — Les utilisateurs peuvent consulter les activités des discussions auxquelles ils ont accès
 - **Création** — Les utilisateurs peuvent créer de nouvelles activités dans les discussions auxquelles ils ont accès
-- **Modification** — Les utilisateurs ne peuvent modifier que leurs propres activités
-- **Accès administrateur** — Les administrateurs de l'organisation ont un accès complet à toutes les activités de leur organisation
+- **Modification** — Les utilisateurs peuvent modifier leurs propres activités. Les activités de type MeetingNote peuvent aussi être modifiées par les utilisateurs ayant accès à la discussion
+- **Suppression** — Les utilisateurs peuvent supprimer leurs propres activités. Les administrateurs et propriétaires de l'organisation peuvent supprimer toute activité
 
 <Callout type="info">
 La structure du champ `data` varie en fonction du type d'activité. Les activités sont ordonnées chronologiquement au sein d'une discussion et supportent les réactions avec agrégation. Les champs de référence permettent aux activités de se lier à d'autres entités pour le contexte.

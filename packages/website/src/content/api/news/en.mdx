@@ -22,7 +22,7 @@ import Callout from '../../../components/Callout.astro'
 
 The news entity is implemented as a SQL view that combines:
 
-1. **Active threads** — Threads with status "Active" or "Preparation" that are not archived
+1. **Non-preparation threads** — All non-archived threads except those with "Preparation" status
 2. **Non-archived decisions** — All decisions that have not been archived
 3. **Completed meetings** — Meetings that have ended and are not archived
 
@@ -97,11 +97,9 @@ query GetFilteredNews($where: news_bool_exp!) {
 
 ## Permissions
 
-News access is controlled based on the following rules:
+News access is controlled based on organization membership:
 
-- Organization members can view news items from their organization
-- News items inherit visibility rules from their source entities (thread, decision, and meeting privacy settings)
-- Public access is limited to organizations with shared information
+- Organization members can view all news entries from their organization. Each entry contains only references (UUIDs) to the source entity. Access to the actual thread, decision, or meeting data depends on the permissions of each linked entity
 
 <Callout type="info">
 News items are automatically generated from source entities. Each news item represents exactly one source (a thread, decision, or meeting). This entity is read-only since it is a SQL view.

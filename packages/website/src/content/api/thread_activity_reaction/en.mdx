@@ -47,7 +47,7 @@ query GetActivityReactions($activityId: uuid!) {
 ```graphql
 mutation CreateActivityReaction {
   insert_thread_activity_reaction_one(
-    object: { activityId: "activity-id", userId: "user-id", shortcode: "👍" }
+    object: { activityId: "activity-id", shortcode: "👍" }
   ) {
     id
     shortcode
@@ -69,11 +69,11 @@ mutation DeleteActivityReaction {
 
 ## Permissions
 
-Reaction access is controlled based on thread and activity permissions:
+Reaction access is controlled based on organization membership:
 
-- **Thread participants** can view reactions, add reactions, and remove their own reactions
-- **Organization members** can view reactions in non-private threads and add reactions if they have thread access
-- **Admins and owners** have full access to all reactions
+- **View** — All authenticated users can view reactions
+- **Create** — Organization members (with Member, Admin, or Owner role) can add reactions. The `userId` is automatically set to the authenticated user
+- **Delete** — Users can only remove their own reactions
 
 <Callout type="info">
 Each member can add multiple different emoji reactions to an activity, but duplicate emoji reactions from the same member are prevented. Reactions are typically displayed as emoji counts per activity and can be used for quick polls or sentiment tracking.

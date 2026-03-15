@@ -13,7 +13,6 @@ import Callout from '../../../components/Callout.astro'
 ## Champs
 
 <EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'entrée de cache du participant" },
   { name: "circleId", type: "uuid", description: "Référence au cercle" },
   { name: "memberId", type: "uuid", description: "Référence au membre" },
 ]} />
@@ -31,28 +30,6 @@ Les participants d'un cercle proviennent de trois sources :
 1. **Membres directs du cercle** — depuis `circle_member` (appartenances actives uniquement)
 2. **Leaders des cercles enfants** — depuis `circle_leader` via les relations parent-enfant
 3. **Leaders des cercles liés** — depuis `circle_leader` via les liens de cercle
-
-## Exemples de requêtes
-
-### Obtenir les participants d'un cercle spécifique
-
-```graphql
-query GetCircleParticipants($circleId: uuid!) {
-  circle_participant(where: { circleId: { _eq: $circleId } }) {
-    circle {
-      id
-      role {
-        name
-      }
-    }
-    member {
-      id
-      name
-      description
-    }
-  }
-}
-```
 
 ## Détails d'implémentation
 

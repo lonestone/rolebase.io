@@ -103,10 +103,9 @@ mutation UpdateTaskView {
 
 L'accès aux vues de tâches est contrôlé en fonction de l'appartenance à l'organisation :
 
-- Les membres de l'organisation avec les rôles **Member**, **Admin** ou **Owner** peuvent :
-  - Créer des vues de tâches
-  - Consulter les vues de tâches
-  - Mettre à jour les vues de tâches auxquelles ils ont accès
+- Tous les utilisateurs authentifiés peuvent consulter les vues de tâches
+- Les membres de l'organisation avec les rôles **Member**, **Admin** ou **Owner** peuvent créer des vues de tâches
+- Seul le champ `tasksIds` peut être mis à jour
 
 <Callout type="info">
 La combinaison de `orgId` et `key` doit être unique. Les identifiants de tâches dans la vue doivent correspondre à des tâches existantes dans l'organisation. Les vues peuvent être partagées entre les membres de l'organisation.

@@ -47,7 +47,7 @@ query GetActivityReactions($activityId: uuid!) {
 ```graphql
 mutation CreateActivityReaction {
   insert_thread_activity_reaction_one(
-    object: { activityId: "activity-id", userId: "user-id", shortcode: "👍" }
+    object: { activityId: "activity-id", shortcode: "👍" }
   ) {
     id
     shortcode
@@ -69,11 +69,11 @@ mutation DeleteActivityReaction {
 
 ## Permissions
 
-L'accès aux réactions est contrôlé en fonction des permissions de la discussion et de l'activité :
+L'accès aux réactions est contrôlé en fonction de l'appartenance à l'organisation :
 
-- Les **participants de la discussion** peuvent consulter les réactions, en ajouter et supprimer les leurs
-- Les **membres de l'organisation** peuvent consulter les réactions des discussions non privées et en ajouter s'ils ont accès à la discussion
-- Les **administrateurs et propriétaires** ont un accès complet à toutes les réactions
+- **Consultation** — Tous les utilisateurs authentifiés peuvent consulter les réactions
+- **Création** — Les membres de l'organisation (avec le rôle Member, Admin ou Owner) peuvent ajouter des réactions. Le `userId` est automatiquement défini sur l'utilisateur authentifié
+- **Suppression** — Les utilisateurs ne peuvent supprimer que leurs propres réactions
 
 <Callout type="info">
 Chaque membre peut ajouter plusieurs réactions emoji différentes à une activité, mais les réactions emoji en double du même membre sont empêchées. Les réactions sont généralement affichées sous forme de compteurs d'emoji par activité et peuvent être utilisées pour des sondages rapides ou le suivi du sentiment.

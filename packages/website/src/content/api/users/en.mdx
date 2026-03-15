@@ -18,7 +18,7 @@ import Callout from '../../../components/Callout.astro'
   { name: "avatarUrl", type: "String", description: "URL to the user's avatar image" },
   { name: "locale", type: "String", description: "User's preferred locale" },
   { name: "metadata", type: "JSON", description: "Additional user metadata (e.g., timezone, preferences)" },
-  { name: "defaultRole", type: "String", description: "User's default role in the system" },
+  { name: "newEmail", type: "String", description: "New email address pending verification (optional)" },
   { name: "isAnonymous", type: "Boolean", description: "Whether this is an anonymous user (defaults to false)" },
   { name: "disabled", type: "Boolean", description: "Whether the user account is disabled (defaults to false)" },
   { name: "lastSeen", type: "Timestamp", description: "When the user was last active (optional)" },
@@ -38,14 +38,9 @@ import Callout from '../../../components/Callout.astro'
   { name: "ticket", type: "String", description: "Authentication ticket (optional)" },
   { name: "ticketExpiresAt", type: "Timestamp", description: "When the authentication ticket expires" },
   { name: "currentChallenge", type: "String", description: "Current authentication challenge (optional)" },
-  { name: "newEmail", type: "String", description: "New email address pending verification (optional)" },
 ]} />
 
 ## Relationships
-
-### Object Relationships
-
-- `defaultRoleByRole` — The default role configuration for this user
 
 ### Array Relationships
 
@@ -70,7 +65,7 @@ query GetUserProfile($userId: uuid!) {
     avatarUrl
     locale
     metadata
-    defaultRole
+    newEmail
     lastSeen
     members {
       id

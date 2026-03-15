@@ -13,9 +13,6 @@ import Callout from '../../../components/Callout.astro'
   { name: "userId", type: "uuid", description: "Reference to the user" },
   { name: "type", type: "Text", description: "Type of application: GoogleCalendar or Office365" },
   { name: "config", type: "JSON", description: "Public application configuration" },
-  { name: "secretConfig", type: "JSON", description: "Sensitive application configuration (e.g., tokens)" },
-  { name: "tmpData", type: "JSON", description: "Temporary data storage (optional)" },
-  { name: "createdAt", type: "Timestamp", description: "When the app was connected (defaults to current timestamp)" },
 ]} />
 
 ## Application Types
@@ -37,11 +34,10 @@ The `type` field accepts the following values:
 
 ```graphql
 query GetUserApps {
-  user_app(order_by: { createdAt: desc }) {
+  user_app {
     id
     type
     config
-    createdAt
     userId
   }
 }
@@ -54,5 +50,5 @@ App connection access is restricted to the owning user:
 - Users can view their own app connections (limited to `config`, `id`, `type`, and `userId` fields)
 
 <Callout type="info">
-Each user can have multiple app connections, but there is a unique constraint on the (`userId`, `type`) pair — meaning one connection per app type per user. The `secretConfig` field stores sensitive data like OAuth tokens and is not exposed in queries.
+Each user can have multiple app connections, but there is a unique constraint on the (`userId`, `type`) pair, meaning one connection per app type per user. The `secretConfig`, `tmpData`, and `createdAt` fields exist in the database but are not exposed via the API.
 </Callout>

@@ -109,9 +109,10 @@ mutation UpdateRole {
 
 ## Permissions
 
-- **Owner:** Full access to all roles
-- **Admin/Member:** Can create and modify non-base roles
-- All members can view roles in their organization
+- **View** — All organization members can view roles
+- **Create** — Owners can create any role. Admins and Members can create non-base roles
+- **Update** — Owners can update any role. For non-base roles: if the organization has `protectGovernance` disabled, Admins and Members can update them. Circle leaders can also update roles within their circles
+- **Delete** — Only available through the Hasura admin API
 
 <Callout type="info" title="Notes">
   Base roles (`base: true`) are fundamental to the organization and can only be modified by owners. The `singleMember` flag restricts assignment to one person. The combination of purpose, domain, and accountabilities defines the complete scope of the role.

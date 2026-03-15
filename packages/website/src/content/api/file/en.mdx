@@ -49,7 +49,7 @@ Files are stored in buckets that define storage parameters:
 
 ```graphql
 query GetFile($id: uuid!) {
-  file_by_pk(id: $id) {
+  file(id: $id) {
     id
     name
     mimeType
@@ -62,13 +62,10 @@ query GetFile($id: uuid!) {
 
 ## Permissions
 
-File access is controlled by several factors:
+File access is open to all authenticated users and public requests:
 
-- **Organization membership** — Members can access files associated with their organization
-- **Member role** — Upload and modification rights depend on the member's role
-- **Bucket permissions** — Storage bucket configuration governs access and size limits
-- **Uploader rights** — File metadata can be updated by the original uploader
-- **Virus scanning** — Uploaded files are scanned for security
+- **View** — All authenticated users and public requests can view file metadata (limited to 1 result)
+- **Create** — All authenticated users can upload files
 
 <Callout type="info">
 Files are stored securely in configurable storage buckets. Presigned URLs enable secure temporary access, and MIME type validation ensures proper file handling. ETags support caching and conditional requests for efficient file delivery.

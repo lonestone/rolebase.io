@@ -24,27 +24,6 @@ import Callout from '../../../components/Callout.astro'
 - `circle` — The circle this leadership assignment belongs to
 - `member` — The member assigned as the circle leader
 
-## Query Examples
-
-### Get Leaders of a Specific Circle
-
-```graphql
-query GetCircleLeaders($circleId: uuid!) {
-  circle_leader(where: { circleId: { _eq: $circleId } }) {
-    circle {
-      id
-      role {
-        name
-      }
-    }
-    member {
-      id
-      name
-    }
-  }
-}
-```
-
 ## Permissions
 
 - **Organization owners and admins:** Can assign circle leaders

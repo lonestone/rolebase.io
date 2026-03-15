@@ -85,11 +85,12 @@ mutation DeleteThreadPollAnswers($activityId: uuid!) {
 
 ## Permissions
 
-L'accès aux réponses de sondage est contrôlé en fonction des permissions de la discussion et de l'activité :
+L'accès aux réponses de sondage est contrôlé en fonction de l'appartenance à l'organisation :
 
-- Les **utilisateurs** peuvent consulter, soumettre, modifier et supprimer leurs propres réponses dans les discussions accessibles
-- Les **propriétaires de discussion** peuvent supprimer toutes les réponses de sondage de leurs discussions
-- Les **administrateurs et propriétaires de l'organisation** peuvent supprimer toutes les réponses de sondage des discussions de leur organisation
+- **Consultation** — Les utilisateurs peuvent consulter les réponses de sondage des discussions auxquelles ils ont accès
+- **Création** — Les membres de l'organisation (avec le rôle Member, Admin ou Owner) peuvent soumettre des réponses. Le `userId` est automatiquement défini sur l'utilisateur authentifié
+- **Modification** — Les utilisateurs peuvent modifier uniquement leurs propres réponses
+- **Suppression** — Les utilisateurs peuvent supprimer leurs propres réponses. Le créateur de l'activité de sondage peut supprimer toutes les réponses à son sondage. Les administrateurs et propriétaires de l'organisation peuvent supprimer toutes les réponses
 
 <Callout type="info">
 Chaque utilisateur ne peut soumettre qu'une seule réponse par sondage. Le champ `choicesPoints` est un tableau d'entiers où chaque élément représente les points attribués au choix de sondage correspondant. Les réponses de sondage peuvent être utilisées pour la prise de décision, la planification, la collecte d'avis et les enquêtes rapides.

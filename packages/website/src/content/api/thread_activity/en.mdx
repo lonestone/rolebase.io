@@ -12,7 +12,7 @@ import Callout from '../../../components/Callout.astro'
   { name: "id", type: "uuid", description: "Unique identifier for the activity (auto-generated)" },
   { name: "threadId", type: "uuid", description: "Reference to the parent thread" },
   { name: "userId", type: "uuid", description: "Reference to the user who created the activity" },
-  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type of activity: Message, Poll, Thread, Meeting, Task, or Decision" },
+  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type of activity: Message, Poll, Thread, Meeting, Task, Decision, MeetingNote, or ChangeStatus" },
   { name: "data", type: "JSON", description: "Activity content (format depends on type)" },
   { name: "createdAt", type: "timestamptz", description: "When the activity was created (defaults to current timestamp)" },
   { name: "refThreadId", type: "uuid", description: "Optional reference to another thread" },
@@ -31,13 +31,15 @@ The `type` field accepts the following enum values:
 - **Meeting** — Reference to a meeting
 - **Task** — Reference to a task
 - **Decision** — Reference to a decision
+- **MeetingNote** — Note created during a meeting
+- **ChangeStatus** — Thread status change
 
 ## Relationships
 
 ### Object Relationships
 
 - `thread` — The thread this activity belongs to
-- `member` — The member who created the activity
+- `user` — The user who created the activity
 - `refThread` — Optional referenced thread
 - `refMeeting` — Optional referenced meeting
 - `refTask` — Optional referenced task
@@ -46,7 +48,6 @@ The `type` field accepts the following enum values:
 ### Array Relationships
 
 - `reactions` — Reactions to this activity (see [thread_activity_reaction](/en/api/thread_activity_reaction))
-- `reactions_aggregate` — Aggregate data for reactions
 
 ## Query Examples
 
@@ -132,8 +133,8 @@ Thread activity access is controlled through Hasura permissions and row-level se
 
 - **View** — Users can view activities in threads they have access to
 - **Create** — Users can create new activities in threads they have access to
-- **Update** — Users can update their own activities only
-- **Admin access** — Organization admins have full access to all activities in their organization
+- **Update** — Users can update their own activities. MeetingNote activities can also be updated by users with access to the thread
+- **Delete** — Users can delete their own activities. Organization admins and owners can delete any activity
 
 <Callout type="info">
 The `data` field structure varies based on the activity type. Activities are ordered chronologically within a thread and support reactions with aggregation. The reference fields allow activities to link to other entities for context.
