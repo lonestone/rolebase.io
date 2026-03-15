@@ -11,9 +11,9 @@ export default defineConfig({
   },
   site: 'https://rolebase.io',
   adapter: netlify({ imageCDN: true }),
-  output: "static",
-  trailingSlash: "never",
-  build: { format: "file" },
+  output: 'static',
+  trailingSlash: 'never',
+  build: { format: 'file' },
   redirects,
   integrations: [mdx(), sitemap()],
   i18n: {

@@ -1,2 +1,3 @@
-# Local Netlify folder
 .netlify
+**/.astro
+**/tina/__generated__

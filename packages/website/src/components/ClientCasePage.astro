@@ -3,6 +3,9 @@ import type { CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
 import BlogLayout from '../layouts/BlogLayout.astro'
 import BlogSidebar from './BlogSidebar.astro'
+import TellaVideo from './TellaVideo.astro'
+import LoomVideo from './LoomVideo.astro'
+import Youtube from './Youtube.astro'
 import { type Locale, translations } from '../i18n'
 
 interface Props {
@@ -32,7 +35,7 @@ const { Content, headings } = await render(item)
     </header>
     {item.data.logo && <img src={item.data.logo} alt="" class="h-12 mb-6" />}
     <div class="prose">
-      <Content />
+      <Content components={{ TellaVideo, LoomVideo, Youtube }} />
     </div>
   </article>
   <aside class="md:w-80 md:shrink-0 lg:w-88">

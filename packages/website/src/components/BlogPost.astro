@@ -5,6 +5,9 @@ import BlogLayout from '../layouts/BlogLayout.astro'
 import BlogSidebar from './BlogSidebar.astro'
 import BlogCard from './BlogCard.astro'
 import InlineCta from './InlineCta.astro'
+import TellaVideo from './TellaVideo.astro'
+import LoomVideo from './LoomVideo.astro'
+import Youtube from './Youtube.astro'
 import { type Locale, translations } from '../i18n'
 
 interface Props {
@@ -51,7 +54,7 @@ if (similarSlugs.length > 0) {
       )}
     </header>
     <div class="prose">
-      <Content />
+      <Content components={{ TellaVideo, LoomVideo, Youtube }} />
     </div>
 
   </article>

@@ -17,7 +17,10 @@ const blog = defineCollection({
 })
 
 const clientCases = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/client-cases' }),
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/client-cases',
+  }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),

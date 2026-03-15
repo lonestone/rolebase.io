@@ -1,3 +1,7 @@
+supprimer sections "Vous pourriez aussi aimer"
+arranger liens qui manquent d'espaces avant/après
+video evea non dispo
+
 # TODO
 
 - Ajouter pages partenaires : https://resiliences.co/ https://www.gokyp.fr/
