@@ -1,0 +1,69 @@
+---
+title: "Import"
+description: "Migrez votre structure organisationnelle depuis Holaspirit et d'autres outils."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Vue d'ensemble
+
+Rolebase supporte l'importation de données organisationnelles depuis d'autres outils de gouvernance, facilitant la migration sans reconstruire votre structure à partir de zéro. La source principale supportée est **Holaspirit**, avec un cadre conçu pour supporter des fournisseurs supplémentaires à l'avenir.
+
+## Importer depuis Holaspirit
+
+[Holaspirit](https://www.holaspirit.com/) est une plateforme populaire d'Holacratie et de gouvernance. Rolebase peut importer vos données Holaspirit, y compris les rôles (cercles et sous-rôles), membres et leurs relations.
+
+### Import étape par étape
+
+1. **Exporter depuis Holaspirit.** Dans Holaspirit, exportez vos données organisationnelles sous forme de fichier. Consultez la documentation d'Holaspirit pour la procédure d'export exacte.
+
+2. **Ouvrir l'outil d'import.** Dans Rolebase, naviguez vers les paramètres de votre organisation et trouvez la section **Import**.
+
+3. **Sélectionner le fournisseur.** Choisissez **Holaspirit** comme source d'import.
+
+4. **Téléverser le fichier.** Sélectionnez le fichier exporté depuis votre ordinateur et téléversez-le.
+
+5. **Traitement.** Rolebase analyse le fichier et fait correspondre les entités Holaspirit aux équivalents Rolebase :
+   - Les cercles et rôles Holaspirit deviennent des rôles Rolebase avec raison d'être, domaine et redevabilités (dans Rolebase, un cercle est simplement un rôle contenant des sous-rôles).
+   - Les membres sont créés avec leurs noms et attributions de rôles.
+
+6. **Vérification.** Consultez l'aperçu de l'import pour confirmer que les rôles et membres sont corrects.
+
+7. **Confirmation.** Acceptez l'import. La structure organisationnelle est créée dans Rolebase.
+
+<Callout type="warning" title="Données existantes">
+  Importer dans une organisation qui possède déjà des rôles peut créer des doublons. Il est recommandé d'importer dans une organisation vierge.
+</Callout>
+
+## Ce qui est importé
+
+| Entité Holaspirit | Équivalent Rolebase |
+|---|---|
+| Structure de l'organisation | Cercle de premier niveau et hiérarchie |
+| Cercles et Rôles | Rôles avec raison d'être, domaine, redevabilités |
+| Membres | Entrées de membres (sans comptes utilisateurs) |
+| Attributions de rôles | Membres assignés à leurs rôles |
+
+<Callout type="info" title="Comptes utilisateurs">
+  Les membres importés sont créés comme des entrées sans comptes utilisateurs liés. Vous devrez les [inviter par e-mail](/fr/docs/members) pour qu'ils puissent se connecter et accéder à l'organisation.
+</Callout>
+
+## Gestion des erreurs
+
+Si l'import rencontre des problèmes :
+
+- **Format de fichier invalide** : le fichier n'est pas dans le format attendu. Vérifiez que vous avez correctement exporté depuis l'outil source.
+- **Champs obligatoires manquants** : certaines entités n'ont pas pu être mises en correspondance. Consultez les détails de l'erreur pour plus de précisions.
+- **Import partiel** : si certains éléments échouent, les éléments importés avec succès sont conservés. Vérifiez et ajoutez manuellement les éléments manquants.
+
+## Importer depuis d'autres outils
+
+Bien que Holaspirit soit la source d'import principale supportée, le cadre d'import est extensible. Si vous utilisez un autre outil de gouvernance, vous pouvez :
+
+- **Configuration manuelle** : utilisez l'interface de Rolebase pour recréer votre structure. Pour les petites organisations, cela peut être plus rapide.
+- **Import par API** : les développeurs peuvent utiliser l'API GraphQL pour créer programmatiquement des rôles et membres à partir de n'importe quelle source de données. Consultez le guide [Intégrations personnalisées](/fr/developers/custom-integrations).
+
+## Prochaines étapes
+
+- [Vérifier vos rôles importés](/fr/docs/circles-and-roles) et les ajuster si nécessaire.
+- [Inviter des membres](/fr/docs/members) pour qu'ils puissent accéder à leurs rôles.
+- [Configurer des réunions](/fr/docs/meetings) pour commencer à fonctionner dans Rolebase.

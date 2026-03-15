@@ -1,0 +1,86 @@
+---
+title: "Tasks"
+description: "Track work items with kanban boards and list views."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Overview
+
+Tasks in Rolebase let you track actionable work items within your roles. Each task belongs to a role and can be assigned to a member. Tasks flow through statuses and can be viewed as a kanban board or a list.
+
+## Creating a Task
+
+1. Navigate to a role's task section.
+2. Click **Add Task**.
+3. Enter a title and optionally set a description, assignee, and due date.
+
+Tasks are always associated with a role, giving them context within the organizational structure.
+
+## Task Properties
+
+| Property | Description |
+|---|---|
+| **Title** | A short summary of the task |
+| **Description** | Detailed information, context, or instructions (supports rich text) |
+| **Status** | Current state of the task (see below) |
+| **Assignee** | The member responsible for the task |
+| **Role** | The role this task belongs to |
+| **Due Date** | Optional deadline for completion |
+
+## Task Statuses
+
+Tasks move through the following statuses:
+
+| Status | Description |
+|---|---|
+| **Open** | The task has been created but work has not started |
+| **InProgress** | Work is actively underway |
+| **InReview** | The task is complete and awaiting review |
+| **Blocked** | The task cannot progress due to a dependency or issue |
+| **Done** | The task is finished |
+
+## Views
+
+Rolebase offers two ways to view tasks:
+
+### Kanban Board
+
+The kanban view displays tasks as cards organized in columns by status. Drag and drop tasks between columns to update their status. This view is ideal for visualizing workflow and spotting bottlenecks.
+
+### List View
+
+The list view shows tasks in a table format with sortable columns. This view is better for scanning large numbers of tasks and filtering by specific criteria.
+
+## Task Views (Custom Filters)
+
+You can create **saved task views** with custom filters to focus on specific subsets of tasks. For example:
+
+- "My Tasks" is filtered to your assigned tasks across all roles.
+- "Overdue" shows tasks past their due date.
+- "Blocked Items" shows tasks with a Blocked status.
+
+Task views are saved and accessible from the tasks section for quick access.
+
+<Callout type="tip" title="Dashboard Tasks">
+  Your personal dashboard shows tasks assigned to you across all roles, giving you a single place to see everything on your plate.
+</Callout>
+
+## Private Tasks
+
+Tasks can be marked as **private**. Private tasks are only visible to the task creator and the assigned member. They do not appear in the role's task list for other members.
+
+## Tasks in Meetings
+
+Tasks are integrated into the meeting flow. During the **Tasks** step of a meeting, participants review open tasks for the role:
+
+- Update statuses on existing tasks.
+- Discuss blockers and reassign if needed.
+- Create new tasks directly from the meeting.
+
+Tasks created or updated during a meeting are linked to that meeting's record.
+
+## Next Steps
+
+- [Run meetings](/en/docs/meetings) to review and create tasks.
+- [Use threads](/en/docs/threads) for discussion around complex tasks.
+- [Check the news feed](/en/docs/news-feed) to see completed tasks across your organization.

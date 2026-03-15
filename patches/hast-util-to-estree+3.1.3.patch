@@ -1,0 +1,14 @@
+diff --git a/node_modules/hast-util-to-estree/lib/handlers/element.js b/node_modules/hast-util-to-estree/lib/handlers/element.js
+index 0567b6e..c294628 100644
+--- a/node_modules/hast-util-to-estree/lib/handlers/element.js
++++ b/node_modules/hast-util-to-estree/lib/handlers/element.js
+@@ -13,7 +13,8 @@ import {stringify as commas} from 'comma-separated-tokens'
+ import {name as identifierName} from 'estree-util-is-identifier-name'
+ import {find, hastToReact, svg} from 'property-information'
+ import {stringify as spaces} from 'space-separated-tokens'
+-import styleToJs from 'style-to-js'
++import styleToJsModule from 'style-to-js'
++const styleToJs = typeof styleToJsModule === 'function' ? styleToJsModule : styleToJsModule.default
+ 
+ const own = {}.hasOwnProperty
+ const cap = /[A-Z]/g

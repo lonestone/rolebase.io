@@ -1,0 +1,94 @@
+---
+title: "Abonnements"
+description: "Plans, facturation et gestion de votre abonnement Rolebase."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Vue d'ensemble
+
+Rolebase propose des plans d'abonnement par paliers pour s'adapter aux organisations de différentes tailles. Les abonnements sont gérés par organisation et facturés via **Stripe**.
+
+## Plans
+
+| Plan | Tarif | Fonctionnalités |
+|---|---|---|
+| **Gratuit** | 0 $ | Fonctionnalités de base. Nombre limité de membres. Idéal pour les petites équipes qui démarrent. |
+| **Startup** | Par siège/mois | Toutes les fonctionnalités principales. Adapté aux équipes en croissance qui ont besoin d'un accès complet aux réunions, tâches, discussions et intégrations. |
+| **Business** | Par siège/mois | Tout ce qui est dans Startup, plus des fonctionnalités avancées, un support prioritaire et des limites plus élevées. |
+
+<Callout type="info" title="Facturation par siège">
+  Les plans payants sont facturés par membre actif (siège) par mois. Les membres archivés ne comptent pas dans votre total de sièges.
+</Callout>
+
+## Ce qui est inclus dans chaque plan
+
+### Plan Gratuit
+- Création d'organisation
+- Rôles (et cercles)
+- Réunions de base
+- Tâches et discussions
+- Nombre limité de membres
+
+### Plan Startup
+- Tout ce qui est dans le plan Gratuit
+- Membres illimités
+- Modèles de réunion et réunions récurrentes
+- Intégrations de calendrier (Office 365, Google Calendar)
+- Export iCal
+
+### Plan Business
+- Tout ce qui est dans le plan Startup
+- Fonctionnalités de gouvernance avancées
+- Support prioritaire
+- Limites de stockage et d'API plus élevées
+
+<Callout type="tip" title="Essayez avant de vous abonner">
+  Le plan Gratuit est entièrement fonctionnel pour les petites équipes. Vous pouvez explorer toutes les fonctionnalités principales avant de décider de passer à un plan supérieur.
+</Callout>
+
+## Gérer votre abonnement
+
+Seul le **Propriétaire** de l'organisation peut gérer l'abonnement.
+
+### S'abonner
+
+1. Accédez aux paramètres de votre organisation.
+2. Naviguez vers la section **Abonnement** ou **Facturation**.
+3. Sélectionnez un plan.
+4. Entrez vos informations de paiement via le processus de paiement Stripe.
+5. Votre abonnement est activé immédiatement.
+
+### Changer de plan
+
+Vous pouvez passer à un plan supérieur ou inférieur à tout moment :
+
+- **Passage à un plan supérieur** prend effet immédiatement. Un montant au prorata est facturé pour le reste du cycle de facturation.
+- **Passage à un plan inférieur** prend effet à la fin du cycle de facturation en cours.
+
+### Annulation
+
+Pour annuler votre abonnement :
+
+1. Accédez aux paramètres de facturation.
+2. Cliquez sur **Annuler l'abonnement**.
+3. Votre plan reste actif jusqu'à la fin de la période de facturation en cours, puis revient au plan Gratuit.
+
+Aucune donnée n'est perdue lors du passage à un plan inférieur ou de l'annulation. Votre organisation, vos rôles et votre historique restent intacts.
+
+## Facturation et factures
+
+Rolebase utilise **Stripe** pour le traitement des paiements. Depuis la section facturation, vous pouvez :
+
+- Consulter votre plan actuel et la prochaine date de facturation.
+- Mettre à jour votre moyen de paiement.
+- Télécharger les **factures** des paiements passés.
+- Consulter l'historique de facturation.
+
+<Callout type="info" title="Paiements sécurisés">
+  L'ensemble du traitement des paiements est géré par Stripe. Rolebase ne stocke jamais vos informations de carte de crédit.
+</Callout>
+
+## Prochaines étapes
+
+- [Inviter des membres](/fr/docs/members), car les membres actifs comptent dans votre total de sièges.
+- [Explorer toutes les fonctionnalités](/fr/docs) pour tirer le meilleur parti de votre plan.

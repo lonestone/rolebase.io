@@ -1,6 +1,5 @@
 supprimer sections "Vous pourriez aussi aimer"
 arranger liens qui manquent d'espaces avant/après
-video evea non dispo
 
 # TODO
 

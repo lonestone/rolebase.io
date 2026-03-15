@@ -3,9 +3,9 @@ import { getCollection } from 'astro:content'
 import ClientCasePage from '../../../components/ClientCasePage.astro'
 
 export async function getStaticPaths() {
-  const items = await getCollection('client-cases', (item) => item.data.lang === 'fr')
+  const items = await getCollection('client-cases', (item) => item.id.endsWith('/fr'))
   return items.map((item) => ({
-    params: { slug: item.id },
+    params: { slug: item.id.replace('/fr', '') },
     props: { item },
   }))
 }

@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content'
+import { Image } from 'astro:assets'
 import WebsiteLayout from '../layouts/WebsiteLayout.astro'
-import { type Locale, translations } from '../i18n'
+import { type Locale, translations, getSlugFromId } from '../i18n'
 
 interface Props {
   locale: Locale
@@ -11,7 +12,7 @@ const { locale } = Astro.props
 const t = translations[locale]
 const basePath = `/${locale}${t.clientCasesPath}`
 
-const items = (await getCollection('client-cases', (item) => item.data.lang === locale))
+const items = (await getCollection('client-cases', (item) => item.id.endsWith(`/${locale}`)))
 ---
 
 <WebsiteLayout title={t.clientCases}>
@@ -23,12 +24,12 @@ const items = (await getCollection('client-cases', (item) => item.data.lang === 
   <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
     {items.map((item) => (
       <a
-        href={`${basePath}/${item.id}`}
+        href={`${basePath}/${getSlugFromId(item.id)}`}
         class="group block overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-primary hover:shadow-lg no-underline"
       >
         <div class="flex items-center justify-center aspect-video bg-gray-50 p-8">
           {item.data.logo ? (
-            <img src={item.data.logo} alt="" class="max-h-16 w-auto" />
+            <Image src={item.data.logo} alt="" class="max-h-16 w-auto" />
           ) : (
             <span class="text-2xl font-medium text-gray-300">{item.data.title}</span>
           )}

@@ -1,0 +1,97 @@
+---
+title: "Circle Link"
+description: "Represents a link between two circles, enabling cross-functional collaboration and representation of one circle within another beyond the parent-child hierarchy."
+entity: "circle_link"
+---
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+## Fields
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Unique identifier for the circle link" },
+  { name: "parentId", type: "uuid", description: "Reference to the hosting circle" },
+  { name: "circleId", type: "uuid", description: "Reference to the invited circle" },
+  { name: "createdAt", type: "Timestamp", description: "When the circle link was created" },
+]} />
+
+## Relationships
+
+**Object Relationships:**
+- `hostCircle` — The circle that hosts the linked circle (referenced by `parentId`)
+- `invitedCircle` — The circle that is invited to participate (referenced by `circleId`)
+
+## Query Examples
+
+### Get Links for a Specific Circle
+
+```graphql
+query GetCircleLinks($parentId: uuid!) {
+  circle_link(where: { parentId: { _eq: $parentId } }) {
+    id
+    hostCircle {
+      id
+      role {
+        name
+      }
+    }
+    invitedCircle {
+      id
+      role {
+        name
+      }
+    }
+    createdAt
+  }
+}
+```
+
+## Mutation Examples
+
+### Create a Circle Link
+
+```graphql
+mutation CreateCircleLink {
+  insert_circle_link_one(
+    object: { parentId: "host-circle-id", circleId: "invited-circle-id" }
+  ) {
+    id
+    hostCircle {
+      role {
+        name
+      }
+    }
+    invitedCircle {
+      role {
+        name
+      }
+    }
+  }
+}
+```
+
+### Remove a Circle Link
+
+```graphql
+mutation RemoveCircleLink {
+  delete_circle_link(
+    where: {
+      parentId: { _eq: "host-circle-id" }
+      circleId: { _eq: "invited-circle-id" }
+    }
+  ) {
+    affected_rows
+  }
+}
+```
+
+## Permissions
+
+- **Organization owners:** Full access
+- **Organization admins/members:** Can create links if governance is not protected
+- **Circle leaders of the host circle:** Can create and manage links
+- **Public:** Limited to viewing links in organizations with shared member information
+
+<Callout type="info" title="Notes">
+  The combination of `parentId` and `circleId` must be unique. Circle links affect participant inheritance and permission structures. Leaders of linked circles gain certain permissions in the host circle.
+</Callout>

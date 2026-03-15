@@ -1,0 +1,91 @@
+---
+title: "Membres"
+description: "Gérez les membres de l'équipe, les invitations et les rôles organisationnels."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Vue d'ensemble
+
+Les membres sont les personnes de votre organisation. Chaque membre possède un profil, un ou plusieurs rôles au sein des rôles, et un rôle au niveau de l'organisation qui détermine ses permissions.
+
+## Créer des membres
+
+Il existe deux façons d'ajouter des membres :
+
+### Création directe
+
+Les Admins et les Propriétaires peuvent créer une entrée de membre directement en fournissant un nom. Cela crée un membre temporaire qui peut ensuite être lié à un compte utilisateur via une invitation.
+
+### Invitation par e-mail
+
+Le flux le plus courant :
+
+1. Naviguez vers la section des membres de votre organisation.
+2. Cliquez sur **Inviter** et entrez une ou plusieurs adresses e-mail.
+3. Chaque invité reçoit un e-mail avec un lien pour rejoindre.
+4. Lorsqu'il accepte, son compte utilisateur est lié à l'entrée du membre.
+
+<Callout type="info" title="Invitations en attente">
+  Les invitations en attente sont automatiquement renvoyées avec une fréquence décroissante jusqu'à ce qu'elles soient acceptées ou annulées manuellement. Vous pouvez suivre l'état des invitations depuis la liste des membres.
+</Callout>
+
+## Rôles organisationnels
+
+Chaque membre possède un rôle au niveau de l'organisation qui contrôle ses permissions :
+
+| Rôle | Permissions |
+|---|---|
+| **Propriétaire** | Accès complet. Peut gérer les abonnements, la facturation, supprimer l'organisation. Un seul Propriétaire par organisation. |
+| **Admin** | Peut inviter et gérer les membres, modifier les paramètres de l'organisation. |
+| **Membre** | Peut participer aux rôles, réunions, tâches et discussions. Peut modifier le contenu auquel il a accès. |
+| **Lecture seule** | Peut consulter la structure et le contenu de l'organisation mais ne peut pas effectuer de modifications ni participer. |
+
+<Callout type="warning" title="Rôle Propriétaire">
+  Il y a généralement un seul Propriétaire par organisation. Le rôle de Propriétaire inclut toutes les permissions Admin plus la capacité de gérer les abonnements et d'effectuer des actions destructives comme la suppression de l'organisation.
+</Callout>
+
+## Profils des membres
+
+Chaque membre possède un profil qui comprend :
+
+- Le **nom** est le nom d'affichage visible dans toute l'application.
+- La **photo** est la photo de profil ou l'avatar du membre.
+- La **description** est une courte biographie présentant le parcours et les compétences du membre.
+
+Les profils aident les membres de l'équipe à se connaître mutuellement, en particulier dans les grandes organisations ou les équipes à distance.
+
+## Assigner des rôles
+
+Une fois qu'un membre existe dans l'organisation, il peut être assigné à des rôles au sein de l'organisation :
+
+1. Naviguez vers un rôle.
+2. Sélectionnez un rôle ou créez-en un nouveau.
+3. Assignez le membre à ce rôle.
+
+Un membre peut détenir plusieurs rôles dans différents rôles. Son appartenance à un rôle est dérivée des rôles qu'il y détient.
+
+## Archiver des membres
+
+Lorsqu'un membre quitte l'organisation, vous pouvez l'**archiver** plutôt que de le supprimer :
+
+- Les membres archivés sont retirés de tous les rôles actifs.
+- Leur participation historique aux réunions, tâches et discussions est conservée.
+- Les membres archivés ne comptent plus dans les limites de sièges de l'abonnement.
+
+## Détails du flux d'invitation
+
+Le processus d'invitation fonctionne comme suit :
+
+1. Un Admin ou Propriétaire saisit l'adresse e-mail de l'invité.
+2. Rolebase crée une entrée de membre et envoie un e-mail d'invitation.
+3. L'invité clique sur le lien et soit s'inscrit, soit se connecte à un compte existant.
+4. Son compte utilisateur est lié à l'entrée du membre.
+5. Il obtient immédiatement l'accès en fonction du rôle organisationnel qui lui a été assigné.
+
+Si l'invité possède déjà un compte Rolebase, l'invitation est liée automatiquement après la connexion.
+
+## Prochaines étapes
+
+- [Définir votre structure de rôles](/fr/docs/circles-and-roles) et assigner des membres aux rôles.
+- [Animer des réunions](/fr/docs/meetings) avec votre équipe.
+- [Configurer les abonnements](/fr/docs/subscriptions) si votre nombre de membres dépasse le plan gratuit.

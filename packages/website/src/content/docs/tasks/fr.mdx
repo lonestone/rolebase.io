@@ -1,0 +1,86 @@
+---
+title: "Tâches"
+description: "Suivez les éléments de travail avec des tableaux kanban et des vues en liste."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Vue d'ensemble
+
+Les tâches dans Rolebase vous permettent de suivre les éléments de travail au sein de vos rôles. Chaque tâche appartient à un rôle et peut être assignée à un membre. Les tâches passent par des statuts et peuvent être affichées sous forme de tableau kanban ou de liste.
+
+## Créer une tâche
+
+1. Naviguez vers la section tâches d'un rôle.
+2. Cliquez sur **Ajouter une tâche**.
+3. Entrez un titre et définissez éventuellement une description, un assigné et une date d'échéance.
+
+Les tâches sont toujours associées à un rôle, leur donnant un contexte au sein de la structure organisationnelle.
+
+## Propriétés des tâches
+
+| Propriété | Description |
+|---|---|
+| **Titre** | Un bref résumé de la tâche |
+| **Description** | Informations détaillées, contexte ou instructions (supporte le texte enrichi) |
+| **Statut** | État actuel de la tâche (voir ci-dessous) |
+| **Assigné** | Le membre responsable de la tâche |
+| **Rôle** | Le rôle auquel cette tâche appartient |
+| **Date d'échéance** | Date limite optionnelle pour l'achèvement |
+
+## Statuts des tâches
+
+Les tâches passent par les statuts suivants :
+
+| Statut | Description |
+|---|---|
+| **À faire** | La tâche a été créée mais le travail n'a pas commencé |
+| **En cours** | Le travail est activement en cours |
+| **En revue** | La tâche est terminée et en attente de revue |
+| **Bloquée** | La tâche ne peut pas avancer en raison d'une dépendance ou d'un problème |
+| **Terminée** | La tâche est terminée |
+
+## Vues
+
+Rolebase propose deux façons d'afficher les tâches :
+
+### Tableau Kanban
+
+La vue kanban affiche les tâches sous forme de cartes organisées en colonnes par statut. Glissez-déposez les tâches entre les colonnes pour mettre à jour leur statut. Cette vue est idéale pour visualiser le flux de travail et repérer les goulots d'étranglement.
+
+### Vue en liste
+
+La vue en liste affiche les tâches sous forme de tableau avec des colonnes triables. Cette vue est plus adaptée pour parcourir un grand nombre de tâches et filtrer selon des critères spécifiques.
+
+## Vues de tâches (Filtres personnalisés)
+
+Vous pouvez créer des **vues de tâches enregistrées** avec des filtres personnalisés pour vous concentrer sur des sous-ensembles spécifiques de tâches. Par exemple :
+
+- « Mes tâches », filtrées sur vos tâches assignées dans tous les rôles.
+- « En retard », regroupant les tâches dépassant leur date d'échéance.
+- « Éléments bloqués », regroupant les tâches avec le statut Bloquée.
+
+Les vues de tâches sont enregistrées et accessibles depuis la section tâches pour un accès rapide.
+
+<Callout type="tip" title="Tâches du tableau de bord">
+  Votre tableau de bord personnel affiche les tâches qui vous sont assignées dans tous les rôles, vous offrant un endroit unique pour voir tout ce que vous avez à faire.
+</Callout>
+
+## Tâches privées
+
+Les tâches peuvent être marquées comme **privées**. Les tâches privées ne sont visibles que par le créateur de la tâche et le membre assigné. Elles n'apparaissent pas dans la liste des tâches du rôle pour les autres membres.
+
+## Tâches en réunion
+
+Les tâches sont intégrées au déroulement de la réunion. Pendant l'étape **Tâches** d'une réunion, les participants passent en revue les tâches ouvertes du rôle :
+
+- Mettent à jour les statuts des tâches existantes.
+- Discutent des blocages et réassignent si nécessaire.
+- Créent de nouvelles tâches directement depuis la réunion.
+
+Les tâches créées ou mises à jour pendant une réunion sont liées au compte-rendu de cette réunion.
+
+## Prochaines étapes
+
+- [Animer des réunions](/fr/docs/meetings) pour passer en revue et créer des tâches.
+- [Utiliser les discussions](/fr/docs/threads) pour échanger autour de tâches complexes.
+- [Consulter le fil d'actualité](/fr/docs/news-feed) pour voir les tâches terminées dans votre organisation.

@@ -49,43 +49,76 @@ The website is built with Astro + MDX + Tailwind CSS with i18n support (English 
 
 ### Structure
 
+- `src/content/` — Content collections (blog, client-cases, docs, guides, developers, api)
 - `src/components/` — Astro display components (no content): `TopNav`, `Sidebar`, `GuidePage`, `ApiReference`, `DocPage`, `Callout`, `EntityFields`, `CodeBlock`
-- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `WebsiteLayout.astro` (full-width for homepage, blog, terms)
-- `src/i18n.ts` — Translations for sidebar labels and locale utilities
-- `src/pages/en/` — English pages (docs/, guides/, developers/, api/, blog/, terms)
-- `src/pages/fr/` — French pages (docs/, guides/, developers/, api/, blog/, terms)
+- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `BlogLayout.astro` (blog post layout), `WebsiteLayout.astro` (full-width for homepage, blog index, terms)
+- `src/i18n.ts` — Translations, sidebar labels, locale utilities (`getSlugFromId`, `getLangFromId`, `getOtherLocaleHref`)
+- `src/pages/` — Route templates (`[slug].astro`) and standalone pages (homepage, terms, contact)
+- `src/content.config.ts` — Content collection schemas
 - `src/styles/global.css` — Tailwind import, theme tokens, and `.prose` styles for markdown content
 - `src/redirects.ts` — Static redirects (imported in `astro.config.mjs`)
 - `netlify.toml` — Build config and wildcard/language redirects
 
+### Content collections and i18n
+
+All content uses Astro content collections with folder-based i18n. Each piece of content lives in a folder with `en.mdx` and `fr.mdx` side by side. Assets (images) are co-located in the same folder.
+
+```
+src/content/{collection}/{slug}/
+  en.mdx
+  fr.mdx
+  image.jpg        ← co-located assets
+```
+
+Collections defined in `src/content.config.ts`:
+- **blog** — Blog posts with `image()`, `date`, `similarPosts` fields
+- **client-cases** — Case studies with `logo`, `sector`, `teamSize` fields
+- **docs** — Product documentation. Frontmatter: `title`, `description`
+- **guides** — Step-by-step guides. Frontmatter: `title`, `description`
+- **developers** — Technical/developer docs. Frontmatter: `title`, `description`
+- **api** — API reference pages. Frontmatter: `title`, `entity`, `description`
+
+The `lang` is NOT stored in frontmatter. It is derived from the filename (`en.mdx` / `fr.mdx`) via the entry ID (e.g., `members/en`). Use `getSlugFromId(entry.id)` and `getLangFromId(entry.id)` from `src/i18n.ts`.
+
+Routing pages (`src/pages/{en,fr}/{section}/[slug].astro`) filter entries by ID suffix (`entry.id.endsWith('/en')`) and extract the slug with `entry.id.replace('/en', '')`.
+
 ### Content sections
 
-The website has four content sections, each with its own sidebar navigation:
-
-- **Documentation** (`docs/`): User-facing documentation for non-developers. Explains how to use Rolebase as a product (creating organizations, inviting members, running meetings, etc.). Uses `<GuidePage>` component (section defaults to `'docs'`).
-- **Guides** (`guides/`): Step-by-step guides walking users through specific tasks (e.g. running a first meeting). Uses `<GuidePage section="guides">` component. Documentation and Guides share the same sidebar.
-- **Developers** (`developers/`): Technical documentation for developers. Covers self-hosting, development setup, API usage, and custom integrations. Uses `<DocPage section="developers">` component.
-- **API Reference** (`api/`): GraphQL entity schema documentation. Uses `<ApiReference>` component.
+- **Documentation** (`docs/`): User-facing documentation for non-developers. Uses `<GuidePage>` wrapper in the page template.
+- **Guides** (`guides/`): Step-by-step guides. Uses `<GuidePage section="guides">` wrapper. Documentation and Guides share the same sidebar.
+- **Developers** (`developers/`): Technical documentation. Uses `<DocPage section="developers">` wrapper.
+- **API Reference** (`api/`): GraphQL entity schema documentation. Uses `<ApiReference>` wrapper.
+- **Blog** (`blog/`): Blog posts. Uses `<BlogPost>` component.
+- **Client Cases** (`client-cases/`): Case studies. Uses `<ClientCasePage>` component.
 
 ### i18n
 
-- Pages are organized under `src/pages/en/` and `src/pages/fr/` with identical file structure.
-- Internal links must include the locale prefix: `/en/docs/members/` or `/fr/docs/members/`.
-- The Sidebar component auto-detects the locale from the URL and renders translated labels.
+- Content is in `src/content/` with `en.mdx`/`fr.mdx` per folder. Both translations of the same content share the same slug.
+- Route pages are in `src/pages/en/` and `src/pages/fr/` with `[slug].astro` templates.
+- Internal links must include the locale prefix: `/en/docs/members` or `/fr/docs/members`.
+- The lang switcher in TopNav uses `getOtherLocaleHref()` which swaps the locale prefix. Since all content shares slugs across languages, this works automatically.
+- `getOtherLocaleHref()` also handles segment swaps like `client-cases` / `cas-clients`.
 - Sidebar translations are in `src/i18n.ts`.
 - The root `/` redirects to `/en/`.
+
+### Adding or modifying content
+
+- **New page**: Create a folder `src/content/{collection}/{slug}/` with `en.mdx` and `fr.mdx`. Add frontmatter (title, description). Update sidebar links in `src/i18n.ts` if applicable.
+- **New image**: Place the image file directly in the content folder next to the MDX files. Reference it with a relative path (`./image.jpg`) in frontmatter or body. Use `image()` schema helper in `content.config.ts` for frontmatter image fields.
+- **Renamed or removed page**: Delete the folder, add a redirect in `src/redirects.ts`. Update sidebar links.
+- **Modified entity fields**: Update `src/content/api/{entity}/en.mdx` and `fr.mdx`.
 
 ### Maintenance rules — Keep docs in sync with product changes
 
 When modifying the product, update the documentation accordingly **in both EN and FR**:
 
-1. **New feature or entity**: Add a documentation page in `pages/{en,fr}/docs/` and/or an API reference page in `pages/{en,fr}/api/`. Optionally add a guide in `pages/{en,fr}/guides/`. Update the sidebar links in `src/i18n.ts`.
-2. **Modified entity fields**: Update the corresponding `pages/{en,fr}/api/<entity>.mdx` file — especially the `EntityFields` component props and GraphQL examples.
-3. **Renamed or removed feature**: Remove or update the corresponding guide/API page in both locales. Update sidebar links.
+1. **New feature or entity**: Add docs in `content/docs/{slug}/`, optionally API ref in `content/api/{entity}/`, optionally guide in `content/guides/{slug}/`. Update sidebar links in `src/i18n.ts`.
+2. **Modified entity fields**: Update `content/api/{entity}/en.mdx` and `fr.mdx`.
+3. **Renamed or removed feature**: Remove or update the corresponding content folder in both locales. Update sidebar links. Add redirect.
 4. **New GraphQL query/mutation**: Add examples to the relevant API reference page in both locales.
 5. **Changed statuses or enums**: Update both the guide page and the API page, in both locales.
-6. **New integration or app**: Update `docs/apps-integrations.mdx` in both locales.
-7. **Changed subscription plans**: Update `docs/subscriptions.mdx` and `api/org_subscription.mdx` in both locales.
+6. **New integration or app**: Update `content/docs/apps-integrations/` in both locales.
+7. **Changed subscription plans**: Update `content/docs/subscriptions/` and `content/api/org_subscription/` in both locales.
 
 ### Development
 
@@ -98,12 +131,11 @@ When modifying the product, update the documentation accordingly **in both EN an
 ### Guidelines
 
 - Always use the `<Button>` component (`src/components/Button.astro`) for buttons and call-to-action links. Available variants: `yellow`, `orange`, `primary`, `outline-primary`, `outline`. Sizes: `sm`, `md`.
-- Documentation pages use `<GuidePage>` component; guide pages use `<GuidePage section="guides">`; developer pages use `<DocPage section="developers">`; API pages use `<ApiReference>` component.
 - Documentation and guides are written for non-technical users. Keep developer/technical content (API, GraphQL, self-hosting, code) in the Developers section.
 - Sidebar links for documentation and guides are defined in `src/i18n.ts` (`docsLinks` and `guidesLinks`).
 - Always verify in the webapp code (`packages/webapp`) how a feature actually works before describing it in documentation. Check components, modals, pages, and translations to describe the exact user flow.
 - All user-facing text in Astro components must use translations from `src/i18n.ts`. No hardcoded strings or inline ternaries for EN/FR.
-- All content is in MDX files, not in Astro components.
+- All content is in MDX files in content collections, not in Astro components or pages.
 - In MDX pages, write content directly using component calls (no JSON arrays or JS logic). Data lives in the markup, not in frontmatter variables or script blocks.
 - Use `<Callout type="info|warning|tip">` for callouts.
 - Use `<EntityFields fields={[...]} />` for entity field tables in API pages.

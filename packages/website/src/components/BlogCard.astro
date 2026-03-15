@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import type { Locale } from '../i18n'
+import { Image } from 'astro:assets'
+import { type Locale, getSlugFromId } from '../i18n'
 
 interface Props {
   post: CollectionEntry<'blog'>
@@ -19,11 +20,11 @@ function formatDate(date: Date) {
 ---
 
 <a
-  href={`/${locale}/blog/${post.id}`}
+  href={`/${locale}/blog/${getSlugFromId(post.id)}`}
   class="group block overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-primary hover:shadow-lg no-underline"
 >
   {post.data.image ? (
-    <img
+    <Image
       src={post.data.image}
       alt=""
       class="aspect-video w-full object-cover transition-transform group-hover:scale-105"

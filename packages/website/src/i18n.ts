@@ -155,7 +155,24 @@ export function getLocaleFromPath(path: string): Locale {
 
 export function getOtherLocaleHref(path: string, currentLocale: Locale): string {
   const otherLocale = currentLocale === 'en' ? 'fr' : 'en'
-  return path.replace(`/${currentLocale}`, `/${otherLocale}`)
+  let result = path.replace(`/${currentLocale}`, `/${otherLocale}`)
+  // Handle client-cases ↔ cas-clients path segment swap
+  if (currentLocale === 'en') {
+    result = result.replace('/client-cases', '/cas-clients')
+  } else {
+    result = result.replace('/cas-clients', '/client-cases')
+  }
+  return result
+}
+
+/** Extract the slug (folder name) from a content collection entry ID like "my-slug/en" */
+export function getSlugFromId(id: string): string {
+  return id.split('/')[0]
+}
+
+/** Get the locale suffix from a content collection entry ID like "my-slug/en" */
+export function getLangFromId(id: string): Locale {
+  return id.split('/')[1] as Locale
 }
 
 export function localePath(locale: Locale, path: string): string {

@@ -8,7 +8,7 @@ import InlineCta from './InlineCta.astro'
 import TellaVideo from './TellaVideo.astro'
 import LoomVideo from './LoomVideo.astro'
 import Youtube from './Youtube.astro'
-import { type Locale, translations } from '../i18n'
+import { type Locale, translations, getSlugFromId } from '../i18n'
 
 interface Props {
   post: CollectionEntry<'blog'>
@@ -23,9 +23,9 @@ const dateLocale = locale === 'fr' ? 'fr-FR' : 'en-US'
 const similarSlugs = post.data.similarPosts ?? []
 let similarPosts: CollectionEntry<'blog'>[] = []
 if (similarSlugs.length > 0) {
-  const allPosts = await getCollection('blog', (p) => p.data.lang === locale)
+  const allPosts = await getCollection('blog', (p) => p.id.endsWith(`/${locale}`))
   similarPosts = similarSlugs
-    .map((slug) => allPosts.find((p) => p.id === slug))
+    .map((slug) => allPosts.find((p) => getSlugFromId(p.id) === slug))
     .filter((p): p is CollectionEntry<'blog'> => !!p)
 }
 ---

@@ -1,0 +1,109 @@
+---
+title: "Membre"
+description: "Représente un membre d'une organisation. Les membres peuvent être affectés à des rôles, et participer à des réunions et des tâches."
+entity: "member"
+---
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique du membre" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "name", type: "String", description: "Nom d'affichage du membre" },
+  { name: "description", type: "String", description: "Description ou biographie du membre" },
+  { name: "archived", type: "Boolean", description: "Indique si le membre est archivé (par défaut : false)" },
+  { name: "picture", type: "String", description: "URL de la photo de profil du membre (optionnel)" },
+  { name: "pictureFileId", type: "uuid", description: "Référence au fichier de photo de profil stocké (optionnel)" },
+  { name: "userId", type: "uuid", description: "Référence au compte utilisateur associé (optionnel)" },
+  { name: "inviteEmail", type: "String", description: "Adresse e-mail utilisée pour l'invitation (optionnel)" },
+  { name: "inviteDate", type: "Timestamp", description: "Date d'envoi de l'invitation (optionnel)" },
+  { name: "role", type: "Member_Role_Enum", description: "Rôle du membre dans l'organisation (ex. : Owner, Admin, Member)" },
+]} />
+
+## Relations
+
+**Relations objet :**
+- `org` — L'organisation à laquelle ce membre appartient
+- `pictureFile` — Le fichier de photo de profil stocké
+- `user` — Le compte utilisateur associé
+
+**Relations tableau :**
+- `circle_members` — Appartenances aux cercles
+- `meeting_attendees` — Enregistrements de présence aux réunions
+
+## Exemples de requêtes
+
+### Lister les membres d'une organisation
+
+```graphql
+query GetMembers($orgId: uuid!) {
+  member(where: { orgId: { _eq: $orgId } }) {
+    id
+    name
+    description
+    role
+    circle_members {
+      circle {
+        name
+      }
+    }
+  }
+}
+```
+
+### Obtenir un membre spécifique
+
+```graphql
+query GetMember($id: uuid!) {
+  member_by_pk(id: $id) {
+    id
+    name
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer un membre
+
+```graphql
+mutation CreateMember {
+  insert_member_one(
+    object: {
+      name: "John Doe"
+      description: "Software Engineer"
+      orgId: "your-org-id"
+    }
+  ) {
+    id
+    name
+    role
+  }
+}
+```
+
+### Mettre à jour un membre
+
+```graphql
+mutation UpdateMember {
+  update_member_by_pk(
+    pk_columns: { id: "member-id" }
+    _set: { name: "Jane Doe", description: "Senior Engineer" }
+  ) {
+    id
+    name
+    description
+  }
+}
+```
+
+## Permissions
+
+- **Propriétaire/Administrateur :** Peut créer, mettre à jour et archiver des membres
+- **Membre :** Peut consulter les informations des membres selon les paramètres de partage de l'organisation
+
+<Callout type="info" title="Notes">
+  La combinaison de `orgId` et `userId` doit être unique. Lorsqu'un membre est invité, `inviteEmail` et `inviteDate` sont définis. Une fois l'invitation acceptée, `userId` est lié au compte utilisateur.
+</Callout>

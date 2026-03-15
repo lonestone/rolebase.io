@@ -1,0 +1,68 @@
+---
+title: "Fichier d'organisation"
+description: "Représente une association entre une organisation et un fichier, permettant la gestion des fichiers et le contrôle d'accès au niveau de l'organisation."
+entity: "org_file"
+---
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'association de fichier" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "fileId", type: "uuid", description: "Référence au fichier" },
+]} />
+
+## Relations
+
+**Relations objet :**
+- `org` — L'organisation à laquelle cette association de fichier appartient
+- `file` — Le fichier associé
+
+## Exemples de requêtes
+
+### Lister les fichiers d'une organisation
+
+```graphql
+query GetOrgFiles($orgId: uuid!) {
+  org_file(where: { orgId: { _eq: $orgId } }) {
+    id
+    file {
+      name
+      mimeType
+      size
+      createdAt
+    }
+    org {
+      name
+    }
+  }
+}
+```
+
+## Exemples de mutations
+
+### Créer une association de fichier d'organisation
+
+```graphql
+mutation CreateOrgFile {
+  insert_org_file_one(object: { orgId: "your-org-id", fileId: "file-id" }) {
+    id
+    file {
+      name
+      mimeType
+    }
+  }
+}
+```
+
+## Permissions
+
+L'accès aux fichiers d'organisation est contrôlé en fonction de l'appartenance à l'organisation :
+
+- **Membre / Administrateur / Propriétaire :** Peut consulter les fichiers associés à leur organisation, créer de nouvelles associations de fichiers et supprimer les associations de fichiers auxquelles ils ont accès
+
+<Callout type="info" title="Notes">
+  Les fichiers peuvent être associés à plusieurs organisations. La suppression d'une association ne supprime pas le fichier lui-même. Les métadonnées et le contenu des fichiers sont gérés via l'entité `file`.
+</Callout>

@@ -1,0 +1,148 @@
+---
+title: "Réunions"
+description: "Créez, animez et gérez des réunions structurées au sein de vos rôles."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Vue d'ensemble
+
+Les réunions dans Rolebase sont des sessions structurées, basées sur des étapes, conçues pour les équipes autogouvernées. Elles suivent un déroulement défini qui maintient les discussions focalisées et productives, inspiré des réunions de gouvernance et tactiques de l'Holacratie.
+
+Chaque réunion appartient à un rôle et suit une séquence d'étapes que vous pouvez personnaliser.
+
+## Cycle de vie d'une réunion
+
+### 1. Création
+
+Créez une réunion depuis la section réunions d'un rôle. Vous pouvez partir de zéro ou utiliser un **modèle de réunion**. Définissez le titre, la date/heure et les participants.
+
+### 2. Démarrage
+
+Lorsque le moment est venu, le facilitateur démarre la réunion. Cela fait passer la réunion d'un état planifié à une session active.
+
+### 3. Déroulement des étapes
+
+La réunion progresse à travers une série d'étapes. Le facilitateur avance à travers chaque étape tandis que les participants contribuent.
+
+### 4. Fin
+
+Lorsque toutes les étapes sont terminées, le facilitateur met fin à la réunion. Un résumé de la réunion est généré et enregistré.
+
+## Étapes de réunion
+
+Chaque réunion est composée d'étapes ordonnées. Les types d'étapes disponibles sont :
+
+### Tour de parole
+
+Un tour d'ouverture où chaque participant partage un bref retour. Cela peut être utilisé comme brise-glace, mise à jour personnelle ou pour définir les intentions de la réunion.
+
+### Discussions
+
+Passez en revue et discutez des [discussions](/fr/docs/threads) actives dans le rôle. Les participants peuvent soulever des sujets, mettre à jour les statuts et prendre des décisions sur les échanges en cours.
+
+### Liste de contrôle
+
+Parcourez les éléments récurrents de la liste de contrôle du rôle. Chaque membre confirme s'il a accompli ses éléments depuis la dernière réunion. Cela assure la responsabilisation et la transparence.
+
+### Indicateurs
+
+Passez en revue les métriques et indicateurs clés du rôle. Les membres rendent compte des chiffres et des tendances, donnant à l'équipe une visibilité sur la santé opérationnelle.
+
+### Tâches
+
+Passez en revue les [tâches](/fr/docs/tasks) assignées aux membres du rôle. Mettez à jour les statuts, discutez des blocages et créez de nouvelles tâches si nécessaire.
+
+<Callout type="tip" title="Ordre des étapes">
+  L'ordre par défaut (Tour de parole, Liste de contrôle, Indicateurs, Tâches, Discussions) suit le format de réunion tactique holacratique, mais vous pouvez réordonner, ajouter ou supprimer des étapes pour répondre aux besoins de votre équipe.
+</Callout>
+
+## Modèles de réunion
+
+Les modèles définissent un ensemble réutilisable d'étapes pour les réunions. Au lieu de configurer les étapes à chaque fois, créez un modèle et appliquez-le lors de la planification de nouvelles réunions.
+
+Modèles courants :
+
+- La **Réunion Tactique** comprend un tour de parole, une liste de contrôle, des indicateurs, des tâches et des discussions.
+- La **Réunion de Gouvernance** comprend un tour de parole et des discussions (axées sur les propositions de gouvernance).
+- La **Synchronisation rapide** comprend un tour de parole et des tâches.
+
+Les modèles sont définis au niveau du rôle et peuvent être réutilisés pour chaque réunion de ce rôle.
+
+## Réunions récurrentes
+
+Les réunions peuvent être configurées pour se répéter selon un calendrier en utilisant des **règles de récurrence** (format rrule). Par exemple :
+
+- Tous les lundis à 10h00
+- Le premier mercredi de chaque mois
+- Toutes les deux semaines le vendredi
+
+Lorsqu'une réunion récurrente est configurée, les occurrences futures sont automatiquement créées selon le calendrier.
+
+## Synchronisation de calendrier
+
+Vous pouvez connecter votre calendrier (Google Calendar, Office 365) à Rolebase pour que les réunions apparaissent automatiquement dans votre calendrier personnel. Lorsqu'une réunion est créée, modifiée ou supprimée, le changement est répercuté dans votre calendrier connecté.
+
+Pour configurer la synchronisation, consultez [Applications et Intégrations](/fr/docs/apps-integrations).
+
+## Export iCal
+
+Vous pouvez exporter vos réunions sous forme de flux iCal pour les consulter dans n'importe quelle application de calendrier :
+
+1. Allez sur la page **Réunions** de votre rôle.
+2. Ouvrez le menu paramètres (en haut à droite).
+3. Sélectionnez **Exporter (iCal)**.
+4. Copiez l'URL iCal affichée dans la fenêtre.
+5. Collez-la dans votre application de calendrier en tant qu'abonnement (Google Calendar, Outlook, Apple Calendar supportent tous cette fonctionnalité).
+
+Le flux inclut toutes les réunions de votre organisation et se met à jour automatiquement. La synchronisation est à sens unique et peut prendre quelques minutes. Pour une synchronisation rapide et dans les deux sens, connectez un calendrier directement via [Applications et Intégrations](/fr/docs/apps-integrations).
+
+## Participants
+
+### Périmètre
+
+Vous pouvez définir qui est invité à la réunion :
+
+- **Tous les membres du rôle** : chaque membre du rôle est participant.
+- **Membres spécifiques** : sélectionnez manuellement les participants parmi le rôle.
+
+### Suivi de la présence
+
+Pendant et après la réunion, suivez la présence avec trois statuts :
+
+| Statut | Signification |
+|---|---|
+| **Présent** | Le membre a assisté à la réunion |
+| **Absent** | Le membre n'a pas assisté |
+| **Peut-être** | Le membre n'a pas confirmé sa présence |
+
+Les enregistrements de présence sont sauvegardés avec la réunion pour référence historique.
+
+## Visioconférence
+
+Rolebase s'intègre avec les outils de visioconférence. Lors du démarrage d'une réunion, vous pouvez lancer un appel vidéo directement. Le lien vidéo est partagé avec tous les participants.
+
+## Réunions privées
+
+Les réunions peuvent être marquées comme **privées**. Les réunions privées ne sont visibles que par leurs participants et sont masquées pour les autres membres du rôle. C'est utile pour les discussions sensibles comme les évaluations de performance ou les questions de personnel.
+
+## Résumé de réunion
+
+Lorsqu'une réunion se termine, Rolebase génère un résumé qui comprend :
+
+- Date, heure et durée
+- Participants et leur statut
+- Notes et résultats de chaque étape
+- Tâches créées ou mises à jour pendant la réunion
+- Décisions prises dans les discussions
+
+Le résumé sert de compte-rendu officiel de la réunion et est accessible depuis l'historique des réunions du rôle.
+
+<Callout type="tip" title="Résumé IA">
+  Les résumés de réunion peuvent être générés automatiquement, fournissant un récapitulatif concis des discussions et décisions pour les membres qui étaient absents.
+</Callout>
+
+## Prochaines étapes
+
+- [Gérer les tâches](/fr/docs/tasks) issues des réunions.
+- [Utiliser les discussions](/fr/docs/threads) pour les suivis.
+- [Enregistrer les décisions](/fr/docs/decisions) prises lors des réunions de gouvernance.

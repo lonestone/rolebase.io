@@ -1,0 +1,68 @@
+---
+title: "Abonnement d'organisation"
+description: "Suit le plan d'abonnement, le statut de paiement et les détails d'intégration Stripe pour une organisation."
+entity: "org_subscription"
+---
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de l'abonnement" },
+  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
+  { name: "type", type: "Subscription_Plan_Type_Enum", description: "Type de plan d'abonnement (Startup ou Business)" },
+  { name: "status", type: "Subscription_Payment_Status_Enum", description: "Statut de paiement actuel de l'abonnement" },
+  { name: "stripeCustomerId", type: "String", description: "Identifiant client Stripe pour la facturation" },
+  { name: "stripeSubscriptionId", type: "String", description: "Identifiant d'abonnement Stripe pour les paiements récurrents (optionnel)" },
+]} />
+
+## Types de plans d'abonnement
+
+- **Startup** — Plan de base pour les startups et les petites équipes
+- **Business** — Plan avancé pour les grandes organisations
+
+## Statuts de paiement
+
+- `active` — L'abonnement est actif et payé
+- `canceled` — L'abonnement a été annulé
+- `incomplete` — La tentative de paiement initiale a échoué
+- `incomplete_expired` — La tentative de paiement initiale a échoué et a expiré
+- `past_due` — Le paiement est en retard
+- `paused` — L'abonnement est temporairement suspendu
+- `trialing` — En période d'essai
+- `unpaid` — Le paiement a échoué et l'abonnement est impayé
+
+## Relations
+
+**Relations objet :**
+- `org` — L'organisation à laquelle cet abonnement appartient
+
+## Exemples de requêtes
+
+### Obtenir l'abonnement d'une organisation
+
+```graphql
+query GetOrgSubscription($orgId: uuid!) {
+  org_subscription(where: { orgId: { _eq: $orgId } }) {
+    id
+    type
+    status
+    org {
+      name
+    }
+    stripeCustomerId
+    stripeSubscriptionId
+  }
+}
+```
+
+## Permissions
+
+- **Propriétaire :** Peut consulter les détails de l'abonnement
+- La gestion des abonnements se fait via la plateforme Rolebase
+- Les modifications directes sont restreintes aux processus système
+
+<Callout type="warning" title="Lecture seule">
+  Chaque organisation ne peut avoir qu'un seul abonnement. Les champs `orgId`, `stripeCustomerId` et `stripeSubscriptionId` sont uniques. Le statut de l'abonnement est automatiquement mis à jour via les webhooks Stripe.
+</Callout>

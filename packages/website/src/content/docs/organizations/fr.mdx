@@ -1,0 +1,59 @@
+---
+title: "Organisations"
+description: "Créez, configurez et gérez votre organisation dans Rolebase."
+---
+import Callout from '../../../components/Callout.astro'
+
+## Qu'est-ce qu'une Organisation ?
+
+Une organisation est le **conteneur de premier niveau** dans Rolebase. Tout (rôles, membres, réunions, tâches, discussions, décisions) appartient à une organisation. Chaque organisation possède ses propres paramètres, plan d'abonnement et liste de membres.
+
+Vous pouvez être membre de plusieurs organisations et passer de l'une à l'autre depuis le tableau de bord.
+
+## Créer une Organisation
+
+1. Depuis le tableau de bord, cliquez sur **Créer une Organisation**.
+2. Entrez un nom pour votre organisation.
+3. Définissez éventuellement un **slug** personnalisé (utilisé dans l'URL, par ex. `app.rolebase.io/orgs/mon-org`).
+4. Vous êtes automatiquement assigné au rôle de **Propriétaire**.
+
+Votre organisation commence avec un seul rôle de premier niveau que vous pouvez renommer et développer.
+
+## Paramètres de l'Organisation
+
+Accédez aux paramètres depuis le menu de l'organisation. Les options suivantes sont disponibles :
+
+### Paramètres généraux
+
+- Le **nom** est le nom d'affichage de votre organisation.
+- Le **slug** est l'identifiant adapté aux URL. Il doit être unique sur l'ensemble de Rolebase.
+
+### Paramètres de gouvernance
+
+- **Protéger la Gouvernance**, lorsque cette option est activée, seuls les leaders de rôle peuvent modifier la structure du rôle (ajouter/supprimer des sous-rôles, modifier la raison d'être, le domaine et les redevabilités). Cela impose des processus de gouvernance formels.
+
+### Paramètres de visibilité
+
+- **Partager l'Organisation** rend une page publique de votre organisation accessible à toute personne disposant du lien. Utile pour la transparence avec les parties prenantes externes.
+- **Partager les Membres** contrôle, lorsque le partage est activé, si la liste des membres est visible sur la page publique.
+
+## Gérer votre Organisation
+
+### Archivage
+
+Les organisations peuvent être archivées lorsqu'elles sont inactives. Les organisations archivées sont masquées du tableau de bord mais leurs données sont conservées.
+
+### Suppression
+
+La suppression permanente efface toutes les données de l'organisation, y compris les rôles, les réunions et les associations de membres. Cette action est irréversible.
+
+<Callout type="warning" title="Action destructive">
+  La suppression d'une organisation est irréversible. Assurez-vous d'exporter toutes les données dont vous avez besoin avant de procéder.
+</Callout>
+
+## Prochaines étapes
+
+- [Explorer l'organigramme](/fr/docs/org-chart) pour visualiser votre structure
+- [Mettre en place votre structure de rôles](/fr/docs/circles-and-roles)
+- [Inviter des membres](/fr/docs/members) dans votre organisation
+- [Configurer un abonnement](/fr/docs/subscriptions) si vous avez besoin de fonctionnalités premium

@@ -11,7 +11,7 @@ interface Props {
 const { locale } = Astro.props
 const t = translations[locale]
 
-const posts = (await getCollection('blog', (post) => post.data.lang === locale))
+const posts = (await getCollection('blog', (post) => post.id.endsWith(`/${locale}`)))
   .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
 ---
 

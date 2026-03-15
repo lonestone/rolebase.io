@@ -1,10 +1,12 @@
 ---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
 import Button from './Button.astro'
 import { getLocaleFromPath, translations } from '../i18n'
 
 interface Props {
   headings: { depth: number; slug: string; text: string }[]
-  image?: string
+  image?: ImageMetadata
 }
 
 const { headings, image } = Astro.props
@@ -14,7 +16,7 @@ const t = translations[locale]
 ---
 
 {image && (
-  <img
+  <Image
     src={image}
     alt=""
     class="hidden rounded-2xl aspect-video object-cover w-full md:block mb-8"

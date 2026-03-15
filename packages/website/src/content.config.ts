@@ -4,16 +4,16 @@ import { z } from 'astro/zod'
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-  schema: z.object({
-    title: z.string(),
-    summary: z.string(),
-    date: z.coerce.date().optional(),
-    update: z.coerce.date().optional(),
-    lang: z.enum(['en', 'fr']),
-    image: z.string().optional(),
-    author: z.string().optional(),
-    similarPosts: z.array(z.string()).optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      summary: z.string(),
+      date: z.coerce.date().optional(),
+      update: z.coerce.date().optional(),
+      image: image().optional(),
+      author: z.string().optional(),
+      similarPosts: z.array(z.string()).optional(),
+    }),
 })
 
 const clientCases = defineCollection({
@@ -21,14 +21,54 @@ const clientCases = defineCollection({
     pattern: '**/*.{md,mdx}',
     base: './src/content/client-cases',
   }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      summary: z.string(),
+      sector: z.string().optional(),
+      teamSize: z.string().optional(),
+      logo: image().optional(),
+    }),
+})
+
+const docs = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/docs' }),
   schema: z.object({
     title: z.string(),
-    summary: z.string(),
-    lang: z.enum(['en', 'fr']),
-    sector: z.string().optional(),
-    teamSize: z.string().optional(),
-    logo: z.string().optional(),
+    description: z.string().optional(),
   }),
 })
 
-export const collections = { blog, 'client-cases': clientCases }
+const guides = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/guides' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+})
+
+const developers = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/developers' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+})
+
+const api = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/api' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    entity: z.string().optional(),
+  }),
+})
+
+export const collections = {
+  blog,
+  'client-cases': clientCases,
+  docs,
+  guides,
+  developers,
+  api,
+}

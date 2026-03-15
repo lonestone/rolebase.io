@@ -1,0 +1,120 @@
+---
+title: "Users"
+description: "Represents user accounts in Rolebase, managed by Hasura Auth. Contains profile information, authentication details, and relationships to organizations and roles."
+entity: "users"
+---
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+## Fields
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Unique identifier for the user (auto-generated)" },
+  { name: "displayName", type: "String", description: "User's display name" },
+  { name: "email", type: "String", description: "User's email address (unique, optional)" },
+  { name: "emailVerified", type: "Boolean", description: "Whether the email has been verified (defaults to false)" },
+  { name: "phoneNumber", type: "String", description: "User's phone number (unique, optional)" },
+  { name: "phoneNumberVerified", type: "Boolean", description: "Whether the phone number has been verified (defaults to false)" },
+  { name: "avatarUrl", type: "String", description: "URL to the user's avatar image" },
+  { name: "locale", type: "String", description: "User's preferred locale" },
+  { name: "metadata", type: "JSON", description: "Additional user metadata (e.g., timezone, preferences)" },
+  { name: "defaultRole", type: "String", description: "User's default role in the system" },
+  { name: "isAnonymous", type: "Boolean", description: "Whether this is an anonymous user (defaults to false)" },
+  { name: "disabled", type: "Boolean", description: "Whether the user account is disabled (defaults to false)" },
+  { name: "lastSeen", type: "Timestamp", description: "When the user was last active (optional)" },
+  { name: "createdAt", type: "Timestamp", description: "When the account was created (defaults to current timestamp)" },
+  { name: "updatedAt", type: "Timestamp", description: "When the account was last updated (defaults to current timestamp)" },
+]} />
+
+### Authentication Fields
+
+<EntityFields fields={[
+  { name: "passwordHash", type: "String", description: "Hashed password for password authentication (never exposed via API)" },
+  { name: "activeMfaType", type: "String", description: "Active multi-factor authentication method (optional)" },
+  { name: "totpSecret", type: "String", description: "Secret for time-based one-time password (optional)" },
+  { name: "otpHash", type: "String", description: "One-time password hash (never exposed via API)" },
+  { name: "otpHashExpiresAt", type: "Timestamp", description: "When the OTP hash expires" },
+  { name: "otpMethodLastUsed", type: "String", description: "Last used OTP method (optional)" },
+  { name: "ticket", type: "String", description: "Authentication ticket (optional)" },
+  { name: "ticketExpiresAt", type: "Timestamp", description: "When the authentication ticket expires" },
+  { name: "currentChallenge", type: "String", description: "Current authentication challenge (optional)" },
+  { name: "newEmail", type: "String", description: "New email address pending verification (optional)" },
+]} />
+
+## Relationships
+
+### Object Relationships
+
+- `defaultRoleByRole` — The default role configuration for this user
+
+### Array Relationships
+
+- `apps` — User's connected applications (see [user_app](/en/api/user_app))
+- `members` — Organization memberships
+- `roles` — User's assigned roles
+- `refreshTokens` — Authentication refresh tokens
+- `securityKeys` — WebAuthn security keys
+- `userProviders` — Connected authentication providers (OAuth, etc.)
+
+## Query Examples
+
+### Get User Profile
+
+```graphql
+query GetUserProfile($userId: uuid!) {
+  user(id: $userId) {
+    id
+    displayName
+    email
+    emailVerified
+    avatarUrl
+    locale
+    metadata
+    defaultRole
+    lastSeen
+    members {
+      id
+      org {
+        name
+      }
+    }
+  }
+}
+```
+
+## Mutation Examples
+
+### Update User Profile
+
+```graphql
+mutation UpdateUserProfile {
+  updateUser(
+    pk_columns: { id: "user-id" }
+    _set: {
+      displayName: "New Name"
+      locale: "en"
+      metadata: { timezone: "Europe/Paris" }
+    }
+  ) {
+    id
+    displayName
+    locale
+    metadata
+    updatedAt
+  }
+}
+```
+
+## Permissions
+
+Access to user data is strictly controlled:
+
+- Users can only view and modify their own profile data
+- Sensitive fields (`passwordHash`, `otpHash`, etc.) are never exposed via the API
+- Role management is handled through dedicated endpoints
+- Email and phone number changes require verification
+- Account disabling can only be done by administrators
+
+<Callout type="info">
+The user entity is managed by Hasura Auth and should not be modified directly. Multi-factor authentication (MFA) can be enabled using various methods, and WebAuthn security keys support passwordless authentication. Connected OAuth providers are managed through the `userProviders` relationship.
+</Callout>

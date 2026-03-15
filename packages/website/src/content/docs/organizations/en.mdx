@@ -1,0 +1,59 @@
+---
+title: "Organizations"
+description: "Create, configure, and manage your organization in Rolebase."
+---
+import Callout from '../../../components/Callout.astro'
+
+## What is an Organization?
+
+An organization is the **top-level container** in Rolebase. Everything (roles, members, meetings, tasks, threads, decisions) belongs to an organization. Each organization has its own settings, subscription plan, and member list.
+
+You can be a member of multiple organizations and switch between them from the dashboard.
+
+## Creating an Organization
+
+1. From the dashboard, click **Create Organization**.
+2. Enter a name for your organization.
+3. Optionally set a custom **slug** (used in the URL, e.g. `app.rolebase.io/orgs/my-org`).
+4. You are automatically assigned the **Owner** role.
+
+Your organization starts with a single top-level role that you can rename and expand.
+
+## Organization Settings
+
+Access settings from the organization menu. The following options are available:
+
+### General Settings
+
+- **Name** is the display name of your organization.
+- **Slug** is the URL-friendly identifier. Must be unique across Rolebase.
+
+### Governance Settings
+
+- **Protect Governance**, when enabled, restricts role structure modifications (add/remove sub-roles, change purpose, domain, and accountabilities) to role leaders only. This enforces formal governance processes.
+
+### Visibility Settings
+
+- **Share Organization** makes a public page for your organization accessible to anyone with the link. Useful for transparency with external stakeholders.
+- **Share Members** controls whether the member list is visible on the public page when sharing is enabled.
+
+## Managing Your Organization
+
+### Archiving
+
+Organizations can be archived when they are no longer active. Archived organizations are hidden from the dashboard but their data is preserved.
+
+### Deleting
+
+Permanent deletion removes all organization data including roles, meetings, and member associations. This action cannot be undone.
+
+<Callout type="warning" title="Destructive Action">
+  Deleting an organization is irreversible. Make sure to export any data you need before proceeding.
+</Callout>
+
+## Next Steps
+
+- [Explore the org chart](/en/docs/org-chart) to visualize your structure
+- [Set up your role structure](/en/docs/circles-and-roles)
+- [Invite members](/en/docs/members) to your organization
+- [Configure a subscription](/en/docs/subscriptions) if you need premium features

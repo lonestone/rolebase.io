@@ -1,0 +1,80 @@
+---
+title: "Réaction d'activité de discussion"
+description: "Représente une réaction emoji à une activité de discussion. Les réactions permettent aux membres d'exprimer des réponses rapides aux messages sans créer de nouvelles activités."
+entity: "thread_activity_reaction"
+---
+import EntityFields from '../../../components/EntityFields.astro'
+import Callout from '../../../components/Callout.astro'
+
+## Champs
+
+<EntityFields fields={[
+  { name: "id", type: "uuid", description: "Identifiant unique de la réaction (généré automatiquement)" },
+  { name: "activityId", type: "uuid", description: "Référence à l'activité de discussion concernée" },
+  { name: "userId", type: "uuid", description: "Référence à l'utilisateur qui a ajouté la réaction" },
+  { name: "shortcode", type: "String", description: "Caractère emoji Unicode ou code court" },
+  { name: "createdAt", type: "Timestamp", description: "Date de création de la réaction (par défaut : horodatage actuel)" },
+]} />
+
+## Relations
+
+### Relations objet
+
+- `activity` — L'activité de discussion à laquelle cette réaction appartient
+
+## Exemples de requêtes
+
+### Lister les réactions d'une activité
+
+```graphql
+query GetActivityReactions($activityId: uuid!) {
+  thread_activity_reaction(
+    where: { activityId: { _eq: $activityId } }
+    order_by: { createdAt: asc }
+  ) {
+    id
+    shortcode
+    userId
+    createdAt
+  }
+}
+```
+
+## Exemples de mutations
+
+### Ajouter une réaction
+
+```graphql
+mutation CreateActivityReaction {
+  insert_thread_activity_reaction_one(
+    object: { activityId: "activity-id", userId: "user-id", shortcode: "👍" }
+  ) {
+    id
+    shortcode
+    createdAt
+  }
+}
+```
+
+### Supprimer une réaction
+
+```graphql
+mutation DeleteActivityReaction {
+  delete_thread_activity_reaction_by_pk(id: "reaction-id") {
+    id
+    shortcode
+  }
+}
+```
+
+## Permissions
+
+L'accès aux réactions est contrôlé en fonction des permissions de la discussion et de l'activité :
+
+- Les **participants de la discussion** peuvent consulter les réactions, en ajouter et supprimer les leurs
+- Les **membres de l'organisation** peuvent consulter les réactions des discussions non privées et en ajouter s'ils ont accès à la discussion
+- Les **administrateurs et propriétaires** ont un accès complet à toutes les réactions
+
+<Callout type="info">
+Chaque membre peut ajouter plusieurs réactions emoji différentes à une activité, mais les réactions emoji en double du même membre sont empêchées. Les réactions sont généralement affichées sous forme de compteurs d'emoji par activité et peuvent être utilisées pour des sondages rapides ou le suivi du sentiment.
+</Callout>
