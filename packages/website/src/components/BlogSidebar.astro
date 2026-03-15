@@ -10,7 +10,11 @@ interface Props {
 }
 
 const { headings, image } = Astro.props
-const h2s = headings.filter((h) => h.depth === 2)
+const stripLeadingNumber = (text: string) =>
+  text.replace(/^\d+[\)\/\-\.]\s*/, '')
+const h2s = headings
+  .filter((h) => h.depth === 2)
+  .map((h) => ({ ...h, text: stripLeadingNumber(h.text) }))
 const locale = getLocaleFromPath(Astro.url.pathname)
 const t = translations[locale]
 ---
