@@ -1,0 +1,28 @@
+---
+import { getLocaleFromPath, localePath } from '../i18n'
+
+interface Props {
+  path: string
+  href?: string
+  exact?: boolean
+  code?: boolean
+}
+
+const { path, href, exact = false, code = false } = Astro.props
+
+const currentPath = Astro.url.pathname
+const locale = getLocaleFromPath(currentPath)
+const resolvedHref = href ?? localePath(locale, path)
+const active = exact ? currentPath === resolvedHref : currentPath.includes(path)
+---
+
+<a
+  href={resolvedHref}
+  class:list={[
+    'block px-3 py-1.5 rounded-md text-sm no-underline hover:no-underline',
+    code ? 'font-mono' : 'font-medium',
+    active
+      ? 'bg-primary/10 text-black'
+      : 'text-text-secondary hover:bg-bg-secondary hover:text-text-main',
+  ]}
+><slot /></a>

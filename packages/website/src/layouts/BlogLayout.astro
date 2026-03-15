@@ -8,7 +8,7 @@ interface Props {
 const { title } = Astro.props
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} staticHeader>
   <main class="max-w-7xl mx-auto px-6 py-16">
     <div class="flex flex-col gap-8 md:flex-row lg:gap-12">
       <slot />

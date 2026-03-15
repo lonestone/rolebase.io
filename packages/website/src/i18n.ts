@@ -20,20 +20,24 @@ export const translations = {
     bookDemo: 'Book a demo',
     login: 'Log in / Sign up',
     ctaTitle: 'Try Rolebase for free',
-    ctaDescription: 'Clarify roles, run efficient meetings, and make better decisions as a team.',
+    ctaDescription:
+      'Clarify roles, run efficient meetings, and make better decisions as a team.',
     ctaButton: 'Book a demo',
     sidebarToc: 'Table of contents',
-    sidebarTagline: 'Rolebase is the open-source platform for self-managed organizations.',
+    sidebarTagline:
+      'Rolebase is the open-source platform for self-managed organizations.',
     sidebarDiscover: 'Discover Rolebase',
     fieldLabel: 'Field',
     typeLabel: 'Type',
     descriptionLabel: 'Description',
-    blogSubtitle: 'Stay up to date with the latest news, product updates, and insights about self-governance.',
+    blogSubtitle:
+      'Stay up to date with the latest news, product updates, and insights about self-governance.',
     similarPosts: 'Continue reading',
     updatedOn: 'Updated on',
     clientCases: 'Case Studies',
     clientCasesPath: '/client-cases',
-    clientCasesSubtitle: 'Discover how our clients use Rolebase to transform their governance.',
+    clientCasesSubtitle:
+      'Discover how our clients use Rolebase to transform their governance.',
     sector: 'Sector',
     teamSize: 'Team size',
     employees: 'employees',
@@ -74,6 +78,7 @@ export const translations = {
       { slug: 'getting-started', label: 'Getting Started' },
       { slug: 'custom-integrations', label: 'Custom Integrations' },
     ],
+    apiLinks: [{ slug: '', label: 'Introduction' }],
   },
   fr: {
     documentation: 'Documentation',
@@ -92,20 +97,24 @@ export const translations = {
     bookDemo: 'Demander une démo',
     login: 'Connexion / Inscription',
     ctaTitle: 'Essayez Rolebase gratuitement',
-    ctaDescription: 'Clarifiez les rôles, menez des réunions efficaces et prenez de meilleures décisions en équipe.',
+    ctaDescription:
+      'Clarifiez les rôles, menez des réunions efficaces et prenez de meilleures décisions en équipe.',
     ctaButton: 'Demander une démo',
     sidebarToc: 'Sommaire',
-    sidebarTagline: 'Rolebase est la plateforme open-source pour les organisations auto-gouvernées.',
+    sidebarTagline:
+      'Rolebase est la plateforme open-source pour les organisations auto-gouvernées.',
     sidebarDiscover: 'Découvrir Rolebase',
     fieldLabel: 'Champ',
     typeLabel: 'Type',
     descriptionLabel: 'Description',
-    blogSubtitle: "Restez informé des dernières actualités, mises à jour produit et réflexions sur l'auto-gouvernance.",
+    blogSubtitle:
+      "Restez informé des dernières actualités, mises à jour produit et réflexions sur l'auto-gouvernance.",
     similarPosts: 'Continuer la lecture',
     updatedOn: 'Mis à jour le',
     clientCases: 'Cas clients',
     clientCasesPath: '/client-cases',
-    clientCasesSubtitle: 'Découvrez comment nos clients utilisent Rolebase pour transformer leur gouvernance.',
+    clientCasesSubtitle:
+      'Découvrez comment nos clients utilisent Rolebase pour transformer leur gouvernance.',
     sector: 'Secteur',
     teamSize: 'Effectif',
     employees: 'collaborateurs',
@@ -139,13 +148,17 @@ export const translations = {
       { slug: 'import', label: 'Import' },
     ],
     guidesLinks: [
-      { slug: 'run-your-first-meeting', label: 'Animer votre première réunion' },
+      {
+        slug: 'run-your-first-meeting',
+        label: 'Animer votre première réunion',
+      },
     ],
     developersLinks: [
       { slug: '', label: 'Introduction' },
       { slug: 'getting-started', label: 'Premiers pas' },
       { slug: 'custom-integrations', label: 'Intégrations personnalisées' },
     ],
+    apiLinks: [{ slug: '', label: 'Introduction' }],
   },
 } as const
 
@@ -153,7 +166,10 @@ export function getLocaleFromPath(path: string): Locale {
   return path.startsWith('/fr') ? 'fr' : 'en'
 }
 
-export function getOtherLocaleHref(path: string, currentLocale: Locale): string {
+export function getOtherLocaleHref(
+  path: string,
+  currentLocale: Locale
+): string {
   const otherLocale = currentLocale === 'en' ? 'fr' : 'en'
   return path.replace(`/${currentLocale}`, `/${otherLocale}`)
 }

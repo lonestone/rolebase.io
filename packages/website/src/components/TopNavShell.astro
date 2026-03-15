@@ -1,0 +1,111 @@
+---
+import { translations, getLocaleFromPath, getOtherLocaleHref, localePath } from '../i18n'
+import Logo from './Logo.astro'
+
+const currentPath = Astro.url.pathname
+const locale = getLocaleFromPath(currentPath)
+const t = translations[locale]
+const otherLocaleHref = getOtherLocaleHref(currentPath, locale)
+
+const lp = (path: string) => localePath(locale, path)
+
+interface Props {
+  staticHeader?: boolean
+  logoSuffix?: string
+}
+
+const { staticHeader = false, logoSuffix } = Astro.props
+---
+
+<header class:list={["border-b border-border bg-white z-50", staticHeader ? '' : 'sticky top-0']}>
+  <div class="flex items-center justify-between px-6 h-14">
+    <!-- Logo -->
+    <div class="flex items-center gap-2">
+      <a href={lp('')} class="no-underline hover:no-underline"><Logo class="h-6" /></a>
+      {logoSuffix && <span class="font-bold text-lg text-text-secondary pt-1">{logoSuffix}</span>}
+    </div>
+
+    <!-- Desktop menu -->
+    <div class="hidden md:flex md:items-center md:gap-8 md:flex-1 md:ml-8">
+      <nav class="flex gap-1" data-nav>
+        <slot name="nav" />
+      </nav>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3" data-right>
+        <a
+          href={otherLocaleHref}
+          class="text-xs font-semibold px-2 py-0.5 border border-border rounded text-text-secondary no-underline hover:no-underline hover:bg-border"
+        >{t.switchLang}</a>
+        <slot name="right" />
+      </div>
+    </div>
+
+    <!-- Burger button (mobile) -->
+    <button
+      class="md:hidden p-2 -mr-2 text-text-secondary hover:text-text-main"
+      data-burger
+      aria-label="Menu"
+      aria-expanded="false"
+    >
+      <svg class="w-6 h-6 block" data-icon="open" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg class="w-6 h-6 hidden" data-icon="close" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu panel (populated from desktop nav + sidebar via JS) -->
+  <div class="hidden md:hidden h-[calc(100dvh-57px)] overflow-y-auto border-t border-border bg-white" data-mobile-menu></div>
+</header>
+
+<script>
+  const header = document.querySelector("header")!
+  const burger = header.querySelector("[data-burger]") as HTMLElement
+  const menu = header.querySelector("[data-mobile-menu]") as HTMLElement
+  const iconOpen = header.querySelector("[data-icon='open']") as HTMLElement
+  const iconClose = header.querySelector("[data-icon='close']") as HTMLElement
+  const desktopNav = header.querySelector("[data-nav]") as HTMLElement
+  const desktopRight = header.querySelector("[data-right]") as HTMLElement
+
+  // Clone desktop nav links into mobile menu
+  const mobileNav = desktopNav.cloneNode(true) as HTMLElement
+  mobileNav.className = "flex flex-col gap-1 px-6 pt-4"
+  mobileNav.removeAttribute("data-nav")
+  menu.appendChild(mobileNav)
+
+  // Clone sidebar into mobile menu if present on the page
+  const desktopSidebar = document.querySelector("[data-sidebar]") as HTMLElement | null
+  if (desktopSidebar) {
+    const mobileSidebar = desktopSidebar.cloneNode(true) as HTMLElement
+    mobileSidebar.className = "px-6 pt-6 pb-2"
+    mobileSidebar.removeAttribute("data-sidebar")
+    menu.appendChild(mobileSidebar)
+  }
+
+  // Clone right-side actions (lang switcher, buttons)
+  const mobileRight = desktopRight.cloneNode(true) as HTMLElement
+  mobileRight.className = "flex flex-col items-start gap-3 px-6 pt-3 pb-5"
+  mobileRight.removeAttribute("data-right")
+  menu.appendChild(mobileRight)
+
+  function toggle() {
+    const isOpen = !menu.classList.contains("hidden")
+    menu.classList.toggle("hidden", isOpen)
+    iconOpen.classList.toggle("hidden", !isOpen)
+    iconOpen.classList.toggle("block", isOpen)
+    iconClose.classList.toggle("hidden", isOpen)
+    iconClose.classList.toggle("block", !isOpen)
+    burger.setAttribute("aria-expanded", String(!isOpen))
+  }
+
+  burger.addEventListener("click", toggle)
+
+  // Close on link click within mobile menu
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      if (!menu.classList.contains("hidden")) toggle()
+    })
+  })
+</script>

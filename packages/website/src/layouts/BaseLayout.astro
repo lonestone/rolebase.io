@@ -7,13 +7,13 @@ import '../styles/global.css'
 
 interface Props {
   title: string
+  staticHeader?: boolean
 }
 
-const { title } = Astro.props
+const { title, staticHeader = false } = Astro.props
 const currentPath = Astro.url.pathname
 const locale = getLocaleFromPath(currentPath)
 const isDevSection = currentPath.includes('/developers') || currentPath.includes('/api')
-const isBlog = currentPath.includes('/blog') || currentPath.includes('/client-cases')
 ---
 
 <!doctype html>
@@ -31,7 +31,7 @@ const isBlog = currentPath.includes('/blog') || currentPath.includes('/client-ca
     )}
   </head>
   <body class="min-h-dvh flex flex-col">
-    {isDevSection ? <TopNavDev /> : <TopNav staticHeader={isBlog} />}
+    {isDevSection ? <TopNavDev /> : <TopNav staticHeader={staticHeader} />}
     <div class="flex-1 flex flex-col">
       <slot />
     </div>

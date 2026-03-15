@@ -13,7 +13,7 @@ const { title, prose } = Astro.props
 <BaseLayout title={title}>
   <div class="relative overflow-hidden flex-1">
     <CirclesBackground />
-    <main class:list={["max-w-5xl mx-auto py-12 px-6", prose && "prose"]}>
+    <main class:list={["max-w-7xl mx-auto py-12 px-6", prose && "prose"]}>
       <slot />
     </main>
   </div>
