@@ -49,11 +49,11 @@ The website is built with Astro + MDX + Tailwind CSS with i18n support (English 
 
 ### Structure
 
-- `src/content/` — Content collections (blog, client-cases, docs, guides, developers, api)
+- `src/content/` — Content collections (blog, client-cases, docs, guides, developers, api, pages)
 - `src/components/` — Astro display components (no content): `TopNav`, `Sidebar`, `GuidePage`, `ApiReference`, `DocPage`, `Callout`, `EntityFields`, `CodeBlock`
-- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `BlogLayout.astro` (blog post layout), `WebsiteLayout.astro` (full-width for homepage, blog index, terms)
+- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `BlogLayout.astro` (blog post layout), `WebsiteLayout.astro` (full-width for homepage, blog index, terms; supports `prose` prop)
 - `src/i18n.ts` — Translations, sidebar labels, locale utilities (`getSlugFromId`, `getLangFromId`, `getOtherLocaleHref`)
-- `src/pages/` — Route templates (`[slug].astro`) and standalone pages (homepage, terms, contact)
+- `src/pages/[lang]/` — Route templates using `[lang]` param for both locales. No separate `en/` and `fr/` directories.
 - `src/content.config.ts` — Content collection schemas
 - `src/styles/global.css` — Tailwind import, theme tokens, and `.prose` styles for markdown content
 - `src/redirects.ts` — Static redirects (imported in `astro.config.mjs`)
@@ -77,10 +77,11 @@ Collections defined in `src/content.config.ts`:
 - **guides** — Step-by-step guides. Frontmatter: `title`, `description`
 - **developers** — Technical/developer docs. Frontmatter: `title`, `description`
 - **api** — API reference pages. Frontmatter: `title`, `entity`, `description`
+- **pages** — Standalone pages (homepage, contact, terms). Frontmatter: `title`, `prose` (optional boolean to apply prose class via WebsiteLayout)
 
 The `lang` is NOT stored in frontmatter. It is derived from the filename (`en.mdx` / `fr.mdx`) via the entry ID (e.g., `members/en`). Use `getSlugFromId(entry.id)` and `getLangFromId(entry.id)` from `src/i18n.ts`.
 
-Routing pages (`src/pages/{en,fr}/{section}/[slug].astro`) filter entries by ID suffix (`entry.id.endsWith('/en')`) and extract the slug with `entry.id.replace('/en', '')`.
+Routing pages (`src/pages/[lang]/{section}/[slug].astro`) use a `[lang]` param and loop over both locales in `getStaticPaths()`, filtering entries by ID suffix (`entry.id.endsWith('/${lang}')`) and extracting the slug with `entry.id.replace('/${lang}', '')`.
 
 ### Content sections
 
@@ -94,10 +95,10 @@ Routing pages (`src/pages/{en,fr}/{section}/[slug].astro`) filter entries by ID 
 ### i18n
 
 - Content is in `src/content/` with `en.mdx`/`fr.mdx` per folder. Both translations of the same content share the same slug.
-- Route pages are in `src/pages/en/` and `src/pages/fr/` with `[slug].astro` templates.
+- Route pages are in `src/pages/[lang]/` with `[slug].astro` templates shared across both locales.
+- All URL paths are the same for both languages (e.g., `/en/client-cases/`, `/fr/client-cases/`). No locale-specific path segments.
 - Internal links must include the locale prefix: `/en/docs/members` or `/fr/docs/members`.
-- The lang switcher in TopNav uses `getOtherLocaleHref()` which swaps the locale prefix. Since all content shares slugs across languages, this works automatically.
-- `getOtherLocaleHref()` also handles segment swaps like `client-cases` / `cas-clients`.
+- The lang switcher in TopNav uses `getOtherLocaleHref()` which swaps the locale prefix. Since all paths and slugs are shared across languages, this works automatically.
 - Sidebar translations are in `src/i18n.ts`.
 - The root `/` redirects to `/en/`.
 

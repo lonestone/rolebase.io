@@ -64,6 +64,14 @@ const api = defineCollection({
   }),
 })
 
+const pages = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
+  schema: z.object({
+    title: z.string(),
+    prose: z.boolean().optional(),
+  }),
+})
+
 export const collections = {
   blog,
   'client-cases': clientCases,
@@ -71,4 +79,5 @@ export const collections = {
   guides,
   developers,
   api,
+  pages,
 }

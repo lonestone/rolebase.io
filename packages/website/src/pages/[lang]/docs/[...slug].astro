@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content'
+import GuidePage from '../../../components/GuidePage.astro'
+import type { Locale } from '../../../i18n'
+
+export async function getStaticPaths() {
+  const locales: Locale[] = ['en', 'fr']
+  const paths = []
+  for (const lang of locales) {
+    const entries = await getCollection('docs', (e) => e.id.endsWith(`/${lang}`))
+    for (const entry of entries) {
+      const slug = entry.id.replace(`/${lang}`, '')
+      paths.push({
+        params: { lang, slug: slug === 'index' ? undefined : slug },
+        props: { entry },
+      })
+    }
+  }
+  return paths
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+---
+
+<GuidePage title={entry.data.title} description={entry.data.description}>
+  <Content />
+</GuidePage>

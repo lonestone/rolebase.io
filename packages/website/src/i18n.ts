@@ -104,7 +104,7 @@ export const translations = {
     similarPosts: 'Continuer la lecture',
     updatedOn: 'Mis à jour le',
     clientCases: 'Cas clients',
-    clientCasesPath: '/cas-clients',
+    clientCasesPath: '/client-cases',
     clientCasesSubtitle: 'Découvrez comment nos clients utilisent Rolebase pour transformer leur gouvernance.',
     sector: 'Secteur',
     teamSize: 'Effectif',
@@ -155,14 +155,7 @@ export function getLocaleFromPath(path: string): Locale {
 
 export function getOtherLocaleHref(path: string, currentLocale: Locale): string {
   const otherLocale = currentLocale === 'en' ? 'fr' : 'en'
-  let result = path.replace(`/${currentLocale}`, `/${otherLocale}`)
-  // Handle client-cases ↔ cas-clients path segment swap
-  if (currentLocale === 'en') {
-    result = result.replace('/client-cases', '/cas-clients')
-  } else {
-    result = result.replace('/cas-clients', '/client-cases')
-  }
-  return result
+  return path.replace(`/${currentLocale}`, `/${otherLocale}`)
 }
 
 /** Extract the slug (folder name) from a content collection entry ID like "my-slug/en" */

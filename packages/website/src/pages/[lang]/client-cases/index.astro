@@ -1,0 +1,12 @@
+---
+import ClientCaseIndex from '../../../components/ClientCaseIndex.astro'
+import type { Locale } from '../../../i18n'
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'fr' } }]
+}
+
+const lang = Astro.params.lang as Locale
+---
+
+<ClientCaseIndex locale={lang} />

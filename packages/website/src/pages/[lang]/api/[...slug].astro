@@ -2,16 +2,22 @@
 import { getCollection, render } from 'astro:content'
 import ApiReference from '../../../components/ApiReference.astro'
 import DocPage from '../../../components/DocPage.astro'
+import type { Locale } from '../../../i18n'
 
 export async function getStaticPaths() {
-  const entries = await getCollection('api', (e) => e.id.endsWith('/fr'))
-  return entries.map((entry) => {
-    const slug = entry.id.replace('/fr', '')
-    return {
-      params: { slug: slug === 'index' ? undefined : slug },
-      props: { entry },
+  const locales: Locale[] = ['en', 'fr']
+  const paths = []
+  for (const lang of locales) {
+    const entries = await getCollection('api', (e) => e.id.endsWith(`/${lang}`))
+    for (const entry of entries) {
+      const slug = entry.id.replace(`/${lang}`, '')
+      paths.push({
+        params: { lang, slug: slug === 'index' ? undefined : slug },
+        props: { entry },
+      })
     }
-  })
+  }
+  return paths
 }
 
 const { entry } = Astro.props

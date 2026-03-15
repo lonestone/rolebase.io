@@ -13,7 +13,7 @@ const { title } = Astro.props
 const currentPath = Astro.url.pathname
 const locale = getLocaleFromPath(currentPath)
 const isDevSection = currentPath.includes('/developers') || currentPath.includes('/api')
-const isBlog = currentPath.includes('/blog') || currentPath.includes('/cas-clients') || currentPath.includes('/client-cases')
+const isBlog = currentPath.includes('/blog') || currentPath.includes('/client-cases')
 ---
 
 <!doctype html>
