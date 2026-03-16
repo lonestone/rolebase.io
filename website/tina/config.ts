@@ -1,4 +1,4 @@
-import { Magicpen } from 'iconsax-react'
+import { PiMagicWand } from 'react-icons/pi'
 import { defineConfig } from 'tinacms'
 import ClaudeScreen from './claude-screen'
 
@@ -63,7 +63,7 @@ export default defineConfig({
       __type: 'screen',
       name: 'Claude AI',
       Component: ClaudeScreen,
-      Icon: Magicpen,
+      Icon: PiMagicWand,
       layout: 'fullscreen',
     })
     return cms

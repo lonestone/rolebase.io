@@ -19,7 +19,6 @@
     "@tinacms/cli": "^2.1.9",
     "astro": "^6.0.3",
     "iconsax-astro": "^0.0.2",
-    "iconsax-react": "^0.0.8",
     "tailwindcss": "^4.2.1",
     "tinacms": "^3.6.1"
   }
