@@ -4,6 +4,10 @@ title: "La plateforme qui simplifie la vie de vos équipes"
 import Section from '../../../components/Section.astro'
 import SplitSection from '../../../components/SplitSection.astro'
 import Button from '../../../components/Button.astro'
+import OfferCard from '../../../components/OfferCard.astro'
+import CheckItem from '../../../components/CheckItem.astro'
+import ProblemItem from '../../../components/ProblemItem.astro'
+import CtaBanner from '../../../components/CtaBanner.astro'
 import FaqItem from '../../../components/FaqItem.astro'
 import ClientLogos from '../../../components/ClientLogos.astro'
 import LoomVideo from '../../../components/LoomVideo.astro'
@@ -12,7 +16,6 @@ import icon from '../../../assets/images/icon.svg'
 import capterraBestValue from '../../../assets/images/capterra-best-value-2023.png'
 import capterraBestEaseOfUse from '../../../assets/images/capterra-best-ease-of-use-2023.png'
 import saCustomerSupport from '../../../assets/images/sa-customer-support-2023.png'
-import greenCheck from '../../../assets/images/green-check.svg'
 import calendarIcon from '../../../assets/images/calendar.svg'
 import reunioniteIcon from '../../../assets/images/reunionite.svg'
 import infoAccessIcon from '../../../assets/images/info-access.svg'
@@ -24,7 +27,7 @@ import teamImg from '../../../assets/images/LONESTONE-04-22-HD-29.jpg'
 {/* Hero */}
 <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
   <div class="flex-1">
-    <h1 class="text-4xl md:text-5xl font-bold leading-tight">Gouvernez et collaborez avec vos équipes</h1>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mt-0 mb-0">Gouvernez et collaborez avec vos équipes</h1>
     <p class="mt-6 text-lg text-text-secondary">La seule app open source pour organisations libérées.</p>
     <div class="mt-8">
       <Button href="https://rolebase.io/signup">Commencer gratuitement</Button>
@@ -53,83 +56,51 @@ import teamImg from '../../../assets/images/LONESTONE-04-22-HD-29.jpg'
 
 {/* Offres */}
 <Section class="text-center">
-  <p class="text-lg text-text-secondary">La plateforme qui vous aide à faire le premier pas vers le management horizontal</p>
-  <h2 class="text-3xl md:text-4xl font-bold mt-2">Explorez Rolebase<br/>en autonomie ou avec un accompagnement</h2>
+  <p class="text-lg text-text-secondary mb-0">La plateforme qui vous aide à faire le premier pas vers le management horizontal</p>
+  <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-0">Explorez Rolebase<br/>en autonomie ou avec un accompagnement</h2>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+    <OfferCard title="Autonomie" href="https://rolebase.io/signup" buttonLabel="Je m'inscris" icon={icon.src}>
+      <Fragment slot="description">Vous disposez de tous les outils pour créer votre propre système de gouvernance et inviter votre équipe en autonomie.</Fragment>
+      <CheckItem>Organigramme</CheckItem>
+      <CheckItem>Rôles</CheckItem>
+      <CheckItem>Réunions</CheckItem>
+      <CheckItem>Sujets</CheckItem>
+      <CheckItem>Tâches</CheckItem>
+    </OfferCard>
 
-    <div class="bg-white rounded-xl p-6 flex flex-col">
-      <img src={icon.src} alt="Rolebase" class="h-8 w-8" />
-      <h3 class="text-xl font-bold mt-4">Autonomie</h3>
-      <p class="text-text-secondary mt-2">Vous disposez de tous les outils pour créer votre propre système de gouvernance et inviter votre équipe en autonomie.</p>
-      <ul class="mt-6 space-y-2 flex-1">
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Organigramme</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Rôles</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Réunions</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Sujets</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Tâches</li>
-      </ul>
-      <Button href="https://rolebase.io/signup" block class="mt-6">Je m'inscris</Button>
-    </div>
+    <OfferCard title="Plateforme + Aide au démarrage" href={contactLink} buttonLabel="On discute" icon={icon.src}>
+      <Fragment slot="description">Notre équipe vous accompagne et vous autonomise dans la gestion de votre organisation avec Rolebase.</Fragment>
+      <CheckItem>Accès complet à la plateforme</CheckItem>
+      <CheckItem>Audit de votre organisation</CheckItem>
+      <CheckItem>Coaching de 2h</CheckItem>
+    </OfferCard>
 
-    <div class="bg-white rounded-xl p-6 flex flex-col">
-      <img src={icon.src} alt="Rolebase" class="h-8 w-8" />
-      <h3 class="text-xl font-bold mt-4">Plateforme + Aide au démarrage</h3>
-      <p class="text-text-secondary mt-2">Notre équipe vous accompagne et vous autonomise dans la gestion de votre organisation avec Rolebase.</p>
-      <ul class="mt-6 space-y-2 flex-1">
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Accès complet à la plateforme</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Audit de votre organisation</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Coaching de 2h</li>
-      </ul>
-      <Button href={contactLink} block class="mt-6">On discute</Button>
-    </div>
-
-    <div class="bg-white rounded-xl p-6 flex flex-col">
-      <img src={icon.src} alt="Rolebase" class="h-8 w-8" />
-      <h3 class="text-xl font-bold mt-4">Plateforme + Coaching</h3>
-      <p class="text-text-secondary mt-2">Nos coachs certifiés partenaires vous accompagnent durablement pour donner un nouveau souffle à votre organisation.</p>
-      <ul class="mt-6 space-y-2 flex-1">
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Accès complet à la plateforme</li>
-        <li class="flex items-center gap-2"><img src={greenCheck.src} alt="" class="h-5 w-5" /> Plan d'accompagnement personnalisé</li>
-      </ul>
-      <Button href={contactLink} block class="mt-6">On discute</Button>
-    </div>
-
+    <OfferCard title="Plateforme + Coaching" href={contactLink} buttonLabel="On discute" icon={icon.src}>
+      <Fragment slot="description">Nos coachs certifiés partenaires vous accompagnent durablement pour donner un nouveau souffle à votre organisation.</Fragment>
+      <CheckItem>Accès complet à la plateforme</CheckItem>
+      <CheckItem>Plan d'accompagnement personnalisé</CheckItem>
+    </OfferCard>
   </div>
 </Section>
 
 {/* Problématiques */}
 <Section class="bg-purple-100 rounded-2xl p-8 md:p-12">
-  <h2 class="text-3xl md:text-4xl font-bold text-center">Rolebase vous aide à résoudre des problématiques clés</h2>
+  <h2 class="text-3xl md:text-4xl font-bold text-center mt-0 mb-0">Rolebase vous aide à résoudre des problématiques clés</h2>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mt-12 text-center">
-    <div class="flex flex-col items-center gap-3">
-      <img src={calendarIcon.src} alt="Calendrier" class="h-16" />
-      <p>Vous avez du mal à vous y retrouver dans qui fait quoi au sein de l'entreprise</p>
-    </div>
-    <div class="flex flex-col items-center gap-3">
-      <img src={reunioniteIcon.src} alt="Réunions successives" class="h-16" />
-      <p>Les réunions s'enchainent et les équipes parlent de réunionite</p>
-    </div>
-    <div class="flex flex-col items-center gap-3">
-      <img src={infoAccessIcon.src} alt="Lenteur" class="h-16" />
-      <p>Les collaborateurs n'arrivent pas toujours à retrouver les infos clés ni à qui s'adresser</p>
-    </div>
-    <div class="flex flex-col items-center gap-3">
-      <img src={quietQuittingIcon.src} alt="Quiet Quitting" class="h-16" />
-      <p>Vous identifiez des signaux de Quiet Quitting</p>
-    </div>
-    <div class="flex flex-col items-center gap-3">
-      <img src={newMethodsIcon.src} alt="Nouvelles méthodes" class="h-16" />
-      <p>Vous rencontrez des difficultés à engager les collaborateurs sur de nouvelles méthodes</p>
-    </div>
+    <ProblemItem icon={calendarIcon.src} alt="Calendrier">Vous avez du mal à vous y retrouver dans qui fait quoi au sein de l'entreprise</ProblemItem>
+    <ProblemItem icon={reunioniteIcon.src} alt="Réunions successives">Les réunions s'enchainent et les équipes parlent de réunionite</ProblemItem>
+    <ProblemItem icon={infoAccessIcon.src} alt="Lenteur">Les collaborateurs n'arrivent pas toujours à retrouver les infos clés ni à qui s'adresser</ProblemItem>
+    <ProblemItem icon={quietQuittingIcon.src} alt="Quiet Quitting">Vous identifiez des signaux de Quiet Quitting</ProblemItem>
+    <ProblemItem icon={newMethodsIcon.src} alt="Nouvelles méthodes">Vous rencontrez des difficultés à engager les collaborateurs sur de nouvelles méthodes</ProblemItem>
   </div>
 </Section>
 
 {/* Boîte noire */}
 <SplitSection>
   <Fragment slot="left">
-    <h2 class="text-3xl md:text-4xl font-bold">La fin de l'effet "boîte noire"</h2>
+    <h2 class="text-3xl md:text-4xl font-bold mt-0 mb-0">La fin de l'effet "boîte noire"</h2>
     <p class="mt-6 text-lg">Souvent en entreprise on ne comprend pas bien quels sont les rôles et redevabilités de chacun.</p>
     <p class="mt-4 text-lg">Cet effet "boîte noire" freine la prise d'initiative des collaborateurs et les désengage.</p>
     <p class="mt-4 text-lg">Cet impact sur les contributions individuelles ralenti la génération de valeur au sein de l'entreprise !</p>
@@ -153,7 +124,7 @@ import teamImg from '../../../assets/images/LONESTONE-04-22-HD-29.jpg'
     />
   </Fragment>
   <Fragment slot="right">
-    <h2 class="text-3xl md:text-4xl font-bold">Apportez de la simplicité à vos équipes</h2>
+    <h2 class="text-3xl md:text-4xl font-bold mt-0 mb-0">Apportez de la simplicité à vos équipes</h2>
     <p class="mt-2 text-lg text-text-secondary italic">Libérez du temps à chacun pour se concentrer sur ses expertises</p>
     <p class="mt-6">Vos équipes ont besoin de visualiser clairement leur situation au sein de l'entreprise pour réussir à s'aligner.</p>
     <p class="mt-4">Leur temps passé en réunion doit être vecteur de création de savoir, d'alignement et de convivialité.</p>
@@ -172,7 +143,7 @@ import teamImg from '../../../assets/images/LONESTONE-04-22-HD-29.jpg'
 {/* FAQ */}
 <SplitSection align="start">
   <Fragment slot="left">
-    <h2 class="text-3xl md:text-4xl font-bold">FAQ</h2>
+    <h2 class="text-3xl md:text-4xl font-bold mt-0 mb-0">FAQ</h2>
     <p class="mt-2 text-lg text-text-secondary italic">Rolebase répond à vos questions</p>
     <p class="mt-6">Vous avez des questions sur Rolebase, son fonctionnement ou ses possibilités ? Voici les réponses les plus fréquentes. Si vous ne trouvez pas ce que vous cherchez, contactez-nous !</p>
   </Fragment>
@@ -255,16 +226,11 @@ Nous croyons qu'un bon outil doit faciliter la vie sans trop contraindre. Roleba
 </SplitSection>
 
 {/* CTA final */}
-<Section class="bg-yellow-100 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
-  <div class="flex-shrink-0">
-    <iframe style="border: none" width="250" height="200" src="https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed" allowfullscreen></iframe>
-  </div>
-  <div>
-    <h2 class="text-3xl md:text-4xl font-bold">Votre organisation le mérite bien</h2>
-    <p class="mt-4 text-text-secondary">C'est gratuit jusqu'à ce que vous soyez prêt(e) à embarquer toute votre équipe ! Testez vous-même en quelques minutes ou demandez une démo pour nous parler.</p>
-    <div class="flex flex-wrap gap-4 mt-6">
-      <Button href={contactLink} variant="outline">Demander une démo</Button>
-      <Button href="https://rolebase.io/signup" variant="orange">Tester en autonomie</Button>
-    </div>
-  </div>
+<Section class="bg-yellow-100 rounded-2xl p-8 md:p-12">
+  <CtaBanner riveUrl="https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed">
+    <Fragment slot="title">Votre organisation le mérite bien</Fragment>
+    <Fragment slot="description">C'est gratuit jusqu'à ce que vous soyez prêt(e) à embarquer toute votre équipe ! Testez vous-même en quelques minutes ou demandez une démo pour nous parler.</Fragment>
+    <Button href={contactLink} variant="outline">Demander une démo</Button>
+    <Button href="https://rolebase.io/signup" variant="orange">Tester en autonomie</Button>
+  </CtaBanner>
 </Section>

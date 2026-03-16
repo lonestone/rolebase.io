@@ -51,11 +51,12 @@ The website is built with Astro + MDX + Tailwind CSS with i18n support (English 
 
 - `src/content/` — Content collections (blog, client-cases, docs, guides, developers, api, pages)
 - `src/components/` — Astro display components (no content): `TopNav`, `Sidebar`, `GuidePage`, `ApiReference`, `DocPage`, `Callout`, `EntityFields`, `CodeBlock`
-- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `BlogLayout.astro` (blog post layout), `WebsiteLayout.astro` (full-width for homepage, blog index, terms; supports `prose` prop)
+- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `BlogLayout.astro` (blog post layout), `WebsiteLayout.astro` (full-width for homepage, blog index, terms)
 - `src/i18n.ts` — Translations, sidebar labels, locale utilities (`getSlugFromId`, `getLangFromId`, `getOtherLocaleHref`)
 - `src/pages/[lang]/` — Route templates using `[lang]` param for both locales. No separate `en/` and `fr/` directories.
 - `src/content.config.ts` — Content collection schemas
-- `src/styles/global.css` — Tailwind import, theme tokens, and `.prose` styles for markdown content
+- `src/styles/global.css` — Tailwind import, theme tokens, and markdown styles targeting `.md` class
+- `src/rehype-md-class.ts` — Rehype plugin that adds `md` class to all markdown-generated elements
 - `src/redirects.ts` — Static redirects (imported in `astro.config.mjs`)
 - `netlify.toml` — Build config and wildcard/language redirects
 
@@ -77,7 +78,7 @@ Collections defined in `src/content.config.ts`:
 - **guides** — Step-by-step guides. Frontmatter: `title`, `description`
 - **developers** — Technical/developer docs. Frontmatter: `title`, `description`
 - **api** — API reference pages. Frontmatter: `title`, `entity`, `description`
-- **pages** — Standalone pages (homepage, contact, terms). Frontmatter: `title`, `prose` (optional boolean to apply prose class via WebsiteLayout)
+- **pages** — Standalone pages (homepage, contact, terms, pricing, partners, legal, privacy). Frontmatter: `title`
 
 The `lang` is NOT stored in frontmatter. It is derived from the filename (`en.mdx` / `fr.mdx`) via the entry ID (e.g., `members/en`). Use `getSlugFromId(entry.id)` and `getLangFromId(entry.id)` from `src/i18n.ts`.
 
@@ -127,7 +128,7 @@ When modifying the product, update the documentation accordingly **in both EN an
 - When you remove an import, check if the file is still needed in the project. Delete it if not. Check imports of the deleted file.
 - When you remove or rename a page, add a redirect.
 - Static redirects are in `src/redirects.ts` (imported in `astro.config.mjs`). Wildcard/splat redirects are in `netlify.toml`.
-- Apply the `prose` class to any element containing a `<slot />` that receives Markdown/MDX content. Prose styles are defined in `global.css`.
+- Markdown styles target the `.md` class (defined in `global.css`), which is automatically added to all markdown-generated elements by the `rehype-md-class` plugin. Component markup is unaffected.
 
 ### Guidelines
 

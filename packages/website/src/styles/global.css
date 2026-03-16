@@ -50,55 +50,55 @@ body {
   @apply text-text-main leading-relaxed antialiased;
 }
 
-/* Markdown styles */
-.prose h1 {
+/* Markdown styles (applied to elements with .md class, added by rehype plugin) */
+h1.md {
   @apply mt-10 mb-5 text-4xl font-bold scroll-mt-24;
 }
-.prose h2 {
+h2.md {
   @apply mt-10 mb-4 text-3xl font-medium scroll-mt-24;
 }
-.prose h3 {
+h3.md {
   @apply mt-10 mb-3 text-2xl font-medium scroll-mt-24;
 }
-.prose h4 {
+h4.md {
   @apply mt-8 mb-3 text-xl font-medium scroll-mt-24;
 }
-.prose p {
+p.md {
   @apply mb-5 leading-relaxed;
 }
-.prose ul {
+ul.md {
   @apply mb-5 list-disc pl-6;
 }
-.prose ol {
+ol.md {
   @apply mb-5 list-decimal pl-6;
 }
-.prose li {
+li.md {
   @apply mb-1;
 }
-.prose code {
+code.md {
   @apply rounded bg-gray-100 px-1.5 py-0.5 text-sm;
 }
-.prose pre {
+pre.md {
   @apply mb-5 overflow-x-auto rounded-lg bg-gray-900 p-5 text-gray-200;
 }
-.prose pre code {
+pre.md code {
   @apply bg-transparent p-0;
 }
-.prose a {
+a.md {
   @apply text-primary underline underline-offset-2;
 }
-.prose blockquote {
+blockquote.md {
   @apply my-5 border-l-3 border-gray-600 bg-gray-50 p-4 text-lg italic text-gray-500;
 }
-.prose blockquote p:last-child {
+blockquote.md p:last-child {
   @apply mb-0;
 }
-.prose table {
+table.md {
   @apply my-8 w-full border-collapse text-sm;
 }
-.prose th {
+th.md {
   @apply border-b-2 border-gray-200 bg-gray-50 px-5 py-3 text-left text-base font-semibold;
 }
-.prose td {
+td.md {
   @apply border-b border-gray-100 px-5 py-3 text-base;
 }

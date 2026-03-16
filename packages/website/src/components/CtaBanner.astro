@@ -1,0 +1,24 @@
+---
+import Button from './Button.astro'
+
+interface Props {
+  riveUrl?: string
+}
+
+const { riveUrl } = Astro.props
+---
+
+<div class="flex flex-col md:flex-row items-center gap-8">
+  {riveUrl && (
+    <div class="flex-shrink-0">
+      <iframe style="border: none" width="250" height="200" src={riveUrl} allowfullscreen></iframe>
+    </div>
+  )}
+  <div>
+    <h2 class="text-xl md:text-2xl font-bold"><slot name="title" /></h2>
+    <p class="mt-4 text-text-secondary"><slot name="description" /></p>
+    <div class="flex flex-wrap gap-4 mt-6">
+      <slot />
+    </div>
+  </div>
+</div>

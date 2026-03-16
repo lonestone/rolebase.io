@@ -1,0 +1,24 @@
+---
+import Button from './Button.astro'
+
+interface Props {
+  title: string
+  href: string
+  buttonLabel: string
+  icon: string
+}
+
+const { title, href, buttonLabel, icon } = Astro.props
+---
+
+<div class="bg-white rounded-xl p-6 flex flex-col">
+  <img src={icon} alt="" class="h-8 w-8" />
+  <h3 class="text-xl font-bold mt-4 mb-0">{title}</h3>
+  <p class="text-text-secondary mt-2">
+    <slot name="description" />
+  </p>
+  <div class="mt-6 space-y-2 flex-1">
+    <slot />
+  </div>
+  <Button href={href} block class="mt-6">{buttonLabel}</Button>
+</div>

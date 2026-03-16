@@ -5,6 +5,7 @@ type Redirects = NonNullable<AstroUserConfig['redirects']>
 // Static redirections only, wildcards in netlify.toml
 export const redirects: Redirects = {
   '/demande-demo': '/fr/contact',
+  '/tarifs': '/fr/pricing',
 
   // Blog redirects: pre-2026 posts (FR old slugs)
   '/blog/10-bonnes-pratiques-pour-la-gouvernance-collaborative':

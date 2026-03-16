@@ -4,6 +4,7 @@ import netlify from '@astrojs/netlify'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { redirects } from './src/redirects'
+import rehypeMdClass from './src/rehype-md-class'
 
 export default defineConfig({
   vite: {
@@ -15,6 +16,9 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'file' },
   redirects,
+  markdown: {
+    rehypePlugins: [rehypeMdClass],
+  },
   integrations: [mdx(), sitemap()],
   i18n: {
     defaultLocale: 'en',

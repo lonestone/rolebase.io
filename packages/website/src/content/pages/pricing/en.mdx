@@ -1,0 +1,65 @@
+---
+title: "Pricing"
+---
+import Section from '../../../components/Section.astro'
+import PricingCard from '../../../components/PricingCard.astro'
+import CheckItem from '../../../components/CheckItem.astro'
+import CtaBanner from '../../../components/CtaBanner.astro'
+import Button from '../../../components/Button.astro'
+import ClientLogos from '../../../components/ClientLogos.astro'
+
+<h1 class="text-4xl md:text-5xl font-bold text-center mt-0">Clarify your organization with Rolebase today</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+  <PricingCard title="Small">
+    <Fragment slot="price"><span class="text-3xl font-bold">Free</span> forever</Fragment>
+    <Fragment slot="description">Ideal for testing and collaborating in a small team</Fragment>
+    <CheckItem>All features included</CheckItem>
+    <CheckItem>Unlimited inactive members for your org chart</CheckItem>
+    <CheckItem>5 active members</CheckItem>
+    <Button slot="cta" href="https://rolebase.io/signup" block>Join</Button>
+  </PricingCard>
+
+  <PricingCard title="Startup" featured>
+    <Fragment slot="price"><span class="text-3xl font-bold">€5</span> / month / user</Fragment>
+    <Fragment slot="description">Get your entire team on board</Fragment>
+    <CheckItem>All features included</CheckItem>
+    <CheckItem>Unlimited inactive members</CheckItem>
+    <CheckItem>Up to 200 active members</CheckItem>
+    <CheckItem>Priority support</CheckItem>
+    <Button slot="cta" href="https://rolebase.io/signup" variant="orange" block>Join</Button>
+  </PricingCard>
+
+  <PricingCard title="Enterprise">
+    <Fragment slot="price"><span class="text-3xl font-bold">Custom pricing</span></Fragment>
+    <Fragment slot="description">Request a demo and a quote tailored to your needs</Fragment>
+    <CheckItem>All features included</CheckItem>
+    <CheckItem>Unlimited members</CheckItem>
+    <CheckItem>Unlimited guest members</CheckItem>
+    <CheckItem>Priority support</CheckItem>
+    <CheckItem>Custom consulting</CheckItem>
+    <CheckItem>Custom integrations</CheckItem>
+    <Button slot="cta" href="/en/contact" variant="outline" block>Book a demo</Button>
+  </PricingCard>
+</div>
+
+<p class="text-center text-text-secondary mt-8">An active member is a member with access to all features.</p>
+
+<Section class="bg-purple-100 rounded-2xl p-8 md:p-12 text-center">
+  <h2 class="mt-0 mb-4">Are you a non-profit?</h2>
+  <p>Significant discounts or complete free access are available depending on your status. Contact us to learn more.</p>
+  <Button href="/en/contact" variant="primary">Contact us</Button>
+</Section>
+
+<Section fullWidth class="mt-16">
+  <ClientLogos />
+</Section>
+
+<Section class="bg-yellow-100 rounded-2xl p-8 md:p-12">
+  <CtaBanner riveUrl="https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed">
+    <Fragment slot="title">Your organization deserves it</Fragment>
+    <Fragment slot="description">Free until you're ready to bring your whole team on board! Try it yourself in minutes or book a demo to talk to us.</Fragment>
+    <Button href="/en/contact" variant="outline">Book a demo</Button>
+    <Button href="https://rolebase.io/signup" variant="orange">Try it yourself</Button>
+  </CtaBanner>
+</Section>

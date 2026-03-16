@@ -1,0 +1,29 @@
+---
+import Button from './Button.astro'
+
+interface Props {
+  title: string
+  featured?: boolean
+}
+
+const { title, featured = false } = Astro.props
+---
+
+<div class:list={[
+  "rounded-xl p-6 flex flex-col",
+  featured ? "bg-primary text-white ring-2 ring-primary" : "bg-white",
+]}>
+  <h3 class="text-xl font-bold mb-2 mt-0">{title}</h3>
+  <p class:list={["text-lg mb-6", featured ? "text-white/80" : "text-text-secondary"]}>
+    <slot name="price" />
+  </p>
+  <p class:list={["mb-6", featured ? "text-white/80" : "text-text-secondary"]}>
+    <slot name="description" />
+  </p>
+  <div class="space-y-2 flex-1">
+    <slot />
+  </div>
+  <div class="mt-6">
+    <slot name="cta" />
+  </div>
+</div>

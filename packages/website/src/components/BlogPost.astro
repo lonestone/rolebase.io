@@ -53,7 +53,7 @@ if (similarSlugs.length > 0) {
         </p>
       )}
     </header>
-    <div class="prose">
+    <div>
       <Content components={{ TellaVideo, LoomVideo, Youtube }} />
     </div>
 
@@ -65,7 +65,7 @@ if (similarSlugs.length > 0) {
   {similarPosts.length > 0 && (
     <section slot="after" class="mt-16 pt-10 border-t border-gray-100">
       <h2 class="text-2xl font-medium mb-8">{t.similarPosts}</h2>
-      <div class="not-prose grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {similarPosts.map((p) => (
           <BlogCard post={p} locale={locale} />
         ))}

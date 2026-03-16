@@ -25,7 +25,7 @@ const t = translations[locale]
 <script>
   const tpl = document.getElementById("inline-cta-tpl");
   if (tpl) {
-    const h2s = document.querySelectorAll(".prose h2");
+    const h2s = document.querySelectorAll("h2.md");
     if (h2s.length >= 2) {
       const start = h2s.length === 2 ? 1 : 2;
       for (let i = start; i < h2s.length; i += 3) {

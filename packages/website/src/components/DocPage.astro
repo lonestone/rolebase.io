@@ -16,7 +16,7 @@ const { title, section = 'docs', description } = Astro.props
       <h1 class="mt-0 text-4xl font-bold">{title}</h1>
       {description && <p class="text-lg text-text-secondary">{description}</p>}
     </header>
-    <div class="prose">
+    <div>
       <slot />
     </div>
   </article>

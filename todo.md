@@ -1,8 +1,12 @@
-arranger liens qui manquent d'espaces avant/après
+remove prose?
+crisp + lien support en footer
+page fonctionnalités
+sitemap -> redirects
+page tarifs
+pages alternatives (blog posts)
 
 # TODO
 
-- Ajouter pages partenaires : https://resiliences.co/ https://www.gokyp.fr/
 - Pages solutions : annuaire privé, communauté, animation de réseau
 - Améliorer le système de décisions : UX, notifs...
 - Thread : bouton pour s'ajouter à un thread quand on n'en fait pas partie et qu'on veut participer

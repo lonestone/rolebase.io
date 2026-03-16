@@ -18,7 +18,7 @@ export const translations = {
       other: 'Other',
     } as Record<string, string>,
     blog: 'Blog',
-    terms: 'Terms',
+    terms: 'Legal Notice',
     switchLang: '\uD83C\uDDEB\uD83C\uDDF7 FR',
     bookDemo: 'Book a demo',
     login: 'Log in / Sign up',
