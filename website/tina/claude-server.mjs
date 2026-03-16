@@ -1,7 +1,18 @@
 import { createServer } from 'node:http'
-import { spawn } from 'node:child_process'
+import { spawn, execSync } from 'node:child_process'
+
+// Resolve claude path at startup
+let claudePath
+try {
+  claudePath = execSync('which claude', { encoding: 'utf8' }).trim()
+  console.log(`Found claude at: ${claudePath}`)
+} catch {
+  console.error('claude CLI not found in PATH')
+  process.exit(1)
+}
 
 const PORT = 4002
+const PROMPT_PREFIX = 'In website: '
 
 const server = createServer((req, res) => {
   // CORS headers
@@ -40,12 +51,19 @@ const server = createServer((req, res) => {
         Connection: 'keep-alive',
       })
 
+      const fullPrompt = `${PROMPT_PREFIX}${prompt}`
+      console.log(`Spawning: ${claudePath} -p <prompt of ${fullPrompt.length} chars>`)
+
       const claude = spawn(
-        'claude',
-        ['--dangerously-skip-permissions', '-p', prompt],
+        claudePath,
+        [
+          '--dangerously-skip-permissions',
+          '--output-format', 'stream-json',
+          '--verbose',
+          '-p', fullPrompt,
+        ],
         {
           cwd: process.cwd(),
-          env: { ...process.env },
           stdio: ['ignore', 'pipe', 'pipe'],
         }
       )
@@ -54,18 +72,39 @@ const server = createServer((req, res) => {
         res.write(`data: ${JSON.stringify(data)}\n\n`)
       }
 
+      let jsonBuffer = ''
       claude.stdout.on('data', (chunk) => {
-        sendEvent({ text: chunk.toString() })
+        jsonBuffer += chunk.toString()
+        const lines = jsonBuffer.split('\n')
+        jsonBuffer = lines.pop() || ''
+        for (const line of lines) {
+          if (!line.trim()) continue
+          try {
+            const event = JSON.parse(line)
+            sendEvent(event)
+          } catch {
+            // ignore malformed lines
+          }
+        }
       })
 
       claude.stderr.on('data', (chunk) => {
-        sendEvent({ text: chunk.toString() })
+        sendEvent({ type: 'stderr', text: chunk.toString() })
       })
 
-      claude.on('close', (code) => {
-        sendEvent({
-          text: code === 0 ? '\n\n--- Done ---' : `\n\n--- Exited with code ${code} ---`,
-        })
+      let killed = false
+
+      claude.on('close', (code, signal) => {
+        if (killed) return
+        if (code === 0) {
+          sendEvent({ text: '\n\n--- Done ---' })
+        } else if (signal) {
+          sendEvent({ text: `\n\n--- Killed by signal ${signal} ---` })
+        } else {
+          sendEvent({
+            text: `\n\n--- Exited with code ${code}, signal ${signal} ---`,
+          })
+        }
         res.write('data: [DONE]\n\n')
         res.end()
       })
@@ -77,8 +116,11 @@ const server = createServer((req, res) => {
       })
 
       // Handle client disconnect
-      req.on('close', () => {
-        claude.kill('SIGTERM')
+      res.on('close', () => {
+        if (!res.writableFinished) {
+          killed = true
+          claude.kill('SIGTERM')
+        }
       })
     })
     return
