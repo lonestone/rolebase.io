@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tinacms dev -c \"astro dev\"",
+    "dev": "node tina/claude-server.mjs & tinacms dev -c \"astro dev\"",
     "dev:astro": "astro dev",
     "build": "tinacms build && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postinstall": "patch-package --patch-dir patches"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",
@@ -17,6 +18,7 @@
     "@tailwindcss/vite": "^4.2.1",
     "@tinacms/cli": "^2.1.9",
     "astro": "^6.0.3",
+    "iconsax-astro": "^0.0.2",
     "tailwindcss": "^4.2.1",
     "tinacms": "^3.6.1"
   }

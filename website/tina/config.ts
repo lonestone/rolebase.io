@@ -1,11 +1,17 @@
 import { defineConfig } from 'tinacms'
+import ClaudeScreen from './claude-screen'
 
 const videoTemplates = [
   {
     name: 'TellaVideo',
     label: 'Tella Video',
     fields: [
-      { name: 'videoId', label: 'Video ID', type: 'string' as const, required: true },
+      {
+        name: 'videoId',
+        label: 'Video ID',
+        type: 'string' as const,
+        required: true,
+      },
       { name: 'class', label: 'CSS Class', type: 'string' as const },
     ],
   },
@@ -13,7 +19,12 @@ const videoTemplates = [
     name: 'LoomVideo',
     label: 'Loom Video',
     fields: [
-      { name: 'loomId', label: 'Loom ID', type: 'string' as const, required: true },
+      {
+        name: 'loomId',
+        label: 'Loom ID',
+        type: 'string' as const,
+        required: true,
+      },
       { name: 'class', label: 'CSS Class', type: 'string' as const },
     ],
   },
@@ -21,7 +32,12 @@ const videoTemplates = [
     name: 'Youtube',
     label: 'YouTube Video',
     fields: [
-      { name: 'videoId', label: 'Video ID', type: 'string' as const, required: true },
+      {
+        name: 'videoId',
+        label: 'Video ID',
+        type: 'string' as const,
+        required: true,
+      },
       { name: 'class', label: 'CSS Class', type: 'string' as const },
     ],
   },
@@ -40,6 +56,16 @@ export default defineConfig({
       mediaRoot: 'images',
       publicFolder: 'public',
     },
+  },
+  cmsCallback: (cms) => {
+    cms.plugins.add({
+      __type: 'screen',
+      name: 'Claude AI',
+      Component: ClaudeScreen,
+      Icon: () => 'AI',
+      layout: 'fullscreen',
+    })
+    return cms
   },
   schema: {
     collections: [

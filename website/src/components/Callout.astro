@@ -1,0 +1,41 @@
+---
+import { InfoCircle, Warning2, LampOn } from 'iconsax-astro'
+
+interface Props {
+  type?: 'info' | 'warning' | 'tip'
+  title?: string
+}
+
+const { type = 'info', title } = Astro.props
+
+const styles = {
+  info: 'bg-callout-info border-l-[#74c0fc]',
+  warning: 'bg-callout-warning border-l-[#ffc078]',
+  tip: 'bg-callout-tip border-l-[#69db7c]',
+}
+
+const iconColors = {
+  info: '#74c0fc',
+  warning: '#ffc078',
+  tip: '#69db7c',
+}
+
+const icons = {
+  info: InfoCircle,
+  warning: Warning2,
+  tip: LampOn,
+}
+
+const Icon = icons[type]
+const iconColor = iconColors[type]
+---
+
+<div class:list={['p-4 border-l-4 rounded-r-lg my-4', styles[type]]}>
+  {title && (
+    <strong class="flex items-center gap-2 mb-1">
+      <Icon size="20" color={iconColor} />
+      {title}
+    </strong>
+  )}
+  <slot />
+</div>

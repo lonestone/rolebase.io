@@ -18,8 +18,8 @@
 
 ## Styling
 
-- **Webapp (packages/webapp)**: Use Chakra UI for styling. No raw CSS.
-- **Website (packages/website)**: Use Tailwind CSS utility classes. No custom CSS, except for `global.css` and when Tailwind is not enough. Tailwind is scoped to this package only.
+- **Webapp (packages/webapp folder)**: Use Chakra UI for styling. No raw CSS.
+- **Website (website folder)**: Use Tailwind CSS utility classes. No custom CSS, except for `global.css` and when Tailwind is not enough. Tailwind is scoped to this package only.
 
 ## Webapp
 
@@ -43,7 +43,7 @@ Always scaffold files like this in a packages/webapp/src/features/{feature} fold
 - Import tRPC from "src/trpc"
 - Always update translations in json files when adding or removing a translation.
 
-## Website (packages/website)
+## Website
 
 The website is built with Astro + MDX + Tailwind CSS with i18n support (English and French).
 

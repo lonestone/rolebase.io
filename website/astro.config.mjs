@@ -11,7 +11,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   site: 'https://rolebase.io',
-  adapter: netlify({ imageCDN: true }),
+  adapter: netlify({ imageCDN: true, edgeMiddleware: false }),
   output: 'static',
   trailingSlash: 'never',
   build: { format: 'file' },
