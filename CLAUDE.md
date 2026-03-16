@@ -137,6 +137,7 @@ When modifying the product, update the documentation accordingly **in both EN an
 - Sidebar links for documentation and guides are defined in `src/i18n.ts` (`docsLinks` and `guidesLinks`).
 - Always verify in the webapp code (`packages/webapp`) how a feature actually works before describing it in documentation. Check components, modals, pages, and translations to describe the exact user flow.
 - All user-facing text in Astro components must use translations from `src/i18n.ts`. No hardcoded strings or inline ternaries for EN/FR.
+- Avoid putting non-generic texts in reusable components (`src/components/`). All content specific to pages belongs in MDX files or in Astro components in `src/pages/`.
 - All content is in MDX files in content collections, not in Astro components or pages.
 - In MDX pages, write content directly using component calls (no JSON arrays or JS logic). Data lives in the markup, not in frontmatter variables or script blocks.
 - Use `<Callout type="info|warning|tip">` for callouts.
