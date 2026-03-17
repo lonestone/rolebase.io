@@ -36,6 +36,17 @@ import {
   ChangeCodeMirrorLanguage,
 } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
+import { graphqlLanguageSupport } from 'cm6-graphql'
+import { languages } from '@codemirror/language-data'
+
+// Build codeBlockLanguages from @codemirror/language-data (all names + aliases)
+const codeBlockLanguages: Record<string, string> = { '': 'Plain text', graphql: 'GraphQL' }
+for (const lang of languages) {
+  codeBlockLanguages[lang.name.toLowerCase()] = lang.name
+  for (const alias of lang.alias) {
+    codeBlockLanguages[alias] = lang.name
+  }
+}
 
 // Known props for common components
 const knownProps: Record<string, JsxComponentDescriptor['props']> = {
@@ -210,6 +221,7 @@ export function Editor({ filePath, onSave }: Props) {
           key={filePath}
           markdown={originalContent}
           onChange={handleChange}
+          contentEditableClassName="mdxeditor-rich-text"
           plugins={[
             headingsPlugin(),
             listsPlugin(),
@@ -223,20 +235,8 @@ export function Editor({ filePath, onSave }: Props) {
             markdownShortcutPlugin(),
             codeBlockPlugin({ defaultCodeBlockLanguage: '' }),
             codeMirrorPlugin({
-              codeBlockLanguages: {
-                '': 'Plain text',
-                js: 'JavaScript',
-                ts: 'TypeScript',
-                tsx: 'TSX',
-                jsx: 'JSX',
-                css: 'CSS',
-                html: 'HTML',
-                json: 'JSON',
-                bash: 'Bash',
-                graphql: 'GraphQL',
-                yaml: 'YAML',
-                mdx: 'MDX',
-              },
+              codeBlockLanguages,
+              codeMirrorExtensions: [graphqlLanguageSupport()],
             }),
             jsxPlugin({ jsxComponentDescriptors: jsxDescriptors }),
             diffSourcePlugin({

@@ -22,6 +22,7 @@
     "@mdxeditor/editor": "^3.52.4",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.3",
+    "cm6-graphql": "^0.2.1",
     "hono": "^4.12.8",
     "iconsax-astro": "^0.0.2",
     "react": "^19.2.4",
