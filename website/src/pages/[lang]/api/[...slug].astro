@@ -1,7 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content'
-import ApiReference from '../../../components/ApiReference.astro'
-import DocPage from '../../../components/DocPage.astro'
+import ApiReference from '../../../layouts/ApiReference.astro'
+import DocPage from '../../../layouts/DocPage.astro'
+import { mdxComponents } from '../../../components'
 import type { Locale } from '../../../i18n'
 
 export async function getStaticPaths() {
@@ -27,10 +28,10 @@ const isEntityPage = !!entry.data.entity
 
 {isEntityPage ? (
   <ApiReference title={entry.data.title} entity={entry.data.entity!} description={entry.data.description}>
-    <Content />
+    <Content components={mdxComponents} />
   </ApiReference>
 ) : (
   <DocPage title={entry.data.title} section="api" description={entry.data.description}>
-    <Content />
+    <Content components={mdxComponents} />
   </DocPage>
 )}

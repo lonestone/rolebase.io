@@ -50,8 +50,8 @@ The website is built with Astro + MDX + Tailwind CSS with i18n support (English 
 ### Structure
 
 - `src/content/` — Content collections (blog, client-cases, docs, guides, developers, api, pages)
-- `src/components/` — Astro display components (no content): `TopNav`, `Sidebar`, `GuidePage`, `ApiReference`, `DocPage`, `Callout`, `EntityFields`, `CodeBlock`
-- `src/layouts/` — `BaseLayout.astro` (HTML shell with TopNav), `DocsLayout.astro` (sidebar + content for docs pages), `BlogLayout.astro` (blog post layout), `WebsiteLayout.astro` (full-width for homepage, blog index, terms)
+- `src/components/` — Astro display components. All `.astro` components in this folder (recursively) are auto-discovered and available in all MDX content (no import needed).
+- `src/layouts/` — Page layout wrappers (base layouts and content-type-specific wrappers used by page templates)
 - `src/i18n.ts` — Translations, sidebar labels, locale utilities (`getSlugFromId`, `getLangFromId`, `getOtherLocaleHref`)
 - `src/pages/[lang]/` — Route templates using `[lang]` param for both locales. No separate `en/` and `fr/` directories.
 - `src/content.config.ts` — Content collection schemas
@@ -133,6 +133,7 @@ When modifying the product, update the documentation accordingly **in both EN an
 ### Guidelines
 
 - Always use the `<Button>` component (`src/components/Button.astro`) for buttons and call-to-action links. Available variants: `yellow`, `orange`, `primary`, `outline-primary`, `outline`. Sizes: `sm`, `md`.
+- All `.astro` components in `src/components/` (recursively) are automatically available in all MDX content. Do not add import statements for these components in MDX files. To add a new MDX component, place it in `src/components/` and it will be auto-discovered.
 - Documentation and guides are written for non-technical users. Keep developer/technical content (API, GraphQL, self-hosting, code) in the Developers section.
 - Sidebar links for documentation and guides are defined in `src/i18n.ts` (`docsLinks` and `guidesLinks`).
 - Always verify in the webapp code (`packages/webapp`) how a feature actually works before describing it in documentation. Check components, modals, pages, and translations to describe the exact user flow.

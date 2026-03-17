@@ -4,9 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node tina/claude-server.mjs & tinacms dev -c \"astro dev\"",
+    "dev": "astro dev & tsx cms/server.ts",
     "dev:astro": "astro dev",
-    "build": "tinacms build && astro build",
+    "dev:cms": "npx vite dev --config cms/frontend/vite.config.ts",
+    "build": "astro build",
+    "build:cms": "vite build --config cms/frontend/vite.config.ts",
+    "cms": "tsx cms/server.ts",
     "preview": "astro preview",
     "astro": "astro",
     "postinstall": "patch-package --patch-dir patches"
@@ -15,11 +18,22 @@
     "@astrojs/mdx": "^5.0.0",
     "@astrojs/netlify": "^7.0.1",
     "@astrojs/sitemap": "^3.7.1",
+    "@hono/node-server": "^1.19.11",
+    "@mdxeditor/editor": "^3.52.4",
     "@tailwindcss/vite": "^4.2.1",
-    "@tinacms/cli": "^2.1.9",
     "astro": "^6.0.3",
+    "hono": "^4.12.8",
     "iconsax-astro": "^0.0.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.1",
-    "tinacms": "^3.6.1"
+    "tsx": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/prismjs": "^1.26.6",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^7.3.1"
   }
 }

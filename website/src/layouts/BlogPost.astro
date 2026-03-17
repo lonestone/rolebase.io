@@ -1,13 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import { getCollection, render } from 'astro:content'
-import BlogLayout from '../layouts/BlogLayout.astro'
-import BlogSidebar from './BlogSidebar.astro'
-import BlogCard from './BlogCard.astro'
-import InlineCta from './InlineCta.astro'
-import TellaVideo from './TellaVideo.astro'
-import LoomVideo from './LoomVideo.astro'
-import Youtube from './Youtube.astro'
+import BlogLayout from './BlogLayout.astro'
+import BlogSidebar from '../components/BlogSidebar.astro'
+import BlogCard from '../components/BlogCard.astro'
+import InlineCta from '../components/InlineCta.astro'
+import { mdxComponents } from '../components'
 import { type Locale, translations, getSlugFromId } from '../i18n'
 
 interface Props {
@@ -54,7 +52,7 @@ if (similarSlugs.length > 0) {
       )}
     </header>
     <div>
-      <Content components={{ TellaVideo, LoomVideo, Youtube }} />
+      <Content components={mdxComponents} />
     </div>
 
   </article>

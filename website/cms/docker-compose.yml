@@ -1,0 +1,20 @@
+services:
+  cms:
+    build:
+      context: ..
+      dockerfile: cms/Dockerfile
+    ports:
+      - "4001:4001"
+      - "4321:4321"
+    environment:
+      - CMS_PORT=4001
+      - CMS_PASSWORD=${CMS_PASSWORD}
+      - GIT_PAT=${GIT_PAT}
+      - GIT_REPO_URL=${GIT_REPO_URL}
+      - GIT_BRANCH=${GIT_BRANCH:-main}
+    volumes:
+      - claude-auth:/root/.claude
+    restart: unless-stopped
+
+volumes:
+  claude-auth:
