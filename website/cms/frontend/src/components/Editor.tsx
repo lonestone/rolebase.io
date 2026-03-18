@@ -83,8 +83,8 @@ export function Editor({ filePath, onSave }: Props) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [jsxDescriptors, setJsxDescriptors] = useState<
-    JsxComponentDescriptor[]
-  >([])
+    JsxComponentDescriptor[] | undefined
+  >()
   const [componentMeta, setComponentMeta] = useState<
     Record<string, ComponentDescriptor>
   >({})
@@ -135,7 +135,7 @@ export function Editor({ filePath, onSave }: Props) {
     contentRef.current = markdown
   }, [])
 
-  if (loading) {
+  if (loading || !jsxDescriptors) {
     return (
       <div style={{ padding: 20, color: 'var(--text-muted)' }}>Loading...</div>
     )
