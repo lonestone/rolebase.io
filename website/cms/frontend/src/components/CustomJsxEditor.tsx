@@ -1,14 +1,14 @@
-import React, {
-  createContext,
-  useContext,
-  useMemo,
-  useCallback,
-} from 'react'
+import React, { createContext, useContext, useMemo, useCallback } from 'react'
 import {
   type JsxEditorProps,
   useMdastNodeUpdater,
+  useLexicalNodeRemove,
+  useNestedEditorContext,
   NestedLexicalEditor,
+  iconComponentFor$,
 } from '@mdxeditor/editor'
+import { useCellValue } from '@mdxeditor/gurx'
+import { $getNodeByKey } from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
 import { inputStyle, labelStyle, PropInput } from './PropInput.js'
 
@@ -71,7 +71,9 @@ function serializeJsArray(rows: Record<string, string>[]): string {
   const items = rows.map((row) => {
     const fields = Object.entries(row)
       .filter(([, v]) => v !== '')
-      .map(([k, v]) => `${k}: "${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`)
+      .map(
+        ([k, v]) => `${k}: "${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`
+      )
       .join(', ')
     return `  { ${fields} }`
   })
@@ -206,11 +208,39 @@ function JsonTableEditor({ value, schema, onChange }: JsonTableEditorProps) {
 // CustomJsxEditor
 // ---------------------------------------------------------------------------
 
+const actionButtonStyle: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  color: '#999',
+  fontSize: 13,
+  lineHeight: 1,
+  padding: 2,
+  borderRadius: 3,
+}
+
 export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const updateMdastNode = useMdastNodeUpdater()
+  const removeNode = useLexicalNodeRemove()
+  const { parentEditor, lexicalNode } = useNestedEditorContext()
+  const iconComponentFor = useCellValue(iconComponentFor$)
   const meta = useContext(ComponentMetaContext)
   const filePath = useContext(FilePathContext)
   const componentMeta = mdastNode.name ? meta[mdastNode.name] : undefined
+
+  const handleDuplicate = useCallback(() => {
+    parentEditor.update(() => {
+      const node = $getNodeByKey(lexicalNode.getKey())
+      if (!node) return
+      const serialized = node.exportJSON()
+      const clone = (node.constructor as any).importJSON(serialized)
+      node.insertAfter(clone)
+    })
+  }, [parentEditor, lexicalNode])
+
+  const handleDelete = useCallback(() => {
+    removeNode()
+  }, [removeNode])
 
   const properties = useMemo(
     () =>
@@ -282,10 +312,11 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
       style={{
         border: '1px solid #e0e0e0',
         borderRadius: 4,
+        margin: '4px 0',
         ...(isInline ? { display: 'inline-block' } : {}),
       }}
     >
-      {/* Header: component name */}
+      {/* Header: component name + actions */}
       <div
         style={{
           display: 'flex',
@@ -305,9 +336,49 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           fontFamily: 'monospace',
         }}
       >
-        <span style={{ fontWeight: 600, color: '#555', userSelect: 'none' }}>
-          {componentName}
-        </span>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span style={{ fontWeight: 600, color: '#555', userSelect: 'none' }}>
+            {componentName}
+          </span>
+          <span style={{ display: 'flex', gap: 2 }}>
+            <button
+              onClick={handleDuplicate}
+              title="Duplicate"
+              aria-label="Duplicate component"
+              tabIndex={0}
+              style={actionButtonStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#333'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#999'
+              }}
+            >
+              {iconComponentFor('content_copy')}
+            </button>
+            <button
+              onClick={handleDelete}
+              title="Delete"
+              aria-label="Delete component"
+              tabIndex={0}
+              style={actionButtonStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#e53e3e'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#999'
+              }}
+            >
+              {iconComponentFor('delete_small')}
+            </button>
+          </span>
+        </div>
 
         {simpleProps.map(({ name, rich }) => {
           const value = properties[name] ?? ''

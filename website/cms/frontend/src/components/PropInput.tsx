@@ -23,7 +23,7 @@ export const labelStyle: React.CSSProperties = {
 }
 
 const labelTextStyle: React.CSSProperties = {
-  minWidth: 80,
+  minWidth: 100,
   flexShrink: 0,
   paddingTop: 3,
 }
@@ -137,7 +137,6 @@ function StringArrayInput({
   items: string[]
   onChangeItems: (items: string[]) => void
 }) {
-
   return (
     <div style={labelStyle}>
       <span style={labelTextStyle}>{formatLabel(name)}</span>

@@ -152,6 +152,22 @@ componentsRoutes.get('/', async (c) => {
   }
 
   await scan(COMPONENTS_DIR)
+
+  // Fragment is used by Astro for named slots (<Fragment slot="...">)
+  components.push({
+    name: 'Fragment',
+    props: [{ name: 'slot', type: 'string' }],
+    hasChildren: true,
+  })
+
+  // Wildcard descriptor: catch-all for HTML tags (img, section, div, etc.)
+  // and any other unknown components used in MDX content
+  components.push({
+    name: '*',
+    props: [],
+    hasChildren: true,
+  })
+
   components.sort((a, b) => a.name.localeCompare(b.name))
   return c.json(components)
 })

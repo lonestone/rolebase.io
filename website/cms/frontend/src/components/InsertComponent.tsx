@@ -5,6 +5,7 @@ import {
   ButtonOrDropdownButton,
 } from '@mdxeditor/editor'
 import { ComponentMetaContext } from './CustomJsxEditor.js'
+import React from 'react'
 
 // Inline (text) components vs block (flow)
 const inlineComponents = new Set(['Button'])
@@ -16,8 +17,9 @@ export function InsertComponent() {
   const items = useMemo(
     () =>
       Object.values(componentMeta)
+        .filter((c) => c.name !== '*')
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map((c) => ({ value: c.name, label: `<${c.name} />` })),
+        .map((c) => ({ value: c.name, label: c.name })),
     [componentMeta]
   )
 
@@ -50,7 +52,7 @@ export function InsertComponent() {
       }}
       items={items}
     >
-      {'</>'}
+      Component
     </ButtonOrDropdownButton>
   )
 }
