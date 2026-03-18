@@ -11,6 +11,8 @@ import FrontmatterEditor, {
   extractRawFrontmatter,
   parseFrontmatterYaml,
   combineFrontmatterAndBody,
+  extractEsmLines,
+  combineEsmAndContent,
 } from './FrontmatterEditor.js'
 
 interface Props {
@@ -32,6 +34,9 @@ export function Editor({ filePath }: Props) {
   const editorRef = useRef<MDXEditorMethods>(null)
   const bodyRef = useRef('')
   const frontmatterRef = useRef<FrontmatterData>({})
+  // ESM (import/export) lines are stripped before passing to MDXEditor
+  // and re-prepended on save, since MDXEditor does not preserve them
+  const esmRef = useRef('')
 
   // Schema comes from the backend (parsed from content.config.ts)
   const schema = fileData?.frontmatterSchema
@@ -41,14 +46,16 @@ export function Editor({ filePath }: Props) {
     if (fileData !== undefined) {
       const rawYaml = extractRawFrontmatter(fileData.content)
       const fm = rawYaml ? parseFrontmatterYaml(rawYaml) : {}
-      const b = extractBody(fileData.content)
+      const rawBody = extractBody(fileData.content)
+      const { esm, content } = extractEsmLines(rawBody)
 
       setFrontmatter(fm)
       setOriginalFrontmatter(fm)
       frontmatterRef.current = fm
-      setBody(b)
-      setOriginalBody(b)
-      bodyRef.current = b
+      esmRef.current = esm
+      setBody(content)
+      setOriginalBody(content)
+      bodyRef.current = content
       setReady(true)
     }
   }, [fileData])
@@ -58,9 +65,10 @@ export function Editor({ filePath }: Props) {
     JSON.stringify(frontmatter) !== JSON.stringify(originalFrontmatter)
 
   const handleSave = useCallback(async () => {
+    const fullBody = combineEsmAndContent(esmRef.current, bodyRef.current)
     const combined = combineFrontmatterAndBody(
       frontmatterRef.current,
-      bodyRef.current
+      fullBody
     )
     await saveFile.mutateAsync({ path: filePath, content: combined })
     setOriginalBody(bodyRef.current)
@@ -71,13 +79,15 @@ export function Editor({ filePath }: Props) {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
         e.preventDefault()
+        const currentFullBody = combineEsmAndContent(esmRef.current, bodyRef.current)
+        const originalFullBody = combineEsmAndContent(esmRef.current, originalBody)
         const currentCombined = combineFrontmatterAndBody(
           frontmatterRef.current,
-          bodyRef.current
+          currentFullBody
         )
         const originalCombined = combineFrontmatterAndBody(
           originalFrontmatter,
-          originalBody
+          originalFullBody
         )
         if (currentCombined !== originalCombined) handleSave()
       }

@@ -22,6 +22,35 @@ export function extractBody(content: string): string {
   return content.replace(FRONTMATTER_RE, '').replace(/^\r?\n/, '')
 }
 
+const ESM_LINE_RE = /^(import\s|export\s)/
+
+/** Extract import/export lines from body (MDXEditor does not preserve them) */
+export function extractEsmLines(body: string): {
+  esm: string
+  content: string
+} {
+  const lines = body.split('\n')
+  const esmLines: string[] = []
+  const contentLines: string[] = []
+  for (const line of lines) {
+    if (ESM_LINE_RE.test(line)) {
+      esmLines.push(line)
+    } else {
+      contentLines.push(line)
+    }
+  }
+  return {
+    esm: esmLines.join('\n'),
+    content: contentLines.join('\n').replace(/^\n+/, ''),
+  }
+}
+
+/** Re-combine ESM lines with editor body */
+export function combineEsmAndContent(esm: string, content: string): string {
+  if (!esm) return content
+  return esm + '\n\n' + content
+}
+
 /** Parse YAML frontmatter string into data */
 export function parseFrontmatterYaml(yaml: string): FrontmatterData {
   const result = YAML.parse(yaml)
