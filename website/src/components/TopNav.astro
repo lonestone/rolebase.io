@@ -23,7 +23,7 @@ const { staticHeader = false } = Astro.props
     <NavLink path="/blog">{t.blog}</NavLink>
   </Fragment>
   <Fragment slot="right">
-    <Button href={lp('/contact')} variant="outline-primary" size="sm">{t.bookDemo}</Button>
-    <Button href="https://rolebase.io/login" variant="primary" size="sm">{t.login}</Button>
+    <Button href={lp('/contact')} variant="outline-primary" size="sm" label={t.bookDemo} />
+    <Button href="https://rolebase.io/login" variant="primary" size="sm" label={t.login} />
   </Fragment>
 </TopNavShell>

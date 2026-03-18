@@ -11,7 +11,7 @@ title: "Tarifs"
     <CheckItem>Toutes les fonctionnalités</CheckItem>
     <CheckItem>Membres inactifs illimités pour votre organigramme</CheckItem>
     <CheckItem>5 membres actifs</CheckItem>
-    <Button slot="cta" href="https://rolebase.io/signup" block>Rejoindre</Button>
+    <Button slot="cta" href="https://rolebase.io/signup" class="block w-full text-center" label="Rejoindre" />
   </PricingCard>
 
   <PricingCard title="Startup" featured>
@@ -21,7 +21,7 @@ title: "Tarifs"
     <CheckItem>Membres inactifs illimités</CheckItem>
     <CheckItem>Jusqu'à 200 membres actifs</CheckItem>
     <CheckItem>Support prioritaire</CheckItem>
-    <Button slot="cta" href="https://rolebase.io/signup" variant="orange" block>Rejoindre</Button>
+    <Button slot="cta" href="https://rolebase.io/signup" variant="orange" class="block w-full text-center" label="Rejoindre" />
   </PricingCard>
 
   <PricingCard title="Entreprise">
@@ -33,7 +33,7 @@ title: "Tarifs"
     <CheckItem>Support prioritaire</CheckItem>
     <CheckItem>Conseil personnalisé</CheckItem>
     <CheckItem>Intégrations sur mesure</CheckItem>
-    <Button slot="cta" href="/fr/contact" variant="outline" block>Demander une démo</Button>
+    <Button slot="cta" href="/fr/contact" variant="outline" class="block w-full text-center" label="Demander une démo" />
   </PricingCard>
 </div>
 
@@ -44,7 +44,7 @@ title: "Tarifs"
 
   Des réductions importantes ou la gratuité totale sont proposées en fonction de votre statut. Contactez-nous pour en savoir plus.
 
-  <Button href="/fr/contact" variant="primary">Contactez-nous</Button>
+  <Button href="/fr/contact" variant="primary" label="Contactez-nous" />
 </Section>
 
 <Section fullWidth class="mt-16">
@@ -52,10 +52,7 @@ title: "Tarifs"
 </Section>
 
 <Section class="bg-yellow-100 rounded-2xl p-8 md:p-12">
-  <CtaBanner riveUrl="https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed">
-    <Fragment slot="title">Votre organisation le mérite bien</Fragment>
-    <Fragment slot="description">C'est gratuit jusqu'à ce que vous soyez prêt(e) à embarquer toute votre équipe ! Testez vous-même en quelques minutes ou demandez une démo pour nous parler.</Fragment>
-    <Button href="/fr/contact" variant="outline">Demander une démo</Button>
-    <Button href="https://rolebase.io/signup" variant="orange">Tester en autonomie</Button>
+  <CtaBanner title="Votre organisation le mérite bien" primaryLabel="Demander une démo" primaryHref="/fr/contact" secondaryLabel="Tester en autonomie" secondaryHref="https://rolebase.io/signup">
+    C'est gratuit jusqu'à ce que vous soyez prêt(e) à embarquer toute votre équipe ! Testez vous-même en quelques minutes ou demandez une démo pour nous parler.
   </CtaBanner>
 </Section>

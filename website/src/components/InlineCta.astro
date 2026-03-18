@@ -15,9 +15,7 @@ const t = translations[locale]
       <p class="mb-6 leading-relaxed md:pr-30">
         {t.ctaDescription}
       </p>
-      <Button href={`/${locale}/contact`} variant="orange">
-        {t.ctaButton}
-      </Button>
+      <Button href={`/${locale}/contact`} variant="orange" label={t.ctaButton} />
     </div>
   </div>
 </div>

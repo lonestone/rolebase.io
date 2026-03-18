@@ -1,23 +1,23 @@
 ---
 interface Props {
   class?: string
-  reverse?: boolean
   align?: 'center' | 'start'
 }
 
-const { class: className, reverse = false, align = 'center' } = Astro.props
+const { class: className, align = 'center' } = Astro.props
+
+const slotClass = "flex-1 [&_h2.md]:text-3xl [&_h2.md]:md:text-4xl [&_h2.md]:font-bold [&_h2.md]:mt-0 [&_h2.md]:mb-0 [&_p.md]:mb-0 [&_p.md]:mt-4 [&_h2.md+p.md]:mt-6 [&_p.md]:text-lg [&_img]:rounded-full [&_img]:w-full [&_img]:max-w-md [&_img]:mx-auto [&_img]:aspect-square [&_img]:object-cover"
 ---
 
 <section class:list={[
   "mt-24 flex flex-col md:flex-row gap-12",
   align === 'start' ? 'md:items-start' : 'items-center',
-  reverse && "md:flex-row-reverse",
   className,
 ]}>
-  <div class="flex-1">
+  <div class={slotClass}>
     <slot name="left" />
   </div>
-  <div class="flex-1">
+  <div class={slotClass}>
     <slot name="right" />
   </div>
 </section>

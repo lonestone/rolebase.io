@@ -71,9 +71,7 @@ const t = translations[locale]
       <a href={`/${locale}`} class="underline">{t.sidebarDiscover}</a>
     </p>
     <div class="text-center">
-      <Button href={`/${locale}/contact`} variant="orange" class="mt-4">
-        {t.ctaButton}
-      </Button>
+      <Button href={`/${locale}/contact`} variant="orange" class="mt-4" label={t.ctaButton} />
     </div>
   </div>
 </div>

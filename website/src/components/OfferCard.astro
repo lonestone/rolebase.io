@@ -11,14 +11,11 @@ interface Props {
 const { title, href, buttonLabel, icon } = Astro.props
 ---
 
-<div class="bg-white rounded-xl p-6 flex flex-col">
+<div class="bg-white rounded-xl p-6 flex flex-col [&_p.md]:text-text-secondary [&_p.md]:mt-2 [&_p.md]:mb-6">
   <img src={icon} alt="" class="h-8 w-8" />
   <h3 class="text-xl font-bold mt-4 mb-0">{title}</h3>
-  <p class="text-text-secondary mt-2">
-    <slot name="description" />
-  </p>
-  <div class="mt-6 space-y-2 flex-1">
+  <div class="flex-1 space-y-2">
     <slot />
   </div>
-  <Button href={href} block class="mt-6">{buttonLabel}</Button>
+  <Button href={href} class="mt-6 block w-full text-center" label={buttonLabel} />
 </div>

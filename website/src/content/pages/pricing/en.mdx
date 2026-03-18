@@ -11,7 +11,7 @@ title: "Pricing"
     <CheckItem>All features included</CheckItem>
     <CheckItem>Unlimited inactive members for your org chart</CheckItem>
     <CheckItem>5 active members</CheckItem>
-    <Button slot="cta" href="https://rolebase.io/signup" block>Join</Button>
+    <Button slot="cta" href="https://rolebase.io/signup" class="block w-full text-center" label="Join" />
   </PricingCard>
 
   <PricingCard title="Startup" featured>
@@ -21,7 +21,7 @@ title: "Pricing"
     <CheckItem>Unlimited inactive members</CheckItem>
     <CheckItem>Up to 200 active members</CheckItem>
     <CheckItem>Priority support</CheckItem>
-    <Button slot="cta" href="https://rolebase.io/signup" variant="orange" block>Join</Button>
+    <Button slot="cta" href="https://rolebase.io/signup" variant="orange" class="block w-full text-center" label="Join" />
   </PricingCard>
 
   <PricingCard title="Enterprise">
@@ -33,7 +33,7 @@ title: "Pricing"
     <CheckItem>Priority support</CheckItem>
     <CheckItem>Custom consulting</CheckItem>
     <CheckItem>Custom integrations</CheckItem>
-    <Button slot="cta" href="/en/contact" variant="outline" block>Book a demo</Button>
+    <Button slot="cta" href="/en/contact" variant="outline" class="block w-full text-center" label="Book a demo" />
   </PricingCard>
 </div>
 
@@ -42,7 +42,7 @@ title: "Pricing"
 <Section class="bg-purple-100 rounded-2xl p-8 md:p-12 text-center">
   <h2 class="mt-0 mb-4">Are you a non-profit?</h2>
   <p>Significant discounts or complete free access are available depending on your status. Contact us to learn more.</p>
-  <Button href="/en/contact" variant="primary">Contact us</Button>
+  <Button href="/en/contact" variant="primary" label="Contact us" />
 </Section>
 
 <Section fullWidth class="mt-16">
@@ -50,10 +50,7 @@ title: "Pricing"
 </Section>
 
 <Section class="bg-yellow-100 rounded-2xl p-8 md:p-12">
-  <CtaBanner riveUrl="https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed">
-    <Fragment slot="title">Your organization deserves it</Fragment>
-    <Fragment slot="description">Free until you're ready to bring your whole team on board! Try it yourself in minutes or book a demo to talk to us.</Fragment>
-    <Button href="/en/contact" variant="outline">Book a demo</Button>
-    <Button href="https://rolebase.io/signup" variant="orange">Try it yourself</Button>
+  <CtaBanner title="Your organization deserves it" primaryLabel="Book a demo" primaryHref="/en/contact" secondaryLabel="Try it yourself" secondaryHref="https://rolebase.io/signup">
+    Free until you're ready to bring your whole team on board! Try it yourself in minutes or book a demo to talk to us.
   </CtaBanner>
 </Section>

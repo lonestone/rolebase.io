@@ -141,6 +141,9 @@ When modifying the product, update the documentation accordingly **in both EN an
 - Avoid putting non-generic texts in reusable components (`src/components/`). All content specific to pages belongs in MDX files or in Astro components in `src/pages/`.
 - All content is in MDX files in content collections, not in Astro components or pages.
 - In MDX pages, write content directly using component calls (no JSON arrays or JS logic). Data lives in the markup, not in frontmatter variables or script blocks.
+- MDX pages must contain only markdown and component calls. No `import` statements, no `export const`, no raw HTML tags (`<div>`, `<section>`, `<h2>`, `<p>`, `<img>`, etc.). Use components and markdown syntax instead.
+- Use markdown image syntax (`![alt](path)`) for images in content. Astro handles the import automatically. Reference images from `src/assets/` with relative paths (e.g., `../../../assets/images/photo.jpg`).
+- When creating page sections, extract layout and styling into reusable Astro components with props for configurable text and children/slots for nested content. Prefer props over Fragment slots when the content is a simple string. Use Fragment slots only for rich content (markdown, nested components).
 - Use `<Callout type="info|warning|tip">` for callouts.
 - Use `<EntityFields fields={[...]} />` for entity field tables in API pages.
 - Keep GraphQL examples up to date with the actual schema.

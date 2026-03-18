@@ -1,22 +1,20 @@
 ---
 interface Props {
+  label: string
   href: string
   variant?: 'yellow' | 'orange' | 'primary' | 'outline-primary' | 'outline'
   size?: 'sm' | 'md'
   class?: string
-  target?: string
-  rel?: string
-  block?: boolean
+  targetBlank?: boolean
 }
 
 const {
+  label,
   href,
   variant = 'yellow',
   size = 'md',
   class: className,
-  target,
-  rel,
-  block = false,
+  targetBlank = false,
 } = Astro.props
 
 const sizeClasses = {
@@ -43,18 +41,17 @@ const rippleColor = {
 
 <a
   href={href}
-  target={target}
-  rel={rel}
+  target={targetBlank ? '_blank' : undefined}
+  rel={targetBlank ? 'noopener noreferrer' : undefined}
   class:list={[
-    'btn-hover relative overflow-hidden rounded-md font-medium !no-underline !hover:no-underline',
-    block ? 'block text-center' : 'inline-block',
+    'btn-hover relative overflow-hidden rounded-md font-medium !no-underline !hover:no-underline inline-block',
     sizeClasses[size],
     variantClasses[variant],
     className,
   ]}
   style={`--ripple-color: ${rippleColor[variant]}`}
 >
-  <span class="relative z-10"><slot /></span>
+  <span class="relative z-10">{label}</span>
 </a>
 
 <style>

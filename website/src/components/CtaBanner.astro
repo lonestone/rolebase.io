@@ -2,10 +2,22 @@
 import Button from './Button.astro'
 
 interface Props {
-  riveUrl?: string
+  title: string
+  primaryLabel: string
+  primaryHref: string
+  secondaryLabel?: string
+  secondaryHref?: string
 }
 
-const { riveUrl } = Astro.props
+const {
+  title,
+  primaryLabel,
+  primaryHref,
+  secondaryLabel,
+  secondaryHref,
+} = Astro.props
+
+const riveUrl = 'https://rive.app/s/kBdu3ZNaY0_sU2RqJmUTUQ/embed'
 ---
 
 <div class="flex flex-col md:flex-row items-center gap-8">
@@ -15,10 +27,13 @@ const { riveUrl } = Astro.props
     </div>
   )}
   <div>
-    <h2 class="text-xl md:text-2xl font-bold"><slot name="title" /></h2>
-    <p class="mt-4 text-text-secondary"><slot name="description" /></p>
+    <h2 class="text-xl md:text-2xl font-bold">{title}</h2>
+    <p class="mt-4 text-text-secondary"><slot /></p>
     <div class="flex flex-wrap gap-4 mt-6">
-      <slot />
+      <Button href={primaryHref} variant="outline" label={primaryLabel} />
+      {secondaryLabel && secondaryHref && (
+        <Button href={secondaryHref} variant="orange" label={secondaryLabel} />
+      )}
     </div>
   </div>
 </div>
