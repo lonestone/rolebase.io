@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import type { PropSchema } from '../api.js'
 import { useMediaModal } from './MediaModal.js'
+import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 
 export const inputStyle: React.CSSProperties = {
   padding: '5px 6px',
@@ -51,18 +52,10 @@ export function ImagePropInput({
 }) {
   const { openMediaModal } = useMediaModal()
 
-  const previewSrc = useMemo(() => {
-    if (!value) return undefined
-    if (
-      value.startsWith('./') ||
-      (!value.startsWith('/') && !value.startsWith('http'))
-    ) {
-      const dir = filePath.replace(/\/[^/]+$/, '')
-      const filename = value.replace(/^\.\//, '')
-      return `/content/${dir}/${filename}`
-    }
-    return value
-  }, [value, filePath])
+  const previewSrc = useMemo(
+    () => resolvePreviewSrc(value, filePath),
+    [value, filePath],
+  )
 
   const handleSelect = useCallback(() => {
     const initialDir = filePath.replace(/\/[^/]+$/, '')

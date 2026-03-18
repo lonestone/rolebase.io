@@ -31,6 +31,7 @@ import {
 } from '@mdxeditor/editor'
 import { CustomImageDialog } from './ImageDialog.js'
 import { InsertComponent } from './InsertComponent.js'
+import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 import { graphqlLanguageSupport } from 'cm6-graphql'
 import { languages } from '@codemirror/language-data'
 
@@ -65,15 +66,7 @@ export function createPlugins({ filePath, jsxDescriptors, originalContent }: Cre
     imagePlugin({
       ImageDialog: CustomImageDialog,
       imagePreviewHandler: async (src) => {
-        if (
-          src.startsWith('./') ||
-          (!src.startsWith('/') && !src.startsWith('http'))
-        ) {
-          const dir = filePath.replace(/\/[^/]+$/, '')
-          const name = src.replace(/^\.\//, '')
-          return `/content/${dir}/${name}`
-        }
-        return src
+        return resolvePreviewSrc(src, filePath) ?? src
       },
     }),
     tablePlugin(),

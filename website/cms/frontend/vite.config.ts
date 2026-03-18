@@ -13,6 +13,7 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:4001",
       "/content": "http://localhost:4001",
+      "/assets": "http://localhost:4001",
     },
   },
 });

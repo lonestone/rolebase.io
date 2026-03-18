@@ -8,6 +8,7 @@ import {
 import { useCellValue, usePublisher } from '@mdxeditor/gurx'
 import { useMediaModal } from './MediaModal.js'
 import { FilePathContext } from './CustomJsxEditor.js'
+import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 
 export function CustomImageDialog() {
   const state = useCellValue(imageDialogState$)
@@ -62,19 +63,7 @@ export function CustomImageDialog() {
   if (!isActive) return null
 
   // Resolve preview URL
-  let previewSrc: string | undefined
-  if (src) {
-    if (
-      src.startsWith('./') ||
-      (!src.startsWith('/') && !src.startsWith('http'))
-    ) {
-      const dir = filePath.replace(/\/[^/]+$/, '')
-      const filename = src.replace(/^\.\//, '')
-      previewSrc = `/content/${dir}/${filename}`
-    } else {
-      previewSrc = src
-    }
-  }
+  const previewSrc = resolvePreviewSrc(src, filePath)
 
   return (
     <div

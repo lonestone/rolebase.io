@@ -27,6 +27,9 @@ app.route('/api/components', componentsRoutes)
 // Serve content files (images, media) from the content directory
 app.use('/content/*', serveStatic({ root: './' + contentDir, rewriteRequestPath: (path) => path.replace(/^\/content/, '') }))
 
+// Serve static assets (for images referenced with relative paths outside content dir, e.g. ../../../assets/)
+app.use('/assets/*', serveStatic({ root: './src/assets', rewriteRequestPath: (path) => path.replace(/^\/assets/, '') }))
+
 // Serve CMS frontend (built files in cms/dist/)
 app.use('/*', serveStatic({ root: './cms/dist' }))
 
