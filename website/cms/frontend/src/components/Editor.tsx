@@ -196,7 +196,17 @@ export function Editor({ filePath, onSave }: Props) {
             listsPlugin(),
             linkPlugin(),
             linkDialogPlugin(),
-            imagePlugin(),
+            imagePlugin({
+              imagePreviewHandler: async (src) => {
+                // Resolve relative paths (e.g. ./image.png) to /content/ route
+                if (src.startsWith('./') || (!src.startsWith('/') && !src.startsWith('http'))) {
+                  const dir = filePath.replace(/^src\/content\//, '').replace(/\/[^/]+$/, '')
+                  const name = src.replace(/^\.\//, '')
+                  return `/content/${dir}/${name}`
+                }
+                return src
+              },
+            }),
             tablePlugin(),
             thematicBreakPlugin(),
             quotePlugin(),

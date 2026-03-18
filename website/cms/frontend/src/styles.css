@@ -150,3 +150,7 @@ body {
 .mdxeditor-rich-text td {
   border-bottom: 1px solid #f3f3f3;
 }
+
+.mdxeditor-rich-text img {
+  max-width: 100%;
+}

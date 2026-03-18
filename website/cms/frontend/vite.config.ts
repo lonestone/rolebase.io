@@ -12,6 +12,7 @@ export default defineConfig({
     port: 4002,
     proxy: {
       "/api": "http://localhost:4001",
+      "/content": "http://localhost:4001",
     },
   },
 });

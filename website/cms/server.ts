@@ -10,6 +10,7 @@ import { uploadRoutes } from './routes/upload.js'
 import { componentsRoutes } from './routes/components.js'
 
 const port = parseInt(process.env.CMS_PORT || '4001')
+const contentDir = process.env.CONTENT_DIR || 'src/content'
 
 const app = new Hono()
 
@@ -22,6 +23,9 @@ app.route('/api/git', gitRoutes)
 app.route('/api/claude', claudeRoutes)
 app.route('/api/upload', uploadRoutes)
 app.route('/api/components', componentsRoutes)
+
+// Serve content files (images, media) from the content directory
+app.use('/content/*', serveStatic({ root: './' + contentDir, rewriteRequestPath: (path) => path.replace(/^\/content/, '') }))
 
 // Serve CMS frontend (built files in cms/dist/)
 app.use('/*', serveStatic({ root: './cms/dist' }))
