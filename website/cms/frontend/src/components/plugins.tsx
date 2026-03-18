@@ -22,6 +22,7 @@ import {
   InsertImage,
   InsertTable,
   InsertThematicBreak,
+  InsertCodeBlock,
   ListsToggle,
   Separator,
   ConditionalContents,
@@ -29,15 +30,23 @@ import {
   type JsxComponentDescriptor,
 } from '@mdxeditor/editor'
 import { CustomImageDialog } from './ImageDialog.js'
+import { InsertComponent } from './InsertComponent.js'
 import { graphqlLanguageSupport } from 'cm6-graphql'
 import { languages } from '@codemirror/language-data'
 
-// Build codeBlockLanguages from @codemirror/language-data (all names + aliases)
+// Build codeBlockLanguages from @codemirror/language-data, deduplicated:
+// keep only the shortest alias per language name.
 const codeBlockLanguages: Record<string, string> = { '': 'Plain text', graphql: 'GraphQL' }
+const seen = new Map<string, string>() // label -> shortest key
 for (const lang of languages) {
-  codeBlockLanguages[lang.name.toLowerCase()] = lang.name
-  for (const alias of lang.alias) {
-    codeBlockLanguages[alias] = lang.name
+  const keys = [lang.name.toLowerCase(), ...lang.alias]
+  const label = lang.name
+  const prev = seen.get(label)
+  const shortest = keys.reduce((a, b) => (a.length <= b.length ? a : b))
+  if (prev === undefined || shortest.length < prev.length) {
+    if (prev !== undefined) delete codeBlockLanguages[prev]
+    seen.set(label, shortest)
+    codeBlockLanguages[shortest] = label
   }
 }
 
@@ -97,7 +106,10 @@ export function createPlugins({ filePath, jsxDescriptors, originalContent }: Cre
           <CreateLink />
           <InsertImage />
           <InsertTable />
+          <InsertCodeBlock />
           <InsertThematicBreak />
+          <Separator />
+          <InsertComponent />
           <ConditionalContents
             options={[
               {

@@ -154,3 +154,8 @@ body {
 .mdxeditor-rich-text img {
   max-width: 100%;
 }
+
+.mdxeditor-select-content [data-editor-dropdown] {
+  max-height: 50vh;
+  overflow-y: auto;
+}
