@@ -1,69 +1,34 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import {
-  fetchGitStatus,
-  fetchGitDiff,
-  gitCommit,
-  gitDiscard,
-  type GitFile,
-} from '../api.js'
+import React, { useState } from 'react'
+import { useGitStatus, useGitDiff, useGitCommit, useGitDiscard } from '../hooks/useGit.js'
 
-interface Props {
-  onRefresh: () => void
-}
-
-export function GitPanel({ onRefresh }: Props) {
-  const [files, setFiles] = useState<GitFile[]>([])
-  const [diff, setDiff] = useState<string | null>(null)
+export function GitPanel() {
+  const { data: files = [] } = useGitStatus()
   const [diffFile, setDiffFile] = useState<string | null>(null)
+  const { data: diff } = useGitDiff(diffFile)
   const [commitMsg, setCommitMsg] = useState('')
-  const [committing, setCommitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const commitMutation = useGitCommit()
+  const discardMutation = useGitDiscard()
 
-  const loadStatus = useCallback(async () => {
-    const data = await fetchGitStatus()
-    setFiles(data.files)
-  }, [])
-
-  useEffect(() => {
-    loadStatus()
-  }, [loadStatus])
-
-  async function handleViewDiff(path: string) {
-    if (diffFile === path) {
-      setDiff(null)
-      setDiffFile(null)
-      return
-    }
-    const data = await fetchGitDiff(path)
-    setDiff(data.diff)
-    setDiffFile(path)
+  function handleViewDiff(path: string) {
+    setDiffFile(diffFile === path ? null : path)
   }
 
   async function handleDiscard(path: string) {
-    await gitDiscard(path)
-    await loadStatus()
+    await discardMutation.mutateAsync(path)
     if (diffFile === path) {
-      setDiff(null)
       setDiffFile(null)
     }
-    onRefresh()
   }
 
   async function handleCommit() {
     if (!commitMsg.trim()) return
-    setCommitting(true)
-    setError(null)
-    const result = await gitCommit(commitMsg)
-    if (result.ok) {
+    try {
+      await commitMutation.mutateAsync(commitMsg)
       setCommitMsg('')
-      await loadStatus()
-      setDiff(null)
       setDiffFile(null)
-      onRefresh()
-    } else {
-      setError(result.error || 'Commit failed')
+    } catch {
+      // Error is available via commitMutation.error
     }
-    setCommitting(false)
   }
 
   if (files.length === 0) {
@@ -213,7 +178,7 @@ export function GitPanel({ onRefresh }: Props) {
         />
         <button
           onClick={handleCommit}
-          disabled={!commitMsg.trim() || committing}
+          disabled={!commitMsg.trim() || commitMutation.isPending}
           style={{
             padding: '6px 16px',
             borderRadius: 'var(--radius)',
@@ -224,14 +189,14 @@ export function GitPanel({ onRefresh }: Props) {
             cursor: commitMsg.trim() ? 'pointer' : 'default',
           }}
         >
-          {committing ? '...' : 'Commit'}
+          {commitMutation.isPending ? '...' : 'Commit'}
         </button>
       </div>
-      {error && (
+      {commitMutation.error && (
         <div
           style={{ padding: '8px 12px', color: 'var(--danger)', fontSize: 12 }}
         >
-          {error}
+          {commitMutation.error.message}
         </div>
       )}
     </div>

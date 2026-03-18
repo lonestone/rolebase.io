@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { sendPrompt, stopClaude } from '../api.js'
-
-interface Props {
-  onFileChanged: () => void
-}
 
 interface AgentMessage {
   role: 'user' | 'agent'
@@ -11,7 +8,8 @@ interface AgentMessage {
   type?: string
 }
 
-export function AgentPanel({ onFileChanged }: Props) {
+export function AgentPanel() {
+  const queryClient = useQueryClient()
   const [messages, setMessages] = useState<AgentMessage[]>([])
   const [input, setInput] = useState('')
   const [running, setRunning] = useState(false)
@@ -73,7 +71,8 @@ export function AgentPanel({ onFileChanged }: Props) {
       },
       () => {
         setRunning(false)
-        onFileChanged()
+        queryClient.invalidateQueries({ queryKey: ['tree'] })
+        queryClient.invalidateQueries({ queryKey: ['gitStatus'] })
       }
     )
 

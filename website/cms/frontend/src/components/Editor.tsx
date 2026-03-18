@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { fetchFile, saveFile, fetchComponents, type ComponentDescriptor } from '../api.js'
-import { CustomJsxEditor, ComponentMetaContext } from './CustomJsxEditor.js'
+import { CustomJsxEditor, ComponentMetaContext, FilePathContext } from './CustomJsxEditor.js'
+import { useComponents } from '../hooks/useComponents.js'
+import { useFile, useSaveFile } from '../hooks/useFile.js'
 import {
   MDXEditor,
   type MDXEditorMethods,
-  type JsxComponentDescriptor,
   headingsPlugin,
   listsPlugin,
   linkPlugin,
@@ -48,76 +48,36 @@ for (const lang of languages) {
   }
 }
 
-// Inline (text) components vs block (flow) components
-const inlineComponents = new Set(['Button'])
-
-function buildDescriptors(components: ComponentDescriptor[]): JsxComponentDescriptor[] {
-  return components.map(({ name, props, hasChildren }) => ({
-    name,
-    kind: inlineComponents.has(name) ? ('text' as const) : ('flow' as const),
-    // Map to mdxeditor's limited type system (string | number | expression)
-    props: props.map((p) => ({
-      name: p.name,
-      type: (p.type === 'json' ? 'expression' : 'string') as 'string' | 'number' | 'expression',
-    })),
-    hasChildren,
-    Editor: CustomJsxEditor,
-  }))
-}
-
-// Build a lookup map from component name to its rich prop metadata
-function buildComponentMeta(
-  components: ComponentDescriptor[]
-): Record<string, ComponentDescriptor> {
-  return Object.fromEntries(components.map((c) => [c.name, c]))
-}
-
 interface Props {
   filePath: string
-  onSave: () => void
 }
 
-export function Editor({ filePath, onSave }: Props) {
+export function Editor({ filePath }: Props) {
+  const { data: fileContent, isLoading } = useFile(filePath)
+  const saveFile = useSaveFile()
+  const { jsxDescriptors, componentMeta } = useComponents()
+
   const [content, setContent] = useState('')
   const [originalContent, setOriginalContent] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [jsxDescriptors, setJsxDescriptors] = useState<
-    JsxComponentDescriptor[] | undefined
-  >()
-  const [componentMeta, setComponentMeta] = useState<
-    Record<string, ComponentDescriptor>
-  >({})
   const editorRef = useRef<MDXEditorMethods>(null)
   const contentRef = useRef('')
 
+  // Sync loaded file content into local state
+  useEffect(() => {
+    if (fileContent !== undefined) {
+      setContent(fileContent)
+      setOriginalContent(fileContent)
+      contentRef.current = fileContent
+    }
+  }, [fileContent])
+
   const isDirty = content !== originalContent
-
-  useEffect(() => {
-    fetchComponents().then((components) => {
-      setJsxDescriptors(buildDescriptors(components))
-      setComponentMeta(buildComponentMeta(components))
-    })
-  }, [])
-
-  useEffect(() => {
-    setLoading(true)
-    fetchFile(filePath).then((data) => {
-      setContent(data.content)
-      setOriginalContent(data.content)
-      contentRef.current = data.content
-      setLoading(false)
-    })
-  }, [filePath])
 
   const handleSave = useCallback(async () => {
     const current = contentRef.current
-    setSaving(true)
-    await saveFile(filePath, current)
+    await saveFile.mutateAsync({ path: filePath, content: current })
     setOriginalContent(current)
-    setSaving(false)
-    onSave()
-  }, [filePath, onSave])
+  }, [filePath, saveFile])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -135,7 +95,7 @@ export function Editor({ filePath, onSave }: Props) {
     contentRef.current = markdown
   }, [])
 
-  if (loading || !jsxDescriptors) {
+  if (isLoading || !jsxDescriptors) {
     return (
       <div style={{ padding: 20, color: 'var(--text-muted)' }}>Loading...</div>
     )
@@ -161,7 +121,7 @@ export function Editor({ filePath, onSave }: Props) {
         </span>
         <button
           onClick={handleSave}
-          disabled={!isDirty || saving}
+          disabled={!isDirty || saveFile.isPending}
           style={{
             padding: '4px 16px',
             borderRadius: 'var(--radius)',
@@ -172,7 +132,7 @@ export function Editor({ filePath, onSave }: Props) {
             cursor: isDirty ? 'pointer' : 'default',
           }}
         >
-          {saving ? 'Saving...' : 'Save'}
+          {saveFile.isPending ? 'Saving...' : 'Save'}
         </button>
       </div>
       <div
@@ -184,6 +144,7 @@ export function Editor({ filePath, onSave }: Props) {
           background: '#fff',
         }}
       >
+        <FilePathContext.Provider value={filePath}>
         <ComponentMetaContext.Provider value={componentMeta}>
         <MDXEditor
           ref={editorRef}
@@ -254,6 +215,7 @@ export function Editor({ filePath, onSave }: Props) {
           ]}
         />
         </ComponentMetaContext.Provider>
+        </FilePathContext.Provider>
       </div>
     </div>
   )

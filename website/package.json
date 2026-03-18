@@ -21,6 +21,7 @@
     "@hono/node-server": "^1.19.11",
     "@mdxeditor/editor": "^3.52.4",
     "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/react-query": "^5.90.21",
     "astro": "^6.0.3",
     "cm6-graphql": "^0.2.1",
     "hono": "^4.12.8",
