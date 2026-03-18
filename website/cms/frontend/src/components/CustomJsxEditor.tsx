@@ -3,7 +3,6 @@ import React, {
   useContext,
   useMemo,
   useCallback,
-  useRef,
 } from 'react'
 import {
   type JsxEditorProps,
@@ -11,7 +10,7 @@ import {
   NestedLexicalEditor,
 } from '@mdxeditor/editor'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
-import { useUploadMedia } from '../hooks/useUploadMedia.js'
+import { useMediaModal } from './MediaModal.js'
 
 // Context to pass rich prop metadata from Editor to CustomJsxEditor
 export const ComponentMetaContext = createContext<
@@ -239,32 +238,27 @@ function ImagePropInput({
   filePath: string
   onChange: (value: string) => void
 }) {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const upload = useUploadMedia()
+  const { openMediaModal } = useMediaModal()
 
   // Resolve relative path to preview URL
   const previewSrc = useMemo(() => {
     if (!value) return undefined
     if (value.startsWith('./') || (!value.startsWith('/') && !value.startsWith('http'))) {
-      const dir = filePath.replace(/^src\/content\//, '').replace(/\/[^/]+$/, '')
+      const dir = filePath.replace(/\/[^/]+$/, '')
       const filename = value.replace(/^\.\//, '')
       return `/content/${dir}/${filename}`
     }
     return value
   }, [value, filePath])
 
-  const handleUpload = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0]
-      if (!file) return
-      const dir = filePath.replace(/\/[^/]+$/, '')
-      const result = await upload.mutateAsync({ file, targetDir: dir })
-      if (result.ok) {
-        onChange(`./${result.name}`)
-      }
-    },
-    [filePath, onChange, upload]
-  )
+  const handleSelect = useCallback(() => {
+    const initialDir = filePath.replace(/\/[^/]+$/, '')
+    openMediaModal({
+      initialDir,
+      filePath,
+      onSelect: onChange,
+    })
+  }, [filePath, onChange, openMediaModal])
 
   return (
     <label style={labelStyle}>
@@ -279,7 +273,7 @@ function ImagePropInput({
         />
         <button
           type="button"
-          onClick={() => fileInputRef.current?.click()}
+          onClick={handleSelect}
           style={{
             background: '#eee',
             border: '1px solid #ddd',
@@ -290,15 +284,8 @@ function ImagePropInput({
             whiteSpace: 'nowrap',
           }}
         >
-          Upload
+          Select
         </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleUpload}
-          style={{ display: 'none' }}
-        />
       </span>
       {previewSrc && (
         <img

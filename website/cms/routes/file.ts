@@ -2,22 +2,23 @@ import { Hono } from 'hono'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import { join, dirname } from 'path'
 
+const contentDir = process.env.CONTENT_DIR || 'src/content'
+
 export const fileRoutes = new Hono()
 
-// Read a file
+// Read a file (path is relative to CONTENT_DIR)
 fileRoutes.get('/', async (c) => {
   const filePath = c.req.query('path')
   if (!filePath) {
     return c.json({ error: 'Missing path parameter' }, 400)
   }
 
-  // Prevent directory traversal
   if (filePath.includes('..')) {
     return c.json({ error: 'Invalid path' }, 400)
   }
 
   try {
-    const fullPath = join(process.cwd(), filePath)
+    const fullPath = join(process.cwd(), contentDir, filePath)
     const content = await readFile(fullPath, 'utf-8')
     return c.json({ path: filePath, content })
   } catch {
@@ -25,7 +26,7 @@ fileRoutes.get('/', async (c) => {
   }
 })
 
-// Write a file
+// Write a file (path is relative to CONTENT_DIR)
 fileRoutes.post('/', async (c) => {
   const body = await c.req.json<{ path: string; content: string }>()
   if (!body.path || body.content === undefined) {
@@ -37,7 +38,7 @@ fileRoutes.post('/', async (c) => {
   }
 
   try {
-    const fullPath = join(process.cwd(), body.path)
+    const fullPath = join(process.cwd(), contentDir, body.path)
     await mkdir(dirname(fullPath), { recursive: true })
     await writeFile(fullPath, body.content, 'utf-8')
     return c.json({ ok: true, path: body.path })

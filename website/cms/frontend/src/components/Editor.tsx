@@ -36,6 +36,7 @@ import {
   ChangeCodeMirrorLanguage,
 } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
+import { CustomImageDialog } from './ImageDialog.js'
 import { graphqlLanguageSupport } from 'cm6-graphql'
 import { languages } from '@codemirror/language-data'
 
@@ -158,10 +159,11 @@ export function Editor({ filePath }: Props) {
             linkPlugin(),
             linkDialogPlugin(),
             imagePlugin({
+              ImageDialog: CustomImageDialog,
               imagePreviewHandler: async (src) => {
                 // Resolve relative paths (e.g. ./image.png) to /content/ route
                 if (src.startsWith('./') || (!src.startsWith('/') && !src.startsWith('http'))) {
-                  const dir = filePath.replace(/^src\/content\//, '').replace(/\/[^/]+$/, '')
+                  const dir = filePath.replace(/\/[^/]+$/, '')
                   const name = src.replace(/^\.\//, '')
                   return `/content/${dir}/${name}`
                 }

@@ -11,16 +11,18 @@ interface TreeNode {
   children?: TreeNode[]
 }
 
-async function buildTree(dir: string, basePath: string): Promise<TreeNode[]> {
+const contentRoot = join(process.cwd(), contentDir)
+
+async function buildTree(dir: string): Promise<TreeNode[]> {
   const entries = await readdir(dir, { withFileTypes: true })
   const nodes: TreeNode[] = []
 
   for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {
     const fullPath = join(dir, entry.name)
-    const relPath = relative(process.cwd(), fullPath)
+    const relPath = relative(contentRoot, fullPath)
 
     if (entry.isDirectory()) {
-      const children = await buildTree(fullPath, basePath)
+      const children = await buildTree(fullPath)
       nodes.push({
         name: entry.name,
         path: relPath,
@@ -42,6 +44,6 @@ async function buildTree(dir: string, basePath: string): Promise<TreeNode[]> {
 export const treeRoutes = new Hono()
 
 treeRoutes.get('/', async (c) => {
-  const tree = await buildTree(join(process.cwd(), contentDir), contentDir)
+  const tree = await buildTree(contentRoot)
   return c.json(tree)
 })

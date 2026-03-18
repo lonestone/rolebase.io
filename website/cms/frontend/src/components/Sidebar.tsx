@@ -49,8 +49,8 @@ function TreeItem({ node, depth, selectedFile, onSelectFile }: TreeItemProps) {
   const isMdx = node.name.endsWith('.mdx') || node.name.endsWith('.md')
   const isSelected = selectedFile === node.path
 
-  if (isFile && !isMdx && !node.name.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
-    return null // Only show MDX and image files
+  if (isFile && !isMdx) {
+    return null // Only show MDX files
   }
 
   return (

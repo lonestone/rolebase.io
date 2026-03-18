@@ -2,9 +2,11 @@ import { Hono } from 'hono'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 
+const contentDir = process.env.CONTENT_DIR || 'src/content'
+
 export const uploadRoutes = new Hono()
 
-// Upload a media file to the content directory
+// Upload a media file (targetDir is relative to CONTENT_DIR)
 uploadRoutes.post('/', async (c) => {
   const formData = await c.req.formData()
   const file = formData.get('file') as File | null
@@ -18,14 +20,13 @@ uploadRoutes.post('/', async (c) => {
     return c.json({ error: 'Invalid path' }, 400)
   }
 
-  const fullDir = join(process.cwd(), targetDir)
+  const fullDir = join(process.cwd(), contentDir, targetDir)
   await mkdir(fullDir, { recursive: true })
 
-  const filePath = join(fullDir, file.name)
   const relPath = join(targetDir, file.name)
 
   const buffer = Buffer.from(await file.arrayBuffer())
-  await writeFile(filePath, buffer)
+  await writeFile(join(fullDir, file.name), buffer)
 
   return c.json({ ok: true, path: relPath, name: file.name })
 })
