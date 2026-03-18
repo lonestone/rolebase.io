@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { fetchFile, saveFile, fetchComponents } from '../api.js'
+import { fetchFile, saveFile, fetchComponents, type ComponentDescriptor } from '../api.js'
+import { CustomJsxEditor, ComponentMetaContext } from './CustomJsxEditor.js'
 import {
   MDXEditor,
   type MDXEditorMethods,
   type JsxComponentDescriptor,
-  GenericJsxEditor,
   headingsPlugin,
   listsPlugin,
   linkPlugin,
@@ -48,66 +48,28 @@ for (const lang of languages) {
   }
 }
 
-// Known props for common components
-const knownProps: Record<string, JsxComponentDescriptor['props']> = {
-  Callout: [{ name: 'type', type: 'string' }],
-  Youtube: [{ name: 'videoId', type: 'string' }],
-  TellaVideo: [
-    { name: 'videoId', type: 'string' },
-    { name: 'aspect', type: 'string' },
-  ],
-  LoomVideo: [
-    { name: 'loomId', type: 'string' },
-    { name: 'aspect', type: 'string' },
-  ],
-  Button: [
-    { name: 'href', type: 'string' },
-    { name: 'variant', type: 'string' },
-    { name: 'size', type: 'string' },
-    { name: 'block', type: 'string' },
-    { name: 'slot', type: 'string' },
-  ],
-  Section: [
-    { name: 'class', type: 'string' },
-    { name: 'full', type: 'string' },
-  ],
-  SplitSection: [
-    { name: 'reverse', type: 'string' },
-    { name: 'align', type: 'string' },
-  ],
-  EntityFields: [{ name: 'fields', type: 'expression' }],
-  PricingCard: [
-    { name: 'title', type: 'string' },
-    { name: 'featured', type: 'string' },
-  ],
-  PartnerCard: [
-    { name: 'name', type: 'string' },
-    { name: 'logo', type: 'string' },
-    { name: 'url', type: 'string' },
-  ],
-  CtaBanner: [{ name: 'riveUrl', type: 'string' }],
-  ProblemItem: [
-    { name: 'icon', type: 'string' },
-    { name: 'title', type: 'string' },
-  ],
-  OfferCard: [
-    { name: 'icon', type: 'string' },
-    { name: 'title', type: 'string' },
-    { name: 'href', type: 'string' },
-  ],
-}
-
 // Inline (text) components vs block (flow) components
 const inlineComponents = new Set(['Button'])
 
-function buildDescriptors(names: string[]): JsxComponentDescriptor[] {
-  return names.map((name) => ({
+function buildDescriptors(components: ComponentDescriptor[]): JsxComponentDescriptor[] {
+  return components.map(({ name, props, hasChildren }) => ({
     name,
     kind: inlineComponents.has(name) ? ('text' as const) : ('flow' as const),
-    props: knownProps[name] ?? [],
-    hasChildren: true,
-    Editor: GenericJsxEditor,
+    // Map to mdxeditor's limited type system (string | number | expression)
+    props: props.map((p) => ({
+      name: p.name,
+      type: (p.type === 'json' ? 'expression' : 'string') as 'string' | 'number' | 'expression',
+    })),
+    hasChildren,
+    Editor: CustomJsxEditor,
   }))
+}
+
+// Build a lookup map from component name to its rich prop metadata
+function buildComponentMeta(
+  components: ComponentDescriptor[]
+): Record<string, ComponentDescriptor> {
+  return Object.fromEntries(components.map((c) => [c.name, c]))
 }
 
 interface Props {
@@ -123,13 +85,19 @@ export function Editor({ filePath, onSave }: Props) {
   const [jsxDescriptors, setJsxDescriptors] = useState<
     JsxComponentDescriptor[]
   >([])
+  const [componentMeta, setComponentMeta] = useState<
+    Record<string, ComponentDescriptor>
+  >({})
   const editorRef = useRef<MDXEditorMethods>(null)
   const contentRef = useRef('')
 
   const isDirty = content !== originalContent
 
   useEffect(() => {
-    fetchComponents().then((names) => setJsxDescriptors(buildDescriptors(names)))
+    fetchComponents().then((components) => {
+      setJsxDescriptors(buildDescriptors(components))
+      setComponentMeta(buildComponentMeta(components))
+    })
   }, [])
 
   useEffect(() => {
@@ -216,6 +184,7 @@ export function Editor({ filePath, onSave }: Props) {
           background: '#fff',
         }}
       >
+        <ComponentMetaContext.Provider value={componentMeta}>
         <MDXEditor
           ref={editorRef}
           key={filePath}
@@ -274,6 +243,7 @@ export function Editor({ filePath, onSave }: Props) {
             }),
           ]}
         />
+        </ComponentMetaContext.Provider>
       </div>
     </div>
   )

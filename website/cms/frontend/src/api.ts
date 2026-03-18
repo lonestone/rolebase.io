@@ -130,7 +130,20 @@ export async function stopClaude(): Promise<void> {
   await fetch(`${BASE}/claude/stop`, { method: 'POST' })
 }
 
-export async function fetchComponents(): Promise<string[]> {
+export interface PropSchema {
+  name: string
+  type: 'string' | 'number' | 'boolean' | 'select' | 'json'
+  options?: string[]
+  itemSchema?: PropSchema[]
+}
+
+export interface ComponentDescriptor {
+  name: string
+  props: PropSchema[]
+  hasChildren: boolean
+}
+
+export async function fetchComponents(): Promise<ComponentDescriptor[]> {
   const res = await fetch(`${BASE}/components`)
   return res.json()
 }
