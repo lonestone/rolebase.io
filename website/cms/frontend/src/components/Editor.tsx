@@ -1,53 +1,10 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { CustomJsxEditor, ComponentMetaContext, FilePathContext } from './CustomJsxEditor.js'
 import { useComponents } from '../hooks/useComponents.js'
 import { useFile, useSaveFile } from '../hooks/useFile.js'
-import {
-  MDXEditor,
-  type MDXEditorMethods,
-  headingsPlugin,
-  listsPlugin,
-  linkPlugin,
-  linkDialogPlugin,
-  imagePlugin,
-  tablePlugin,
-  thematicBreakPlugin,
-  quotePlugin,
-  frontmatterPlugin,
-  markdownShortcutPlugin,
-  codeBlockPlugin,
-  codeMirrorPlugin,
-  diffSourcePlugin,
-  jsxPlugin,
-  toolbarPlugin,
-  DiffSourceToggleWrapper,
-  UndoRedo,
-  BoldItalicUnderlineToggles,
-  BlockTypeSelect,
-  CodeToggle,
-  CreateLink,
-  InsertImage,
-  InsertTable,
-  InsertThematicBreak,
-  InsertFrontmatter,
-  ListsToggle,
-  Separator,
-  ConditionalContents,
-  ChangeCodeMirrorLanguage,
-} from '@mdxeditor/editor'
+import { MDXEditor, type MDXEditorMethods } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
-import { CustomImageDialog } from './ImageDialog.js'
-import { graphqlLanguageSupport } from 'cm6-graphql'
-import { languages } from '@codemirror/language-data'
-
-// Build codeBlockLanguages from @codemirror/language-data (all names + aliases)
-const codeBlockLanguages: Record<string, string> = { '': 'Plain text', graphql: 'GraphQL' }
-for (const lang of languages) {
-  codeBlockLanguages[lang.name.toLowerCase()] = lang.name
-  for (const alias of lang.alias) {
-    codeBlockLanguages[alias] = lang.name
-  }
-}
+import { createPlugins } from './plugins.js'
 
 interface Props {
   filePath: string
@@ -60,6 +17,7 @@ export function Editor({ filePath }: Props) {
 
   const [content, setContent] = useState('')
   const [originalContent, setOriginalContent] = useState('')
+  const [ready, setReady] = useState(false)
   const editorRef = useRef<MDXEditorMethods>(null)
   const contentRef = useRef('')
 
@@ -69,6 +27,7 @@ export function Editor({ filePath }: Props) {
       setContent(fileContent)
       setOriginalContent(fileContent)
       contentRef.current = fileContent
+      setReady(true)
     }
   }, [fileContent])
 
@@ -96,7 +55,19 @@ export function Editor({ filePath }: Props) {
     contentRef.current = markdown
   }, [])
 
-  if (isLoading || !jsxDescriptors) {
+  // Memoize plugins to avoid MDXEditor reinitialization on re-renders
+  const plugins = useMemo(
+    () =>
+      jsxDescriptors
+        ? createPlugins({ filePath, jsxDescriptors, originalContent })
+        : undefined,
+    // Recreate plugins when ready flips to true (with correct originalContent).
+    // MDXEditor isn't mounted until ready, so this doesn't cause reinitialization.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filePath, jsxDescriptors, ready]
+  )
+
+  if (isLoading || !ready || !plugins) {
     return (
       <div style={{ padding: 20, color: 'var(--text-muted)' }}>Loading...</div>
     )
@@ -149,72 +120,10 @@ export function Editor({ filePath }: Props) {
         <ComponentMetaContext.Provider value={componentMeta}>
         <MDXEditor
           ref={editorRef}
-          key={filePath}
           markdown={originalContent}
           onChange={handleChange}
           contentEditableClassName="mdxeditor-rich-text"
-          plugins={[
-            headingsPlugin(),
-            listsPlugin(),
-            linkPlugin(),
-            linkDialogPlugin(),
-            imagePlugin({
-              ImageDialog: CustomImageDialog,
-              imagePreviewHandler: async (src) => {
-                // Resolve relative paths (e.g. ./image.png) to /content/ route
-                if (src.startsWith('./') || (!src.startsWith('/') && !src.startsWith('http'))) {
-                  const dir = filePath.replace(/\/[^/]+$/, '')
-                  const name = src.replace(/^\.\//, '')
-                  return `/content/${dir}/${name}`
-                }
-                return src
-              },
-            }),
-            tablePlugin(),
-            thematicBreakPlugin(),
-            quotePlugin(),
-            frontmatterPlugin(),
-            markdownShortcutPlugin(),
-            codeBlockPlugin({ defaultCodeBlockLanguage: '' }),
-            codeMirrorPlugin({
-              codeBlockLanguages,
-              codeMirrorExtensions: [graphqlLanguageSupport()],
-            }),
-            jsxPlugin({ jsxComponentDescriptors: jsxDescriptors }),
-            diffSourcePlugin({
-              diffMarkdown: originalContent,
-              viewMode: 'rich-text',
-            }),
-            toolbarPlugin({
-              toolbarContents: () => (
-                <DiffSourceToggleWrapper>
-                  <UndoRedo />
-                  <Separator />
-                  <BoldItalicUnderlineToggles />
-                  <CodeToggle />
-                  <Separator />
-                  <BlockTypeSelect />
-                  <Separator />
-                  <ListsToggle />
-                  <Separator />
-                  <CreateLink />
-                  <InsertImage />
-                  <InsertTable />
-                  <InsertThematicBreak />
-                  <Separator />
-                  <InsertFrontmatter />
-                  <ConditionalContents
-                    options={[
-                      {
-                        when: (editor) => editor?.editorType === 'codeblock',
-                        contents: () => <ChangeCodeMirrorLanguage />,
-                      },
-                    ]}
-                  />
-                </DiffSourceToggleWrapper>
-              ),
-            }),
-          ]}
+          plugins={plugins}
         />
         </ComponentMetaContext.Provider>
         </FilePathContext.Provider>

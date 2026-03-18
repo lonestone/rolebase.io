@@ -30,6 +30,9 @@ app.use('/content/*', serveStatic({ root: './' + contentDir, rewriteRequestPath:
 // Serve CMS frontend (built files in cms/dist/)
 app.use('/*', serveStatic({ root: './cms/dist' }))
 
+// SPA fallback: serve index.html for all non-matched routes
+app.get('*', serveStatic({ root: './cms/dist', path: 'index.html' }))
+
 console.log(`CMS server running on http://localhost:${port}`)
 
 serve({ fetch: app.fetch, port })

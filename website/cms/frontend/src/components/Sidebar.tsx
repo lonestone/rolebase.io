@@ -1,13 +1,33 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
+import { useLocation } from 'react-router'
 import type { TreeNode } from '../api.js'
 
 interface Props {
   tree: TreeNode[]
-  selectedFile: string | null
   onSelectFile: (path: string) => void
 }
 
-export function Sidebar({ tree, selectedFile, onSelectFile }: Props) {
+function buildExpandedPaths(selectedFile: string | null): Set<string> {
+  if (!selectedFile) return new Set()
+  const parts = selectedFile.split('/')
+  const paths = new Set<string>()
+  for (let i = 1; i < parts.length; i++) {
+    paths.add(parts.slice(0, i).join('/'))
+  }
+  return paths
+}
+
+export function Sidebar({ tree, onSelectFile }: Props) {
+  const location = useLocation()
+  const selectedFile = location.pathname.startsWith('/edit/')
+    ? decodeURIComponent(location.pathname.slice('/edit/'.length))
+    : null
+
+  const expandedPaths = useMemo(
+    () => buildExpandedPaths(selectedFile),
+    [selectedFile]
+  )
+
   return (
     <aside
       style={{
@@ -28,6 +48,7 @@ export function Sidebar({ tree, selectedFile, onSelectFile }: Props) {
               node={node}
               depth={0}
               selectedFile={selectedFile}
+              expandedPaths={expandedPaths}
               onSelectFile={onSelectFile}
             />
           ))}
@@ -40,11 +61,19 @@ interface TreeItemProps {
   node: TreeNode
   depth: number
   selectedFile: string | null
+  expandedPaths: Set<string>
   onSelectFile: (path: string) => void
 }
 
-function TreeItem({ node, depth, selectedFile, onSelectFile }: TreeItemProps) {
-  const [expanded, setExpanded] = useState(depth < 1)
+function TreeItem({
+  node,
+  depth,
+  selectedFile,
+  expandedPaths,
+  onSelectFile,
+}: TreeItemProps) {
+  const [manualToggle, setManualToggle] = useState<boolean | null>(null)
+  const expanded = manualToggle ?? expandedPaths.has(node.path)
   const isFile = node.type === 'file'
   const isMdx = node.name.endsWith('.mdx') || node.name.endsWith('.md')
   const isSelected = selectedFile === node.path
@@ -63,7 +92,7 @@ function TreeItem({ node, depth, selectedFile, onSelectFile }: TreeItemProps) {
           if (isFile && isMdx) {
             onSelectFile(node.path)
           } else if (!isFile) {
-            setExpanded(!expanded)
+            setManualToggle(!expanded)
           }
         }}
         onKeyDown={(e) => {
@@ -72,7 +101,7 @@ function TreeItem({ node, depth, selectedFile, onSelectFile }: TreeItemProps) {
             if (isFile && isMdx) {
               onSelectFile(node.path)
             } else if (!isFile) {
-              setExpanded(!expanded)
+              setManualToggle(!expanded)
             }
           }
         }}
@@ -114,6 +143,7 @@ function TreeItem({ node, depth, selectedFile, onSelectFile }: TreeItemProps) {
               node={child}
               depth={depth + 1}
               selectedFile={selectedFile}
+              expandedPaths={expandedPaths}
               onSelectFile={onSelectFile}
             />
           ))}

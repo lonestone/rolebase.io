@@ -33,16 +33,36 @@ export function GitPanel() {
 
   if (files.length === 0) {
     return (
-      <div
-        style={{ padding: 20, color: 'var(--text-muted)', textAlign: 'center' }}
+      <aside
+        style={{
+          width: 'var(--panel-width)',
+          borderLeft: '1px solid var(--border)',
+          background: 'var(--bg-panel)',
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        No changes
-      </div>
+        <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>
+          No changes
+        </span>
+      </aside>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <aside
+      style={{
+        width: 'var(--panel-width)',
+        borderLeft: '1px solid var(--border)',
+        background: 'var(--bg-panel)',
+        flexShrink: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
       <div style={{ flex: 1, overflow: 'auto' }}>
         {/* File list */}
         <div style={{ padding: '12px 0' }}>
@@ -199,6 +219,6 @@ export function GitPanel() {
           {commitMutation.error.message}
         </div>
       )}
-    </div>
+    </aside>
   )
 }

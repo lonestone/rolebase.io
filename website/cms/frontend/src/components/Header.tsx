@@ -1,15 +1,13 @@
 import React from 'react'
 
-type Tab = 'editor' | 'git'
-
 interface Props {
-  panelOpen: boolean
-  onTogglePanel: () => void
-  tab: Tab
-  onTabChange: (tab: Tab) => void
+  gitOpen: boolean
+  onToggleGit: () => void
+  agentOpen: boolean
+  onToggleAgent: () => void
 }
 
-function TabButton({
+function PanelButton({
   active,
   onClick,
   children,
@@ -25,7 +23,7 @@ function TabButton({
         padding: '4px 12px',
         borderRadius: 'var(--radius)',
         border: '1px solid var(--border)',
-        background: active ? 'var(--text)' : '#fff',
+        background: active ? 'var(--primary)' : '#fff',
         color: active ? '#fff' : 'var(--text)',
         fontSize: 13,
         cursor: 'pointer',
@@ -36,7 +34,12 @@ function TabButton({
   )
 }
 
-export function Header({ panelOpen, onTogglePanel, tab, onTabChange }: Props) {
+export function Header({
+  gitOpen,
+  onToggleGit,
+  agentOpen,
+  onToggleAgent,
+}: Props) {
   const astroUrl = 'http://localhost:4321'
 
   return (
@@ -52,20 +55,7 @@ export function Header({ panelOpen, onTogglePanel, tab, onTabChange }: Props) {
         flexShrink: 0,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <span style={{ fontWeight: 600, fontSize: 14 }}>CMS</span>
-        <div style={{ display: 'flex', gap: 4 }}>
-          <TabButton
-            active={tab === 'editor'}
-            onClick={() => onTabChange('editor')}
-          >
-            Editor
-          </TabButton>
-          <TabButton active={tab === 'git'} onClick={() => onTabChange('git')}>
-            Git
-          </TabButton>
-        </div>
-      </div>
+      <span style={{ fontWeight: 600, fontSize: 14 }}>CMS</span>
       <div style={{ display: 'flex', gap: 8 }}>
         <a
           href={astroUrl}
@@ -84,20 +74,12 @@ export function Header({ panelOpen, onTogglePanel, tab, onTabChange }: Props) {
         >
           Preview
         </a>
-        <button
-          onClick={onTogglePanel}
-          style={{
-            padding: '4px 12px',
-            borderRadius: 'var(--radius)',
-            border: '1px solid var(--border)',
-            background: panelOpen ? 'var(--primary)' : '#fff',
-            color: panelOpen ? '#fff' : 'var(--text)',
-            fontSize: 13,
-            cursor: 'pointer',
-          }}
-        >
+        <PanelButton active={gitOpen} onClick={onToggleGit}>
+          Git
+        </PanelButton>
+        <PanelButton active={agentOpen} onClick={onToggleAgent}>
           Agent
-        </button>
+        </PanelButton>
       </div>
     </header>
   )
