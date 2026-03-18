@@ -3,7 +3,7 @@ import React, {
   useContext,
   useMemo,
   useCallback,
-  useState,
+  useRef,
 } from 'react'
 import {
   type JsxEditorProps,
@@ -11,11 +11,15 @@ import {
   NestedLexicalEditor,
 } from '@mdxeditor/editor'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
+import { useUploadMedia } from '../hooks/useUploadMedia.js'
 
 // Context to pass rich prop metadata from Editor to CustomJsxEditor
 export const ComponentMetaContext = createContext<
   Record<string, ComponentDescriptor>
 >({})
+
+// Context to pass the current file path for image resolution
+export const FilePathContext = createContext<string>('')
 
 const isExpressionValue = (
   value: unknown
@@ -221,12 +225,100 @@ function JsonTableEditor({ value, schema, onChange }: JsonTableEditorProps) {
 }
 
 // ---------------------------------------------------------------------------
+// Image prop input with preview and upload
+// ---------------------------------------------------------------------------
+
+function ImagePropInput({
+  name,
+  value,
+  filePath,
+  onChange,
+}: {
+  name: string
+  value: string
+  filePath: string
+  onChange: (value: string) => void
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const upload = useUploadMedia()
+
+  // Resolve relative path to preview URL
+  const previewSrc = useMemo(() => {
+    if (!value) return undefined
+    if (value.startsWith('./') || (!value.startsWith('/') && !value.startsWith('http'))) {
+      const dir = filePath.replace(/^src\/content\//, '').replace(/\/[^/]+$/, '')
+      const filename = value.replace(/^\.\//, '')
+      return `/content/${dir}/${filename}`
+    }
+    return value
+  }, [value, filePath])
+
+  const handleUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (!file) return
+      const dir = filePath.replace(/\/[^/]+$/, '')
+      const result = await upload.mutateAsync({ file, targetDir: dir })
+      if (result.ok) {
+        onChange(`./${result.name}`)
+      }
+    },
+    [filePath, onChange, upload]
+  )
+
+  return (
+    <label style={labelStyle}>
+      {name}
+      <span style={{ display: 'flex', alignItems: 'center', gap: 4, flex: 1, minWidth: 0 }}>
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={inputStyle}
+          placeholder="./image.png"
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          style={{
+            background: '#eee',
+            border: '1px solid #ddd',
+            borderRadius: 3,
+            cursor: 'pointer',
+            fontSize: 11,
+            padding: '1px 6px',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Upload
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleUpload}
+          style={{ display: 'none' }}
+        />
+      </span>
+      {previewSrc && (
+        <img
+          src={previewSrc}
+          alt=""
+          style={{ maxHeight: 32, maxWidth: 80, objectFit: 'contain', marginLeft: 4 }}
+        />
+      )}
+    </label>
+  )
+}
+
+// ---------------------------------------------------------------------------
 // CustomJsxEditor
 // ---------------------------------------------------------------------------
 
 export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const updateMdastNode = useMdastNodeUpdater()
   const meta = useContext(ComponentMetaContext)
+  const filePath = useContext(FilePathContext)
   const componentMeta = mdastNode.name ? meta[mdastNode.name] : undefined
 
   const properties = useMemo(
@@ -347,6 +439,19 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
                   ))}
                 </select>
               </label>
+            )
+          }
+
+          // Image picker
+          if (rich?.type === 'image') {
+            return (
+              <ImagePropInput
+                key={name}
+                name={name}
+                value={value}
+                filePath={filePath}
+                onChange={(v) => handlePropChange(name, v)}
+              />
             )
           }
 

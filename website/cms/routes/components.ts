@@ -7,7 +7,7 @@ const COMPONENTS_DIR = join(process.cwd(), 'src/components')
 
 interface PropSchema {
   name: string
-  type: 'string' | 'number' | 'boolean' | 'select' | 'json'
+  type: 'string' | 'number' | 'boolean' | 'select' | 'json' | 'image'
   options?: string[]
   itemSchema?: PropSchema[]
 }
@@ -66,6 +66,15 @@ function resolveType(
       )
       return { type: 'select', options }
     }
+  }
+
+  // ImagePath type alias
+  if (
+    ts.isTypeReferenceNode(typeNode) &&
+    ts.isIdentifier(typeNode.typeName) &&
+    typeNode.typeName.text === 'ImagePath'
+  ) {
+    return { type: 'image' }
   }
 
   // Primitives
