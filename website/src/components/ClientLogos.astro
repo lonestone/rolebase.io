@@ -3,10 +3,9 @@ import Icon from "./Icon.astro";
 
 interface Props {
   class?: string;
-  theme?: "light" | "dark";
 }
 
-const { class: className, theme = "light" } = Astro.props;
+const { class: className } = Astro.props;
 
 const logos = [
   { icon: "references/ippon", alt: "Ippon" },
@@ -18,23 +17,20 @@ const logos = [
   { icon: "references/ids-media", alt: "IDS Media" },
   { icon: "references/externatic", alt: "Externatic" },
 ];
-
-const gradientFrom = theme === "dark" ? "from-black" : "from-bg-secondary";
-const textColor = theme === "dark" ? "text-white" : "text-black";
 ---
 
 <section class:list={["overflow-hidden", className]}>
   <div class="relative">
     <div
-      class={`pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-48 bg-linear-to-r ${gradientFrom} to-transparent`}
+      class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-48 bg-linear-to-r from-bg-secondary to-transparent"
     >
     </div>
     <div
-      class={`pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-48 bg-linear-to-l ${gradientFrom} to-transparent`}
+      class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-48 bg-linear-to-l from-bg-secondary to-transparent"
     >
     </div>
     <div
-      class={`animate-marquee flex w-max items-center ${textColor}`}
+      class="animate-marquee flex w-max items-center text-black"
       style="--marquee-duration: 20s"
     >
       {
