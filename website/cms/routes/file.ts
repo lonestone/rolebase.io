@@ -1,8 +1,28 @@
 import { Hono } from 'hono'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import { join, dirname } from 'path'
+import { parseContentSchemas } from './schema.js'
 
 const contentDir = process.env.CONTENT_DIR || 'src/content'
+
+// Cache parsed schemas (parsed once, invalidated on server restart)
+let schemasCache: Record<string, any[]> | undefined
+
+async function getSchemas() {
+  if (!schemasCache) {
+    schemasCache = await parseContentSchemas()
+  }
+  return schemasCache
+}
+
+/** Derive collection name from file path (first segment) */
+function getCollectionFromPath(
+  filePath: string,
+  schemas: Record<string, any[]>
+): string | undefined {
+  const first = filePath.split('/')[0]
+  return first && first in schemas ? first : undefined
+}
 
 export const fileRoutes = new Hono()
 
@@ -20,7 +40,13 @@ fileRoutes.get('/', async (c) => {
   try {
     const fullPath = join(process.cwd(), contentDir, filePath)
     const content = await readFile(fullPath, 'utf-8')
-    return c.json({ path: filePath, content })
+
+    // Include frontmatter schema if the file belongs to a known collection
+    const schemas = await getSchemas()
+    const collection = getCollectionFromPath(filePath, schemas)
+    const frontmatterSchema = collection ? schemas[collection] : undefined
+
+    return c.json({ path: filePath, content, frontmatterSchema })
   } catch {
     return c.json({ error: 'File not found' }, 404)
   }

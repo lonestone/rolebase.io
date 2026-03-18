@@ -10,7 +10,7 @@ import {
   NestedLexicalEditor,
 } from '@mdxeditor/editor'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
-import { useMediaModal } from './MediaModal.js'
+import { inputStyle, labelStyle, PropInput } from './PropInput.js'
 
 // Context to pass rich prop metadata from Editor to CustomJsxEditor
 export const ComponentMetaContext = createContext<
@@ -36,27 +36,6 @@ const isMdxJsxAttribute = (
   attr !== null &&
   (attr as Record<string, unknown>).type === 'mdxJsxAttribute' &&
   typeof (attr as Record<string, unknown>).name === 'string'
-
-const inputStyle: React.CSSProperties = {
-  padding: '1px 4px',
-  border: '1px solid #ddd',
-  borderRadius: 3,
-  fontSize: 12,
-  fontFamily: 'monospace',
-  background: '#fff',
-  flex: 1,
-  minWidth: 0,
-}
-
-const labelStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 4,
-  color: '#888',
-  userSelect: 'none',
-  fontSize: 12,
-  fontFamily: 'monospace',
-}
 
 // ---------------------------------------------------------------------------
 // JSON Table Editor for array-of-objects props (e.g. EntityFields.fields)
@@ -224,81 +203,6 @@ function JsonTableEditor({ value, schema, onChange }: JsonTableEditorProps) {
 }
 
 // ---------------------------------------------------------------------------
-// Image prop input with preview and upload
-// ---------------------------------------------------------------------------
-
-function ImagePropInput({
-  name,
-  value,
-  filePath,
-  onChange,
-}: {
-  name: string
-  value: string
-  filePath: string
-  onChange: (value: string) => void
-}) {
-  const { openMediaModal } = useMediaModal()
-
-  // Resolve relative path to preview URL
-  const previewSrc = useMemo(() => {
-    if (!value) return undefined
-    if (value.startsWith('./') || (!value.startsWith('/') && !value.startsWith('http'))) {
-      const dir = filePath.replace(/\/[^/]+$/, '')
-      const filename = value.replace(/^\.\//, '')
-      return `/content/${dir}/${filename}`
-    }
-    return value
-  }, [value, filePath])
-
-  const handleSelect = useCallback(() => {
-    const initialDir = filePath.replace(/\/[^/]+$/, '')
-    openMediaModal({
-      initialDir,
-      filePath,
-      onSelect: onChange,
-    })
-  }, [filePath, onChange, openMediaModal])
-
-  return (
-    <label style={labelStyle}>
-      {name}
-      <span style={{ display: 'flex', alignItems: 'center', gap: 4, flex: 1, minWidth: 0 }}>
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          style={inputStyle}
-          placeholder="./image.png"
-        />
-        <button
-          type="button"
-          onClick={handleSelect}
-          style={{
-            background: '#eee',
-            border: '1px solid #ddd',
-            borderRadius: 3,
-            cursor: 'pointer',
-            fontSize: 11,
-            padding: '1px 6px',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Select
-        </button>
-      </span>
-      {previewSrc && (
-        <img
-          src={previewSrc}
-          alt=""
-          style={{ maxHeight: 32, maxWidth: 80, objectFit: 'contain', marginLeft: 4 }}
-        />
-      )}
-    </label>
-  )
-}
-
-// ---------------------------------------------------------------------------
 // CustomJsxEditor
 // ---------------------------------------------------------------------------
 
@@ -407,101 +311,16 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
 
         {simpleProps.map(({ name, rich }) => {
           const value = properties[name] ?? ''
+          const schema = rich ?? { name, type: 'string' as const }
 
-          // Select
-          if (rich?.type === 'select' && rich.options) {
-            return (
-              <label key={name} style={labelStyle}>
-                {name}
-                <select
-                  value={value}
-                  onChange={(e) => handlePropChange(name, e.target.value)}
-                  style={{ ...inputStyle, padding: '1px 2px' }}
-                >
-                  <option value=""></option>
-                  {rich.options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )
-          }
-
-          // Image picker
-          if (rich?.type === 'image') {
-            return (
-              <ImagePropInput
-                key={name}
-                name={name}
-                value={value}
-                filePath={filePath}
-                onChange={(v) => handlePropChange(name, v)}
-              />
-            )
-          }
-
-          // Checkbox
-          if (rich?.type === 'boolean') {
-            return (
-              <label
-                key={name}
-                style={{ ...labelStyle, cursor: 'pointer' }}
-              >
-                <input
-                  type="checkbox"
-                  checked={value === 'true'}
-                  onChange={(e) =>
-                    handlePropChange(name, e.target.checked ? 'true' : '')
-                  }
-                />
-                {name}
-              </label>
-            )
-          }
-
-          // Number
-          if (rich?.type === 'number') {
-            return (
-              <label key={name} style={labelStyle}>
-                {name}
-                <input
-                  type="number"
-                  value={value}
-                  onChange={(e) => handlePropChange(name, e.target.value)}
-                  style={{ ...inputStyle, maxWidth: 80 }}
-                />
-              </label>
-            )
-          }
-
-          // JSON without schema → raw text
-          if (rich?.type === 'json') {
-            return (
-              <label key={name} style={labelStyle}>
-                {name}
-                <input
-                  type="text"
-                  value={value}
-                  onChange={(e) => handlePropChange(name, e.target.value)}
-                  style={inputStyle}
-                />
-              </label>
-            )
-          }
-
-          // Default: text input
           return (
-            <label key={name} style={labelStyle}>
-              {name}
-              <input
-                type="text"
-                value={value}
-                onChange={(e) => handlePropChange(name, e.target.value)}
-                style={inputStyle}
-              />
-            </label>
+            <PropInput
+              key={name}
+              schema={schema}
+              value={value}
+              filePath={filePath}
+              onChange={(v) => handlePropChange(name, v)}
+            />
           )
         })}
       </div>

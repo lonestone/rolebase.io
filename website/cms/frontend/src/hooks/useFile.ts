@@ -5,7 +5,6 @@ export function useFile(filePath: string) {
   return useQuery({
     queryKey: ['file', filePath],
     queryFn: () => fetchFile(filePath),
-    select: (data) => data.content,
   })
 }
 

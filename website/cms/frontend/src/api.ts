@@ -17,9 +17,17 @@ export async function fetchTree(): Promise<TreeNode[]> {
   return res.json()
 }
 
-export async function fetchFile(
+export interface FrontmatterFieldSchema extends PropSchema {
+  required?: boolean
+}
+
+export interface FileResponse {
   path: string
-): Promise<{ path: string; content: string }> {
+  content: string
+  frontmatterSchema?: FrontmatterFieldSchema[]
+}
+
+export async function fetchFile(path: string): Promise<FileResponse> {
   const res = await fetch(`${BASE}/file?path=${encodeURIComponent(path)}`)
   return res.json()
 }
@@ -132,7 +140,7 @@ export async function stopClaude(): Promise<void> {
 
 export interface PropSchema {
   name: string
-  type: 'string' | 'number' | 'boolean' | 'select' | 'json' | 'image'
+  type: 'string' | 'number' | 'boolean' | 'select' | 'json' | 'image' | 'date' | 'string-array'
   options?: string[]
   itemSchema?: PropSchema[]
 }

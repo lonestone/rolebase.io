@@ -1,67 +1,108 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
-import { CustomJsxEditor, ComponentMetaContext, FilePathContext } from './CustomJsxEditor.js'
+import { ComponentMetaContext, FilePathContext } from './CustomJsxEditor.js'
 import { useComponents } from '../hooks/useComponents.js'
 import { useFile, useSaveFile } from '../hooks/useFile.js'
 import { MDXEditor, type MDXEditorMethods } from '@mdxeditor/editor'
 import '@mdxeditor/editor/style.css'
 import { createPlugins } from './plugins.js'
+import FrontmatterEditor, {
+  type FrontmatterData,
+  extractBody,
+  extractRawFrontmatter,
+  parseFrontmatterYaml,
+  combineFrontmatterAndBody,
+} from './FrontmatterEditor.js'
 
 interface Props {
   filePath: string
 }
 
 export function Editor({ filePath }: Props) {
-  const { data: fileContent, isLoading } = useFile(filePath)
+  const { data: fileData, isLoading } = useFile(filePath)
   const saveFile = useSaveFile()
   const { jsxDescriptors, componentMeta } = useComponents()
 
-  const [content, setContent] = useState('')
-  const [originalContent, setOriginalContent] = useState('')
+  // Frontmatter and body are managed separately
+  const [frontmatter, setFrontmatter] = useState<FrontmatterData>({})
+  const [originalFrontmatter, setOriginalFrontmatter] =
+    useState<FrontmatterData>({})
+  const [body, setBody] = useState('')
+  const [originalBody, setOriginalBody] = useState('')
   const [ready, setReady] = useState(false)
   const editorRef = useRef<MDXEditorMethods>(null)
-  const contentRef = useRef('')
+  const bodyRef = useRef('')
+  const frontmatterRef = useRef<FrontmatterData>({})
+
+  // Schema comes from the backend (parsed from content.config.ts)
+  const schema = fileData?.frontmatterSchema
 
   // Sync loaded file content into local state
   useEffect(() => {
-    if (fileContent !== undefined) {
-      setContent(fileContent)
-      setOriginalContent(fileContent)
-      contentRef.current = fileContent
+    if (fileData !== undefined) {
+      const rawYaml = extractRawFrontmatter(fileData.content)
+      const fm = rawYaml ? parseFrontmatterYaml(rawYaml) : {}
+      const b = extractBody(fileData.content)
+
+      setFrontmatter(fm)
+      setOriginalFrontmatter(fm)
+      frontmatterRef.current = fm
+      setBody(b)
+      setOriginalBody(b)
+      bodyRef.current = b
       setReady(true)
     }
-  }, [fileContent])
+  }, [fileData])
 
-  const isDirty = content !== originalContent
+  const isDirty =
+    body !== originalBody ||
+    JSON.stringify(frontmatter) !== JSON.stringify(originalFrontmatter)
 
   const handleSave = useCallback(async () => {
-    const current = contentRef.current
-    await saveFile.mutateAsync({ path: filePath, content: current })
-    setOriginalContent(current)
+    const combined = combineFrontmatterAndBody(
+      frontmatterRef.current,
+      bodyRef.current
+    )
+    await saveFile.mutateAsync({ path: filePath, content: combined })
+    setOriginalBody(bodyRef.current)
+    setOriginalFrontmatter(frontmatterRef.current)
   }, [filePath, saveFile])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
         e.preventDefault()
-        if (contentRef.current !== originalContent) handleSave()
+        const currentCombined = combineFrontmatterAndBody(
+          frontmatterRef.current,
+          bodyRef.current
+        )
+        const originalCombined = combineFrontmatterAndBody(
+          originalFrontmatter,
+          originalBody
+        )
+        if (currentCombined !== originalCombined) handleSave()
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [originalContent, handleSave])
+  }, [originalFrontmatter, originalBody, handleSave])
 
-  const handleChange = useCallback((markdown: string) => {
-    setContent(markdown)
-    contentRef.current = markdown
+  const handleBodyChange = useCallback((markdown: string) => {
+    setBody(markdown)
+    bodyRef.current = markdown
+  }, [])
+
+  const handleFrontmatterChange = useCallback((data: FrontmatterData) => {
+    setFrontmatter(data)
+    frontmatterRef.current = data
   }, [])
 
   // Memoize plugins to avoid MDXEditor reinitialization on re-renders
   const plugins = useMemo(
     () =>
       jsxDescriptors
-        ? createPlugins({ filePath, jsxDescriptors, originalContent })
+        ? createPlugins({ filePath, jsxDescriptors, originalContent: originalBody })
         : undefined,
-    // Recreate plugins when ready flips to true (with correct originalContent).
+    // Recreate plugins when ready flips to true (with correct originalBody).
     // MDXEditor isn't mounted until ready, so this doesn't cause reinitialization.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [filePath, jsxDescriptors, ready]
@@ -110,22 +151,32 @@ export function Editor({ filePath }: Props) {
       <div
         style={{
           flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
           border: '1px solid var(--border)',
           borderRadius: 'var(--radius)',
           overflow: 'auto',
           background: '#fff',
         }}
       >
+        {schema && (
+          <FrontmatterEditor
+            schema={schema}
+            frontmatter={frontmatter}
+            filePath={filePath}
+            onChange={handleFrontmatterChange}
+          />
+        )}
         <FilePathContext.Provider value={filePath}>
-        <ComponentMetaContext.Provider value={componentMeta}>
-        <MDXEditor
-          ref={editorRef}
-          markdown={originalContent}
-          onChange={handleChange}
-          contentEditableClassName="mdxeditor-rich-text"
-          plugins={plugins}
-        />
-        </ComponentMetaContext.Provider>
+          <ComponentMetaContext.Provider value={componentMeta}>
+            <MDXEditor
+              ref={editorRef}
+              markdown={originalBody}
+              onChange={handleBodyChange}
+              contentEditableClassName="mdxeditor-rich-text"
+              plugins={plugins}
+            />
+          </ComponentMetaContext.Provider>
         </FilePathContext.Provider>
       </div>
     </div>

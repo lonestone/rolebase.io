@@ -7,7 +7,6 @@ import {
   tablePlugin,
   thematicBreakPlugin,
   quotePlugin,
-  frontmatterPlugin,
   markdownShortcutPlugin,
   codeBlockPlugin,
   codeMirrorPlugin,
@@ -23,7 +22,6 @@ import {
   InsertImage,
   InsertTable,
   InsertThematicBreak,
-  InsertFrontmatter,
   ListsToggle,
   Separator,
   ConditionalContents,
@@ -72,7 +70,7 @@ export function createPlugins({ filePath, jsxDescriptors, originalContent }: Cre
     tablePlugin(),
     thematicBreakPlugin(),
     quotePlugin(),
-    frontmatterPlugin(),
+
     markdownShortcutPlugin(),
     codeBlockPlugin({ defaultCodeBlockLanguage: '' }),
     codeMirrorPlugin({
@@ -100,8 +98,6 @@ export function createPlugins({ filePath, jsxDescriptors, originalContent }: Cre
           <InsertImage />
           <InsertTable />
           <InsertThematicBreak />
-          <Separator />
-          <InsertFrontmatter />
           <ConditionalContents
             options={[
               {
