@@ -1,40 +1,105 @@
 ---
-title: "Meeting"
-description: "Represents a scheduled meeting within a circle. Meetings support structured steps, attendee tracking, and video conferencing integration, and can be one-time or part of a recurring series."
-entity: "meeting"
-category: "meetings"
+title: 'Meeting'
+description: 'Represents a scheduled meeting within a circle. Meetings support structured steps, attendee tracking, and video conferencing integration, and can be one-time or part of a recurring series.'
+entity: 'meeting'
+category: 'meetings'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the meeting" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "circleId", type: "uuid", description: "Reference to the circle" },
-  { name: "title", type: "String", description: "Title of the meeting" },
-  { name: "summary", type: "String", description: "Summary or notes from the meeting" },
-  { name: "startDate", type: "Timestamp", description: "When the meeting starts" },
-  { name: "endDate", type: "Timestamp", description: "When the meeting ends" },
-  { name: "createdAt", type: "Timestamp", description: "When the meeting was created" },
-  { name: "ended", type: "Boolean", description: "Whether the meeting has ended (default: false)" },
-  { name: "archived", type: "Boolean", description: "Whether the meeting is archived (default: false)" },
-  { name: "private", type: "Boolean", description: "Whether the meeting is private (default: false)" },
-  { name: "invitedReadonly", type: "Boolean", description: "Whether invited members are read-only (default: false)" },
-  { name: "currentStepId", type: "uuid", description: "ID of the current active step (optional)" },
-  { name: "stepsConfig", type: "[meeting_step_config]", description: "Configuration array defining the meeting structure" },
-  { name: "videoConf", type: "videoconf", description: "Video conferencing details (optional)" },
-  { name: "recurringId", type: "uuid", description: "Reference to the recurring meeting configuration (optional)" },
-  { name: "recurringDate", type: "Timestamp", description: "Date in the recurring series (optional)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the meeting',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'circleId', type: 'uuid', description: 'Reference to the circle' },
+    { name: 'title', type: 'String', description: 'Title of the meeting' },
+    {
+      name: 'summary',
+      type: 'String',
+      description: 'Summary or notes from the meeting',
+    },
+    {
+      name: 'startDate',
+      type: 'Timestamp',
+      description: 'When the meeting starts',
+    },
+    {
+      name: 'endDate',
+      type: 'Timestamp',
+      description: 'When the meeting ends',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'When the meeting was created',
+    },
+    {
+      name: 'ended',
+      type: 'Boolean',
+      description: 'Whether the meeting has ended (default: false)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the meeting is archived (default: false)',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description: 'Whether the meeting is private (default: false)',
+    },
+    {
+      name: 'invitedReadonly',
+      type: 'Boolean',
+      description: 'Whether invited members are read-only (default: false)',
+    },
+    {
+      name: 'currentStepId',
+      type: 'uuid',
+      description: 'ID of the current active step (optional)',
+    },
+    {
+      name: 'stepsConfig',
+      type: '[meeting_step_config]',
+      description: 'Configuration array defining the meeting structure',
+    },
+    {
+      name: 'videoConf',
+      type: 'videoconf',
+      description: 'Video conferencing details (optional)',
+    },
+    {
+      name: 'recurringId',
+      type: 'uuid',
+      description:
+        'Reference to the recurring meeting configuration (optional)',
+    },
+    {
+      name: 'recurringDate',
+      type: 'Timestamp',
+      description: 'Date in the recurring series (optional)',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this meeting belongs to
 - `circle` — The circle this meeting is associated with
 - `recurring` — The recurring meeting configuration (if part of a series)
 
 **Array Relationships:**
+
 - `meeting_attendees` — Members attending the meeting
 - `steps` — Steps or agenda items in the meeting
 
@@ -148,5 +213,8 @@ Meeting access is controlled by multiple factors:
 - **Invited attendees:** Can participate based on the `invitedReadonly` setting
 
 <Callout type="info" title="Notes">
-  Meetings support structured agendas through the `stepsConfig` array. Video conferencing can be integrated with various providers. Recurring meetings are managed via the `meeting_recurring` entity. The combination of `private` and `invitedReadonly` settings enables flexible access control.
+  Meetings support structured agendas through the `stepsConfig` array. Video
+  conferencing can be integrated with various providers. Recurring meetings are
+  managed via the `meeting_recurring` entity. The combination of `private` and
+  `invitedReadonly` settings enables flexible access control.
 </Callout>

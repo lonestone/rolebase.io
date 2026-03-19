@@ -112,7 +112,10 @@ export default function FrontmatterEditor({
       const updated = { ...frontmatter }
       if (fieldType === 'string-array') {
         updated[fieldName] = value
-          ? value.split(',').map((s) => s.trim()).filter(Boolean)
+          ? value
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
           : []
       } else {
         updated[fieldName] = value

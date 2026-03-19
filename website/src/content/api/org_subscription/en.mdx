@@ -1,20 +1,46 @@
 ---
-title: "Organization Subscription"
-description: "Tracks the subscription plan, payment status, and Stripe integration details for an organization."
-entity: "org_subscription"
-category: "org-members"
+title: 'Organization Subscription'
+description: 'Tracks the subscription plan, payment status, and Stripe integration details for an organization.'
+entity: 'org_subscription'
+category: 'org-members'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the subscription" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "type", type: "Subscription_Plan_Type_Enum", description: "Type of subscription plan (Startup or Business)" },
-  { name: "status", type: "Subscription_Payment_Status_Enum", description: "Current payment status of the subscription" },
-  { name: "stripeCustomerId", type: "String", description: "Stripe customer ID for billing" },
-  { name: "stripeSubscriptionId", type: "String", description: "Stripe subscription ID for recurring payments (optional)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the subscription',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    {
+      name: 'type',
+      type: 'Subscription_Plan_Type_Enum',
+      description: 'Type of subscription plan (Startup or Business)',
+    },
+    {
+      name: 'status',
+      type: 'Subscription_Payment_Status_Enum',
+      description: 'Current payment status of the subscription',
+    },
+    {
+      name: 'stripeCustomerId',
+      type: 'String',
+      description: 'Stripe customer ID for billing',
+    },
+    {
+      name: 'stripeSubscriptionId',
+      type: 'String',
+      description: 'Stripe subscription ID for recurring payments (optional)',
+    },
+  ]}
+/>
 
 ## Subscription Plan Types
 
@@ -35,6 +61,7 @@ category: "org-members"
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this subscription belongs to
 
 ## Query Examples
@@ -63,5 +90,7 @@ query GetOrgSubscription($orgId: uuid!) {
 - Direct modifications are restricted to system processes
 
 <Callout type="warning" title="Read-only">
-  Each organization can have only one subscription. The `orgId`, `stripeCustomerId`, and `stripeSubscriptionId` fields are unique. Subscription status is automatically updated via Stripe webhooks.
+  Each organization can have only one subscription. The `orgId`,
+  `stripeCustomerId`, and `stripeSubscriptionId` fields are unique. Subscription
+  status is automatically updated via Stripe webhooks.
 </Callout>

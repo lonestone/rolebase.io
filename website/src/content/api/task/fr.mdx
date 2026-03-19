@@ -1,25 +1,70 @@
 ---
-title: "Tâche"
+title: 'Tâche'
 description: "Représente une tâche ou un élément à faire dans Rolebase. Les tâches sont associées à des cercles, peuvent être assignées à des membres et permettent le suivi de la progression avec des statuts et des dates d'échéance."
-entity: "task"
-category: "tasks"
+entity: 'task'
+category: 'tasks'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la tâche (généré automatiquement)" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation à laquelle cette tâche appartient" },
-  { name: "circleId", type: "uuid", description: "Référence au cercle auquel cette tâche est associée" },
-  { name: "memberId", type: "uuid", description: "Référence au membre assigné (optionnel)" },
-  { name: "title", type: "String", description: "Titre de la tâche" },
-  { name: "description", type: "String", description: "Description détaillée de la tâche" },
-  { name: "status", type: "Task_Status_Enum", description: "Statut actuel : Open, InProgress, InReview, Blocked ou Done" },
-  { name: "dueDate", type: "Timestamp", description: "Date d'échéance de la tâche (optionnel)" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création de la tâche (par défaut : horodatage actuel)" },
-  { name: "archived", type: "Boolean", description: "Indique si la tâche est archivée (par défaut : false)" },
-  { name: "private", type: "Boolean", description: "Indique si la tâche est privée (par défaut : false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Identifiant unique de la tâche (généré automatiquement)',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description:
+        "Référence à l'organisation à laquelle cette tâche appartient",
+    },
+    {
+      name: 'circleId',
+      type: 'uuid',
+      description: 'Référence au cercle auquel cette tâche est associée',
+    },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Référence au membre assigné (optionnel)',
+    },
+    { name: 'title', type: 'String', description: 'Titre de la tâche' },
+    {
+      name: 'description',
+      type: 'String',
+      description: 'Description détaillée de la tâche',
+    },
+    {
+      name: 'status',
+      type: 'Task_Status_Enum',
+      description:
+        'Statut actuel : Open, InProgress, InReview, Blocked ou Done',
+    },
+    {
+      name: 'dueDate',
+      type: 'Timestamp',
+      description: "Date d'échéance de la tâche (optionnel)",
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'Date de création de la tâche (par défaut : horodatage actuel)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Indique si la tâche est archivée (par défaut : false)',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description: 'Indique si la tâche est privée (par défaut : false)',
+    },
+  ]}
+/>
 
 ## Statut de la tâche
 
@@ -143,5 +188,7 @@ L'accès aux tâches est contrôlé par plusieurs facteurs :
 - **Assignation** — Les membres assignés ont toujours accès à leurs tâches
 
 <Callout type="info">
-Les tâches peuvent être organisées en vues personnalisées à l'aide de l'entité [task_view](/fr/api/task_view). Les journaux d'activité suivent automatiquement les modifications de statut et d'assignation des tâches.
+  Les tâches peuvent être organisées en vues personnalisées à l'aide de l'entité
+  [task_view](/fr/api/task_view). Les journaux d'activité suivent
+  automatiquement les modifications de statut et d'assignation des tâches.
 </Callout>

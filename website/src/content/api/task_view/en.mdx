@@ -1,18 +1,37 @@
 ---
-title: "Task View"
-description: "Represents a custom view of tasks in Rolebase. Task views allow users to organize and filter tasks flexibly, supporting different task management methodologies like Kanban or Scrum."
-entity: "task_view"
-category: "tasks"
+title: 'Task View'
+description: 'Represents a custom view of tasks in Rolebase. Task views allow users to organize and filter tasks flexibly, supporting different task management methodologies like Kanban or Scrum.'
+entity: 'task_view'
+category: 'tasks'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the task view (auto-generated)" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "key", type: "String", description: "Unique key for the view within the organization (e.g., 'backlog', 'sprint')" },
-  { name: "tasksIds", type: "uuid[]", description: "Array of task IDs included in this view" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the task view (auto-generated)',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    {
+      name: 'key',
+      type: 'String',
+      description:
+        "Unique key for the view within the organization (e.g., 'backlog', 'sprint')",
+    },
+    {
+      name: 'tasksIds',
+      type: 'uuid[]',
+      description: 'Array of task IDs included in this view',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -107,5 +126,7 @@ Task view access is controlled based on organization membership:
 - Only the `tasksIds` field can be updated
 
 <Callout type="info">
-The combination of `orgId` and `key` must be unique. Task IDs in the view must correspond to existing tasks in the organization. Views can be shared among organization members.
+  The combination of `orgId` and `key` must be unique. Task IDs in the view must
+  correspond to existing tasks in the organization. Views can be shared among
+  organization members.
 </Callout>

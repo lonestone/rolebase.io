@@ -1,25 +1,68 @@
 ---
-title: "Task"
-description: "Represents a task or to-do item in Rolebase. Tasks are associated with circles, can be assigned to members, and support tracking progress with statuses and due dates."
-entity: "task"
-category: "tasks"
+title: 'Task'
+description: 'Represents a task or to-do item in Rolebase. Tasks are associated with circles, can be assigned to members, and support tracking progress with statuses and due dates.'
+entity: 'task'
+category: 'tasks'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the task (auto-generated)" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization this task belongs to" },
-  { name: "circleId", type: "uuid", description: "Reference to the circle this task is associated with" },
-  { name: "memberId", type: "uuid", description: "Reference to the assigned member (optional)" },
-  { name: "title", type: "String", description: "Title of the task" },
-  { name: "description", type: "String", description: "Detailed description of the task" },
-  { name: "status", type: "Task_Status_Enum", description: "Current status: Open, InProgress, InReview, Blocked, or Done" },
-  { name: "dueDate", type: "Timestamp", description: "When the task is due (optional)" },
-  { name: "createdAt", type: "Timestamp", description: "When the task was created (defaults to current timestamp)" },
-  { name: "archived", type: "Boolean", description: "Whether the task is archived (defaults to false)" },
-  { name: "private", type: "Boolean", description: "Whether the task is private (defaults to false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the task (auto-generated)',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization this task belongs to',
+    },
+    {
+      name: 'circleId',
+      type: 'uuid',
+      description: 'Reference to the circle this task is associated with',
+    },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Reference to the assigned member (optional)',
+    },
+    { name: 'title', type: 'String', description: 'Title of the task' },
+    {
+      name: 'description',
+      type: 'String',
+      description: 'Detailed description of the task',
+    },
+    {
+      name: 'status',
+      type: 'Task_Status_Enum',
+      description:
+        'Current status: Open, InProgress, InReview, Blocked, or Done',
+    },
+    {
+      name: 'dueDate',
+      type: 'Timestamp',
+      description: 'When the task is due (optional)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'When the task was created (defaults to current timestamp)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the task is archived (defaults to false)',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description: 'Whether the task is private (defaults to false)',
+    },
+  ]}
+/>
 
 ## Task Status
 
@@ -143,5 +186,7 @@ Task access is controlled by several factors:
 - **Assignment** — Assigned members always have access to their tasks
 
 <Callout type="info">
-Tasks can be organized into custom views using the [task_view](/en/api/task_view) entity. Activity logs automatically track changes to task status and assignments.
+  Tasks can be organized into custom views using the
+  [task_view](/en/api/task_view) entity. Activity logs automatically track
+  changes to task status and assignments.
 </Callout>

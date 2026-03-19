@@ -7,7 +7,7 @@
  */
 export function resolvePreviewSrc(
   src: string,
-  filePath: string,
+  filePath: string
 ): string | undefined {
   if (!src) return undefined
   if (src.startsWith('/') || src.startsWith('http')) return src

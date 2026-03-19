@@ -1,22 +1,41 @@
 ---
-title: "Circle Link"
-description: "Represents a link between two circles, enabling cross-functional collaboration and representation of one circle within another beyond the parent-child hierarchy."
-entity: "circle_link"
-category: "circles-roles"
+title: 'Circle Link'
+description: 'Represents a link between two circles, enabling cross-functional collaboration and representation of one circle within another beyond the parent-child hierarchy.'
+entity: 'circle_link'
+category: 'circles-roles'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the circle link" },
-  { name: "parentId", type: "uuid", description: "Reference to the hosting circle" },
-  { name: "circleId", type: "uuid", description: "Reference to the invited circle" },
-  { name: "createdAt", type: "Timestamp", description: "When the circle link was created" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the circle link',
+    },
+    {
+      name: 'parentId',
+      type: 'uuid',
+      description: 'Reference to the hosting circle',
+    },
+    {
+      name: 'circleId',
+      type: 'uuid',
+      description: 'Reference to the invited circle',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'When the circle link was created',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `hostCircle` — The circle that hosts the linked circle (referenced by `parentId`)
 - `invitedCircle` — The circle that is invited to participate (referenced by `circleId`)
 
@@ -92,5 +111,7 @@ mutation RemoveCircleLink {
 - **Public:** Limited to viewing links in organizations with shared member information
 
 <Callout type="info" title="Notes">
-  The combination of `parentId` and `circleId` must be unique. Circle links affect participant inheritance and permission structures. Leaders of linked circles gain certain permissions in the host circle.
+  The combination of `parentId` and `circleId` must be unique. Circle links
+  affect participant inheritance and permission structures. Leaders of linked
+  circles gain certain permissions in the host circle.
 </Callout>

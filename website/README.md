@@ -13,15 +13,15 @@ This starts both the Astro dev server (port 4321) and the CMS backend (port 4001
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Astro + CMS backend |
-| `npm run dev:astro` | Start Astro only |
-| `npm run dev:cms` | Start CMS frontend dev server (Vite, port 4002) |
-| `npm run build` | Build the Astro site |
-| `npm run build:cms` | Build the CMS frontend |
-| `npm run cms` | Start the CMS backend only |
-| `npm run preview` | Preview the built Astro site |
+| Command             | Description                                     |
+| ------------------- | ----------------------------------------------- |
+| `npm run dev`       | Start Astro + CMS backend                       |
+| `npm run dev:astro` | Start Astro only                                |
+| `npm run dev:cms`   | Start CMS frontend dev server (Vite, port 4002) |
+| `npm run build`     | Build the Astro site                            |
+| `npm run build:cms` | Build the CMS frontend                          |
+| `npm run cms`       | Start the CMS backend only                      |
+| `npm run preview`   | Preview the built Astro site                    |
 
 ## CMS
 
@@ -57,15 +57,15 @@ docker compose up -d
 
 Environment variables:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `CMS_PORT` | CMS backend port | `4001` |
-| `CMS_PASSWORD` | Password to access the CMS (production) | none |
-| `ASTRO_DEV_URL` | Astro dev server URL | `http://localhost:4321` |
-| `CONTENT_DIR` | Content directory path | `src/content` |
-| `GIT_REPO_URL` | Git repo URL (HTTPS) | detected from origin |
-| `GIT_PAT` | GitHub Personal Access Token (for push) | none |
-| `GIT_BRANCH` | Git branch | `main` |
+| Variable        | Description                             | Default                 |
+| --------------- | --------------------------------------- | ----------------------- |
+| `CMS_PORT`      | CMS backend port                        | `4001`                  |
+| `CMS_PASSWORD`  | Password to access the CMS (production) | none                    |
+| `ASTRO_DEV_URL` | Astro dev server URL                    | `http://localhost:4321` |
+| `CONTENT_DIR`   | Content directory path                  | `src/content`           |
+| `GIT_REPO_URL`  | Git repo URL (HTTPS)                    | detected from origin    |
+| `GIT_PAT`       | GitHub Personal Access Token (for push) | none                    |
+| `GIT_BRANCH`    | Git branch                              | `main`                  |
 
 ### Prerequisites
 

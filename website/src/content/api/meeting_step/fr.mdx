@@ -1,24 +1,44 @@
 ---
-title: "Étape de réunion"
+title: 'Étape de réunion'
 description: "Représente une étape spécifique ou un point de l'ordre du jour au sein d'une réunion, utilisée pour structurer les réunions et suivre la progression à travers des activités comme les notes, discussions, listes de vérification et tâches."
-entity: "meeting_step"
-category: "meetings"
+entity: 'meeting_step'
+category: 'meetings'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'étape" },
-  { name: "meetingId", type: "uuid", description: "Référence à la réunion" },
-  { name: "stepConfigId", type: "String", description: "Référence à la configuration de l'étape dans le stepsConfig de la réunion" },
-  { name: "type", type: "Meeting_Step_Type_Enum", description: "Type d'étape de réunion" },
-  { name: "data", type: "meeting_step_data", description: "Données et contenu spécifiques à l'étape" },
-  { name: "notes", type: "String", description: "Notes et documentation de l'étape" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'id', type: 'uuid', description: "Identifiant unique de l'étape" },
+    { name: 'meetingId', type: 'uuid', description: 'Référence à la réunion' },
+    {
+      name: 'stepConfigId',
+      type: 'String',
+      description:
+        "Référence à la configuration de l'étape dans le stepsConfig de la réunion",
+    },
+    {
+      name: 'type',
+      type: 'Meeting_Step_Type_Enum',
+      description: "Type d'étape de réunion",
+    },
+    {
+      name: 'data',
+      type: 'meeting_step_data',
+      description: "Données et contenu spécifiques à l'étape",
+    },
+    {
+      name: 'notes',
+      type: 'String',
+      description: "Notes et documentation de l'étape",
+    },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `meeting` — La réunion à laquelle cette étape appartient
 
 ## Types d'étapes
@@ -89,5 +109,8 @@ mutation UpdateMeetingStep($id: uuid!, $data: json!, $notes: String!) {
 - **Membres de l'organisation :** Peuvent consulter les étapes des réunions non privées
 
 <Callout type="info" title="Notes">
-  Les étapes sont créées à partir du `stepsConfig` du modèle de réunion. La structure du champ `data` varie selon le type d'étape. La progression à travers les étapes est suivie via le champ `currentStepId` de la réunion. Les notes peuvent être mises à jour pendant et après la réunion.
+  Les étapes sont créées à partir du `stepsConfig` du modèle de réunion. La
+  structure du champ `data` varie selon le type d'étape. La progression à
+  travers les étapes est suivie via le champ `currentStepId` de la réunion. Les
+  notes peuvent être mises à jour pendant et après la réunion.
 </Callout>

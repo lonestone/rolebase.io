@@ -1,19 +1,44 @@
 ---
-title: "Réponse de sondage de discussion"
+title: 'Réponse de sondage de discussion'
 description: "Représente la réponse d'un membre à un sondage dans une activité de discussion. Les réponses de sondage permettent aux membres de voter ou de fournir des réponses structurées aux questions posées dans les sondages de discussion."
-entity: "thread_poll_answer"
-category: "threads"
+entity: 'thread_poll_answer'
+category: 'threads'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la réponse au sondage (généré automatiquement)" },
-  { name: "activityId", type: "uuid", description: "Référence à l'activité de discussion (sondage)" },
-  { name: "userId", type: "uuid", description: "Référence à l'utilisateur qui a soumis la réponse" },
-  { name: "choicesPoints", type: "Int[]", description: "Tableau d'entiers représentant les points attribués à chaque choix du sondage" },
-  { name: "createdAt", type: "Timestamp", description: "Date de soumission de la réponse (par défaut : horodatage actuel)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description:
+        'Identifiant unique de la réponse au sondage (généré automatiquement)',
+    },
+    {
+      name: 'activityId',
+      type: 'uuid',
+      description: "Référence à l'activité de discussion (sondage)",
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: "Référence à l'utilisateur qui a soumis la réponse",
+    },
+    {
+      name: 'choicesPoints',
+      type: 'Int[]',
+      description:
+        "Tableau d'entiers représentant les points attribués à chaque choix du sondage",
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'Date de soumission de la réponse (par défaut : horodatage actuel)',
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -92,5 +117,9 @@ L'accès aux réponses de sondage est contrôlé en fonction de l'appartenance �
 - **Suppression** — Les utilisateurs peuvent supprimer leurs propres réponses. Le créateur de l'activité de sondage peut supprimer toutes les réponses à son sondage. Les administrateurs et propriétaires de l'organisation peuvent supprimer toutes les réponses
 
 <Callout type="info">
-Chaque utilisateur ne peut soumettre qu'une seule réponse par sondage. Le champ `choicesPoints` est un tableau d'entiers où chaque élément représente les points attribués au choix de sondage correspondant. Les réponses de sondage peuvent être utilisées pour la prise de décision, la planification, la collecte d'avis et les enquêtes rapides.
+  Chaque utilisateur ne peut soumettre qu'une seule réponse par sondage. Le
+  champ `choicesPoints` est un tableau d'entiers où chaque élément représente
+  les points attribués au choix de sondage correspondant. Les réponses de
+  sondage peuvent être utilisées pour la prise de décision, la planification, la
+  collecte d'avis et les enquêtes rapides.
 </Callout>

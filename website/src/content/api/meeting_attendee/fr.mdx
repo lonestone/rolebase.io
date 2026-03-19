@@ -1,23 +1,39 @@
 ---
-title: "Participant de réunion"
+title: 'Participant de réunion'
 description: "Suit la participation d'un membre à une réunion, incluant le statut de présence et l'état des notifications."
-entity: "meeting_attendee"
-category: "meetings"
+entity: 'meeting_attendee'
+category: 'meetings'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'enregistrement de participation" },
-  { name: "meetingId", type: "uuid", description: "Référence à la réunion" },
-  { name: "memberId", type: "uuid", description: "Référence au membre" },
-  { name: "present", type: "Boolean", description: "Indique si le membre est présent à la réunion (optionnel)" },
-  { name: "startNotified", type: "Boolean", description: "Indique si une notification de début a été envoyée (par défaut : false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: "Identifiant unique de l'enregistrement de participation",
+    },
+    { name: 'meetingId', type: 'uuid', description: 'Référence à la réunion' },
+    { name: 'memberId', type: 'uuid', description: 'Référence au membre' },
+    {
+      name: 'present',
+      type: 'Boolean',
+      description: 'Indique si le membre est présent à la réunion (optionnel)',
+    },
+    {
+      name: 'startNotified',
+      type: 'Boolean',
+      description:
+        'Indique si une notification de début a été envoyée (par défaut : false)',
+    },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `meeting` — La réunion à laquelle cet enregistrement de présence appartient
 - `member` — Le membre participant à la réunion
 
@@ -97,5 +113,8 @@ mutation DeleteMeetingAttendee($id: uuid!) {
 - **Membres de l'organisation :** Peuvent consulter les participants des réunions non privées
 
 <Callout type="info" title="Notes">
-  Chaque membre ne peut apparaître qu'une seule fois par réunion (imposé par la contrainte d'unicité). Le champ `present` est optionnel et peut être mis à jour pendant la réunion. La suppression d'une réunion ou d'un membre supprime automatiquement les enregistrements de présence associés.
+  Chaque membre ne peut apparaître qu'une seule fois par réunion (imposé par la
+  contrainte d'unicité). Le champ `present` est optionnel et peut être mis à
+  jour pendant la réunion. La suppression d'une réunion ou d'un membre supprime
+  automatiquement les enregistrements de présence associés.
 </Callout>

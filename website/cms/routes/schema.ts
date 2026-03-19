@@ -4,7 +4,15 @@ import * as ts from 'typescript'
 
 interface FrontmatterFieldSchema {
   name: string
-  type: 'string' | 'number' | 'boolean' | 'select' | 'json' | 'image' | 'date' | 'string-array'
+  type:
+    | 'string'
+    | 'number'
+    | 'boolean'
+    | 'select'
+    | 'json'
+    | 'image'
+    | 'date'
+    | 'string-array'
   required?: boolean
   options?: string[]
 }
@@ -74,8 +82,8 @@ export async function parseContentSchemas(): Promise<
               const key = ts.isStringLiteral(prop.name)
                 ? prop.name.text
                 : ts.isIdentifier(prop.name)
-                  ? prop.name.text
-                  : undefined
+                ? prop.name.text
+                : undefined
               const value = ts.isIdentifier(prop.initializer)
                 ? prop.initializer.text
                 : undefined
@@ -171,8 +179,8 @@ function parseZObjectFields(
     const name = ts.isIdentifier(prop.name)
       ? prop.name.text
       : ts.isStringLiteral(prop.name)
-        ? prop.name.text
-        : undefined
+      ? prop.name.text
+      : undefined
     if (!name) continue
 
     const { type, required, options } = resolveZodType(prop.initializer)

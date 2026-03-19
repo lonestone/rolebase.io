@@ -1,21 +1,32 @@
 ---
-title: "Organization File"
-description: "Represents an association between an organization and a file, enabling organization-level file management and access control."
-entity: "org_file"
-category: "org-members"
+title: 'Organization File'
+description: 'Represents an association between an organization and a file, enabling organization-level file management and access control.'
+entity: 'org_file'
+category: 'org-members'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the file association" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "fileId", type: "uuid", description: "Reference to the file" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the file association',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'fileId', type: 'uuid', description: 'Reference to the file' },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this file association belongs to
 - `file` — The associated file
 
@@ -63,5 +74,7 @@ Organization file access is controlled based on organization membership:
 - **Member / Admin / Owner:** Can view files associated with their organization, create new file associations, and delete file associations they have access to
 
 <Callout type="info" title="Notes">
-  Files can be associated with multiple organizations. Deleting an association does not delete the actual file. File metadata and content are managed through the `file` entity.
+  Files can be associated with multiple organizations. Deleting an association
+  does not delete the actual file. File metadata and content are managed through
+  the `file` entity.
 </Callout>

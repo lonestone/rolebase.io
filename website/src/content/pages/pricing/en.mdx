@@ -1,8 +1,10 @@
 ---
-title: "Pricing"
+title: 'Pricing'
 ---
 
-<h1 class="text-4xl md:text-5xl font-bold text-center mt-0">Clarify your organization with Rolebase today</h1>
+<h1 class="text-4xl md:text-5xl font-bold text-center mt-0">
+  Clarify your organization with Rolebase today
+</h1>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
   <PricingCard title="Small">
@@ -14,15 +16,24 @@ title: "Pricing"
     <Button slot="cta" href="https://rolebase.io/signup" class="block w-full text-center" label="Join" />
   </PricingCard>
 
-  <PricingCard title="Startup" featured>
-    <Fragment slot="price"><span class="text-3xl font-bold">€5</span> / month / user</Fragment>
-    <Fragment slot="description">Get your entire team on board</Fragment>
-    <CheckItem label="All features included" />
-    <CheckItem label="Unlimited inactive members" />
-    <CheckItem label="Up to 200 active members" />
-    <CheckItem label="Priority support" />
-    <Button slot="cta" href="https://rolebase.io/signup" variant="orange" class="block w-full text-center" label="Join" />
-  </PricingCard>
+{' '}
+<PricingCard title="Startup" featured>
+  <Fragment slot="price">
+    <span class="text-3xl font-bold">€5</span> / month / user
+  </Fragment>
+  <Fragment slot="description">Get your entire team on board</Fragment>
+  <CheckItem label="All features included" />
+  <CheckItem label="Unlimited inactive members" />
+  <CheckItem label="Up to 200 active members" />
+  <CheckItem label="Priority support" />
+  <Button
+    slot="cta"
+    href="https://rolebase.io/signup"
+    variant="orange"
+    class="block w-full text-center"
+    label="Join"
+  />
+</PricingCard>
 
   <PricingCard title="Enterprise">
     <Fragment slot="price"><span class="text-3xl font-bold">Custom pricing</span></Fragment>
@@ -37,11 +48,16 @@ title: "Pricing"
   </PricingCard>
 </div>
 
-<p class="text-center text-text-secondary mt-8">An active member is a member with access to all features.</p>
+<p class="text-center text-text-secondary mt-8">
+  An active member is a member with access to all features.
+</p>
 
 <Section class="bg-purple-100 rounded-2xl p-8 md:p-12 text-center">
   <h2 class="mt-0 mb-4">Are you a non-profit?</h2>
-  <p>Significant discounts or complete free access are available depending on your status. Contact us to learn more.</p>
+  <p>
+    Significant discounts or complete free access are available depending on
+    your status. Contact us to learn more.
+  </p>
   <Button href="/en/contact" variant="primary" label="Contact us" />
 </Section>
 
@@ -50,7 +66,14 @@ title: "Pricing"
 </Section>
 
 <Section class="bg-yellow-100 rounded-2xl p-8 md:p-12">
-  <CtaBanner title="Your organization deserves it" primaryLabel="Book a demo" primaryHref="/en/contact" secondaryLabel="Try it yourself" secondaryHref="https://rolebase.io/signup">
-    Free until you're ready to bring your whole team on board! Try it yourself in minutes or book a demo to talk to us.
+  <CtaBanner
+    title="Your organization deserves it"
+    primaryLabel="Book a demo"
+    primaryHref="/en/contact"
+    secondaryLabel="Try it yourself"
+    secondaryHref="https://rolebase.io/signup"
+  >
+    Free until you're ready to bring your whole team on board! Try it yourself
+    in minutes or book a demo to talk to us.
   </CtaBanner>
 </Section>

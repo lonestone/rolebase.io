@@ -66,10 +66,7 @@ export function Editor({ filePath }: Props) {
 
   const handleSave = useCallback(async () => {
     const fullBody = combineEsmAndContent(esmRef.current, bodyRef.current)
-    const combined = combineFrontmatterAndBody(
-      frontmatterRef.current,
-      fullBody
-    )
+    const combined = combineFrontmatterAndBody(frontmatterRef.current, fullBody)
     await saveFile.mutateAsync({ path: filePath, content: combined })
     setOriginalBody(bodyRef.current)
     setOriginalFrontmatter(frontmatterRef.current)
@@ -79,8 +76,14 @@ export function Editor({ filePath }: Props) {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
         e.preventDefault()
-        const currentFullBody = combineEsmAndContent(esmRef.current, bodyRef.current)
-        const originalFullBody = combineEsmAndContent(esmRef.current, originalBody)
+        const currentFullBody = combineEsmAndContent(
+          esmRef.current,
+          bodyRef.current
+        )
+        const originalFullBody = combineEsmAndContent(
+          esmRef.current,
+          originalBody
+        )
         const currentCombined = combineFrontmatterAndBody(
           frontmatterRef.current,
           currentFullBody
@@ -110,7 +113,11 @@ export function Editor({ filePath }: Props) {
   const plugins = useMemo(
     () =>
       jsxDescriptors
-        ? createPlugins({ filePath, jsxDescriptors, originalContent: originalBody })
+        ? createPlugins({
+            filePath,
+            jsxDescriptors,
+            originalContent: originalBody,
+          })
         : undefined,
     // Recreate plugins when ready flips to true (with correct originalBody).
     // MDXEditor isn't mounted until ready, so this doesn't cause reinitialization.

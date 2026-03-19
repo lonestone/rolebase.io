@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { useGitStatus, useGitDiff, useGitCommit, useGitDiscard } from '../hooks/useGit.js'
+import {
+  useGitStatus,
+  useGitDiff,
+  useGitCommit,
+  useGitDiscard,
+} from '../hooks/useGit.js'
 
 export function GitPanel() {
   const { data: files = [] } = useGitStatus()

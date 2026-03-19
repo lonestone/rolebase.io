@@ -1,30 +1,69 @@
 ---
-title: "Organization"
-description: "The top-level entity that contains all other entities such as circles, roles, members, meetings, and tasks."
-entity: "org"
-category: "org-members"
+title: 'Organization'
+description: 'The top-level entity that contains all other entities such as circles, roles, members, meetings, and tasks.'
+entity: 'org'
+category: 'org-members'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the organization" },
-  { name: "name", type: "String", description: "Name of the organization" },
-  { name: "slug", type: "String", description: "URL-friendly unique identifier (optional)" },
-  { name: "archived", type: "Boolean", description: "Whether the organization is archived (default: false)" },
-  { name: "createdAt", type: "Timestamp", description: "When the organization was created" },
-  { name: "defaultGraphView", type: "String", description: "Default graph view setting (optional)" },
-  { name: "protectGovernance", type: "Boolean", description: "Whether governance changes are restricted to leaders (default: false)" },
-  { name: "shareMembers", type: "Boolean", description: "Whether member information is publicly shared (default: false)" },
-  { name: "shareOrg", type: "Boolean", description: "Whether organization information is publicly shared (default: false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the organization',
+    },
+    { name: 'name', type: 'String', description: 'Name of the organization' },
+    {
+      name: 'slug',
+      type: 'String',
+      description: 'URL-friendly unique identifier (optional)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the organization is archived (default: false)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'When the organization was created',
+    },
+    {
+      name: 'defaultGraphView',
+      type: 'String',
+      description: 'Default graph view setting (optional)',
+    },
+    {
+      name: 'protectGovernance',
+      type: 'Boolean',
+      description:
+        'Whether governance changes are restricted to leaders (default: false)',
+    },
+    {
+      name: 'shareMembers',
+      type: 'Boolean',
+      description:
+        'Whether member information is publicly shared (default: false)',
+    },
+    {
+      name: 'shareOrg',
+      type: 'Boolean',
+      description:
+        'Whether organization information is publicly shared (default: false)',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **One-to-One:**
+
 - `org_subscription` — The organization's subscription information
 
 **One-to-Many:**
+
 - `circles` — Organizational circles
 - `decisions` — Organization decisions
 - `files` — Organization files
@@ -93,5 +132,8 @@ mutation UpdateOrganization {
 - **Member:** Can view organization data based on sharing settings
 
 <Callout type="info" title="Notes">
-  The `slug` field must be unique across all organizations. When `protectGovernance` is enabled, only circle leaders can modify governance-related entities. The `shareMembers` and `shareOrg` flags control visibility of organization data to external users.
+  The `slug` field must be unique across all organizations. When
+  `protectGovernance` is enabled, only circle leaders can modify
+  governance-related entities. The `shareMembers` and `shareOrg` flags control
+  visibility of organization data to external users.
 </Callout>

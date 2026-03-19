@@ -4,8 +4,8 @@ services:
       context: ..
       dockerfile: cms/Dockerfile
     ports:
-      - "4001:4001"
-      - "4321:4321"
+      - '4001:4001'
+      - '4321:4321'
     environment:
       - CMS_PORT=4001
       - CMS_PASSWORD=${CMS_PASSWORD}

@@ -1,21 +1,48 @@
 ---
-title: "Actualités"
+title: 'Actualités'
 description: "Une vue unifiée des activités récentes agrégeant les discussions actives, les décisions et les réunions terminées. Fournit un fil d'actualité centralisé à travers l'organisation."
-entity: "news"
-category: "other"
+entity: 'news'
+category: 'other'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'élément d'actualité (généré automatiquement)" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "circleId", type: "uuid", description: "Référence au cercle (optionnel)" },
-  { name: "threadId", type: "uuid", description: "Référence à la discussion source (le cas échéant)" },
-  { name: "decisionId", type: "uuid", description: "Référence à la décision source (le cas échéant)" },
-  { name: "meetingId", type: "uuid", description: "Référence à la réunion source (le cas échéant)" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création de l'élément d'actualité" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description:
+        "Identifiant unique de l'élément d'actualité (généré automatiquement)",
+    },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    {
+      name: 'circleId',
+      type: 'uuid',
+      description: 'Référence au cercle (optionnel)',
+    },
+    {
+      name: 'threadId',
+      type: 'uuid',
+      description: 'Référence à la discussion source (le cas échéant)',
+    },
+    {
+      name: 'decisionId',
+      type: 'uuid',
+      description: 'Référence à la décision source (le cas échéant)',
+    },
+    {
+      name: 'meetingId',
+      type: 'uuid',
+      description: 'Référence à la réunion source (le cas échéant)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: "Date de création de l'élément d'actualité",
+    },
+  ]}
+/>
 
 ## Implémentation
 
@@ -101,5 +128,8 @@ L'accès aux actualités est contrôlé en fonction de l'appartenance à l'organ
 - Les membres de l'organisation peuvent consulter toutes les entrées d'actualité de leur organisation. Chaque entrée contient uniquement des références (UUID) vers l'entité source. L'accès aux données de la discussion, décision ou réunion dépend des permissions de chaque entité liée
 
 <Callout type="info">
-Les éléments d'actualité sont générés automatiquement à partir des entités sources. Chaque élément d'actualité représente exactement une source (une discussion, une décision ou une réunion). Cette entité est en lecture seule car il s'agit d'une vue SQL.
+  Les éléments d'actualité sont générés automatiquement à partir des entités
+  sources. Chaque élément d'actualité représente exactement une source (une
+  discussion, une décision ou une réunion). Cette entité est en lecture seule
+  car il s'agit d'une vue SQL.
 </Callout>

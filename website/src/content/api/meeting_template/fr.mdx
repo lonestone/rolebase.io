@@ -1,22 +1,30 @@
 ---
-title: "Modèle de réunion"
-description: "Une configuration de réunion réutilisable qui définit la structure et le déroulement des réunions, aidant les organisations à standardiser leurs formats de réunion."
-entity: "meeting_template"
-category: "meetings"
+title: 'Modèle de réunion'
+description: 'Une configuration de réunion réutilisable qui définit la structure et le déroulement des réunions, aidant les organisations à standardiser leurs formats de réunion.'
+entity: 'meeting_template'
+category: 'meetings'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique du modèle" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "title", type: "String", description: "Titre du modèle" },
-  { name: "stepsConfig", type: "[meeting_step_config]", description: "Tableau de configurations d'étapes définissant la structure de la réunion" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'id', type: 'uuid', description: 'Identifiant unique du modèle' },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    { name: 'title', type: 'String', description: 'Titre du modèle' },
+    {
+      name: 'stepsConfig',
+      type: '[meeting_step_config]',
+      description:
+        "Tableau de configurations d'étapes définissant la structure de la réunion",
+    },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `org` — L'organisation à laquelle ce modèle appartient
 
 ## Configuration des étapes
@@ -104,5 +112,8 @@ mutation deleteMeetingTemplate($id: uuid!) {
 Les membres de l'organisation peuvent consulter, créer, mettre à jour et supprimer des modèles au sein de leur organisation. Les modèles sont des ressources à l'échelle de l'organisation, accessibles à tous les membres.
 
 <Callout type="info" title="Notes">
-  Les modèles peuvent être utilisés pour des réunions ponctuelles et récurrentes. L'ordre des étapes dans `stepsConfig` détermine le déroulement de la réunion. Les modifications d'un modèle n'affectent pas les réunions existantes déjà créées à partir de celui-ci.
+  Les modèles peuvent être utilisés pour des réunions ponctuelles et
+  récurrentes. L'ordre des étapes dans `stepsConfig` détermine le déroulement de
+  la réunion. Les modifications d'un modèle n'affectent pas les réunions
+  existantes déjà créées à partir de celui-ci.
 </Callout>

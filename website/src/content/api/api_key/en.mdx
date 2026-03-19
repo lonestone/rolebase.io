@@ -1,19 +1,43 @@
 ---
-title: "API Key"
-description: "Represents an API key for programmatic access to the Rolebase API. API keys authenticate and authorize integration with external applications and services."
-entity: "api_key"
-category: "other"
+title: 'API Key'
+description: 'Represents an API key for programmatic access to the Rolebase API. API keys authenticate and authorize integration with external applications and services.'
+entity: 'api_key'
+category: 'other'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the API key (auto-generated)" },
-  { name: "userId", type: "uuid", description: "Reference to the user who owns this key" },
-  { name: "name", type: "String", description: "Descriptive name for the API key" },
-  { name: "value", type: "String", description: "The actual API key value (auto-generated, shown once on creation)" },
-  { name: "createdAt", type: "Timestamp", description: "When the API key was created (defaults to current timestamp)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the API key (auto-generated)',
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: 'Reference to the user who owns this key',
+    },
+    {
+      name: 'name',
+      type: 'String',
+      description: 'Descriptive name for the API key',
+    },
+    {
+      name: 'value',
+      type: 'String',
+      description:
+        'The actual API key value (auto-generated, shown once on creation)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'When the API key was created (defaults to current timestamp)',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -81,5 +105,7 @@ API key management is restricted to the owning user:
 - Users can create, view, rename, and delete their own API keys only
 
 <Callout type="info">
-The key `value` is only shown once upon creation — store it securely. Best practices include regularly rotating keys, monitoring usage, deleting unused keys, and never sharing them publicly.
+  The key `value` is only shown once upon creation — store it securely. Best
+  practices include regularly rotating keys, monitoring usage, deleting unused
+  keys, and never sharing them publicly.
 </Callout>

@@ -1,17 +1,28 @@
 ---
-title: "Thread Extra Member"
-description: "Represents an additional member invited to participate in a thread beyond the default circle participants. Enables cross-circle collaboration by extending thread access."
-entity: "thread_extra_member"
-category: "threads"
+title: 'Thread Extra Member'
+description: 'Represents an additional member invited to participate in a thread beyond the default circle participants. Enables cross-circle collaboration by extending thread access.'
+entity: 'thread_extra_member'
+category: 'threads'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the extra member entry (auto-generated)" },
-  { name: "threadId", type: "uuid", description: "Reference to the thread" },
-  { name: "memberId", type: "uuid", description: "Reference to the member being added" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description:
+        'Unique identifier for the extra member entry (auto-generated)',
+    },
+    { name: 'threadId', type: 'uuid', description: 'Reference to the thread' },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Reference to the member being added',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -87,5 +98,8 @@ Users can add extra members to threads when they meet any of these conditions:
 Users can remove extra members from threads under the same conditions as Insert.
 
 <Callout type="info">
-Each member can only be added once per thread (enforced by a unique constraint on `threadId` and `memberId`). Extra members can be removed without affecting thread content, and thread privacy settings apply to all participants including extra members.
+  Each member can only be added once per thread (enforced by a unique constraint
+  on `threadId` and `memberId`). Extra members can be removed without affecting
+  thread content, and thread privacy settings apply to all participants
+  including extra members.
 </Callout>

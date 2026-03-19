@@ -1,19 +1,42 @@
 ---
-title: "Thread Activity Reaction"
-description: "Represents an emoji reaction to a thread activity. Reactions allow members to express quick responses to messages without creating new activities."
-entity: "thread_activity_reaction"
-category: "threads"
+title: 'Thread Activity Reaction'
+description: 'Represents an emoji reaction to a thread activity. Reactions allow members to express quick responses to messages without creating new activities.'
+entity: 'thread_activity_reaction'
+category: 'threads'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the reaction (auto-generated)" },
-  { name: "activityId", type: "uuid", description: "Reference to the thread activity being reacted to" },
-  { name: "userId", type: "uuid", description: "Reference to the user who added the reaction" },
-  { name: "shortcode", type: "String", description: "Unicode emoji character or shortcode" },
-  { name: "createdAt", type: "Timestamp", description: "When the reaction was created (defaults to current timestamp)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the reaction (auto-generated)',
+    },
+    {
+      name: 'activityId',
+      type: 'uuid',
+      description: 'Reference to the thread activity being reacted to',
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: 'Reference to the user who added the reaction',
+    },
+    {
+      name: 'shortcode',
+      type: 'String',
+      description: 'Unicode emoji character or shortcode',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'When the reaction was created (defaults to current timestamp)',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -75,5 +98,8 @@ Reaction access is controlled based on organization membership:
 - **Delete** — Users can only remove their own reactions
 
 <Callout type="info">
-Each member can add multiple different emoji reactions to an activity, but duplicate emoji reactions from the same member are prevented. Reactions are typically displayed as emoji counts per activity and can be used for quick polls or sentiment tracking.
+  Each member can add multiple different emoji reactions to an activity, but
+  duplicate emoji reactions from the same member are prevented. Reactions are
+  typically displayed as emoji counts per activity and can be used for quick
+  polls or sentiment tracking.
 </Callout>

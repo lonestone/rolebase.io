@@ -1,28 +1,53 @@
 ---
-title: "Circle"
-description: "Represents a hierarchical organizational circle that can contain members, roles, and child circles. Circles organize teams and responsibilities within an organization."
-entity: "circle"
-category: "circles-roles"
+title: 'Circle'
+description: 'Represents a hierarchical organizational circle that can contain members, roles, and child circles. Circles organize teams and responsibilities within an organization.'
+entity: 'circle'
+category: 'circles-roles'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the circle" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "roleId", type: "uuid", description: "Reference to the role associated with this circle" },
-  { name: "parentId", type: "uuid", description: "Reference to the parent circle (optional, null for top-level circles)" },
-  { name: "archived", type: "Boolean", description: "Whether the circle is archived (default: false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the circle',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    {
+      name: 'roleId',
+      type: 'uuid',
+      description: 'Reference to the role associated with this circle',
+    },
+    {
+      name: 'parentId',
+      type: 'uuid',
+      description:
+        'Reference to the parent circle (optional, null for top-level circles)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the circle is archived (default: false)',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this circle belongs to
 - `parent` — The parent circle (if any)
 - `role` — The role that defines this circle's purpose and accountabilities
 
 **Array Relationships:**
+
 - `children` — Child circles within this circle
 - `members` — Circle memberships
 - `leaders` — Circle leadership assignments
@@ -121,5 +146,9 @@ mutation UpdateCircle {
 Circle access follows organization and governance rules. When `protectGovernance` is enabled on the organization, only circle leaders can modify circle structure.
 
 <Callout type="info" title="Notes">
-  Circles form a hierarchical tree through the `parentId` relationship. Each circle must have an associated role that defines its purpose and accountabilities. Circle participants include direct members plus leaders of child and linked circles. Meetings, tasks, and decisions are organized within circles.
+  Circles form a hierarchical tree through the `parentId` relationship. Each
+  circle must have an associated role that defines its purpose and
+  accountabilities. Circle participants include direct members plus leaders of
+  child and linked circles. Meetings, tasks, and decisions are organized within
+  circles.
 </Callout>

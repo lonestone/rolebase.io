@@ -6,7 +6,7 @@ Ce plan décrit les étapes pour remplacer TinaCMS par un CMS agent-first dans c
 
 ### 1.1 Supprimer les fichiers TinaCMS
 
-- Supprimer le dossier `tina/` (config.ts, claude-screen.tsx, claude-server.mjs, __generated__/, tina-lock.json)
+- Supprimer le dossier `tina/` (config.ts, claude-screen.tsx, claude-server.mjs, **generated**/, tina-lock.json)
 - Supprimer `public/admin/` (index.html généré par TinaCMS)
 - Garder le patch `patches/iconsax-astro+0.0.2.patch` (iconsax-astro est utilisé dans le projet)
 
@@ -43,15 +43,15 @@ Ce plan décrit les étapes pour remplacer TinaCMS par un CMS agent-first dans c
 
 ### 2.4 Variables d'environnement
 
-| Variable | Description | Défaut |
-|----------|-------------|--------|
-| `CMS_PORT` | Port du backend CMS | `4001` |
-| `CMS_PASSWORD` | Mot de passe pour accéder à l'interface (production) | aucun (pas d'auth en dev) |
-| `ASTRO_DEV_URL` | URL du dev server Astro (pour le bouton preview) | `http://localhost:4321` |
-| `CONTENT_DIR` | Chemin vers le dossier de contenu | `src/content` |
-| `GIT_REPO_URL` | URL du repo Git (HTTPS, pour push) | détecté depuis le remote `origin` |
-| `GIT_PAT` | Personal Access Token GitHub (production, pour push HTTPS) | aucun (utilise les credentials locales en dev) |
-| `GIT_BRANCH` | Branche de travail | `main` |
+| Variable        | Description                                                | Défaut                                         |
+| --------------- | ---------------------------------------------------------- | ---------------------------------------------- |
+| `CMS_PORT`      | Port du backend CMS                                        | `4001`                                         |
+| `CMS_PASSWORD`  | Mot de passe pour accéder à l'interface (production)       | aucun (pas d'auth en dev)                      |
+| `ASTRO_DEV_URL` | URL du dev server Astro (pour le bouton preview)           | `http://localhost:4321`                        |
+| `CONTENT_DIR`   | Chemin vers le dossier de contenu                          | `src/content`                                  |
+| `GIT_REPO_URL`  | URL du repo Git (HTTPS, pour push)                         | détecté depuis le remote `origin`              |
+| `GIT_PAT`       | Personal Access Token GitHub (production, pour push HTTPS) | aucun (utilise les credentials locales en dev) |
+| `GIT_BRANCH`    | Branche de travail                                         | `main`                                         |
 
 Pas de variable pour Claude Code CLI : il utilise l'authentification de la session (`~/.claude/`).
 
@@ -174,16 +174,16 @@ Une fois le CMS validé sur le site Rolebase :
 
 ## Ordre de priorité
 
-| Étape | Priorité | Dépendances |
-|-------|----------|-------------|
-| 1. Retirer TinaCMS | Haute | Aucune |
-| 2.1 Serveur CMS minimal | Haute | Phase 1 |
-| 2.2 Intégration Claude CLI | Haute | 2.1 |
-| 3.2-3.3 Layout + prompt | Haute | 2.1, 2.2 |
-| 3.4 Éditeur MDX | Haute | 3.2 |
-| 3.5 Gestion Git | Moyenne | 2.1, 3.2 |
-| 3.6 Upload médias | Moyenne | 3.2 |
-| 2.3 Catalogue composants | Basse | 2.1 |
-| 4 Scripts et DX | Moyenne | 2.1 |
-| 5 Docker production | Basse | Phase 2, 3, 4 |
-| 6 Boilerplate | Basse | Phase 5 |
+| Étape                      | Priorité | Dépendances   |
+| -------------------------- | -------- | ------------- |
+| 1. Retirer TinaCMS         | Haute    | Aucune        |
+| 2.1 Serveur CMS minimal    | Haute    | Phase 1       |
+| 2.2 Intégration Claude CLI | Haute    | 2.1           |
+| 3.2-3.3 Layout + prompt    | Haute    | 2.1, 2.2      |
+| 3.4 Éditeur MDX            | Haute    | 3.2           |
+| 3.5 Gestion Git            | Moyenne  | 2.1, 3.2      |
+| 3.6 Upload médias          | Moyenne  | 3.2           |
+| 2.3 Catalogue composants   | Basse    | 2.1           |
+| 4 Scripts et DX            | Moyenne  | 2.1           |
+| 5 Docker production        | Basse    | Phase 2, 3, 4 |
+| 6 Boilerplate              | Basse    | Phase 5       |

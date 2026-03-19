@@ -1,24 +1,68 @@
 ---
-title: "Activité de discussion"
+title: 'Activité de discussion'
 description: "Représente une activité ou une interaction au sein d'une discussion. Les activités comprennent des messages, des sondages et des références à d'autres entités, constituant le contenu conversationnel d'une discussion."
-entity: "thread_activity"
-category: "threads"
+entity: 'thread_activity'
+category: 'threads'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'activité (généré automatiquement)" },
-  { name: "threadId", type: "uuid", description: "Référence à la discussion parente" },
-  { name: "userId", type: "uuid", description: "Référence à l'utilisateur qui a créé l'activité" },
-  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type d'activité : Message, Poll, Thread, Meeting, Task, Decision, MeetingNote ou ChangeStatus" },
-  { name: "data", type: "JSON", description: "Contenu de l'activité (le format dépend du type)" },
-  { name: "createdAt", type: "timestamptz", description: "Date de création de l'activité (par défaut : horodatage actuel)" },
-  { name: "refThreadId", type: "uuid", description: "Référence optionnelle à une autre discussion" },
-  { name: "refMeetingId", type: "uuid", description: "Référence optionnelle à une réunion" },
-  { name: "refTaskId", type: "uuid", description: "Référence optionnelle à une tâche" },
-  { name: "refDecisionId", type: "uuid", description: "Référence optionnelle à une décision" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: "Identifiant unique de l'activité (généré automatiquement)",
+    },
+    {
+      name: 'threadId',
+      type: 'uuid',
+      description: 'Référence à la discussion parente',
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: "Référence à l'utilisateur qui a créé l'activité",
+    },
+    {
+      name: 'type',
+      type: 'Thread_Activity_Type_Enum',
+      description:
+        "Type d'activité : Message, Poll, Thread, Meeting, Task, Decision, MeetingNote ou ChangeStatus",
+    },
+    {
+      name: 'data',
+      type: 'JSON',
+      description: "Contenu de l'activité (le format dépend du type)",
+    },
+    {
+      name: 'createdAt',
+      type: 'timestamptz',
+      description:
+        "Date de création de l'activité (par défaut : horodatage actuel)",
+    },
+    {
+      name: 'refThreadId',
+      type: 'uuid',
+      description: 'Référence optionnelle à une autre discussion',
+    },
+    {
+      name: 'refMeetingId',
+      type: 'uuid',
+      description: 'Référence optionnelle à une réunion',
+    },
+    {
+      name: 'refTaskId',
+      type: 'uuid',
+      description: 'Référence optionnelle à une tâche',
+    },
+    {
+      name: 'refDecisionId',
+      type: 'uuid',
+      description: 'Référence optionnelle à une décision',
+    },
+  ]}
+/>
 
 ## Types d'activité
 
@@ -136,5 +180,8 @@ L'accès aux activités de discussion est contrôlé via les permissions Hasura 
 - **Suppression** — Les utilisateurs peuvent supprimer leurs propres activités. Les administrateurs et propriétaires de l'organisation peuvent supprimer toute activité
 
 <Callout type="info">
-La structure du champ `data` varie en fonction du type d'activité. Les activités sont ordonnées chronologiquement au sein d'une discussion et supportent les réactions avec agrégation. Les champs de référence permettent aux activités de se lier à d'autres entités pour le contexte.
+  La structure du champ `data` varie en fonction du type d'activité. Les
+  activités sont ordonnées chronologiquement au sein d'une discussion et
+  supportent les réactions avec agrégation. Les champs de référence permettent
+  aux activités de se lier à d'autres entités pour le contexte.
 </Callout>

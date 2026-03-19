@@ -1,24 +1,68 @@
 ---
-title: "Thread Activity"
-description: "Represents an activity or interaction within a thread. Activities include messages, polls, and references to other entities, forming the conversation content of a thread."
-entity: "thread_activity"
-category: "threads"
+title: 'Thread Activity'
+description: 'Represents an activity or interaction within a thread. Activities include messages, polls, and references to other entities, forming the conversation content of a thread.'
+entity: 'thread_activity'
+category: 'threads'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the activity (auto-generated)" },
-  { name: "threadId", type: "uuid", description: "Reference to the parent thread" },
-  { name: "userId", type: "uuid", description: "Reference to the user who created the activity" },
-  { name: "type", type: "Thread_Activity_Type_Enum", description: "Type of activity: Message, Poll, Thread, Meeting, Task, Decision, MeetingNote, or ChangeStatus" },
-  { name: "data", type: "JSON", description: "Activity content (format depends on type)" },
-  { name: "createdAt", type: "timestamptz", description: "When the activity was created (defaults to current timestamp)" },
-  { name: "refThreadId", type: "uuid", description: "Optional reference to another thread" },
-  { name: "refMeetingId", type: "uuid", description: "Optional reference to a meeting" },
-  { name: "refTaskId", type: "uuid", description: "Optional reference to a task" },
-  { name: "refDecisionId", type: "uuid", description: "Optional reference to a decision" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the activity (auto-generated)',
+    },
+    {
+      name: 'threadId',
+      type: 'uuid',
+      description: 'Reference to the parent thread',
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: 'Reference to the user who created the activity',
+    },
+    {
+      name: 'type',
+      type: 'Thread_Activity_Type_Enum',
+      description:
+        'Type of activity: Message, Poll, Thread, Meeting, Task, Decision, MeetingNote, or ChangeStatus',
+    },
+    {
+      name: 'data',
+      type: 'JSON',
+      description: 'Activity content (format depends on type)',
+    },
+    {
+      name: 'createdAt',
+      type: 'timestamptz',
+      description:
+        'When the activity was created (defaults to current timestamp)',
+    },
+    {
+      name: 'refThreadId',
+      type: 'uuid',
+      description: 'Optional reference to another thread',
+    },
+    {
+      name: 'refMeetingId',
+      type: 'uuid',
+      description: 'Optional reference to a meeting',
+    },
+    {
+      name: 'refTaskId',
+      type: 'uuid',
+      description: 'Optional reference to a task',
+    },
+    {
+      name: 'refDecisionId',
+      type: 'uuid',
+      description: 'Optional reference to a decision',
+    },
+  ]}
+/>
 
 ## Activity Types
 
@@ -136,5 +180,8 @@ Thread activity access is controlled through Hasura permissions and row-level se
 - **Delete** — Users can delete their own activities. Organization admins and owners can delete any activity
 
 <Callout type="info">
-The `data` field structure varies based on the activity type. Activities are ordered chronologically within a thread and support reactions with aggregation. The reference fields allow activities to link to other entities for context.
+  The `data` field structure varies based on the activity type. Activities are
+  ordered chronologically within a thread and support reactions with
+  aggregation. The reference fields allow activities to link to other entities
+  for context.
 </Callout>

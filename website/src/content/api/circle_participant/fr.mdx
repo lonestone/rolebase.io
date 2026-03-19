@@ -1,24 +1,29 @@
 ---
-title: "Participant de cercle"
+title: 'Participant de cercle'
 description: "Une vue calculée représentant tous les participants d'un cercle, incluant les membres directs et les participants hérités des cercles enfants et liés."
-entity: "circle_participant"
-category: "circles-roles"
+entity: 'circle_participant'
+category: 'circles-roles'
 ---
 
 <Callout type="warning" title="Non accessible via l'API publique">
-  Cette entité n'est pas directement accessible via l'API publique. C'est une vue calculée utilisée en interne pour les vérifications de permissions et la résolution des participants.
+  Cette entité n'est pas directement accessible via l'API publique. C'est une
+  vue calculée utilisée en interne pour les vérifications de permissions et la
+  résolution des participants.
 </Callout>
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "circleId", type: "uuid", description: "Référence au cercle" },
-  { name: "memberId", type: "uuid", description: "Référence au membre" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
+    { name: 'memberId', type: 'uuid', description: 'Référence au membre' },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `circle` — Le cercle auquel ce participant appartient
 - `member` — Le membre qui est participant
 
@@ -35,5 +40,7 @@ Les participants d'un cercle proviennent de trois sources :
 La vue est une UNION de trois requêtes et est mise en cache dans `circle_participant_cache` pour des raisons de performance. Le cache est automatiquement maintenu par des déclencheurs de base de données lorsque des changements de structure de cercle se produisent.
 
 <Callout type="info" title="Notes">
-  Le statut de participant affecte l'accès aux réunions, tâches et décisions au sein du cercle. Le cache est utilisé pour des vérifications de permissions efficaces dans tout le système.
+  Le statut de participant affecte l'accès aux réunions, tâches et décisions au
+  sein du cercle. Le cache est utilisé pour des vérifications de permissions
+  efficaces dans tout le système.
 </Callout>

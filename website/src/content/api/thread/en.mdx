@@ -1,23 +1,55 @@
 ---
-title: "Thread"
-description: "Represents a discussion or conversation thread in Rolebase. Threads are associated with circles, support activities (messages), reactions, extra members, and can reference tasks, meetings, and decisions."
-entity: "thread"
-category: "threads"
+title: 'Thread'
+description: 'Represents a discussion or conversation thread in Rolebase. Threads are associated with circles, support activities (messages), reactions, extra members, and can reference tasks, meetings, and decisions.'
+entity: 'thread'
+category: 'threads'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the thread (auto-generated)" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "circleId", type: "uuid", description: "Reference to the circle" },
-  { name: "initiatorMemberId", type: "uuid", description: "Reference to the member who started the thread" },
-  { name: "title", type: "String", description: "Title of the thread" },
-  { name: "createdAt", type: "Timestamp", description: "When the thread was created (defaults to current timestamp)" },
-  { name: "archived", type: "Boolean", description: "Whether the thread is archived (defaults to false)" },
-  { name: "private", type: "Boolean", description: "Whether the thread is private (defaults to false)" },
-  { name: "status", type: "Thread_Status_Enum", description: "Current status of the thread (e.g., Active, Preparation, Closed)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the thread (auto-generated)',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'circleId', type: 'uuid', description: 'Reference to the circle' },
+    {
+      name: 'initiatorMemberId',
+      type: 'uuid',
+      description: 'Reference to the member who started the thread',
+    },
+    { name: 'title', type: 'String', description: 'Title of the thread' },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'When the thread was created (defaults to current timestamp)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the thread is archived (defaults to false)',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description: 'Whether the thread is private (defaults to false)',
+    },
+    {
+      name: 'status',
+      type: 'Thread_Status_Enum',
+      description:
+        'Current status of the thread (e.g., Active, Preparation, Closed)',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -173,5 +205,8 @@ Thread access is controlled by several factors:
 - Member status can be updated by the respective member
 
 <Callout type="info">
-Threads support rich content through JSON activity data, reactions for engagement, and cross-entity references to tasks, meetings, and decisions. Members can be added beyond the circle via extra members for broader collaboration.
+  Threads support rich content through JSON activity data, reactions for
+  engagement, and cross-entity references to tasks, meetings, and decisions.
+  Members can be added beyond the circle via extra members for broader
+  collaboration.
 </Callout>

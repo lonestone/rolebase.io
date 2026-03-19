@@ -1,25 +1,37 @@
 ---
-title: "Circle Leader"
-description: "Represents a leadership assignment within a circle. Circle leaders have special permissions for governance decisions and member management."
-entity: "circle_leader"
-category: "circles-roles"
+title: 'Circle Leader'
+description: 'Represents a leadership assignment within a circle. Circle leaders have special permissions for governance decisions and member management.'
+entity: 'circle_leader'
+category: 'circles-roles'
 ---
 
 <Callout type="warning" title="Not accessible through the public API">
-  This entity is not directly accessible via the public API. It is managed internally by Rolebase.
+  This entity is not directly accessible via the public API. It is managed
+  internally by Rolebase.
 </Callout>
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "circleId", type: "uuid", description: "Reference to the circle" },
-  { name: "memberId", type: "uuid", description: "Reference to the member assigned as leader" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'circleId', type: 'uuid', description: 'Reference to the circle' },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Reference to the member assigned as leader',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `circle` — The circle this leadership assignment belongs to
 - `member` — The member assigned as the circle leader
 
@@ -29,6 +41,7 @@ category: "circles-roles"
 - **Parent circle leaders:** Can assign leaders for child circles
 
 Circle leaders have special permissions within their circles:
+
 - Managing circle members
 - Creating and modifying circle roles
 - Managing circle governance
@@ -36,5 +49,7 @@ Circle leaders have special permissions within their circles:
 - Leading meetings and making decisions
 
 <Callout type="info" title="Notes">
-  A circle can have multiple leaders. Circle leaders inherit leadership permissions in child circles. Leadership assignments determine governance permissions throughout the circle hierarchy.
+  A circle can have multiple leaders. Circle leaders inherit leadership
+  permissions in child circles. Leadership assignments determine governance
+  permissions throughout the circle hierarchy.
 </Callout>

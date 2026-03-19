@@ -54,7 +54,7 @@ export function ImagePropInput({
 
   const previewSrc = useMemo(
     () => resolvePreviewSrc(value, filePath),
-    [value, filePath],
+    [value, filePath]
   )
 
   const handleSelect = useCallback(() => {

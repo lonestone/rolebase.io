@@ -12,9 +12,10 @@ function buildDescriptors(
     kind: 'flow' as const,
     props: props.map((p) => ({
       name: p.name,
-      type: (p.type === 'json'
-        ? 'expression'
-        : 'string') as 'string' | 'number' | 'expression',
+      type: (p.type === 'json' ? 'expression' : 'string') as
+        | 'string'
+        | 'number'
+        | 'expression',
     })),
     hasChildren,
     Editor: CustomJsxEditor,

@@ -1,23 +1,38 @@
 ---
-title: "Circle Member"
-description: "Represents a membership relationship between a member and a circle, tracking association status and history."
-entity: "circle_member"
-category: "circles-roles"
+title: 'Circle Member'
+description: 'Represents a membership relationship between a member and a circle, tracking association status and history.'
+entity: 'circle_member'
+category: 'circles-roles'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the circle membership" },
-  { name: "circleId", type: "uuid", description: "Reference to the circle" },
-  { name: "memberId", type: "uuid", description: "Reference to the member" },
-  { name: "createdAt", type: "Timestamp", description: "When the membership was created" },
-  { name: "archived", type: "Boolean", description: "Whether the membership is archived (default: false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the circle membership',
+    },
+    { name: 'circleId', type: 'uuid', description: 'Reference to the circle' },
+    { name: 'memberId', type: 'uuid', description: 'Reference to the member' },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'When the membership was created',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the membership is archived (default: false)',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `circle` — The circle this membership belongs to
 - `member` — The member associated with this circle membership
 
@@ -92,5 +107,8 @@ mutation UpdateCircleMember {
 - A member cannot be added to a circle if they already have an active membership
 
 <Callout type="info" title="Notes">
-  The `archived` flag preserves membership history while marking inactive memberships. Circle membership determines access to circle resources like meetings, tasks, and decisions. Members can belong to multiple circles simultaneously.
+  The `archived` flag preserves membership history while marking inactive
+  memberships. Circle membership determines access to circle resources like
+  meetings, tasks, and decisions. Members can belong to multiple circles
+  simultaneously.
 </Callout>

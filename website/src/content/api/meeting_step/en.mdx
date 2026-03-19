@@ -1,24 +1,48 @@
 ---
-title: "Meeting Step"
-description: "Represents a specific step or agenda item within a meeting, used to structure meetings and track progress through activities like notes, discussions, checklists, and tasks."
-entity: "meeting_step"
-category: "meetings"
+title: 'Meeting Step'
+description: 'Represents a specific step or agenda item within a meeting, used to structure meetings and track progress through activities like notes, discussions, checklists, and tasks.'
+entity: 'meeting_step'
+category: 'meetings'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the step" },
-  { name: "meetingId", type: "uuid", description: "Reference to the meeting" },
-  { name: "stepConfigId", type: "String", description: "Reference to the step configuration in the meeting's stepsConfig" },
-  { name: "type", type: "Meeting_Step_Type_Enum", description: "Type of meeting step" },
-  { name: "data", type: "meeting_step_data", description: "Step-specific data and content" },
-  { name: "notes", type: "String", description: "Notes and documentation for the step" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'id', type: 'uuid', description: 'Unique identifier for the step' },
+    {
+      name: 'meetingId',
+      type: 'uuid',
+      description: 'Reference to the meeting',
+    },
+    {
+      name: 'stepConfigId',
+      type: 'String',
+      description:
+        "Reference to the step configuration in the meeting's stepsConfig",
+    },
+    {
+      name: 'type',
+      type: 'Meeting_Step_Type_Enum',
+      description: 'Type of meeting step',
+    },
+    {
+      name: 'data',
+      type: 'meeting_step_data',
+      description: 'Step-specific data and content',
+    },
+    {
+      name: 'notes',
+      type: 'String',
+      description: 'Notes and documentation for the step',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `meeting` — The meeting this step belongs to
 
 ## Step Types
@@ -89,5 +113,8 @@ mutation UpdateMeetingStep($id: uuid!, $data: json!, $notes: String!) {
 - **Organization members:** Can view steps in non-private meetings
 
 <Callout type="info" title="Notes">
-  Steps are created based on the meeting template's `stepsConfig`. The `data` field structure varies by step type. Progress through steps is tracked via the meeting's `currentStepId` field. Notes can be updated during and after the meeting.
+  Steps are created based on the meeting template's `stepsConfig`. The `data`
+  field structure varies by step type. Progress through steps is tracked via the
+  meeting's `currentStepId` field. Notes can be updated during and after the
+  meeting.
 </Callout>

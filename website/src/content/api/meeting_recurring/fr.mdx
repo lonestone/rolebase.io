@@ -1,34 +1,76 @@
 ---
-title: "Réunion récurrente"
+title: 'Réunion récurrente'
 description: "Définit la planification, le modèle et les paramètres d'une série de réunions récurrentes au sein d'un cercle."
-entity: "meeting_recurring"
-category: "meetings"
+entity: 'meeting_recurring'
+category: 'meetings'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la configuration récurrente" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "circleId", type: "uuid", description: "Référence au cercle" },
-  { name: "templateId", type: "uuid", description: "Référence au modèle de réunion" },
-  { name: "rrule", type: "String", description: "Règle de récurrence au format iCal (RFC 5545)" },
-  { name: "duration", type: "Smallint", description: "Durée de la réunion en minutes" },
-  { name: "scope", type: "participants_scope", description: "Configuration pour la sélection des participants" },
-  { name: "private", type: "Boolean", description: "Indique si les réunions de la série sont privées (par défaut : false)" },
-  { name: "invitedReadonly", type: "Boolean", description: "Indique si les membres invités sont en lecture seule (par défaut : false)" },
-  { name: "videoConf", type: "JSON", description: "Paramètres de visioconférence par défaut (optionnel)" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création de la configuration récurrente" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Identifiant unique de la configuration récurrente',
+    },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
+    {
+      name: 'templateId',
+      type: 'uuid',
+      description: 'Référence au modèle de réunion',
+    },
+    {
+      name: 'rrule',
+      type: 'String',
+      description: 'Règle de récurrence au format iCal (RFC 5545)',
+    },
+    {
+      name: 'duration',
+      type: 'Smallint',
+      description: 'Durée de la réunion en minutes',
+    },
+    {
+      name: 'scope',
+      type: 'participants_scope',
+      description: 'Configuration pour la sélection des participants',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description:
+        'Indique si les réunions de la série sont privées (par défaut : false)',
+    },
+    {
+      name: 'invitedReadonly',
+      type: 'Boolean',
+      description:
+        'Indique si les membres invités sont en lecture seule (par défaut : false)',
+    },
+    {
+      name: 'videoConf',
+      type: 'JSON',
+      description: 'Paramètres de visioconférence par défaut (optionnel)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'Date de création de la configuration récurrente',
+    },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `org` — L'organisation à laquelle cette réunion récurrente appartient
 - `circle` — Le cercle auquel cette réunion récurrente est associée
 - `template` — Le modèle de réunion utilisé pour chaque instance
 
 **Relations tableau :**
+
 - `meetings` — Instances individuelles de réunion dans la série récurrente
 
 ## Règle de récurrence
@@ -119,5 +161,9 @@ mutation UpdateMeetingRecurring($id: uuid!) {
 - **Membres de l'organisation :** Peuvent consulter les réunions récurrentes non privées
 
 <Callout type="info" title="Notes">
-  Chaque réunion récurrente doit référencer un modèle qui définit sa structure. Les instances de réunion sont créées automatiquement selon la règle de récurrence. Les modifications de la configuration n'affectent pas les instances de réunion passées. Le champ `rrule` doit respecter la spécification iCalendar.
+  Chaque réunion récurrente doit référencer un modèle qui définit sa structure.
+  Les instances de réunion sont créées automatiquement selon la règle de
+  récurrence. Les modifications de la configuration n'affectent pas les
+  instances de réunion passées. Le champ `rrule` doit respecter la spécification
+  iCalendar.
 </Callout>

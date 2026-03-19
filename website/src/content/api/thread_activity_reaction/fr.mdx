@@ -1,19 +1,42 @@
 ---
 title: "Réaction d'activité de discussion"
 description: "Représente une réaction emoji à une activité de discussion. Les réactions permettent aux membres d'exprimer des réponses rapides aux messages sans créer de nouvelles activités."
-entity: "thread_activity_reaction"
-category: "threads"
+entity: 'thread_activity_reaction'
+category: 'threads'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la réaction (généré automatiquement)" },
-  { name: "activityId", type: "uuid", description: "Référence à l'activité de discussion concernée" },
-  { name: "userId", type: "uuid", description: "Référence à l'utilisateur qui a ajouté la réaction" },
-  { name: "shortcode", type: "String", description: "Caractère emoji Unicode ou code court" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création de la réaction (par défaut : horodatage actuel)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Identifiant unique de la réaction (généré automatiquement)',
+    },
+    {
+      name: 'activityId',
+      type: 'uuid',
+      description: "Référence à l'activité de discussion concernée",
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: "Référence à l'utilisateur qui a ajouté la réaction",
+    },
+    {
+      name: 'shortcode',
+      type: 'String',
+      description: 'Caractère emoji Unicode ou code court',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'Date de création de la réaction (par défaut : horodatage actuel)',
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -75,5 +98,9 @@ L'accès aux réactions est contrôlé en fonction de l'appartenance à l'organi
 - **Suppression** — Les utilisateurs ne peuvent supprimer que leurs propres réactions
 
 <Callout type="info">
-Chaque membre peut ajouter plusieurs réactions emoji différentes à une activité, mais les réactions emoji en double du même membre sont empêchées. Les réactions sont généralement affichées sous forme de compteurs d'emoji par activité et peuvent être utilisées pour des sondages rapides ou le suivi du sentiment.
+  Chaque membre peut ajouter plusieurs réactions emoji différentes à une
+  activité, mais les réactions emoji en double du même membre sont empêchées.
+  Les réactions sont généralement affichées sous forme de compteurs d'emoji par
+  activité et peuvent être utilisées pour des sondages rapides ou le suivi du
+  sentiment.
 </Callout>

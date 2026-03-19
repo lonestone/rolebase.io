@@ -1,25 +1,33 @@
 ---
-title: "Leader de cercle"
+title: 'Leader de cercle'
 description: "Représente une attribution de leadership au sein d'un cercle. Les leaders de cercle disposent de permissions spéciales pour les décisions de gouvernance et la gestion des membres."
-entity: "circle_leader"
-category: "circles-roles"
+entity: 'circle_leader'
+category: 'circles-roles'
 ---
 
 <Callout type="warning" title="Non accessible via l'API publique">
-  Cette entité n'est pas directement accessible via l'API publique. Elle est gérée en interne par Rolebase.
+  Cette entité n'est pas directement accessible via l'API publique. Elle est
+  gérée en interne par Rolebase.
 </Callout>
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "circleId", type: "uuid", description: "Référence au cercle" },
-  { name: "memberId", type: "uuid", description: "Référence au membre désigné comme leader" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Référence au membre désigné comme leader',
+    },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `circle` — Le cercle auquel cette attribution de leadership appartient
 - `member` — Le membre désigné comme leader du cercle
 
@@ -29,6 +37,7 @@ category: "circles-roles"
 - **Leaders du cercle parent :** Peuvent attribuer des leaders pour les cercles enfants
 
 Les leaders de cercle disposent de permissions spéciales au sein de leurs cercles :
+
 - Gestion des membres du cercle
 - Création et modification des rôles du cercle
 - Gestion de la gouvernance du cercle
@@ -36,5 +45,8 @@ Les leaders de cercle disposent de permissions spéciales au sein de leurs cercl
 - Animation des réunions et prise de décisions
 
 <Callout type="info" title="Notes">
-  Un cercle peut avoir plusieurs leaders. Les leaders de cercle héritent des permissions de leadership dans les cercles enfants. Les attributions de leadership déterminent les permissions de gouvernance dans toute la hiérarchie des cercles.
+  Un cercle peut avoir plusieurs leaders. Les leaders de cercle héritent des
+  permissions de leadership dans les cercles enfants. Les attributions de
+  leadership déterminent les permissions de gouvernance dans toute la hiérarchie
+  des cercles.
 </Callout>

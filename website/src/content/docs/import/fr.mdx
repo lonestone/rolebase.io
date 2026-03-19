@@ -1,5 +1,5 @@
 ---
-title: "Import"
+title: 'Import'
 description: "Migrez votre structure organisationnelle depuis Holaspirit et d'autres outils."
 ---
 
@@ -22,6 +22,7 @@ Rolebase supporte l'importation de données organisationnelles depuis d'autres o
 4. **Téléverser le fichier.** Sélectionnez le fichier exporté depuis votre ordinateur et téléversez-le.
 
 5. **Traitement.** Rolebase analyse le fichier et fait correspondre les entités Holaspirit aux équivalents Rolebase :
+
    - Les cercles et rôles Holaspirit deviennent des rôles Rolebase avec raison d'être, domaine et redevabilités (dans Rolebase, un cercle est simplement un rôle contenant des sous-rôles).
    - Les membres sont créés avec leurs noms et attributions de rôles.
 
@@ -30,20 +31,23 @@ Rolebase supporte l'importation de données organisationnelles depuis d'autres o
 7. **Confirmation.** Acceptez l'import. La structure organisationnelle est créée dans Rolebase.
 
 <Callout type="warning" title="Données existantes">
-  Importer dans une organisation qui possède déjà des rôles peut créer des doublons. Il est recommandé d'importer dans une organisation vierge.
+  Importer dans une organisation qui possède déjà des rôles peut créer des
+  doublons. Il est recommandé d'importer dans une organisation vierge.
 </Callout>
 
 ## Ce qui est importé
 
-| Entité Holaspirit | Équivalent Rolebase |
-|---|---|
-| Structure de l'organisation | Cercle de premier niveau et hiérarchie |
-| Cercles et Rôles | Rôles avec raison d'être, domaine, redevabilités |
-| Membres | Entrées de membres (sans comptes utilisateurs) |
-| Attributions de rôles | Membres assignés à leurs rôles |
+| Entité Holaspirit           | Équivalent Rolebase                              |
+| --------------------------- | ------------------------------------------------ |
+| Structure de l'organisation | Cercle de premier niveau et hiérarchie           |
+| Cercles et Rôles            | Rôles avec raison d'être, domaine, redevabilités |
+| Membres                     | Entrées de membres (sans comptes utilisateurs)   |
+| Attributions de rôles       | Membres assignés à leurs rôles                   |
 
 <Callout type="info" title="Comptes utilisateurs">
-  Les membres importés sont créés comme des entrées sans comptes utilisateurs liés. Vous devrez les [inviter par e-mail](/fr/docs/members) pour qu'ils puissent se connecter et accéder à l'organisation.
+  Les membres importés sont créés comme des entrées sans comptes utilisateurs
+  liés. Vous devrez les [inviter par e-mail](/fr/docs/members) pour qu'ils
+  puissent se connecter et accéder à l'organisation.
 </Callout>
 
 ## Gestion des erreurs

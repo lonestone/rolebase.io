@@ -1,22 +1,38 @@
 ---
-title: "Meeting Template"
-description: "A reusable meeting configuration that defines the structure and flow of meetings, helping organizations standardize their meeting formats."
-entity: "meeting_template"
-category: "meetings"
+title: 'Meeting Template'
+description: 'A reusable meeting configuration that defines the structure and flow of meetings, helping organizations standardize their meeting formats.'
+entity: 'meeting_template'
+category: 'meetings'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the template" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "title", type: "String", description: "Title of the template" },
-  { name: "stepsConfig", type: "[meeting_step_config]", description: "Array of step configurations defining the meeting structure" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the template',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'title', type: 'String', description: 'Title of the template' },
+    {
+      name: 'stepsConfig',
+      type: '[meeting_step_config]',
+      description:
+        'Array of step configurations defining the meeting structure',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this template belongs to
 
 ## Step Configuration
@@ -104,5 +120,7 @@ mutation deleteMeetingTemplate($id: uuid!) {
 Organization members can view, create, update, and delete templates within their organization. Templates are organization-wide resources accessible to all members.
 
 <Callout type="info" title="Notes">
-  Templates can be used for both one-time and recurring meetings. The order of steps in `stepsConfig` determines the meeting flow. Changes to a template do not affect existing meetings already created from it.
+  Templates can be used for both one-time and recurring meetings. The order of
+  steps in `stepsConfig` determines the meeting flow. Changes to a template do
+  not affect existing meetings already created from it.
 </Callout>

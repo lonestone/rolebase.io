@@ -1,23 +1,58 @@
 ---
-title: "Decision"
-description: "Represents a formal decision made within a circle. Decisions track important choices, policies, and agreements, and can be referenced in threads and other entities for documentation."
-entity: "decision"
-category: "other"
+title: 'Decision'
+description: 'Represents a formal decision made within a circle. Decisions track important choices, policies, and agreements, and can be referenced in threads and other entities for documentation.'
+entity: 'decision'
+category: 'other'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the decision (auto-generated)" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "circleId", type: "uuid", description: "Reference to the circle where the decision was made" },
-  { name: "memberId", type: "uuid", description: "Reference to the member who made the decision" },
-  { name: "title", type: "String", description: "Title of the decision" },
-  { name: "description", type: "String", description: "Detailed description of the decision (supports rich text)" },
-  { name: "createdAt", type: "Timestamp", description: "When the decision was created (defaults to current timestamp)" },
-  { name: "archived", type: "Boolean", description: "Whether the decision is archived (defaults to false)" },
-  { name: "private", type: "Boolean", description: "Whether the decision is private (defaults to false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the decision (auto-generated)',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    {
+      name: 'circleId',
+      type: 'uuid',
+      description: 'Reference to the circle where the decision was made',
+    },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Reference to the member who made the decision',
+    },
+    { name: 'title', type: 'String', description: 'Title of the decision' },
+    {
+      name: 'description',
+      type: 'String',
+      description: 'Detailed description of the decision (supports rich text)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'When the decision was created (defaults to current timestamp)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the decision is archived (defaults to false)',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description: 'Whether the decision is private (defaults to false)',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -143,5 +178,7 @@ Decision access is controlled by several factors:
 - **Archived decisions** remain accessible but are hidden from default views
 
 <Callout type="info">
-Decisions provide a formal record of important organizational choices. They can be referenced in threads for context and discussion, and are searchable across the organization.
+  Decisions provide a formal record of important organizational choices. They
+  can be referenced in threads for context and discussion, and are searchable
+  across the organization.
 </Callout>

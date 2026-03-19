@@ -1,18 +1,32 @@
 ---
-title: "User App"
+title: 'User App'
 description: "Represents a user's connected application or integration in Rolebase. Tracks application settings, preferences, and authentication details for third-party services like Google Calendar and Microsoft 365."
-entity: "user_app"
-category: "other"
+entity: 'user_app'
+category: 'other'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the app connection (auto-generated)" },
-  { name: "userId", type: "uuid", description: "Reference to the user" },
-  { name: "type", type: "Text", description: "Type of application: GoogleCalendar or Office365" },
-  { name: "config", type: "JSON", description: "Public application configuration" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the app connection (auto-generated)',
+    },
+    { name: 'userId', type: 'uuid', description: 'Reference to the user' },
+    {
+      name: 'type',
+      type: 'Text',
+      description: 'Type of application: GoogleCalendar or Office365',
+    },
+    {
+      name: 'config',
+      type: 'JSON',
+      description: 'Public application configuration',
+    },
+  ]}
+/>
 
 ## Application Types
 
@@ -49,5 +63,8 @@ App connection access is restricted to the owning user:
 - Users can view their own app connections (limited to `config`, `id`, `type`, and `userId` fields)
 
 <Callout type="info">
-Each user can have multiple app connections, but there is a unique constraint on the (`userId`, `type`) pair, meaning one connection per app type per user. The `secretConfig`, `tmpData`, and `createdAt` fields exist in the database but are not exposed via the API.
+  Each user can have multiple app connections, but there is a unique constraint
+  on the (`userId`, `type`) pair, meaning one connection per app type per user.
+  The `secretConfig`, `tmpData`, and `createdAt` fields exist in the database
+  but are not exposed via the API.
 </Callout>

@@ -3,8 +3,8 @@
 @font-face {
   font-family: 'basier_circle';
   src: url('basiercircle-regular-webfont.eot');
-  src: url('basiercircle-regular-webfont.eot?#iefix')
-      format('embedded-opentype'),
+  src:
+    url('basiercircle-regular-webfont.eot?#iefix') format('embedded-opentype'),
     url('basiercircle-regular-webfont.woff2') format('woff2'),
     url('basiercircle-regular-webfont.woff') format('woff'),
     url('basiercircle-regular-webfont.ttf') format('truetype');

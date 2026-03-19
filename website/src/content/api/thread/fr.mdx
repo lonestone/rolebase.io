@@ -1,23 +1,52 @@
 ---
-title: "Discussion"
-description: "Représente une discussion ou un fil de conversation dans Rolebase. Les discussions sont associées à des cercles, supportent des activités (messages), des réactions, des membres supplémentaires, et peuvent référencer des tâches, réunions et décisions."
-entity: "thread"
-category: "threads"
+title: 'Discussion'
+description: 'Représente une discussion ou un fil de conversation dans Rolebase. Les discussions sont associées à des cercles, supportent des activités (messages), des réactions, des membres supplémentaires, et peuvent référencer des tâches, réunions et décisions.'
+entity: 'thread'
+category: 'threads'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la discussion (généré automatiquement)" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "circleId", type: "uuid", description: "Référence au cercle" },
-  { name: "initiatorMemberId", type: "uuid", description: "Référence au membre qui a initié la discussion" },
-  { name: "title", type: "String", description: "Titre de la discussion" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création de la discussion (par défaut : horodatage actuel)" },
-  { name: "archived", type: "Boolean", description: "Indique si la discussion est archivée (par défaut : false)" },
-  { name: "private", type: "Boolean", description: "Indique si la discussion est privée (par défaut : false)" },
-  { name: "status", type: "Thread_Status_Enum", description: "Statut actuel de la discussion (ex. : Active, Preparation, Closed)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description:
+        'Identifiant unique de la discussion (généré automatiquement)',
+    },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
+    {
+      name: 'initiatorMemberId',
+      type: 'uuid',
+      description: 'Référence au membre qui a initié la discussion',
+    },
+    { name: 'title', type: 'String', description: 'Titre de la discussion' },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'Date de création de la discussion (par défaut : horodatage actuel)',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Indique si la discussion est archivée (par défaut : false)',
+    },
+    {
+      name: 'private',
+      type: 'Boolean',
+      description: 'Indique si la discussion est privée (par défaut : false)',
+    },
+    {
+      name: 'status',
+      type: 'Thread_Status_Enum',
+      description:
+        'Statut actuel de la discussion (ex. : Active, Preparation, Closed)',
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -173,5 +202,8 @@ L'accès aux discussions est contrôlé par plusieurs facteurs :
 - Le statut des membres peut être mis à jour par le membre concerné
 
 <Callout type="info">
-Les discussions supportent du contenu riche via des données d'activité en JSON, des réactions pour l'engagement, et des références croisées vers des tâches, réunions et décisions. Des membres peuvent être ajoutés au-delà du cercle via les membres supplémentaires pour une collaboration élargie.
+  Les discussions supportent du contenu riche via des données d'activité en
+  JSON, des réactions pour l'engagement, et des références croisées vers des
+  tâches, réunions et décisions. Des membres peuvent être ajoutés au-delà du
+  cercle via les membres supplémentaires pour une collaboration élargie.
 </Callout>

@@ -1,19 +1,43 @@
 ---
-title: "Clé API"
+title: 'Clé API'
 description: "Représente une clé API pour l'accès programmatique à l'API Rolebase. Les clés API authentifient et autorisent l'intégration avec des applications et services externes."
-entity: "api_key"
-category: "other"
+entity: 'api_key'
+category: 'other'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la clé API (généré automatiquement)" },
-  { name: "userId", type: "uuid", description: "Référence à l'utilisateur propriétaire de cette clé" },
-  { name: "name", type: "String", description: "Nom descriptif de la clé API" },
-  { name: "value", type: "String", description: "Valeur de la clé API (générée automatiquement, affichée une seule fois à la création)" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création de la clé API (par défaut : horodatage actuel)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Identifiant unique de la clé API (généré automatiquement)',
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: "Référence à l'utilisateur propriétaire de cette clé",
+    },
+    {
+      name: 'name',
+      type: 'String',
+      description: 'Nom descriptif de la clé API',
+    },
+    {
+      name: 'value',
+      type: 'String',
+      description:
+        'Valeur de la clé API (générée automatiquement, affichée une seule fois à la création)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'Date de création de la clé API (par défaut : horodatage actuel)',
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -81,5 +105,8 @@ La gestion des clés API est restreinte à l'utilisateur propriétaire :
 - Les utilisateurs peuvent créer, consulter, renommer et supprimer uniquement leurs propres clés API
 
 <Callout type="info">
-La `value` de la clé n'est affichée qu'une seule fois à la création -- conservez-la en lieu sûr. Les bonnes pratiques incluent la rotation régulière des clés, la surveillance de l'utilisation, la suppression des clés inutilisées et ne jamais les partager publiquement.
+  La `value` de la clé n'est affichée qu'une seule fois à la création --
+  conservez-la en lieu sûr. Les bonnes pratiques incluent la rotation régulière
+  des clés, la surveillance de l'utilisation, la suppression des clés
+  inutilisées et ne jamais les partager publiquement.
 </Callout>

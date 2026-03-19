@@ -1,20 +1,43 @@
 ---
 title: "Abonnement d'organisation"
 description: "Suit le plan d'abonnement, le statut de paiement et les détails d'intégration Stripe pour une organisation."
-entity: "org_subscription"
-category: "org-members"
+entity: 'org_subscription'
+category: 'org-members'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'abonnement" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "type", type: "Subscription_Plan_Type_Enum", description: "Type de plan d'abonnement (Startup ou Business)" },
-  { name: "status", type: "Subscription_Payment_Status_Enum", description: "Statut de paiement actuel de l'abonnement" },
-  { name: "stripeCustomerId", type: "String", description: "Identifiant client Stripe pour la facturation" },
-  { name: "stripeSubscriptionId", type: "String", description: "Identifiant d'abonnement Stripe pour les paiements récurrents (optionnel)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: "Identifiant unique de l'abonnement",
+    },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    {
+      name: 'type',
+      type: 'Subscription_Plan_Type_Enum',
+      description: "Type de plan d'abonnement (Startup ou Business)",
+    },
+    {
+      name: 'status',
+      type: 'Subscription_Payment_Status_Enum',
+      description: "Statut de paiement actuel de l'abonnement",
+    },
+    {
+      name: 'stripeCustomerId',
+      type: 'String',
+      description: 'Identifiant client Stripe pour la facturation',
+    },
+    {
+      name: 'stripeSubscriptionId',
+      type: 'String',
+      description:
+        "Identifiant d'abonnement Stripe pour les paiements récurrents (optionnel)",
+    },
+  ]}
+/>
 
 ## Types de plans d'abonnement
 
@@ -35,6 +58,7 @@ category: "org-members"
 ## Relations
 
 **Relations objet :**
+
 - `org` — L'organisation à laquelle cet abonnement appartient
 
 ## Exemples de requêtes
@@ -63,5 +87,7 @@ query GetOrgSubscription($orgId: uuid!) {
 - Les modifications directes sont restreintes aux processus système
 
 <Callout type="warning" title="Lecture seule">
-  Chaque organisation ne peut avoir qu'un seul abonnement. Les champs `orgId`, `stripeCustomerId` et `stripeSubscriptionId` sont uniques. Le statut de l'abonnement est automatiquement mis à jour via les webhooks Stripe.
+  Chaque organisation ne peut avoir qu'un seul abonnement. Les champs `orgId`,
+  `stripeCustomerId` et `stripeSubscriptionId` sont uniques. Le statut de
+  l'abonnement est automatiquement mis à jour via les webhooks Stripe.
 </Callout>

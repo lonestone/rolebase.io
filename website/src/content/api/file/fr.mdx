@@ -1,25 +1,76 @@
 ---
-title: "Fichier"
-description: "Représente un fichier stocké dans Rolebase. Les fichiers peuvent être associés à des organisations et des membres pour des usages tels que les photos de profil, le stockage de documents et les pièces jointes."
-entity: "file"
-category: "other"
+title: 'Fichier'
+description: 'Représente un fichier stocké dans Rolebase. Les fichiers peuvent être associés à des organisations et des membres pour des usages tels que les photos de profil, le stockage de documents et les pièces jointes.'
+entity: 'file'
+category: 'other'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique du fichier (généré automatiquement)" },
-  { name: "bucketId", type: "String", description: "Référence au bucket de stockage" },
-  { name: "name", type: "String", description: "Nom original du fichier (optionnel)" },
-  { name: "mimeType", type: "String", description: "Type MIME du fichier (optionnel)" },
-  { name: "size", type: "Integer", description: "Taille du fichier en octets (optionnel)" },
-  { name: "etag", type: "String", description: "Balise d'entité pour la mise en cache et les requêtes conditionnelles (optionnel)" },
-  { name: "isUploaded", type: "Boolean", description: "Indique si le fichier a été entièrement téléversé (optionnel)" },
-  { name: "metadata", type: "JSON", description: "Métadonnées supplémentaires sur le fichier (optionnel)" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création du fichier (par défaut : horodatage actuel)" },
-  { name: "updatedAt", type: "Timestamp", description: "Date de dernière mise à jour du fichier (par défaut : horodatage actuel)" },
-  { name: "uploadedByUserId", type: "uuid", description: "Référence à l'utilisateur qui a téléversé le fichier (optionnel)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Identifiant unique du fichier (généré automatiquement)',
+    },
+    {
+      name: 'bucketId',
+      type: 'String',
+      description: 'Référence au bucket de stockage',
+    },
+    {
+      name: 'name',
+      type: 'String',
+      description: 'Nom original du fichier (optionnel)',
+    },
+    {
+      name: 'mimeType',
+      type: 'String',
+      description: 'Type MIME du fichier (optionnel)',
+    },
+    {
+      name: 'size',
+      type: 'Integer',
+      description: 'Taille du fichier en octets (optionnel)',
+    },
+    {
+      name: 'etag',
+      type: 'String',
+      description:
+        "Balise d'entité pour la mise en cache et les requêtes conditionnelles (optionnel)",
+    },
+    {
+      name: 'isUploaded',
+      type: 'Boolean',
+      description:
+        'Indique si le fichier a été entièrement téléversé (optionnel)',
+    },
+    {
+      name: 'metadata',
+      type: 'JSON',
+      description: 'Métadonnées supplémentaires sur le fichier (optionnel)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'Date de création du fichier (par défaut : horodatage actuel)',
+    },
+    {
+      name: 'updatedAt',
+      type: 'Timestamp',
+      description:
+        'Date de dernière mise à jour du fichier (par défaut : horodatage actuel)',
+    },
+    {
+      name: 'uploadedByUserId',
+      type: 'uuid',
+      description:
+        "Référence à l'utilisateur qui a téléversé le fichier (optionnel)",
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -67,5 +118,9 @@ L'accès aux fichiers est ouvert à tous les utilisateurs authentifiés et aux r
 - **Création** — Tous les utilisateurs authentifiés peuvent téléverser des fichiers
 
 <Callout type="info">
-Les fichiers sont stockés de manière sécurisée dans des buckets de stockage configurables. Les URL pré-signées permettent un accès temporaire sécurisé, et la validation du type MIME assure un traitement correct des fichiers. Les ETags supportent la mise en cache et les requêtes conditionnelles pour une livraison efficace des fichiers.
+  Les fichiers sont stockés de manière sécurisée dans des buckets de stockage
+  configurables. Les URL pré-signées permettent un accès temporaire sécurisé, et
+  la validation du type MIME assure un traitement correct des fichiers. Les
+  ETags supportent la mise en cache et les requêtes conditionnelles pour une
+  livraison efficace des fichiers.
 </Callout>

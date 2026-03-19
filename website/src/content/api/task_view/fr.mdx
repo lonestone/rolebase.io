@@ -1,18 +1,34 @@
 ---
-title: "Vue de tâche"
+title: 'Vue de tâche'
 description: "Représente une vue personnalisée des tâches dans Rolebase. Les vues de tâches permettent aux utilisateurs d'organiser et de filtrer les tâches de manière flexible, supportant différentes méthodologies de gestion comme Kanban ou Scrum."
-entity: "task_view"
-category: "tasks"
+entity: 'task_view'
+category: 'tasks'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de la vue de tâche (généré automatiquement)" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "key", type: "String", description: "Clé unique de la vue au sein de l'organisation (ex. : 'backlog', 'sprint')" },
-  { name: "tasksIds", type: "uuid[]", description: "Tableau d'identifiants de tâches incluses dans cette vue" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description:
+        'Identifiant unique de la vue de tâche (généré automatiquement)',
+    },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    {
+      name: 'key',
+      type: 'String',
+      description:
+        "Clé unique de la vue au sein de l'organisation (ex. : 'backlog', 'sprint')",
+    },
+    {
+      name: 'tasksIds',
+      type: 'uuid[]',
+      description: "Tableau d'identifiants de tâches incluses dans cette vue",
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -107,5 +123,8 @@ L'accès aux vues de tâches est contrôlé en fonction de l'appartenance à l'o
 - Seul le champ `tasksIds` peut être mis à jour
 
 <Callout type="info">
-La combinaison de `orgId` et `key` doit être unique. Les identifiants de tâches dans la vue doivent correspondre à des tâches existantes dans l'organisation. Les vues peuvent être partagées entre les membres de l'organisation.
+  La combinaison de `orgId` et `key` doit être unique. Les identifiants de
+  tâches dans la vue doivent correspondre à des tâches existantes dans
+  l'organisation. Les vues peuvent être partagées entre les membres de
+  l'organisation.
 </Callout>

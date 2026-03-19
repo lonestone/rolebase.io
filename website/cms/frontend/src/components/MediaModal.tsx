@@ -94,7 +94,11 @@ function findNode(nodes: TreeNode[], path: string): TreeNode | undefined {
 }
 
 /** Compute relative path from a file to a target entry */
-function computeRelativePath(filePath: string, entryPath: string, entryName: string): string {
+function computeRelativePath(
+  filePath: string,
+  entryPath: string,
+  entryName: string
+): string {
   const fileDir = filePath.replace(/\/[^/]+$/, '')
   const entryDir = entryPath.replace(/\/[^/]+$/, '')
 

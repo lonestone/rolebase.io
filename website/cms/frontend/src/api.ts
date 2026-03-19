@@ -140,7 +140,15 @@ export async function stopClaude(): Promise<void> {
 
 export interface PropSchema {
   name: string
-  type: 'string' | 'number' | 'boolean' | 'select' | 'json' | 'image' | 'date' | 'string-array'
+  type:
+    | 'string'
+    | 'number'
+    | 'boolean'
+    | 'select'
+    | 'json'
+    | 'image'
+    | 'date'
+    | 'string-array'
   options?: string[]
   itemSchema?: PropSchema[]
 }

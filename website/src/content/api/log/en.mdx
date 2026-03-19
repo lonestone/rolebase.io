@@ -1,29 +1,89 @@
 ---
-title: "Log"
-description: "Represents an activity log entry tracking changes to entities, user actions, and providing an audit trail. Logs support undo/redo functionality through structured change tracking."
-entity: "log"
-category: "other"
+title: 'Log'
+description: 'Represents an activity log entry tracking changes to entities, user actions, and providing an audit trail. Logs support undo/redo functionality through structured change tracking.'
+entity: 'log'
+category: 'other'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the log entry (auto-generated)" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "userId", type: "uuid", description: "User who made the change" },
-  { name: "memberId", type: "uuid", description: "Member who made the change" },
-  { name: "memberName", type: "String", description: "Name of the member (preserved for deleted members)" },
-  { name: "createdAt", type: "Timestamp", description: "When the log entry was created (defaults to current timestamp)" },
-  { name: "display", type: "JSON", description: "Type of log and data to display in the UI" },
-  { name: "changes", type: "JSON", description: "Structured log of entity changes for undo/redo" },
-  { name: "canceled", type: "Boolean", description: "Whether this log entry has been canceled (defaults to false)" },
-  { name: "cancelLogId", type: "uuid", description: "Reference to the log entry that was canceled (optional)" },
-  { name: "cancelMemberId", type: "uuid", description: "Member who canceled the action (optional)" },
-  { name: "cancelMemberName", type: "String", description: "Name of the member who canceled (optional)" },
-  { name: "meetingId", type: "uuid", description: "Meeting during which this log was created (optional)" },
-  { name: "taskId", type: "uuid", description: "Task associated with this log (optional)" },
-  { name: "threadId", type: "uuid", description: "Thread associated with this log (optional)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the log entry (auto-generated)',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'userId', type: 'uuid', description: 'User who made the change' },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Member who made the change',
+    },
+    {
+      name: 'memberName',
+      type: 'String',
+      description: 'Name of the member (preserved for deleted members)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description:
+        'When the log entry was created (defaults to current timestamp)',
+    },
+    {
+      name: 'display',
+      type: 'JSON',
+      description: 'Type of log and data to display in the UI',
+    },
+    {
+      name: 'changes',
+      type: 'JSON',
+      description: 'Structured log of entity changes for undo/redo',
+    },
+    {
+      name: 'canceled',
+      type: 'Boolean',
+      description:
+        'Whether this log entry has been canceled (defaults to false)',
+    },
+    {
+      name: 'cancelLogId',
+      type: 'uuid',
+      description: 'Reference to the log entry that was canceled (optional)',
+    },
+    {
+      name: 'cancelMemberId',
+      type: 'uuid',
+      description: 'Member who canceled the action (optional)',
+    },
+    {
+      name: 'cancelMemberName',
+      type: 'String',
+      description: 'Name of the member who canceled (optional)',
+    },
+    {
+      name: 'meetingId',
+      type: 'uuid',
+      description: 'Meeting during which this log was created (optional)',
+    },
+    {
+      name: 'taskId',
+      type: 'uuid',
+      description: 'Task associated with this log (optional)',
+    },
+    {
+      name: 'threadId',
+      type: 'uuid',
+      description: 'Thread associated with this log (optional)',
+    },
+  ]}
+/>
 
 ## Entity Changes Structure
 
@@ -33,9 +93,9 @@ The `changes` field tracks modifications to entities with the following structur
 type EntityChange = {
   type: 'Create' | 'Update' | 'Delete'
   id: string
-  data?: Entity       // For Create/Delete
-  prevData?: Entity   // For Update (previous state)
-  newData?: Entity    // For Update (new state)
+  data?: Entity // For Create/Delete
+  prevData?: Entity // For Update (previous state)
+  newData?: Entity // For Update (new state)
 }
 ```
 
@@ -144,5 +204,7 @@ Log access is controlled based on the following rules:
 - Cancellation is handled by creating new log entries (not modifying originals)
 
 <Callout type="info">
-The `display` field contains user-friendly information about the action, while the `changes` field stores technical details for undo/redo. Member names are preserved to maintain readability even if members are later deleted.
+  The `display` field contains user-friendly information about the action, while
+  the `changes` field stores technical details for undo/redo. Member names are
+  preserved to maintain readability even if members are later deleted.
 </Callout>

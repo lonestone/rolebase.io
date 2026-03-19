@@ -1,35 +1,84 @@
 ---
-title: "Role"
-description: "Defines the purpose, domain, accountabilities, and other aspects of a position or function within an organization. Each circle is associated with a role."
-entity: "role"
-category: "circles-roles"
+title: 'Role'
+description: 'Defines the purpose, domain, accountabilities, and other aspects of a position or function within an organization. Each circle is associated with a role.'
+entity: 'role'
+category: 'circles-roles'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the role" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "name", type: "String", description: "Name of the role" },
-  { name: "purpose", type: "String", description: "The role's purpose or mission" },
-  { name: "domain", type: "String", description: "Areas of authority and control" },
-  { name: "accountabilities", type: "String", description: "List of accountabilities" },
-  { name: "checklist", type: "String", description: "Checklist of recurring responsibilities" },
-  { name: "indicators", type: "String", description: "Performance indicators to track" },
-  { name: "notes", type: "String", description: "Additional notes" },
-  { name: "archived", type: "Boolean", description: "Whether the role is archived (default: false)" },
-  { name: "base", type: "Boolean", description: "Whether this is a base role (default: false)" },
-  { name: "singleMember", type: "Boolean", description: "Whether the role can only have one member (default: false)" },
-  { name: "parentLink", type: "Boolean", description: "Whether the role can be linked to parent circles (default: false)" },
-  { name: "colorHue", type: "Smallint", description: "Color hue for visual representation (optional)" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'id', type: 'uuid', description: 'Unique identifier for the role' },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'name', type: 'String', description: 'Name of the role' },
+    {
+      name: 'purpose',
+      type: 'String',
+      description: "The role's purpose or mission",
+    },
+    {
+      name: 'domain',
+      type: 'String',
+      description: 'Areas of authority and control',
+    },
+    {
+      name: 'accountabilities',
+      type: 'String',
+      description: 'List of accountabilities',
+    },
+    {
+      name: 'checklist',
+      type: 'String',
+      description: 'Checklist of recurring responsibilities',
+    },
+    {
+      name: 'indicators',
+      type: 'String',
+      description: 'Performance indicators to track',
+    },
+    { name: 'notes', type: 'String', description: 'Additional notes' },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the role is archived (default: false)',
+    },
+    {
+      name: 'base',
+      type: 'Boolean',
+      description: 'Whether this is a base role (default: false)',
+    },
+    {
+      name: 'singleMember',
+      type: 'Boolean',
+      description: 'Whether the role can only have one member (default: false)',
+    },
+    {
+      name: 'parentLink',
+      type: 'Boolean',
+      description:
+        'Whether the role can be linked to parent circles (default: false)',
+    },
+    {
+      name: 'colorHue',
+      type: 'Smallint',
+      description: 'Color hue for visual representation (optional)',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this role belongs to
 
 **Array Relationships:**
+
 - `circles` — Circles that use this role
 
 ## Query Examples
@@ -114,5 +163,8 @@ mutation UpdateRole {
 - **Delete** — Only available through the Hasura admin API
 
 <Callout type="info" title="Notes">
-  Base roles (`base: true`) are fundamental to the organization and can only be modified by owners. The `singleMember` flag restricts assignment to one person. The combination of purpose, domain, and accountabilities defines the complete scope of the role.
+  Base roles (`base: true`) are fundamental to the organization and can only be
+  modified by owners. The `singleMember` flag restricts assignment to one
+  person. The combination of purpose, domain, and accountabilities defines the
+  complete scope of the role.
 </Callout>

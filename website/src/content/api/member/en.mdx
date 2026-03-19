@@ -1,34 +1,79 @@
 ---
-title: "Member"
-description: "Represents a member of an organization. Members can be assigned to roles, and participate in meetings and tasks."
-entity: "member"
-category: "org-members"
+title: 'Member'
+description: 'Represents a member of an organization. Members can be assigned to roles, and participate in meetings and tasks.'
+entity: 'member'
+category: 'org-members'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the member" },
-  { name: "orgId", type: "uuid", description: "Reference to the organization" },
-  { name: "name", type: "String", description: "Display name of the member" },
-  { name: "description", type: "String", description: "Description or bio of the member" },
-  { name: "archived", type: "Boolean", description: "Whether the member is archived (default: false)" },
-  { name: "picture", type: "String", description: "URL of the member's profile picture (optional)" },
-  { name: "pictureFileId", type: "uuid", description: "Reference to the stored profile picture file (optional)" },
-  { name: "userId", type: "uuid", description: "Reference to the associated user account (optional)" },
-  { name: "inviteEmail", type: "String", description: "Email address used for invitation (optional)" },
-  { name: "inviteDate", type: "Timestamp", description: "When the invitation was sent (optional)" },
-  { name: "role", type: "Member_Role_Enum", description: "Member's role in the organization: Owner, Admin, Member, or Readonly" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the member',
+    },
+    {
+      name: 'orgId',
+      type: 'uuid',
+      description: 'Reference to the organization',
+    },
+    { name: 'name', type: 'String', description: 'Display name of the member' },
+    {
+      name: 'description',
+      type: 'String',
+      description: 'Description or bio of the member',
+    },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Whether the member is archived (default: false)',
+    },
+    {
+      name: 'picture',
+      type: 'String',
+      description: "URL of the member's profile picture (optional)",
+    },
+    {
+      name: 'pictureFileId',
+      type: 'uuid',
+      description: 'Reference to the stored profile picture file (optional)',
+    },
+    {
+      name: 'userId',
+      type: 'uuid',
+      description: 'Reference to the associated user account (optional)',
+    },
+    {
+      name: 'inviteEmail',
+      type: 'String',
+      description: 'Email address used for invitation (optional)',
+    },
+    {
+      name: 'inviteDate',
+      type: 'Timestamp',
+      description: 'When the invitation was sent (optional)',
+    },
+    {
+      name: 'role',
+      type: 'Member_Role_Enum',
+      description:
+        "Member's role in the organization: Owner, Admin, Member, or Readonly",
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `org` — The organization this member belongs to
 - `pictureFile` — The stored profile picture file
 - `user` — The associated user account
 
 **Array Relationships:**
+
 - `circle_members` — Circle memberships
 - `meeting_attendees` — Meeting attendance records
 
@@ -104,5 +149,7 @@ mutation UpdateMember {
 - All organization members can view member information within their organization
 
 <Callout type="info" title="Notes">
-  The combination of `orgId` and `userId` must be unique. When a member is invited, `inviteEmail` and `inviteDate` are set. Once the invitation is accepted, `userId` is linked to the user account.
+  The combination of `orgId` and `userId` must be unique. When a member is
+  invited, `inviteEmail` and `inviteDate` are set. Once the invitation is
+  accepted, `userId` is linked to the user account.
 </Callout>

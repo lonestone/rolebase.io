@@ -1,17 +1,32 @@
 ---
-title: "Membre supplémentaire de discussion"
+title: 'Membre supplémentaire de discussion'
 description: "Représente un membre supplémentaire invité à participer à une discussion au-delà des participants par défaut du cercle. Permet la collaboration inter-cercles en élargissant l'accès aux discussions."
-entity: "thread_extra_member"
-category: "threads"
+entity: 'thread_extra_member'
+category: 'threads'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique de l'entrée de membre supplémentaire (généré automatiquement)" },
-  { name: "threadId", type: "uuid", description: "Référence à la discussion" },
-  { name: "memberId", type: "uuid", description: "Référence au membre ajouté" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description:
+        "Identifiant unique de l'entrée de membre supplémentaire (généré automatiquement)",
+    },
+    {
+      name: 'threadId',
+      type: 'uuid',
+      description: 'Référence à la discussion',
+    },
+    {
+      name: 'memberId',
+      type: 'uuid',
+      description: 'Référence au membre ajouté',
+    },
+  ]}
+/>
 
 ## Relations
 
@@ -87,5 +102,9 @@ Les utilisateurs peuvent ajouter des membres supplémentaires aux discussions lo
 Les utilisateurs peuvent retirer des membres supplémentaires des discussions dans les mêmes conditions que la création.
 
 <Callout type="info">
-Chaque membre ne peut être ajouté qu'une seule fois par discussion (garanti par une contrainte d'unicité sur `threadId` et `memberId`). Les membres supplémentaires peuvent être retirés sans affecter le contenu de la discussion, et les paramètres de confidentialité s'appliquent à tous les participants, y compris les membres supplémentaires.
+  Chaque membre ne peut être ajouté qu'une seule fois par discussion (garanti
+  par une contrainte d'unicité sur `threadId` et `memberId`). Les membres
+  supplémentaires peuvent être retirés sans affecter le contenu de la
+  discussion, et les paramètres de confidentialité s'appliquent à tous les
+  participants, y compris les membres supplémentaires.
 </Callout>

@@ -1,22 +1,37 @@
 ---
-title: "Lien de cercle"
+title: 'Lien de cercle'
 description: "Représente un lien entre deux cercles, permettant la collaboration transversale et la représentation d'un cercle au sein d'un autre au-delà de la hiérarchie parent-enfant."
-entity: "circle_link"
-category: "circles-roles"
+entity: 'circle_link'
+category: 'circles-roles'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique du lien de cercle" },
-  { name: "parentId", type: "uuid", description: "Référence au cercle hôte" },
-  { name: "circleId", type: "uuid", description: "Référence au cercle invité" },
-  { name: "createdAt", type: "Timestamp", description: "Date de création du lien de cercle" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Identifiant unique du lien de cercle',
+    },
+    { name: 'parentId', type: 'uuid', description: 'Référence au cercle hôte' },
+    {
+      name: 'circleId',
+      type: 'uuid',
+      description: 'Référence au cercle invité',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'Date de création du lien de cercle',
+    },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `hostCircle` — Le cercle qui héberge le cercle lié (référencé par `parentId`)
 - `invitedCircle` — Le cercle invité à participer (référencé par `circleId`)
 
@@ -92,5 +107,8 @@ mutation RemoveCircleLink {
 - **Public :** Limité à la consultation des liens dans les organisations avec des informations de membres partagées
 
 <Callout type="info" title="Notes">
-  La combinaison de `parentId` et `circleId` doit être unique. Les liens de cercle affectent l'héritage des participants et les structures de permissions. Les leaders des cercles liés obtiennent certaines permissions dans le cercle hôte.
+  La combinaison de `parentId` et `circleId` doit être unique. Les liens de
+  cercle affectent l'héritage des participants et les structures de permissions.
+  Les leaders des cercles liés obtiennent certaines permissions dans le cercle
+  hôte.
 </Callout>

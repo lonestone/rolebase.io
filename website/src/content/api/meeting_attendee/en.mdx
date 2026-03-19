@@ -1,23 +1,42 @@
 ---
-title: "Meeting Attendee"
+title: 'Meeting Attendee'
 description: "Tracks a member's participation in a meeting, including presence status and notification state."
-entity: "meeting_attendee"
-category: "meetings"
+entity: 'meeting_attendee'
+category: 'meetings'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the attendee record" },
-  { name: "meetingId", type: "uuid", description: "Reference to the meeting" },
-  { name: "memberId", type: "uuid", description: "Reference to the member" },
-  { name: "present", type: "Boolean", description: "Whether the member is present in the meeting (optional)" },
-  { name: "startNotified", type: "Boolean", description: "Whether a start notification was sent (default: false)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the attendee record',
+    },
+    {
+      name: 'meetingId',
+      type: 'uuid',
+      description: 'Reference to the meeting',
+    },
+    { name: 'memberId', type: 'uuid', description: 'Reference to the member' },
+    {
+      name: 'present',
+      type: 'Boolean',
+      description: 'Whether the member is present in the meeting (optional)',
+    },
+    {
+      name: 'startNotified',
+      type: 'Boolean',
+      description: 'Whether a start notification was sent (default: false)',
+    },
+  ]}
+/>
 
 ## Relationships
 
 **Object Relationships:**
+
 - `meeting` — The meeting this attendance record belongs to
 - `member` — The member attending the meeting
 
@@ -97,5 +116,7 @@ mutation DeleteMeetingAttendee($id: uuid!) {
 - **Organization members:** Can view attendees in non-private meetings
 
 <Callout type="info" title="Notes">
-  Each member can only appear once per meeting (enforced by unique constraint). The `present` field is optional and can be updated during the meeting. Deleting a meeting or member automatically removes related attendance records.
+  Each member can only appear once per meeting (enforced by unique constraint).
+  The `present` field is optional and can be updated during the meeting.
+  Deleting a meeting or member automatically removes related attendance records.
 </Callout>

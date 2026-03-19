@@ -37,7 +37,10 @@ import { languages } from '@codemirror/language-data'
 
 // Build codeBlockLanguages from @codemirror/language-data, deduplicated:
 // keep only the shortest alias per language name.
-const codeBlockLanguages: Record<string, string> = { '': 'Plain text', graphql: 'GraphQL' }
+const codeBlockLanguages: Record<string, string> = {
+  '': 'Plain text',
+  graphql: 'GraphQL',
+}
 const seen = new Map<string, string>() // label -> shortest key
 for (const lang of languages) {
   const keys = [lang.name.toLowerCase(), ...lang.alias]
@@ -57,7 +60,11 @@ interface CreatePluginsParams {
   originalContent: string
 }
 
-export function createPlugins({ filePath, jsxDescriptors, originalContent }: CreatePluginsParams) {
+export function createPlugins({
+  filePath,
+  jsxDescriptors,
+  originalContent,
+}: CreatePluginsParams) {
   return [
     headingsPlugin(),
     listsPlugin(),

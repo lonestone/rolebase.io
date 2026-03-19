@@ -1,6 +1,6 @@
 ---
-title: "Getting Started"
-description: "Set up your development environment and run Rolebase locally."
+title: 'Getting Started'
+description: 'Set up your development environment and run Rolebase locally.'
 ---
 
 ## Prerequisites
@@ -13,7 +13,8 @@ Before you begin, make sure you have the following installed:
 - **Nhost CLI** (installed globally)
 
 <Callout type="warning" title="Docker Required">
-  Nhost runs its backend services (PostgreSQL, Hasura, Auth, Storage) inside Docker containers. Make sure Docker Desktop is running before proceeding.
+  Nhost runs its backend services (PostgreSQL, Hasura, Auth, Storage) inside
+  Docker containers. Make sure Docker Desktop is running before proceeding.
 </Callout>
 
 ## Clone the Repository
@@ -52,7 +53,9 @@ nhost up
 This spins up local instances of PostgreSQL, Hasura, Nhost Auth, and Nhost Storage via Docker. The first run may take a few minutes to pull images.
 
 <Callout type="info" title="Hasura Console">
-  Once Nhost is running, you can access the Hasura Console at `http://localhost:9695` to inspect the database schema and run GraphQL queries.
+  Once Nhost is running, you can access the Hasura Console at
+  `http://localhost:9695` to inspect the database schema and run GraphQL
+  queries.
 </Callout>
 
 ## Configure Secrets
@@ -60,7 +63,8 @@ This spins up local instances of PostgreSQL, Hasura, Nhost Auth, and Nhost Stora
 Create a `.secrets` file at the root of the Nhost configuration if one does not already exist. This file holds environment-specific secrets (SMTP credentials, API keys, etc.) that are required by certain backend functions.
 
 <Callout type="warning" title="Do not commit secrets">
-  The `.secrets` file is git-ignored. Never commit credentials or API keys to the repository.
+  The `.secrets` file is git-ignored. Never commit credentials or API keys to
+  the repository.
 </Callout>
 
 ## Run the Development Server
@@ -77,12 +81,12 @@ Then open your browser at **[http://localhost:3000](http://localhost:3000)**.
 
 The repository is organized as an npm workspace monorepo:
 
-| Package | Description |
-|---|---|
-| `packages/webapp` | React frontend (Vite, Chakra UI) |
+| Package            | Description                           |
+| ------------------ | ------------------------------------- |
+| `packages/webapp`  | React frontend (Vite, Chakra UI)      |
 | `packages/backend` | tRPC backend and serverless functions |
-| `packages/shared` | Shared types and utilities |
-| `packages/website` | Documentation site (Astro) |
+| `packages/shared`  | Shared types and utilities            |
+| `packages/website` | Documentation site (Astro)            |
 
 ## Next Steps
 

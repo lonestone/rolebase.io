@@ -1,35 +1,82 @@
 ---
-title: "Rôle"
+title: 'Rôle'
 description: "Définit la raison d'être, le domaine, les redevabilités et d'autres aspects d'une position ou fonction au sein d'une organisation. Chaque cercle est associé à un rôle."
-entity: "role"
-category: "circles-roles"
+entity: 'role'
+category: 'circles-roles'
 ---
 
 ## Champs
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Identifiant unique du rôle" },
-  { name: "orgId", type: "uuid", description: "Référence à l'organisation" },
-  { name: "name", type: "String", description: "Nom du rôle" },
-  { name: "purpose", type: "String", description: "Raison d'être ou mission du rôle" },
-  { name: "domain", type: "String", description: "Domaines d'autorité et de contrôle" },
-  { name: "accountabilities", type: "String", description: "Liste des redevabilités" },
-  { name: "checklist", type: "String", description: "Liste de vérification des responsabilités récurrentes" },
-  { name: "indicators", type: "String", description: "Indicateurs de performance à suivre" },
-  { name: "notes", type: "String", description: "Notes supplémentaires" },
-  { name: "archived", type: "Boolean", description: "Indique si le rôle est archivé (par défaut : false)" },
-  { name: "base", type: "Boolean", description: "Indique si c'est un rôle de base (par défaut : false)" },
-  { name: "singleMember", type: "Boolean", description: "Indique si le rôle ne peut avoir qu'un seul membre (par défaut : false)" },
-  { name: "parentLink", type: "Boolean", description: "Indique si le rôle peut être lié aux cercles parents (par défaut : false)" },
-  { name: "colorHue", type: "Smallint", description: "Teinte de couleur pour la représentation visuelle (optionnel)" },
-]} />
+<EntityFields
+  fields={[
+    { name: 'id', type: 'uuid', description: 'Identifiant unique du rôle' },
+    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
+    { name: 'name', type: 'String', description: 'Nom du rôle' },
+    {
+      name: 'purpose',
+      type: 'String',
+      description: "Raison d'être ou mission du rôle",
+    },
+    {
+      name: 'domain',
+      type: 'String',
+      description: "Domaines d'autorité et de contrôle",
+    },
+    {
+      name: 'accountabilities',
+      type: 'String',
+      description: 'Liste des redevabilités',
+    },
+    {
+      name: 'checklist',
+      type: 'String',
+      description: 'Liste de vérification des responsabilités récurrentes',
+    },
+    {
+      name: 'indicators',
+      type: 'String',
+      description: 'Indicateurs de performance à suivre',
+    },
+    { name: 'notes', type: 'String', description: 'Notes supplémentaires' },
+    {
+      name: 'archived',
+      type: 'Boolean',
+      description: 'Indique si le rôle est archivé (par défaut : false)',
+    },
+    {
+      name: 'base',
+      type: 'Boolean',
+      description: "Indique si c'est un rôle de base (par défaut : false)",
+    },
+    {
+      name: 'singleMember',
+      type: 'Boolean',
+      description:
+        "Indique si le rôle ne peut avoir qu'un seul membre (par défaut : false)",
+    },
+    {
+      name: 'parentLink',
+      type: 'Boolean',
+      description:
+        'Indique si le rôle peut être lié aux cercles parents (par défaut : false)',
+    },
+    {
+      name: 'colorHue',
+      type: 'Smallint',
+      description:
+        'Teinte de couleur pour la représentation visuelle (optionnel)',
+    },
+  ]}
+/>
 
 ## Relations
 
 **Relations objet :**
+
 - `org` — L'organisation à laquelle ce rôle appartient
 
 **Relations tableau :**
+
 - `circles` — Cercles qui utilisent ce rôle
 
 ## Exemples de requêtes
@@ -114,5 +161,8 @@ mutation UpdateRole {
 - **Suppression** — Uniquement disponible via l'API admin Hasura
 
 <Callout type="info" title="Notes">
-  Les rôles de base (`base: true`) sont fondamentaux pour l'organisation et ne peuvent être modifiés que par les propriétaires. L'indicateur `singleMember` restreint l'attribution à une seule personne. La combinaison de la raison d'être, du domaine et des redevabilités définit le périmètre complet du rôle.
+  Les rôles de base (`base: true`) sont fondamentaux pour l'organisation et ne
+  peuvent être modifiés que par les propriétaires. L'indicateur `singleMember`
+  restreint l'attribution à une seule personne. La combinaison de la raison
+  d'être, du domaine et des redevabilités définit le périmètre complet du rôle.
 </Callout>

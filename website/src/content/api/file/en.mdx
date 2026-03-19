@@ -1,25 +1,72 @@
 ---
-title: "File"
-description: "Represents a stored file in Rolebase. Files can be associated with organizations and members for purposes such as profile pictures, document storage, and attachments."
-entity: "file"
-category: "other"
+title: 'File'
+description: 'Represents a stored file in Rolebase. Files can be associated with organizations and members for purposes such as profile pictures, document storage, and attachments.'
+entity: 'file'
+category: 'other'
 ---
 
 ## Fields
 
-<EntityFields fields={[
-  { name: "id", type: "uuid", description: "Unique identifier for the file (auto-generated)" },
-  { name: "bucketId", type: "String", description: "Reference to the storage bucket" },
-  { name: "name", type: "String", description: "Original name of the file (optional)" },
-  { name: "mimeType", type: "String", description: "MIME type of the file (optional)" },
-  { name: "size", type: "Integer", description: "Size of the file in bytes (optional)" },
-  { name: "etag", type: "String", description: "Entity tag for caching and conditional requests (optional)" },
-  { name: "isUploaded", type: "Boolean", description: "Whether the file has been fully uploaded (optional)" },
-  { name: "metadata", type: "JSON", description: "Additional metadata about the file (optional)" },
-  { name: "createdAt", type: "Timestamp", description: "When the file was created (defaults to current timestamp)" },
-  { name: "updatedAt", type: "Timestamp", description: "When the file was last updated (defaults to current timestamp)" },
-  { name: "uploadedByUserId", type: "uuid", description: "Reference to the user who uploaded the file (optional)" },
-]} />
+<EntityFields
+  fields={[
+    {
+      name: 'id',
+      type: 'uuid',
+      description: 'Unique identifier for the file (auto-generated)',
+    },
+    {
+      name: 'bucketId',
+      type: 'String',
+      description: 'Reference to the storage bucket',
+    },
+    {
+      name: 'name',
+      type: 'String',
+      description: 'Original name of the file (optional)',
+    },
+    {
+      name: 'mimeType',
+      type: 'String',
+      description: 'MIME type of the file (optional)',
+    },
+    {
+      name: 'size',
+      type: 'Integer',
+      description: 'Size of the file in bytes (optional)',
+    },
+    {
+      name: 'etag',
+      type: 'String',
+      description: 'Entity tag for caching and conditional requests (optional)',
+    },
+    {
+      name: 'isUploaded',
+      type: 'Boolean',
+      description: 'Whether the file has been fully uploaded (optional)',
+    },
+    {
+      name: 'metadata',
+      type: 'JSON',
+      description: 'Additional metadata about the file (optional)',
+    },
+    {
+      name: 'createdAt',
+      type: 'Timestamp',
+      description: 'When the file was created (defaults to current timestamp)',
+    },
+    {
+      name: 'updatedAt',
+      type: 'Timestamp',
+      description:
+        'When the file was last updated (defaults to current timestamp)',
+    },
+    {
+      name: 'uploadedByUserId',
+      type: 'uuid',
+      description: 'Reference to the user who uploaded the file (optional)',
+    },
+  ]}
+/>
 
 ## Relationships
 
@@ -67,5 +114,8 @@ File access is open to all authenticated users and public requests:
 - **Create** — All authenticated users can upload files
 
 <Callout type="info">
-Files are stored securely in configurable storage buckets. Presigned URLs enable secure temporary access, and MIME type validation ensures proper file handling. ETags support caching and conditional requests for efficient file delivery.
+  Files are stored securely in configurable storage buckets. Presigned URLs
+  enable secure temporary access, and MIME type validation ensures proper file
+  handling. ETags support caching and conditional requests for efficient file
+  delivery.
 </Callout>
