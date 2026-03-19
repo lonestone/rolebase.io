@@ -4,17 +4,12 @@ import type { JsxComponentDescriptor } from '@mdxeditor/editor'
 import { useMemo } from 'react'
 import { CustomJsxEditor } from '../components/CustomJsxEditor.js'
 
-// Inline (text) components vs block (flow) components
-const inlineComponents = new Set(['Button'])
-
 function buildDescriptors(
   components: ComponentDescriptor[]
 ): JsxComponentDescriptor[] {
   return components.map(({ name, props, hasChildren }) => ({
     name,
-    kind: inlineComponents.has(name)
-      ? ('text' as const)
-      : ('flow' as const),
+    kind: 'flow' as const,
     props: props.map((p) => ({
       name: p.name,
       type: (p.type === 'json'

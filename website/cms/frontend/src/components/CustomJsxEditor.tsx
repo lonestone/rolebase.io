@@ -10,7 +10,7 @@ import {
 import { useCellValue } from '@mdxeditor/gurx'
 import { $getNodeByKey } from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
-import { inputStyle, labelStyle, PropInput } from './PropInput.js'
+import { inputStyle, PropInput } from './PropInput.js'
 
 // Context to pass rich prop metadata from Editor to CustomJsxEditor
 export const ComponentMetaContext = createContext<
@@ -219,6 +219,14 @@ const actionButtonStyle: React.CSSProperties = {
   borderRadius: 3,
 }
 
+// Check if children need wrapping in a paragraph for the block editor.
+// When a component is written as <Comp>text</Comp> on one line, mdast
+// parses the children as phrasing (inline) nodes without a wrapping
+// paragraph, which the block NestedLexicalEditor can't render.
+function needsBlockWrapping(children: any[]): boolean {
+  return children.length > 0 && !children.some((c) => c.type === 'paragraph')
+}
+
 export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const updateMdastNode = useMdastNodeUpdater()
   const removeNode = useLexicalNodeRemove()
@@ -288,7 +296,6 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
     [properties, componentMeta, updateMdastNode]
   )
 
-  const isInline = descriptor.kind === 'text'
   const componentName = mdastNode.name ?? 'Fragment'
   const hasProps = descriptor.props.length > 0
 
@@ -313,7 +320,6 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
         border: '1px solid #e0e0e0',
         borderRadius: 4,
         margin: '4px 0',
-        ...(isInline ? { display: 'inline-block' } : {}),
       }}
     >
       {/* Header: component name + actions */}
@@ -417,14 +423,30 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
 
       {/* Children */}
       {descriptor.hasChildren ? (
-        <div style={{ padding: isInline ? '0 4px' : '4px 8px' }}>
+        <div style={{ padding: '4px 8px' }}>
           <NestedLexicalEditor
-            block={!isInline}
-            getContent={(node: any) => node.children}
-            getUpdatedMdastNode={(node: any, children: any) => ({
-              ...node,
-              children,
-            })}
+            block
+            getContent={(node: any) => {
+              // If all children are inline (phrasing) content, wrap in a
+              // paragraph so the block-level NestedLexicalEditor can render them
+              if (needsBlockWrapping(node.children)) {
+                return [{ type: 'paragraph', children: node.children }]
+              }
+              return node.children
+            }}
+            getUpdatedMdastNode={(node: any, children: any) => {
+              // Unwrap: if the original node had inline children and we get
+              // back a single paragraph, unwrap it to preserve the original
+              // compact MDX format (<Comp>text</Comp>)
+              if (
+                needsBlockWrapping(node.children) &&
+                children.length === 1 &&
+                children[0].type === 'paragraph'
+              ) {
+                return { ...node, children: children[0].children }
+              }
+              return { ...node, children }
+            }}
           />
         </div>
       ) : null}
