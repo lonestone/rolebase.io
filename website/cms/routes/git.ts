@@ -29,7 +29,7 @@ async function git(...args: string[]) {
 
 export const gitRoutes = new Hono()
 
-// Git status (file list only)
+// Git status (file list with staged info)
 gitRoutes.get('/status', async (c) => {
   try {
     const status = await git('status', '--porcelain')
@@ -37,10 +37,22 @@ gitRoutes.get('/status', async (c) => {
       files: status
         .split('\n')
         .filter(Boolean)
-        .map((line) => ({
-          status: line.substring(0, 2).trim(),
-          path: line.substring(3),
-        })),
+        .map((line) => {
+          const indexStatus = line[0]
+          const worktreeStatus = line[1]
+          // Show the most relevant status code
+          const status =
+            indexStatus !== ' ' && indexStatus !== '?'
+              ? indexStatus
+              : worktreeStatus !== ' '
+              ? worktreeStatus
+              : indexStatus
+          return {
+            status,
+            staged: indexStatus !== ' ' && indexStatus !== '?',
+            path: line.substring(3),
+          }
+        }),
     })
   } catch (err) {
     return c.json({ error: String(err) }, 500)
@@ -60,19 +72,42 @@ gitRoutes.get('/diff', async (c) => {
   }
 })
 
-// Commit and optionally push
+// Stage files
+gitRoutes.post('/stage', async (c) => {
+  const body = await c.req.json<{ paths: string[] }>()
+  if (!body.paths?.length) {
+    return c.json({ error: 'Missing paths' }, 400)
+  }
+  try {
+    await git('add', '--', ...body.paths)
+    return c.json({ ok: true })
+  } catch (err) {
+    return c.json({ error: String(err) }, 500)
+  }
+})
+
+// Unstage files
+gitRoutes.post('/unstage', async (c) => {
+  const body = await c.req.json<{ paths: string[] }>()
+  if (!body.paths?.length) {
+    return c.json({ error: 'Missing paths' }, 400)
+  }
+  try {
+    await git('reset', 'HEAD', '--', ...body.paths)
+    return c.json({ ok: true })
+  } catch (err) {
+    return c.json({ error: String(err) }, 500)
+  }
+})
+
+// Commit staged files and optionally push
 gitRoutes.post('/commit', async (c) => {
-  const body = await c.req.json<{ message: string; paths?: string[]; push?: boolean }>()
+  const body = await c.req.json<{ message: string; push?: boolean }>()
   if (!body.message) {
     return c.json({ error: 'Missing commit message' }, 400)
   }
 
   try {
-    if (body.paths && body.paths.length > 0) {
-      await git('add', '--', ...body.paths)
-    } else {
-      await git('add', '-A')
-    }
     const commitOutput = await git('commit', '-m', body.message)
 
     let pushOutput = ''
@@ -99,7 +134,7 @@ gitRoutes.post('/commit', async (c) => {
   }
 })
 
-// Discard changes for a specific file
+// Discard all changes for a specific file (staged + unstaged)
 gitRoutes.post('/discard', async (c) => {
   const body = await c.req.json<{ path: string }>()
   if (!body.path) {
@@ -111,18 +146,22 @@ gitRoutes.post('/discard', async (c) => {
   }
 
   try {
-    // Check if the file is untracked (new file not known to git)
+    // porcelain format: XY where X=index (staged), Y=worktree
     const status = await git('status', '--porcelain', '--', body.path)
-    const statusCode = status.substring(0, 2).trim()
+    const indexStatus = status[0]
 
-    if (statusCode === '??' || statusCode === 'A') {
-      // Untracked or newly added file: remove it
+    if (indexStatus === '?') {
+      // Untracked file: delete it
       const root = await getGitRoot()
-      const fullPath = join(root, body.path)
-      await unlink(fullPath)
+      await unlink(join(root, body.path))
+    } else if (indexStatus === 'A') {
+      // Newly added (staged): unstage then delete
+      await git('reset', 'HEAD', '--', body.path)
+      const root = await getGitRoot()
+      await unlink(join(root, body.path))
     } else {
-      // Tracked file: restore from git
-      await git('checkout', '--', body.path)
+      // Tracked file: fully restore to HEAD
+      await git('checkout', 'HEAD', '--', body.path)
     }
     return c.json({ ok: true, path: body.path })
   } catch (err) {

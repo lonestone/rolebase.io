@@ -4,10 +4,14 @@ import {
   useGitDiff,
   useGitCommit,
   useGitDiscard,
+  useGitStage,
+  useGitUnstage,
 } from '../hooks/useGit.js'
 import { useResizablePanel } from '../hooks/useResizablePanel.js'
 import { ResizeHandle } from './ResizeHandle.js'
 import Button from './Button.js'
+import { FiRefreshCw } from 'react-icons/fi'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function GitPanel() {
   const { width, handleMouseDown } = useResizablePanel({
@@ -17,14 +21,16 @@ export function GitPanel() {
     maxWidth: 800,
     side: 'left',
   })
+  const queryClient = useQueryClient()
   const { data: files = [] } = useGitStatus()
   const [diffFile, setDiffFile] = useState<string | null>(null)
   const { data: diff } = useGitDiff(diffFile)
   const [commitMsg, setCommitMsg] = useState('')
-  const [stagedPaths, setStagedPaths] = useState<Set<string>>(new Set())
   const [confirmDiscard, setConfirmDiscard] = useState<string | null>(null)
   const commitMutation = useGitCommit()
   const discardMutation = useGitDiscard()
+  const stageMutation = useGitStage()
+  const unstageMutation = useGitUnstage()
 
   function handleViewDiff(path: string) {
     setDiffFile(diffFile === path ? null : path)
@@ -35,11 +41,6 @@ export function GitPanel() {
       discardMutation.mutate(path, {
         onSuccess: () => {
           if (diffFile === path) setDiffFile(null)
-          setStagedPaths((prev) => {
-            const next = new Set(prev)
-            next.delete(path)
-            return next
-          })
         },
       })
       setConfirmDiscard(null)
@@ -48,36 +49,36 @@ export function GitPanel() {
     }
   }
 
-  function handleToggleStaged(path: string) {
-    setStagedPaths((prev) => {
-      const next = new Set(prev)
-      if (next.has(path)) {
-        next.delete(path)
-      } else {
-        next.add(path)
-      }
-      return next
-    })
-  }
-
-  function handleToggleAll() {
-    if (stagedPaths.size === files.length) {
-      setStagedPaths(new Set())
+  function handleToggleStaged(path: string, currentlyStaged: boolean) {
+    if (currentlyStaged) {
+      unstageMutation.mutate([path])
     } else {
-      setStagedPaths(new Set(files.map((f) => f.path)))
+      stageMutation.mutate([path])
     }
   }
 
+  function handleToggleAll() {
+    const allStaged = files.every((f) => f.staged)
+    if (allStaged) {
+      unstageMutation.mutate(files.map((f) => f.path))
+    } else {
+      stageMutation.mutate(files.map((f) => f.path))
+    }
+  }
+
+  function handleRefresh() {
+    queryClient.invalidateQueries({ queryKey: ['gitStatus'] })
+    queryClient.invalidateQueries({ queryKey: ['gitDiff'] })
+  }
+
+  const stagedCount = files.filter((f) => f.staged).length
+
   async function handleCommit() {
-    if (!commitMsg.trim() || stagedPaths.size === 0) return
+    if (!commitMsg.trim() || stagedCount === 0) return
     try {
-      await commitMutation.mutateAsync({
-        message: commitMsg,
-        paths: [...stagedPaths],
-      })
+      await commitMutation.mutateAsync(commitMsg)
       setCommitMsg('')
       setDiffFile(null)
-      setStagedPaths(new Set())
     } catch {
       // Error is available via commitMutation.error
     }
@@ -99,7 +100,7 @@ export function GitPanel() {
     )
   }
 
-  const allStaged = stagedPaths.size === files.length
+  const allStaged = files.every((f) => f.staged)
 
   return (
     <>
@@ -111,8 +112,8 @@ export function GitPanel() {
       <div className="flex-1 overflow-auto">
         {/* File list */}
         <div className="py-3">
-          {/* Select all */}
-          <div className="px-4 pb-2 mb-1 border-b border-border">
+          {/* Stage all + refresh */}
+          <div className="px-4 pb-2 mb-1 border-b border-border flex items-center justify-between">
             <label className="flex items-center gap-2 text-xs text-text-muted cursor-pointer">
               <input
                 type="checkbox"
@@ -122,6 +123,14 @@ export function GitPanel() {
               />
               Stage all
             </label>
+            <button
+              onClick={handleRefresh}
+              className="text-text-muted hover:text-text p-1 cursor-pointer"
+              aria-label="Refresh git status"
+              tabIndex={0}
+            >
+              <FiRefreshCw size={13} />
+            </button>
           </div>
 
           {files.map((file) => (
@@ -133,8 +142,8 @@ export function GitPanel() {
             >
               <input
                 type="checkbox"
-                checked={stagedPaths.has(file.path)}
-                onChange={() => handleToggleStaged(file.path)}
+                checked={file.staged}
+                onChange={() => handleToggleStaged(file.path, file.staged)}
                 className="accent-primary shrink-0"
                 aria-label={`Stage ${file.path}`}
               />
@@ -149,7 +158,11 @@ export function GitPanel() {
               >
                 {file.status}
               </span>
-              <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-1 min-w-0">
+              <span
+                className="overflow-hidden whitespace-nowrap flex-1 min-w-0"
+                style={{ direction: 'rtl', textAlign: 'left' }}
+                title={file.path}
+              >
                 {file.path}
               </span>
               <div className="flex gap-1 shrink-0">
@@ -211,9 +224,9 @@ export function GitPanel() {
         <Button
           variant="success"
           onClick={handleCommit}
-          disabled={!commitMsg.trim() || stagedPaths.size === 0 || commitMutation.isPending}
+          disabled={!commitMsg.trim() || stagedCount === 0 || commitMutation.isPending}
         >
-          {commitMutation.isPending ? '...' : `Commit (${stagedPaths.size})`}
+          {commitMutation.isPending ? '...' : `Commit (${stagedCount})`}
         </Button>
       </div>
       {commitMutation.error && (

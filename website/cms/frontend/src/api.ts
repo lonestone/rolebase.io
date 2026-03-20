@@ -9,6 +9,7 @@ export interface TreeNode {
 
 export interface GitFile {
   status: string
+  staged: boolean
   path: string
 }
 
@@ -59,13 +60,30 @@ export async function fetchGitDiff(path?: string): Promise<{ diff: string }> {
 
 export async function gitCommit(
   message: string,
-  paths: string[],
   push = false
 ): Promise<{ ok: boolean; commit?: string; error?: string }> {
   const res = await fetch(`${BASE}/git/commit`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, paths, push }),
+    body: JSON.stringify({ message, push }),
+  })
+  return res.json()
+}
+
+export async function gitStage(paths: string[]): Promise<{ ok: boolean }> {
+  const res = await fetch(`${BASE}/git/stage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paths }),
+  })
+  return res.json()
+}
+
+export async function gitUnstage(paths: string[]): Promise<{ ok: boolean }> {
+  const res = await fetch(`${BASE}/git/unstage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paths }),
   })
   return res.json()
 }

@@ -1,5 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { fetchGitStatus, fetchGitDiff, gitCommit, gitDiscard } from '../api.js'
+import {
+  fetchGitStatus,
+  fetchGitDiff,
+  gitCommit,
+  gitDiscard,
+  gitStage,
+  gitUnstage,
+} from '../api.js'
 
 export function useGitStatus() {
   return useQuery({
@@ -18,32 +25,54 @@ export function useGitDiff(path: string | null) {
   })
 }
 
-export function useGitCommit() {
+function useGitInvalidate() {
   const queryClient = useQueryClient()
+  return () => {
+    queryClient.invalidateQueries({ queryKey: ['gitStatus'] })
+    queryClient.invalidateQueries({ queryKey: ['gitDiff'] })
+  }
+}
+
+export function useGitCommit() {
+  const invalidate = useGitInvalidate()
 
   return useMutation({
-    mutationFn: async ({ message, paths }: { message: string; paths: string[] }) => {
-      const result = await gitCommit(message, paths)
+    mutationFn: async (message: string) => {
+      const result = await gitCommit(message)
       if (!result.ok) throw new Error(result.error || 'Commit failed')
       return result
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['gitStatus'] })
-      queryClient.invalidateQueries({ queryKey: ['gitDiff'] })
-      queryClient.invalidateQueries({ queryKey: ['tree'] })
-    },
+    onSuccess: invalidate,
   })
 }
 
 export function useGitDiscard() {
+  const invalidate = useGitInvalidate()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: (path: string) => gitDiscard(path),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['gitStatus'] })
-      queryClient.invalidateQueries({ queryKey: ['gitDiff'] })
+      invalidate()
       queryClient.invalidateQueries({ queryKey: ['tree'] })
     },
+  })
+}
+
+export function useGitStage() {
+  const invalidate = useGitInvalidate()
+
+  return useMutation({
+    mutationFn: (paths: string[]) => gitStage(paths),
+    onSuccess: invalidate,
+  })
+}
+
+export function useGitUnstage() {
+  const invalidate = useGitInvalidate()
+
+  return useMutation({
+    mutationFn: (paths: string[]) => gitUnstage(paths),
+    onSuccess: invalidate,
   })
 }
