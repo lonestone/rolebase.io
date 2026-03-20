@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useMemo, useCallback } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useCallback,
+  useState,
+  useRef,
+} from 'react'
 import {
   type JsxEditorProps,
   useMdastNodeUpdater,
@@ -11,6 +18,12 @@ import { useCellValue } from '@mdxeditor/gurx'
 import { $getNodeByKey } from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
 import { inputStyle, PropInput } from './PropInput.js'
+import { DragHandleIcon } from './DragHandleIcon.js'
+import {
+  DRAG_DATA_FORMAT,
+  startBlockDrag,
+  endBlockDrag,
+} from './BlockDragDropPlugin.js'
 
 // Context to pass rich prop metadata from Editor to CustomJsxEditor
 export const ComponentMetaContext = createContext<
@@ -236,6 +249,9 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const filePath = useContext(FilePathContext)
   const componentMeta = mdastNode.name ? meta[mdastNode.name] : undefined
 
+  const [hovered, setHovered] = useState(false)
+  const blockRef = useRef<HTMLDivElement>(null)
+
   const handleDuplicate = useCallback(() => {
     parentEditor.update(() => {
       const node = $getNodeByKey(lexicalNode.getKey())
@@ -245,6 +261,28 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
       node.insertAfter(clone)
     })
   }, [parentEditor, lexicalNode])
+
+  const handleDragStart = useCallback(
+    (e: React.DragEvent) => {
+      e.dataTransfer.setData(DRAG_DATA_FORMAT, lexicalNode.getKey())
+      e.dataTransfer.effectAllowed = 'move'
+      startBlockDrag(parentEditor, lexicalNode.getKey())
+      // Use the whole component block as the drag ghost
+      if (blockRef.current) {
+        const rect = blockRef.current.getBoundingClientRect()
+        e.dataTransfer.setDragImage(
+          blockRef.current,
+          e.clientX - rect.left,
+          e.clientY - rect.top
+        )
+      }
+    },
+    [parentEditor, lexicalNode]
+  )
+
+  const handleDragEnd = useCallback(() => {
+    endBlockDrag()
+  }, [])
 
   const handleDelete = useCallback(() => {
     removeNode()
@@ -316,140 +354,173 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
 
   return (
     <div
-      style={{
-        border: '1px solid #e0e0e0',
-        borderRadius: 4,
-        margin: '4px 0',
-      }}
+      ref={blockRef}
+      style={{ position: 'relative', margin: '4px 0' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* Header: component name + actions */}
+      {/* Drag handle to the left of the block */}
       <div
+        draggable
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        title="Drag to reorder"
+        aria-label="Drag to reorder component"
         style={{
+          position: 'absolute',
+          left: -15,
+          top: 0,
+          width: 16,
+          height: 24,
           display: 'flex',
-          flexDirection: 'column',
-          gap: 3,
-          padding: '4px 8px',
-          background: '#f5f5f5',
-          borderBottom:
-            descriptor.hasChildren || complexProps.length > 0
-              ? '1px solid #e0e0e0'
-              : undefined,
-          borderRadius:
-            descriptor.hasChildren || complexProps.length > 0
-              ? '4px 4px 0 0'
-              : 4,
-          fontSize: 12,
-          fontFamily: 'monospace',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'grab',
+          color: '#bbb',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.15s',
         }}
       >
+        <DragHandleIcon />
+      </div>
+
+      <div
+        style={{
+          border: '1px solid #e0e0e0',
+          borderRadius: 4,
+        }}
+      >
+        {/* Header: component name + actions */}
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            flexDirection: 'column',
+            gap: 3,
+            padding: '4px 8px',
+            background: '#f5f5f5',
+            borderBottom:
+              descriptor.hasChildren || complexProps.length > 0
+                ? '1px solid #e0e0e0'
+                : undefined,
+            borderRadius:
+              descriptor.hasChildren || complexProps.length > 0
+                ? '4px 4px 0 0'
+                : 4,
+            fontSize: 12,
+            fontFamily: 'monospace',
           }}
         >
-          <span style={{ fontWeight: 600, color: '#555', userSelect: 'none' }}>
-            {componentName}
-          </span>
-          <span style={{ display: 'flex', gap: 2 }}>
-            <button
-              onClick={handleDuplicate}
-              title="Duplicate"
-              aria-label="Duplicate component"
-              tabIndex={0}
-              style={actionButtonStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#333'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#999'
-              }}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span
+              style={{ fontWeight: 600, color: '#555', userSelect: 'none' }}
             >
-              {iconComponentFor('content_copy')}
-            </button>
-            <button
-              onClick={handleDelete}
-              title="Delete"
-              aria-label="Delete component"
-              tabIndex={0}
-              style={actionButtonStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#e53e3e'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#999'
-              }}
-            >
-              {iconComponentFor('delete_small')}
-            </button>
-          </span>
+              {componentName}
+            </span>
+            <span style={{ display: 'flex', gap: 2 }}>
+              <button
+                onClick={handleDuplicate}
+                title="Duplicate"
+                aria-label="Duplicate component"
+                tabIndex={0}
+                style={actionButtonStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#333'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#999'
+                }}
+              >
+                {iconComponentFor('content_copy')}
+              </button>
+              <button
+                onClick={handleDelete}
+                title="Delete"
+                aria-label="Delete component"
+                tabIndex={0}
+                style={actionButtonStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#e53e3e'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#999'
+                }}
+              >
+                {iconComponentFor('delete_small')}
+              </button>
+            </span>
+          </div>
+
+          {simpleProps.map(({ name, rich }) => {
+            const value = properties[name] ?? ''
+            const schema = rich ?? { name, type: 'string' as const }
+
+            return (
+              <PropInput
+                key={name}
+                schema={schema}
+                value={value}
+                filePath={filePath}
+                onChange={(v) => handlePropChange(name, v)}
+              />
+            )
+          })}
         </div>
 
-        {simpleProps.map(({ name, rich }) => {
-          const value = properties[name] ?? ''
-          const schema = rich ?? { name, type: 'string' as const }
-
-          return (
-            <PropInput
-              key={name}
-              schema={schema}
-              value={value}
-              filePath={filePath}
+        {/* Complex props (json table editors) */}
+        {complexProps.map(({ name, rich }) => (
+          <div
+            key={name}
+            style={{
+              padding: '4px 8px',
+              borderBottom: descriptor.hasChildren
+                ? '1px solid #e0e0e0'
+                : undefined,
+            }}
+          >
+            <JsonTableEditor
+              value={properties[name] ?? '[]'}
+              schema={rich.itemSchema!}
               onChange={(v) => handlePropChange(name, v)}
             />
-          )
-        })}
+          </div>
+        ))}
+
+        {/* Children */}
+        {descriptor.hasChildren ? (
+          <div style={{ padding: '4px 8px' }}>
+            <NestedLexicalEditor
+              block
+              getContent={(node: any) => {
+                // If all children are inline (phrasing) content, wrap in a
+                // paragraph so the block-level NestedLexicalEditor can render them
+                if (needsBlockWrapping(node.children)) {
+                  return [{ type: 'paragraph', children: node.children }]
+                }
+                return node.children
+              }}
+              getUpdatedMdastNode={(node: any, children: any) => {
+                // Unwrap: if the original node had inline children and we get
+                // back a single paragraph, unwrap it to preserve the original
+                // compact MDX format (<Comp>text</Comp>)
+                if (
+                  needsBlockWrapping(node.children) &&
+                  children.length === 1 &&
+                  children[0].type === 'paragraph'
+                ) {
+                  return { ...node, children: children[0].children }
+                }
+                return { ...node, children }
+              }}
+            />
+          </div>
+        ) : null}
       </div>
-
-      {/* Complex props (json table editors) */}
-      {complexProps.map(({ name, rich }) => (
-        <div
-          key={name}
-          style={{
-            padding: '4px 8px',
-            borderBottom: descriptor.hasChildren
-              ? '1px solid #e0e0e0'
-              : undefined,
-          }}
-        >
-          <JsonTableEditor
-            value={properties[name] ?? '[]'}
-            schema={rich.itemSchema!}
-            onChange={(v) => handlePropChange(name, v)}
-          />
-        </div>
-      ))}
-
-      {/* Children */}
-      {descriptor.hasChildren ? (
-        <div style={{ padding: '4px 8px' }}>
-          <NestedLexicalEditor
-            block
-            getContent={(node: any) => {
-              // If all children are inline (phrasing) content, wrap in a
-              // paragraph so the block-level NestedLexicalEditor can render them
-              if (needsBlockWrapping(node.children)) {
-                return [{ type: 'paragraph', children: node.children }]
-              }
-              return node.children
-            }}
-            getUpdatedMdastNode={(node: any, children: any) => {
-              // Unwrap: if the original node had inline children and we get
-              // back a single paragraph, unwrap it to preserve the original
-              // compact MDX format (<Comp>text</Comp>)
-              if (
-                needsBlockWrapping(node.children) &&
-                children.length === 1 &&
-                children[0].type === 'paragraph'
-              ) {
-                return { ...node, children: children[0].children }
-              }
-              return { ...node, children }
-            }}
-          />
-        </div>
-      ) : null}
     </div>
   )
 }

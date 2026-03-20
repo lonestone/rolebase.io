@@ -14,6 +14,7 @@ import FrontmatterEditor, {
   extractEsmLines,
   combineEsmAndContent,
 } from './FrontmatterEditor.js'
+import React from 'react'
 
 interface Props {
   filePath: string

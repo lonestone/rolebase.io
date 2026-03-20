@@ -31,9 +31,11 @@ import {
 } from '@mdxeditor/editor'
 import { CustomImageDialog } from './ImageDialog.js'
 import { InsertComponent } from './InsertComponent.js'
+import { blockDragDropPlugin } from './BlockDragDropPlugin.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 import { graphqlLanguageSupport } from 'cm6-graphql'
 import { languages } from '@codemirror/language-data'
+import React from 'react'
 
 // Build codeBlockLanguages from @codemirror/language-data, deduplicated:
 // keep only the shortest alias per language name.
@@ -87,6 +89,7 @@ export function createPlugins({
       codeMirrorExtensions: [graphqlLanguageSupport()],
     }),
     jsxPlugin({ jsxComponentDescriptors: jsxDescriptors }),
+    blockDragDropPlugin(),
     diffSourcePlugin({
       diffMarkdown: originalContent,
       viewMode: 'rich-text',
