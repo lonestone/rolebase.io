@@ -5,10 +5,8 @@ import {
   ButtonOrDropdownButton,
 } from '@mdxeditor/editor'
 import { ComponentMetaContext } from './CustomJsxEditor.js'
+import { buildDefaultProps } from '../utils/insertComponentUtils.js'
 import React from 'react'
-
-// Inline (text) components vs block (flow)
-const inlineComponents = new Set(['Button'])
 
 export function InsertComponent() {
   const insertJsx = usePublisher(insertJsx$)
@@ -31,24 +29,11 @@ export function InsertComponent() {
       onChoose={(name) => {
         const meta = componentMeta[name]
         if (!meta) return
-
-        const kind = inlineComponents.has(name) ? 'text' : 'flow'
-
-        // Build default props
-        const props: Record<string, string> = {}
-        for (const p of meta.props) {
-          if (p.type === 'boolean') {
-            props[p.name] = 'true'
-          } else if (p.type === 'select' && p.options?.[0]) {
-            props[p.name] = p.options[0]
-          } else if (p.type === 'number') {
-            props[p.name] = '0'
-          } else {
-            props[p.name] = ''
-          }
-        }
-
-        insertJsx({ name, kind, props })
+        insertJsx({
+          name,
+          kind: 'flow',
+          props: buildDefaultProps(meta),
+        })
       }}
       items={items}
     >

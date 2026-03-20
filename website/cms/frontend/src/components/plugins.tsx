@@ -32,6 +32,7 @@ import {
 import { CustomImageDialog } from './ImageDialog.js'
 import { InsertComponent } from './InsertComponent.js'
 import { blockDragDropPlugin } from './BlockDragDropPlugin.js'
+import { slashCommandPlugin } from './SlashCommandPlugin.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 import { graphqlLanguageSupport } from 'cm6-graphql'
 import { languages } from '@codemirror/language-data'
@@ -90,6 +91,7 @@ export function createPlugins({
     }),
     jsxPlugin({ jsxComponentDescriptors: jsxDescriptors }),
     blockDragDropPlugin(),
+    slashCommandPlugin(),
     diffSourcePlugin({
       diffMarkdown: originalContent,
       viewMode: 'rich-text',

@@ -169,3 +169,14 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 3px;
 }
+
+/* Slash command menu */
+.slash-command-menu {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 280px;
+  overflow-y: auto;
+  min-width: 180px;
+}

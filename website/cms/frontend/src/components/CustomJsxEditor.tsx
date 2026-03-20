@@ -18,10 +18,13 @@ import {
 import { useCellValue } from '@mdxeditor/gurx'
 import {
   $createNodeSelection,
+  $createParagraphNode,
   $getNodeByKey,
   $getSelection,
   $isNodeSelection,
   $setSelection,
+  COMMAND_PRIORITY_LOW,
+  KEY_ENTER_COMMAND,
 } from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
 import { inputStyle, PropInput } from './PropInput.js'
@@ -261,16 +264,45 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const blockRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    return parentEditor.registerUpdateListener(({ editorState }) => {
-      editorState.read(() => {
+    const unregisterUpdate = parentEditor.registerUpdateListener(
+      ({ editorState }) => {
+        editorState.read(() => {
+          const selection = $getSelection()
+          if ($isNodeSelection(selection)) {
+            setSelected(selection.has(lexicalNode.getKey()))
+          } else {
+            setSelected(false)
+          }
+        })
+      }
+    )
+
+    const unregisterEnter = parentEditor.registerCommand(
+      KEY_ENTER_COMMAND,
+      (event) => {
         const selection = $getSelection()
-        if ($isNodeSelection(selection)) {
-          setSelected(selection.has(lexicalNode.getKey()))
-        } else {
-          setSelected(false)
+        if (
+          $isNodeSelection(selection) &&
+          selection.has(lexicalNode.getKey())
+        ) {
+          event?.preventDefault()
+          const node = $getNodeByKey(lexicalNode.getKey())
+          if (node) {
+            const paragraph = $createParagraphNode()
+            node.insertAfter(paragraph)
+            paragraph.selectStart()
+          }
+          return true
         }
-      })
-    })
+        return false
+      },
+      COMMAND_PRIORITY_LOW
+    )
+
+    return () => {
+      unregisterUpdate()
+      unregisterEnter()
+    }
   }, [parentEditor, lexicalNode])
 
   const handleDuplicate = useCallback(() => {
