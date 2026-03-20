@@ -5,8 +5,17 @@ import {
   useGitCommit,
   useGitDiscard,
 } from '../hooks/useGit.js'
+import { useResizablePanel } from '../hooks/useResizablePanel.js'
+import { ResizeHandle } from './ResizeHandle.js'
 
 export function GitPanel() {
+  const { width, handleMouseDown } = useResizablePanel({
+    storageKey: 'cms-git-panel-width',
+    defaultWidth: 380,
+    minWidth: 250,
+    maxWidth: 800,
+    side: 'left',
+  })
   const { data: files = [] } = useGitStatus()
   const [diffFile, setDiffFile] = useState<string | null>(null)
   const { data: diff } = useGitDiff(diffFile)
@@ -38,10 +47,11 @@ export function GitPanel() {
 
   if (files.length === 0) {
     return (
+      <>
+      <ResizeHandle side="left" onMouseDown={handleMouseDown} />
       <aside
         style={{
-          width: 'var(--panel-width)',
-          borderLeft: '1px solid var(--border)',
+          width,
           background: 'var(--bg-panel)',
           flexShrink: 0,
           display: 'flex',
@@ -53,14 +63,16 @@ export function GitPanel() {
           No changes
         </span>
       </aside>
+      </>
     )
   }
 
   return (
+    <>
+    <ResizeHandle side="left" onMouseDown={handleMouseDown} />
     <aside
       style={{
-        width: 'var(--panel-width)',
-        borderLeft: '1px solid var(--border)',
+        width,
         background: 'var(--bg-panel)',
         flexShrink: 0,
         display: 'flex',
@@ -225,5 +237,6 @@ export function GitPanel() {
         </div>
       )}
     </aside>
+    </>
   )
 }

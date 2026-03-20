@@ -9,7 +9,7 @@ async function git(...args: string[]) {
     cwd: process.cwd(),
     maxBuffer: 10 * 1024 * 1024, // 10MB
   })
-  return stdout.trim()
+  return stdout.trimEnd()
 }
 
 export const gitRoutes = new Hono()

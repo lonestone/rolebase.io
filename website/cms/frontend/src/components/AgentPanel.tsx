@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { sendPrompt, stopClaude } from '../api.js'
+import { useResizablePanel } from '../hooks/useResizablePanel.js'
+import { ResizeHandle } from './ResizeHandle.js'
 
 interface AgentMessage {
   role: 'user' | 'agent'
@@ -92,11 +94,20 @@ export function AgentPanel() {
     }
   }
 
+  const { width, handleMouseDown } = useResizablePanel({
+    storageKey: 'cms-agent-panel-width',
+    defaultWidth: 380,
+    minWidth: 250,
+    maxWidth: 800,
+    side: 'left',
+  })
+
   return (
+    <>
+    <ResizeHandle side="left" onMouseDown={handleMouseDown} />
     <aside
       style={{
-        width: 'var(--panel-width)',
-        borderLeft: '1px solid var(--border)',
+        width,
         background: 'var(--bg-panel)',
         display: 'flex',
         flexDirection: 'column',
@@ -216,5 +227,6 @@ export function AgentPanel() {
         </div>
       </div>
     </aside>
+    </>
   )
 }

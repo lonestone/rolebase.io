@@ -1,4 +1,5 @@
 import React from 'react'
+import { FiExternalLink } from 'react-icons/fi'
 
 interface Props {
   gitOpen: boolean
@@ -72,7 +73,7 @@ export function Header({
             cursor: 'pointer',
           }}
         >
-          Preview
+          Preview <FiExternalLink style={{ marginLeft: 4, verticalAlign: 'middle' }} />
         </a>
         <PanelButton active={gitOpen} onClick={onToggleGit}>
           Git

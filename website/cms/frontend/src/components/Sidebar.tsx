@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { useLocation } from 'react-router'
 import type { TreeNode } from '../api.js'
+import { useResizablePanel } from '../hooks/useResizablePanel.js'
+import { ResizeHandle } from './ResizeHandle.js'
 
 interface Props {
   tree: TreeNode[]
@@ -28,11 +30,19 @@ export function Sidebar({ tree, onSelectFile }: Props) {
     [selectedFile]
   )
 
+  const { width, handleMouseDown } = useResizablePanel({
+    storageKey: 'cms-sidebar-width',
+    defaultWidth: 260,
+    minWidth: 150,
+    maxWidth: 500,
+    side: 'right',
+  })
+
   return (
+    <>
     <aside
       style={{
-        width: 'var(--sidebar-width)',
-        borderRight: '1px solid var(--border)',
+        width,
         background: 'var(--bg-sidebar)',
         overflow: 'auto',
         flexShrink: 0,
@@ -54,6 +64,8 @@ export function Sidebar({ tree, onSelectFile }: Props) {
           ))}
       </div>
     </aside>
+    <ResizeHandle side="right" onMouseDown={handleMouseDown} />
+    </>
   )
 }
 
