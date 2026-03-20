@@ -1,5 +1,5 @@
 ---
-import Section from './Section.astro'
+import PageSection from './PageSection.astro'
 
 interface Props {
   senjaId: string
@@ -8,7 +8,7 @@ interface Props {
 const { senjaId } = Astro.props
 ---
 
-<Section>
+<PageSection>
   <div class="senja-embed" data-id={senjaId} data-lazyload="false"></div>
   <script async type="text/javascript" src="https://static.senja.io/dist/platform.js"></script>
-</Section>
+</PageSection>

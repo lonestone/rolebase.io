@@ -1,5 +1,5 @@
 ---
-import Section from './Section.astro'
+import PageSection from './PageSection.astro'
 
 interface Props {
   title: string
@@ -10,10 +10,10 @@ interface Props {
 const { title, subtitle, class: className } = Astro.props
 ---
 
-<Section class:list={["text-center", className]}>
+<PageSection class:list={["text-center", className]}>
   <p class="text-lg text-text-secondary mb-0">{subtitle}</p>
   <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-0" set:html={title} />
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
     <slot />
   </div>
-</Section>
+</PageSection>
