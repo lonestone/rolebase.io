@@ -9,6 +9,7 @@ import { useCellValue, usePublisher } from '@mdxeditor/gurx'
 import { useMediaModal } from './MediaModal.js'
 import { FilePathContext } from './CustomJsxEditor.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
+import Button from './Button.js'
 
 export function CustomImageDialog() {
   const state = useCellValue(imageDialogState$)
@@ -67,158 +68,68 @@ export function CustomImageDialog() {
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 9999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(0,0,0,0.3)',
-      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30"
       onClick={(e) => {
         if (e.target === e.currentTarget) handleCancel()
       }}
     >
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: 8,
-          width: 420,
-          padding: 20,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-        }}
-      >
-        <h3 style={{ margin: '0 0 16px', fontSize: 15 }}>
+      <div className="bg-white rounded-lg w-full max-w-md p-5 shadow-2xl">
+        <h3 className="mb-4 text-sm font-semibold">
           {isEditing ? 'Edit image' : 'Insert image'}
         </h3>
 
         {/* Preview */}
         {previewSrc && (
-          <div
-            style={{
-              marginBottom: 12,
-              background: '#fafafa',
-              borderRadius: 4,
-              padding: 8,
-              textAlign: 'center',
-            }}
-          >
+          <div className="mb-3 bg-[#fafafa] rounded p-2 text-center">
             <img
               src={previewSrc}
               alt=""
-              style={{
-                maxHeight: 120,
-                maxWidth: '100%',
-                objectFit: 'contain',
-              }}
+              className="max-h-30 max-w-full object-contain"
             />
           </div>
         )}
 
         {/* Source */}
-        <label
-          style={{
-            display: 'block',
-            marginBottom: 8,
-            fontSize: 12,
-            color: '#666',
-          }}
-        >
+        <label className="block mb-2 text-xs text-gray-500">
           Source
-          <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+          <div className="flex gap-1.5 mt-1">
             <input
               type="text"
               value={src}
               onChange={(e) => setSrc(e.target.value)}
               placeholder="./image.png"
-              style={{
-                flex: 1,
-                padding: '6px 8px',
-                border: '1px solid #ddd',
-                borderRadius: 4,
-                fontSize: 13,
-                fontFamily: 'monospace',
-              }}
+              className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-xs font-mono"
             />
-            <button
-              type="button"
-              onClick={handleSelectMedia}
-              style={{
-                background: 'var(--primary, #2563eb)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 4,
-                padding: '6px 12px',
-                fontSize: 12,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-              }}
-            >
+            <Button variant="primary" size="sm" onClick={handleSelectMedia}>
               Select
-            </button>
+            </Button>
           </div>
         </label>
 
         {/* Alt text */}
-        <label
-          style={{
-            display: 'block',
-            marginBottom: 16,
-            fontSize: 12,
-            color: '#666',
-          }}
-        >
+        <label className="block mb-4 text-xs text-gray-500">
           Alt text
           <input
             type="text"
             value={alt}
             onChange={(e) => setAlt(e.target.value)}
             placeholder="Describe the image"
-            style={{
-              display: 'block',
-              width: '100%',
-              marginTop: 4,
-              padding: '6px 8px',
-              border: '1px solid #ddd',
-              borderRadius: 4,
-              fontSize: 13,
-              boxSizing: 'border-box',
-            }}
+            className="block w-full mt-1 px-2 py-1.5 border border-gray-300 rounded text-xs"
           />
         </label>
 
         {/* Actions */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <button
-            onClick={handleCancel}
-            style={{
-              background: 'none',
-              border: '1px solid #ddd',
-              borderRadius: 4,
-              padding: '6px 16px',
-              fontSize: 13,
-              cursor: 'pointer',
-              color: '#666',
-            }}
-          >
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" onClick={handleCancel}>
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
             onClick={handleSave}
             disabled={!src}
-            style={{
-              background: src ? 'var(--primary, #2563eb)' : '#ccc',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 4,
-              padding: '6px 16px',
-              fontSize: 13,
-              cursor: src ? 'pointer' : 'default',
-            }}
           >
             {isEditing ? 'Save' : 'Insert'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

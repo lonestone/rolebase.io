@@ -7,6 +7,7 @@ import {
 } from '../hooks/useGit.js'
 import { useResizablePanel } from '../hooks/useResizablePanel.js'
 import { ResizeHandle } from './ResizeHandle.js'
+import Button from './Button.js'
 
 export function GitPanel() {
   const { width, handleMouseDown } = useResizablePanel({
@@ -50,16 +51,10 @@ export function GitPanel() {
       <>
       <ResizeHandle side="left" onMouseDown={handleMouseDown} />
       <aside
-        style={{
-          width,
-          background: 'var(--bg-panel)',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+        style={{ width }}
+        className="bg-bg-panel shrink-0 flex items-center justify-center"
       >
-        <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>
+        <span className="text-text-muted text-xs">
           No changes
         </span>
       </aside>
@@ -71,94 +66,46 @@ export function GitPanel() {
     <>
     <ResizeHandle side="left" onMouseDown={handleMouseDown} />
     <aside
-      style={{
-        width,
-        background: 'var(--bg-panel)',
-        flexShrink: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
+      style={{ width }}
+      className="bg-bg-panel shrink-0 flex flex-col overflow-hidden"
     >
-      <div style={{ flex: 1, overflow: 'auto' }}>
+      <div className="flex-1 overflow-auto">
         {/* File list */}
-        <div style={{ padding: '12px 0' }}>
+        <div className="py-3">
           {files.map((file) => (
             <div
               key={file.path}
-              style={{
-                padding: '6px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                fontSize: 13,
-                background: diffFile === file.path ? '#f0f0f0' : 'transparent',
-              }}
+              className={`px-4 py-1.5 flex items-center justify-between text-xs ${
+                diffFile === file.path ? 'bg-gray-100' : ''
+              }`}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  flex: 1,
-                  minWidth: 0,
-                }}
-              >
+              <div className="flex items-center gap-2 flex-1 min-w-0">
                 <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 600,
-                    color:
-                      file.status === 'M'
-                        ? 'var(--primary)'
-                        : file.status === 'D'
-                        ? 'var(--danger)'
-                        : 'var(--success)',
-                    width: 16,
-                    textAlign: 'center',
-                    flexShrink: 0,
-                  }}
+                  className={`text-2xs font-semibold w-4 text-center shrink-0 ${
+                    file.status === 'M'
+                      ? 'text-primary'
+                      : file.status === 'D'
+                      ? 'text-danger'
+                      : 'text-success'
+                  }`}
                 >
                   {file.status}
                 </span>
-                <span
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
+                <span className="overflow-hidden text-ellipsis whitespace-nowrap">
                   {file.path}
                 </span>
               </div>
-              <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
-                <button
-                  onClick={() => handleViewDiff(file.path)}
-                  style={{
-                    padding: '2px 8px',
-                    fontSize: 11,
-                    borderRadius: 'var(--radius)',
-                    border: '1px solid var(--border)',
-                    background: '#fff',
-                    cursor: 'pointer',
-                  }}
-                >
+              <div className="flex gap-1 shrink-0">
+                <Button size="sm" onClick={() => handleViewDiff(file.path)}>
                   Diff
-                </button>
-                <button
+                </Button>
+                <Button
+                  size="sm"
+                  className="border-danger! text-danger! hover:bg-red-50!"
                   onClick={() => handleDiscard(file.path)}
-                  style={{
-                    padding: '2px 8px',
-                    fontSize: 11,
-                    borderRadius: 'var(--radius)',
-                    border: '1px solid var(--danger)',
-                    background: '#fff',
-                    color: 'var(--danger)',
-                    cursor: 'pointer',
-                  }}
                 >
                   Discard
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -166,34 +113,14 @@ export function GitPanel() {
 
         {/* Diff view */}
         {diff && (
-          <pre
-            style={{
-              margin: '0 16px 16px',
-              padding: 12,
-              background: '#1e1e1e',
-              color: '#d4d4d4',
-              borderRadius: 'var(--radius)',
-              fontSize: 12,
-              lineHeight: 1.5,
-              overflow: 'auto',
-              maxHeight: 300,
-              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-            }}
-          >
+          <pre className="mx-4 mb-4 p-3 bg-[#1e1e1e] text-[#d4d4d4] rounded-md text-xs leading-relaxed overflow-auto max-h-75 font-mono">
             {diff || 'No diff'}
           </pre>
         )}
       </div>
 
       {/* Commit form */}
-      <div
-        style={{
-          padding: 12,
-          borderTop: '1px solid var(--border)',
-          display: 'flex',
-          gap: 8,
-        }}
-      >
+      <div className="p-3 border-t border-border flex gap-2">
         <input
           value={commitMsg}
           onChange={(e) => setCommitMsg(e.target.value)}
@@ -204,35 +131,18 @@ export function GitPanel() {
             }
           }}
           placeholder="Commit message..."
-          style={{
-            flex: 1,
-            padding: '6px 10px',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius)',
-            fontSize: 13,
-            outline: 'none',
-          }}
+          className="flex-1 px-2.5 py-1.5 border border-border rounded-md text-xs outline-none"
         />
-        <button
+        <Button
+          variant="success"
           onClick={handleCommit}
           disabled={!commitMsg.trim() || commitMutation.isPending}
-          style={{
-            padding: '6px 16px',
-            borderRadius: 'var(--radius)',
-            border: 'none',
-            background: commitMsg.trim() ? 'var(--success)' : 'var(--border)',
-            color: commitMsg.trim() ? '#fff' : 'var(--text-muted)',
-            fontSize: 13,
-            cursor: commitMsg.trim() ? 'pointer' : 'default',
-          }}
         >
           {commitMutation.isPending ? '...' : 'Commit'}
-        </button>
+        </Button>
       </div>
       {commitMutation.error && (
-        <div
-          style={{ padding: '8px 12px', color: 'var(--danger)', fontSize: 12 }}
-        >
+        <div className="px-3 py-2 text-danger text-xs">
           {commitMutation.error.message}
         </div>
       )}

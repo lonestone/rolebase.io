@@ -80,21 +80,13 @@ function MenuItem({
       id={'slash-item-' + index}
       onMouseEnter={onMouseEnter}
       onClick={onClick}
-      style={{
-        padding: '6px 10px',
-        cursor: 'pointer',
-        fontSize: 13,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        background: isSelected ? 'var(--primary)' : 'transparent',
-        color: isSelected ? '#fff' : 'var(--text)',
-        borderRadius: 4,
-      }}
+      className={`px-2.5 py-1.5 cursor-pointer text-xs flex items-center justify-between rounded ${
+        isSelected ? 'bg-primary text-white' : 'text-text'
+      }`}
     >
       <span>{option.title}</span>
       {option.submenu && (
-        <span style={{ fontSize: 10, opacity: 0.6 }}>▸</span>
+        <span className="text-2xs opacity-60">▸</span>
       )}
     </li>
   )
@@ -306,19 +298,10 @@ function SlashCommandMenu() {
           ? ReactDOM.createPortal(
               <div className="slash-command-menu">
                 {activeSubmenu && (
-                  <div
-                    style={{
-                      padding: '4px 10px 2px',
-                      fontSize: 11,
-                      color: 'var(--text-muted)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
+                  <div className="px-2.5 pt-1 pb-0.5 text-2xs text-text-muted flex items-center gap-1">
                     <span
                       onClick={() => setActiveSubmenu(null)}
-                      style={{ cursor: 'pointer' }}
+                      className="cursor-pointer"
                     >
                       /
                     </span>
@@ -326,7 +309,7 @@ function SlashCommandMenu() {
                     <span>{activeSubmenu}</span>
                   </div>
                 )}
-                <ul style={{ listStyle: 'none', padding: '4px', margin: 0 }}>
+                <ul className="list-none p-1 m-0">
                   {visibleOptions.map((option, i) => (
                     <MenuItem
                       index={i}

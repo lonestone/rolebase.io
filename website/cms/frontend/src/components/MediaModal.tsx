@@ -9,6 +9,7 @@ import React, {
 } from 'react'
 import { useTree } from '../hooks/useTree.js'
 import { uploadMedia, type TreeNode } from '../api.js'
+import Button from './Button.js'
 
 // ---------------------------------------------------------------------------
 // Context for opening the media modal from anywhere
@@ -203,85 +204,38 @@ function MediaModalOverlay({
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 10000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(0,0,0,0.4)',
-      }}
+      className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
     >
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: 8,
-          width: 640,
-          maxHeight: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-        }}
-      >
+      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
         {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            borderBottom: '1px solid #e2e2e2',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontWeight: 600, fontSize: 14 }}>Select media</span>
-            <span
-              style={{
-                fontSize: 12,
-                color: '#888',
-                fontFamily: 'monospace',
-              }}
-            >
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-sm">Select media</span>
+            <span className="text-xs text-gray-400 font-mono">
               {breadcrumb}
             </span>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button
+          <div className="flex gap-2">
+            <Button
+              variant="primary"
+              size="sm"
               onClick={() => fileInputRef.current?.click()}
-              style={{
-                background: 'var(--primary, #2563eb)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 4,
-                padding: '4px 12px',
-                fontSize: 12,
-                cursor: 'pointer',
-              }}
             >
               Upload
-            </button>
+            </Button>
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
               onChange={handleUpload}
-              style={{ display: 'none' }}
+              className="hidden"
             />
             <button
               onClick={onClose}
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: 18,
-                cursor: 'pointer',
-                color: '#888',
-                lineHeight: 1,
-                padding: '0 4px',
-              }}
+              className="bg-transparent border-none text-lg cursor-pointer text-gray-400 leading-none px-1 hover:text-gray-600"
               aria-label="Close"
             >
               &times;
@@ -291,18 +245,10 @@ function MediaModalOverlay({
 
         {/* Navigation */}
         {canGoUp && (
-          <div style={{ padding: '8px 16px 0' }}>
+          <div className="px-4 pt-2">
             <button
               onClick={handleParent}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: 'var(--primary, #2563eb)',
-                fontSize: 12,
-                padding: 0,
-                fontFamily: 'monospace',
-              }}
+              className="bg-transparent border-none cursor-pointer text-primary text-xs p-0 font-mono hover:underline"
             >
               &larr; Parent directory
             </button>
@@ -310,10 +256,10 @@ function MediaModalOverlay({
         )}
 
         {/* Content */}
-        <div style={{ flex: 1, overflow: 'auto', padding: '8px 16px 16px' }}>
+        <div className="flex-1 overflow-auto px-4 pt-2 pb-4">
           {/* Directories */}
           {directories.length > 0 && (
-            <div style={{ marginBottom: 12 }}>
+            <div className="mb-3">
               {directories.map((entry) => (
                 <div
                   key={entry.path}
@@ -327,24 +273,9 @@ function MediaModalOverlay({
                       handleNavigate(entry.path)
                     }
                   }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    padding: '6px 8px',
-                    borderRadius: 4,
-                    cursor: 'pointer',
-                    fontSize: 13,
-                    fontFamily: 'monospace',
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.background = '#f5f5f5')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = 'transparent')
-                  }
+                  className="flex items-center gap-1.5 px-2 py-1.5 rounded cursor-pointer text-xs font-mono hover:bg-gray-100"
                 >
-                  <span style={{ fontSize: 14 }}>&#x1F4C1;</span>
+                  <span className="text-sm">&#x1F4C1;</span>
                   {entry.name}
                 </div>
               ))}
@@ -353,13 +284,7 @@ function MediaModalOverlay({
 
           {/* Media files grid */}
           {mediaFiles.length > 0 ? (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-                gap: 8,
-              }}
-            >
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2">
               {mediaFiles.map((entry) => (
                 <div
                   key={entry.path}
@@ -373,46 +298,15 @@ function MediaModalOverlay({
                       handleSelectEntry(entry)
                     }
                   }}
-                  style={{
-                    border: '1px solid #e2e2e2',
-                    borderRadius: 4,
-                    padding: 4,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 4,
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.borderColor =
-                      'var(--primary, #2563eb)')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.borderColor = '#e2e2e2')
-                  }
+                  className="border border-border rounded p-1 cursor-pointer flex flex-col items-center gap-1 hover:border-primary"
                 >
                   <img
                     src={previewUrl(entry)}
                     alt={entry.name}
-                    style={{
-                      width: '100%',
-                      height: 80,
-                      objectFit: 'contain',
-                      background: '#fafafa',
-                      borderRadius: 2,
-                    }}
+                    className="w-full h-20 object-contain bg-[#fafafa] rounded-sm"
                   />
                   <span
-                    style={{
-                      fontSize: 10,
-                      color: '#666',
-                      textAlign: 'center',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      width: '100%',
-                      fontFamily: 'monospace',
-                    }}
+                    className="text-2xs text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap w-full font-mono"
                     title={entry.name}
                   >
                     {entry.name}
@@ -421,14 +315,7 @@ function MediaModalOverlay({
               ))}
             </div>
           ) : directories.length === 0 ? (
-            <div
-              style={{
-                color: '#888',
-                padding: 16,
-                textAlign: 'center',
-                fontSize: 13,
-              }}
-            >
+            <div className="text-gray-400 p-4 text-center text-xs">
               No media files in this directory
             </div>
           ) : null}

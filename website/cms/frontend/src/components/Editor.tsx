@@ -15,6 +15,7 @@ import FrontmatterEditor, {
   combineEsmAndContent,
 } from './FrontmatterEditor.js'
 import React from 'react'
+import Button from './Button.js'
 
 interface Props {
   filePath: string
@@ -128,55 +129,30 @@ export function Editor({ filePath }: Props) {
 
   if (isLoading || !ready || !plugins) {
     return (
-      <div style={{ padding: 20, color: 'var(--text-muted)' }}>Loading...</div>
+      <div className="p-5 text-text-muted">Loading...</div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: 8,
-        }}
-      >
-        <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+    <div className="flex flex-col h-full">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-xs text-text-muted">
           {filePath}
           {isDirty && (
-            <span style={{ color: 'var(--primary)', marginLeft: 8 }}>
+            <span className="text-primary ml-2">
               Modified
             </span>
           )}
         </span>
-        <button
+        <Button
+          variant="primary"
           onClick={handleSave}
           disabled={!isDirty || saveFile.isPending}
-          style={{
-            padding: '4px 16px',
-            borderRadius: 'var(--radius)',
-            border: 'none',
-            background: isDirty ? 'var(--primary)' : 'var(--border)',
-            color: isDirty ? '#fff' : 'var(--text-muted)',
-            fontSize: 13,
-            cursor: isDirty ? 'pointer' : 'default',
-          }}
         >
           {saveFile.isPending ? 'Saving...' : 'Save'}
-        </button>
+        </Button>
       </div>
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius)',
-          overflow: 'auto',
-          background: '#fff',
-        }}
-      >
+      <div className="flex-1 flex flex-col border border-border rounded-md overflow-auto bg-white">
         {schema && (
           <FrontmatterEditor
             schema={schema}

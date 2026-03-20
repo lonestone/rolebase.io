@@ -30,13 +30,7 @@ function EditorPage() {
 
 function Placeholder() {
   return (
-    <div
-      style={{
-        color: 'var(--text-muted)',
-        padding: '40px',
-        textAlign: 'center',
-      }}
-    >
+    <div className="text-text-muted p-10 text-center">
       Select a file from the sidebar to edit
     </div>
   )
@@ -56,12 +50,12 @@ export function App() {
         agentOpen={agentOpen}
         onToggleAgent={() => setAgentOpen(!agentOpen)}
       />
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar
           tree={tree}
           onSelectFile={(path) => navigate(`/edit/${path}`)}
         />
-        <main style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
+        <main className="flex-1 overflow-auto p-4">
           <Routes>
             <Route path="/" element={<Placeholder />} />
             <Route path="/edit/*" element={<EditorPage />} />

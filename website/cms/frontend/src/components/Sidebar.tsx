@@ -41,15 +41,10 @@ export function Sidebar({ tree, onSelectFile }: Props) {
   return (
     <>
     <aside
-      style={{
-        width,
-        background: 'var(--bg-sidebar)',
-        overflow: 'auto',
-        flexShrink: 0,
-        fontSize: 13,
-      }}
+      style={{ width }}
+      className="bg-bg-sidebar overflow-auto shrink-0 text-xs"
     >
-      <div style={{ padding: '12px 0' }}>
+      <div className="py-3">
         {tree
           .filter((node) => node.type === 'directory')
           .map((node) => (
@@ -117,33 +112,26 @@ function TreeItem({
             }
           }
         }}
-        style={{
-          padding: '4px 12px',
-          paddingLeft: `${12 + depth * 16}px`,
-          cursor: isFile && isMdx ? 'pointer' : isFile ? 'default' : 'pointer',
-          background: isSelected ? 'var(--primary)' : 'transparent',
-          color: isSelected ? '#fff' : isFile ? 'var(--text)' : 'var(--text)',
-          fontWeight: isFile ? 400 : 500,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-          borderRadius: 0,
-          userSelect: 'none',
-        }}
+        style={{ paddingLeft: `${12 + depth * 16}px` }}
+        className={`py-1 pr-3 flex items-center gap-1 select-none ${
+          isSelected
+            ? 'bg-primary text-white'
+            : 'text-text'
+        } ${
+          isFile && isMdx
+            ? 'cursor-pointer'
+            : isFile
+            ? 'cursor-default'
+            : 'cursor-pointer'
+        } ${isFile ? 'font-normal' : 'font-medium'}`}
       >
         {!isFile && (
-          <span style={{ fontSize: 10, width: 12 }}>
+          <span className="text-2xs w-3">
             {expanded ? '▼' : '▶'}
           </span>
         )}
-        {isFile && <span style={{ width: 12 }} />}
-        <span
-          style={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
+        {isFile && <span className="w-3" />}
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap">
           {node.name}
         </span>
       </div>

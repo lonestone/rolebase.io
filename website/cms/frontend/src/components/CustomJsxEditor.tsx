@@ -27,7 +27,7 @@ import {
   KEY_ENTER_COMMAND,
 } from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
-import { inputStyle, PropInput } from './PropInput.js'
+import { inputClassName, PropInput } from './PropInput.js'
 import {
   DRAG_DATA_FORMAT,
   startBlockDrag,
@@ -138,67 +138,42 @@ function JsonTableEditor({ value, schema, onChange }: JsonTableEditorProps) {
   )
 
   return (
-    <div style={{ padding: '4px 0' }}>
-      <table
-        style={{
-          width: '100%',
-          borderCollapse: 'collapse',
-          margin: 0,
-          fontSize: 12,
-          fontFamily: 'monospace',
-        }}
-      >
+    <div className="py-1">
+      <table className="w-full border-collapse m-0 text-xs font-mono">
         <thead>
           <tr>
             {schema.map((s) => (
               <th
                 key={s.name}
-                style={{
-                  textAlign: 'left',
-                  padding: '2px 4px',
-                  borderBottom: '1px solid #ddd',
-                  color: '#888',
-                  fontWeight: 500,
-                }}
+                className="text-left px-1 py-0.5 border-b border-gray-300 text-gray-400 font-medium"
               >
                 {s.name}
               </th>
             ))}
-            <th style={{ width: 24 }} />
+            <th className="w-6" />
           </tr>
         </thead>
         <tbody>
           {rows.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {schema.map((s) => (
-                <td key={s.name} style={{ padding: '2px 4px' }}>
+                <td key={s.name} className="px-1 py-0.5">
                   <input
                     type="text"
                     value={row[s.name] ?? ''}
                     onChange={(e) =>
                       handleCellChange(rowIndex, s.name, e.target.value)
                     }
-                    style={{
-                      ...inputStyle,
-                      width: '100%',
-                      flex: undefined,
-                    }}
+                    className={`${inputClassName} w-full`}
+                    style={{ flex: undefined }}
                   />
                 </td>
               ))}
-              <td style={{ padding: '2px 0' }}>
+              <td className="py-0.5">
                 <button
                   onClick={() => handleRemoveRow(rowIndex)}
                   title="Remove row"
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#bbb',
-                    fontSize: 14,
-                    lineHeight: 1,
-                    padding: '0 2px',
-                  }}
+                  className="bg-transparent border-none cursor-pointer text-gray-300 text-sm leading-none px-0.5 hover:text-gray-500"
                 >
                   ×
                 </button>
@@ -209,16 +184,7 @@ function JsonTableEditor({ value, schema, onChange }: JsonTableEditorProps) {
       </table>
       <button
         onClick={handleAddRow}
-        style={{
-          marginTop: 4,
-          background: 'none',
-          border: '1px dashed #ccc',
-          borderRadius: 3,
-          cursor: 'pointer',
-          color: '#888',
-          fontSize: 11,
-          padding: '1px 8px',
-        }}
+        className="mt-1 bg-transparent border border-dashed border-gray-300 rounded-sm cursor-pointer text-gray-400 text-2xs px-2 py-px hover:border-gray-400 hover:text-gray-600"
       >
         + Add row
       </button>
@@ -229,17 +195,6 @@ function JsonTableEditor({ value, schema, onChange }: JsonTableEditorProps) {
 // ---------------------------------------------------------------------------
 // CustomJsxEditor
 // ---------------------------------------------------------------------------
-
-const actionButtonStyle: React.CSSProperties = {
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  color: '#999',
-  fontSize: 13,
-  lineHeight: 1,
-  padding: 2,
-  borderRadius: 3,
-}
 
 // Check if children need wrapping in a paragraph for the block editor.
 // When a component is written as <Comp>text</Comp> on one line, mdast
@@ -418,14 +373,12 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   return (
     <div
       ref={blockRef}
-      style={{ position: 'relative', margin: '4px 0' }}
+      className="relative my-1"
     >
       <div
-        style={{
-          border: selected ? '1px solid #999' : '1px solid #e0e0e0',
-          transition: 'border-color 0.15s',
-          borderRadius: 4,
-        }}
+        className={`border rounded transition-colors duration-150 ${
+          selected ? 'border-gray-400' : 'border-gray-200'
+        }`}
       >
         {/* Header: component name + actions, also serves as drag handle */}
         <div
@@ -433,49 +386,23 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           onClick={handleSelect}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 3,
-            padding: '4px 8px',
-            background: '#f5f5f5',
-            borderBottom:
-              descriptor.hasChildren || complexProps.length > 0
-                ? '1px solid #e0e0e0'
-                : undefined,
-            borderRadius:
-              descriptor.hasChildren || complexProps.length > 0
-                ? '4px 4px 0 0'
-                : 4,
-            fontSize: 12,
-            fontFamily: 'monospace',
-          }}
+          className={`flex flex-col gap-0.5 px-2 py-1 bg-gray-100 text-xs font-mono ${
+            descriptor.hasChildren || complexProps.length > 0
+              ? 'border-b border-gray-200 rounded-t'
+              : 'rounded'
+          }`}
         >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span
-              style={{ fontWeight: 600, color: '#555', userSelect: 'none' }}
-            >
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-gray-500 select-none">
               {componentName}
             </span>
-            <span style={{ display: 'flex', gap: 2 }}>
+            <span className="flex gap-0.5">
               <button
                 onClick={handleDuplicate}
                 title="Duplicate"
                 aria-label="Duplicate component"
                 tabIndex={0}
-                style={actionButtonStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#333'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = '#999'
-                }}
+                className="bg-transparent border-none cursor-pointer text-gray-400 text-xs leading-none p-0.5 rounded-sm hover:text-gray-700"
               >
                 {iconComponentFor('content_copy')}
               </button>
@@ -484,13 +411,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
                 title="Delete"
                 aria-label="Delete component"
                 tabIndex={0}
-                style={actionButtonStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#e53e3e'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = '#999'
-                }}
+                className="bg-transparent border-none cursor-pointer text-gray-400 text-xs leading-none p-0.5 rounded-sm hover:text-red-600"
               >
                 {iconComponentFor('delete_small')}
               </button>
@@ -517,12 +438,9 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
         {complexProps.map(({ name, rich }) => (
           <div
             key={name}
-            style={{
-              padding: '4px 8px',
-              borderBottom: descriptor.hasChildren
-                ? '1px solid #e0e0e0'
-                : undefined,
-            }}
+            className={`px-2 py-1 ${
+              descriptor.hasChildren ? 'border-b border-gray-200' : ''
+            }`}
           >
             <JsonTableEditor
               value={properties[name] ?? '[]'}
@@ -534,7 +452,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
 
         {/* Children */}
         {descriptor.hasChildren ? (
-          <div style={{ padding: '4px 8px' }}>
+          <div className="px-2 py-1">
             <NestedLexicalEditor
               block
               getContent={(node: any) => {

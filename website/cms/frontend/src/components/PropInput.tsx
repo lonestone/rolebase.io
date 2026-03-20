@@ -3,31 +3,13 @@ import type { PropSchema } from '../api.js'
 import { useMediaModal } from './MediaModal.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 
-export const inputStyle: React.CSSProperties = {
-  padding: '5px 6px',
-  border: '1px solid #ddd',
-  borderRadius: 3,
-  fontSize: 12,
-  fontFamily: 'monospace',
-  background: '#fff',
-  flex: 1,
-  minWidth: 0,
-}
+export const inputClassName =
+  'px-1.5 py-1 border border-gray-300 rounded-sm text-xs font-mono bg-white flex-1 min-w-0'
 
-export const labelStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'start',
-  gap: 4,
-  color: '#888',
-  userSelect: 'none',
-  fontSize: 12,
-}
+export const labelClassName =
+  'flex items-start gap-1 text-gray-400 select-none text-xs'
 
-const labelTextStyle: React.CSSProperties = {
-  minWidth: 100,
-  flexShrink: 0,
-  paddingTop: 3,
-}
+const labelTextClassName = 'min-w-25 shrink-0 pt-0.5'
 
 /**
  * Input that keeps local state and only calls onChange on blur or Enter.
@@ -36,11 +18,13 @@ const labelTextStyle: React.CSSProperties = {
 function DeferredInput({
   value,
   onChange,
+  className,
   ...rest
 }: {
   value: string
   onChange: (value: string) => void
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'>) {
+  className?: string
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'className'>) {
   const [local, setLocal] = useState(value)
   useEffect(() => {
     setLocal(value)
@@ -53,6 +37,7 @@ function DeferredInput({
   return (
     <input
       {...rest}
+      className={className}
       value={local}
       onChange={(e) => setLocal(e.target.value)}
       onBlur={commit}
@@ -106,36 +91,20 @@ export function ImagePropInput({
   }, [filePath, onChange, openMediaModal])
 
   return (
-    <label style={labelStyle}>
-      <span style={labelTextStyle}>{formatLabel(name)}</span>
-      <span
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-          flex: 1,
-          minWidth: 0,
-        }}
-      >
+    <label className={labelClassName}>
+      <span className={labelTextClassName}>{formatLabel(name)}</span>
+      <span className="flex items-center gap-1 flex-1 min-w-0">
         <DeferredInput
           type="text"
           value={value}
           onChange={onChange}
-          style={inputStyle}
+          className={inputClassName}
           placeholder="./image.png"
         />
         <button
           type="button"
           onClick={handleSelect}
-          style={{
-            background: '#eee',
-            border: '1px solid #ddd',
-            borderRadius: 3,
-            cursor: 'pointer',
-            fontSize: 11,
-            padding: '3px 6px',
-            whiteSpace: 'nowrap',
-          }}
+          className="bg-gray-200 border border-gray-300 rounded-sm cursor-pointer text-2xs px-1.5 py-0.5 whitespace-nowrap hover:bg-gray-300"
         >
           Select
         </button>
@@ -144,12 +113,7 @@ export function ImagePropInput({
         <img
           src={previewSrc}
           alt=""
-          style={{
-            maxHeight: 32,
-            maxWidth: 80,
-            objectFit: 'contain',
-            marginLeft: 4,
-          }}
+          className="max-h-8 max-w-20 object-contain ml-1"
         />
       )}
     </label>
@@ -170,15 +134,13 @@ function StringArrayInput({
   onChangeItems: (items: string[]) => void
 }) {
   return (
-    <div style={labelStyle}>
-      <span style={labelTextStyle}>{formatLabel(name)}</span>
-      <div
-        style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}
-      >
+    <div className={labelClassName}>
+      <span className={labelTextClassName}>{formatLabel(name)}</span>
+      <div className="flex-1 flex flex-col gap-0.5">
         {items.map((item, i) => (
           <div
             key={i}
-            style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+            className="flex items-center gap-1"
           >
             <DeferredInput
               type="text"
@@ -188,20 +150,12 @@ function StringArrayInput({
                 next[i] = v
                 onChangeItems(next)
               }}
-              style={inputStyle}
+              className={inputClassName}
             />
             <button
               type="button"
               onClick={() => onChangeItems(items.filter((_, j) => j !== i))}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: '#bbb',
-                fontSize: 14,
-                lineHeight: 1,
-                padding: '0 2px',
-              }}
+              className="bg-transparent border-none cursor-pointer text-gray-300 text-sm leading-none px-0.5 hover:text-gray-500"
             >
               ×
             </button>
@@ -210,16 +164,7 @@ function StringArrayInput({
         <button
           type="button"
           onClick={() => onChangeItems([...items, ''])}
-          style={{
-            alignSelf: 'start',
-            background: 'none',
-            border: '1px dashed #ccc',
-            borderRadius: 3,
-            cursor: 'pointer',
-            color: '#888',
-            fontSize: 11,
-            padding: '1px 8px',
-          }}
+          className="self-start bg-transparent border border-dashed border-gray-300 rounded-sm cursor-pointer text-gray-400 text-2xs px-2 py-px hover:border-gray-400 hover:text-gray-600"
         >
           + Add
         </button>
@@ -256,12 +201,12 @@ export function PropInput({
   // Select
   if (type === 'select' && schema.options) {
     return (
-      <label style={labelStyle}>
-        <span style={labelTextStyle}>{formatLabel(name)}</span>
+      <label className={labelClassName}>
+        <span className={labelTextClassName}>{formatLabel(name)}</span>
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={{ ...inputStyle, padding: '3px 4px' }}
+          className={`${inputClassName} py-0.5 px-1`}
         >
           <option value=""></option>
           {schema.options.map((opt) => (
@@ -289,8 +234,8 @@ export function PropInput({
   // Boolean checkbox
   if (type === 'boolean') {
     return (
-      <label style={{ ...labelStyle, cursor: 'pointer' }}>
-        <span style={labelTextStyle}>{formatLabel(name)}</span>
+      <label className={`${labelClassName} cursor-pointer`}>
+        <span className={labelTextClassName}>{formatLabel(name)}</span>
         <input
           type="checkbox"
           checked={value === 'true'}
@@ -303,13 +248,13 @@ export function PropInput({
   // Number
   if (type === 'number') {
     return (
-      <label style={labelStyle}>
-        <span style={labelTextStyle}>{formatLabel(name)}</span>
+      <label className={labelClassName}>
+        <span className={labelTextClassName}>{formatLabel(name)}</span>
         <DeferredInput
           type="number"
           value={value}
           onChange={onChange}
-          style={{ ...inputStyle, maxWidth: 80 }}
+          className={`${inputClassName} max-w-20`}
         />
       </label>
     )
@@ -318,13 +263,13 @@ export function PropInput({
   // Date
   if (type === 'date') {
     return (
-      <label style={labelStyle}>
-        <span style={labelTextStyle}>{formatLabel(name)}</span>
+      <label className={labelClassName}>
+        <span className={labelTextClassName}>{formatLabel(name)}</span>
         <input
           type="date"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={{ ...inputStyle, maxWidth: 160 }}
+          className={`${inputClassName} max-w-40`}
         />
       </label>
     )
@@ -343,13 +288,13 @@ export function PropInput({
 
   // Default: text input (string, json without schema)
   return (
-    <label style={labelStyle}>
-      <span style={labelTextStyle}>{formatLabel(name)}</span>
+    <label className={labelClassName}>
+      <span className={labelTextClassName}>{formatLabel(name)}</span>
       <DeferredInput
         type="text"
         value={value}
         onChange={onChange}
-        style={inputStyle}
+        className={inputClassName}
       />
     </label>
   )

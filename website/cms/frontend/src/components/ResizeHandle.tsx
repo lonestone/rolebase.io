@@ -11,22 +11,9 @@ export function ResizeHandle({ onMouseDown, side }: Props) {
       role="separator"
       aria-orientation="vertical"
       onMouseDown={onMouseDown}
-      style={{
-        width: 4,
-        cursor: 'col-resize',
-        background: 'transparent',
-        flexShrink: 0,
-        position: 'relative',
-        [`border${side === 'left' ? 'Left' : 'Right'}`]: '1px solid var(--border)',
-      }}
-      onMouseEnter={(e) => {
-        ;(e.currentTarget as HTMLElement).style.background = 'var(--primary)'
-        ;(e.currentTarget as HTMLElement).style.opacity = '0.3'
-      }}
-      onMouseLeave={(e) => {
-        ;(e.currentTarget as HTMLElement).style.background = 'transparent'
-        ;(e.currentTarget as HTMLElement).style.opacity = '1'
-      }}
+      className={`w-1 cursor-col-resize bg-transparent shrink-0 relative hover:bg-primary/30 ${
+        side === 'left' ? 'border-l border-border' : 'border-r border-border'
+      }`}
     />
   )
 }

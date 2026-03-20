@@ -126,18 +126,7 @@ export default function FrontmatterEditor({
   )
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 3,
-        padding: '8px 12px',
-        background: '#fafafa',
-        borderBottom: '1px solid var(--border)',
-        borderRadius: 'var(--radius) var(--radius) 0 0',
-        fontSize: 12,
-      }}
-    >
+    <div className="flex flex-col gap-0.5 px-3 py-2 bg-[#fafafa] border-b border-border rounded-t-md text-xs">
       {schema.map((field) => {
         const raw = frontmatter[field.name]
         const arrayValue = Array.isArray(raw) ? raw.map(String) : []

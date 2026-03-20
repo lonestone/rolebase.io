@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { sendPrompt, stopClaude } from '../api.js'
 import { useResizablePanel } from '../hooks/useResizablePanel.js'
 import { ResizeHandle } from './ResizeHandle.js'
+import Button from './Button.js'
 
 interface AgentMessage {
   role: 'user' | 'agent'
@@ -106,58 +107,29 @@ export function AgentPanel() {
     <>
     <ResizeHandle side="left" onMouseDown={handleMouseDown} />
     <aside
-      style={{
-        width,
-        background: 'var(--bg-panel)',
-        display: 'flex',
-        flexDirection: 'column',
-        flexShrink: 0,
-      }}
+      style={{ width }}
+      className="bg-bg-panel flex flex-col shrink-0"
     >
-      <div
-        style={{
-          padding: '10px 12px',
-          borderBottom: '1px solid var(--border)',
-          fontWeight: 600,
-          fontSize: 13,
-        }}
-      >
+      <div className="px-3 py-2.5 border-b border-border font-semibold text-xs">
         Agent
       </div>
 
       {/* Messages */}
-      <div
-        style={{
-          flex: 1,
-          overflow: 'auto',
-          padding: 12,
-          fontSize: 13,
-          lineHeight: 1.5,
-        }}
-      >
+      <div className="flex-1 overflow-auto p-3 text-xs leading-relaxed">
         {messages.map((msg, i) => (
           <div
             key={i}
-            style={{
-              marginBottom: 12,
-              padding: '8px 12px',
-              borderRadius: 'var(--radius)',
-              background: msg.role === 'user' ? 'var(--primary)' : '#fff',
-              color: msg.role === 'user' ? '#fff' : 'var(--text)',
-              border: msg.role === 'agent' ? '1px solid var(--border)' : 'none',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              fontFamily:
-                msg.role === 'agent'
-                  ? 'ui-monospace, SFMono-Regular, Menlo, monospace'
-                  : 'inherit',
-            }}
+            className={`mb-3 px-3 py-2 rounded-md whitespace-pre-wrap break-words ${
+              msg.role === 'user'
+                ? 'bg-primary text-white'
+                : 'bg-white text-text border border-border font-mono'
+            }`}
           >
             {msg.content}
           </div>
         ))}
         {running && messages[messages.length - 1]?.role === 'user' && (
-          <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>
+          <div className="text-text-muted text-xs">
             Thinking...
           </div>
         )}
@@ -165,14 +137,7 @@ export function AgentPanel() {
       </div>
 
       {/* Input */}
-      <div
-        style={{
-          padding: 12,
-          borderTop: '1px solid var(--border)',
-          display: 'flex',
-          gap: 8,
-        }}
-      >
+      <div className="p-3 border-t border-border flex gap-2">
         <textarea
           ref={textareaRef}
           value={input}
@@ -180,49 +145,22 @@ export function AgentPanel() {
           onKeyDown={handleKeyDown}
           placeholder="Ask Claude... (Cmd+Enter)"
           rows={3}
-          style={{
-            flex: 1,
-            padding: 8,
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius)',
-            resize: 'none',
-            outline: 'none',
-            fontSize: 13,
-            fontFamily: 'inherit',
-          }}
+          className="flex-1 p-2 border border-border rounded-md resize-none outline-none text-xs font-[inherit]"
         />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <div className="flex flex-col gap-1">
           {running ? (
-            <button
-              onClick={handleStop}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 'var(--radius)',
-                border: 'none',
-                background: 'var(--danger)',
-                color: '#fff',
-                fontSize: 12,
-                cursor: 'pointer',
-              }}
-            >
+            <Button variant="danger" size="sm" onClick={handleStop}>
               Stop
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
+              variant="primary"
+              size="sm"
               onClick={handleSubmit}
               disabled={!input.trim()}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 'var(--radius)',
-                border: 'none',
-                background: input.trim() ? 'var(--primary)' : 'var(--border)',
-                color: input.trim() ? '#fff' : 'var(--text-muted)',
-                fontSize: 12,
-                cursor: input.trim() ? 'pointer' : 'default',
-              }}
             >
               Send
-            </button>
+            </Button>
           )}
         </div>
       </div>
