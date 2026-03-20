@@ -28,7 +28,6 @@ import {
 } from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
 import { inputStyle, PropInput } from './PropInput.js'
-import { DragHandleIcon } from './DragHandleIcon.js'
 import {
   DRAG_DATA_FORMAT,
   startBlockDrag,
@@ -259,7 +258,6 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const filePath = useContext(FilePathContext)
   const componentMeta = mdastNode.name ? meta[mdastNode.name] : undefined
 
-  const [hovered, setHovered] = useState(false)
   const [selected, setSelected] = useState(false)
   const blockRef = useRef<HTMLDivElement>(null)
 
@@ -421,34 +419,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
     <div
       ref={blockRef}
       style={{ position: 'relative', margin: '4px 0' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      {/* Drag handle to the left of the block */}
-      <div
-        draggable
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        title="Drag to reorder"
-        aria-label="Drag to reorder component"
-        style={{
-          position: 'absolute',
-          left: -15,
-          top: 0,
-          width: 16,
-          height: 24,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'grab',
-          color: '#bbb',
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.15s',
-        }}
-      >
-        <DragHandleIcon />
-      </div>
-
       <div
         style={{
           border: selected ? '1px solid #999' : '1px solid #e0e0e0',
@@ -456,8 +427,12 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           borderRadius: 4,
         }}
       >
-        {/* Header: component name + actions */}
+        {/* Header: component name + actions, also serves as drag handle */}
         <div
+          draggable
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onClick={handleSelect}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -477,7 +452,6 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           }}
         >
           <div
-            onClick={handleSelect}
             style={{
               display: 'flex',
               alignItems: 'center',
