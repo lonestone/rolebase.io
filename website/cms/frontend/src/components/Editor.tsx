@@ -123,14 +123,11 @@ export function Editor({ filePath }: Props) {
         : undefined,
     // Recreate plugins when ready flips to true (with correct originalBody).
     // MDXEditor isn't mounted until ready, so this doesn't cause reinitialization.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [filePath, jsxDescriptors, ready]
   )
 
   if (isLoading || !ready || !plugins) {
-    return (
-      <div className="p-5 text-text-muted">Loading...</div>
-    )
+    return <div className="p-5 text-text-muted">Loading...</div>
   }
 
   return (
@@ -138,11 +135,7 @@ export function Editor({ filePath }: Props) {
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs text-text-muted">
           {filePath}
-          {isDirty && (
-            <span className="text-primary ml-2">
-              Modified
-            </span>
-          )}
+          {isDirty && <span className="text-primary ml-2">Modified</span>}
         </span>
         <Button
           variant="primary"

@@ -85,9 +85,7 @@ function MenuItem({
       }`}
     >
       <span>{option.title}</span>
-      {option.submenu && (
-        <span className="text-2xs opacity-60">▸</span>
-      )}
+      {option.submenu && <span className="text-2xs opacity-60">▸</span>}
     </li>
   )
 }
@@ -186,8 +184,7 @@ function SlashCommandMenu() {
       }),
       new SlashCommandOption('Table', {
         keywords: ['table', 'grid', 'rows', 'columns'],
-        onSelect: () =>
-          insertTable({ rows: 3, columns: 3 }),
+        onSelect: () => insertTable({ rows: 3, columns: 3 }),
       }),
       new SlashCommandOption('Image', {
         keywords: ['image', 'photo', 'picture'],

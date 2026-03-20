@@ -24,7 +24,10 @@ function DeferredInput({
   value: string
   onChange: (value: string) => void
   className?: string
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'className'>) {
+} & Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'value' | 'className'
+>) {
   const [local, setLocal] = useState(value)
   useEffect(() => {
     setLocal(value)
@@ -138,10 +141,7 @@ function StringArrayInput({
       <span className={labelTextClassName}>{formatLabel(name)}</span>
       <div className="flex-1 flex flex-col gap-0.5">
         {items.map((item, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-1"
-          >
+          <div key={i} className="flex items-center gap-1">
             <DeferredInput
               type="text"
               value={item}

@@ -15,8 +15,7 @@ const variantClasses: Record<Variant, string> = {
   success:
     'border-none bg-success text-white enabled:hover:bg-green-700 disabled:bg-border disabled:text-text-muted disabled:cursor-default',
   danger: 'border-none bg-danger text-white enabled:hover:bg-red-700',
-  outline:
-    'border border-border bg-white text-text enabled:hover:bg-gray-100',
+  outline: 'border border-border bg-white text-text enabled:hover:bg-gray-100',
   ghost:
     'border border-dashed border-gray-300 bg-transparent text-gray-500 enabled:hover:border-gray-400 enabled:hover:text-gray-700',
 }
@@ -42,7 +41,9 @@ export default function Button({
 
   return (
     <button
-      className={`rounded-md cursor-pointer ${sizeClasses[size]} ${activeClass || variantClasses[variant]} ${className}`}
+      className={`rounded-md cursor-pointer ${sizeClasses[size]} ${
+        activeClass || variantClasses[variant]
+      } ${className}`}
       {...props}
     />
   )

@@ -105,66 +105,61 @@ export function AgentPanel() {
 
   return (
     <>
-    <ResizeHandle side="left" onMouseDown={handleMouseDown} />
-    <aside
-      style={{ width }}
-      className="bg-bg-panel flex flex-col shrink-0"
-    >
-      <div className="px-3 py-2.5 border-b border-border font-semibold text-xs">
-        Agent
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-auto p-3 text-xs leading-relaxed">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`mb-3 px-3 py-2 rounded-md whitespace-pre-wrap break-words ${
-              msg.role === 'user'
-                ? 'bg-primary text-white'
-                : 'bg-white text-text border border-border font-mono'
-            }`}
-          >
-            {msg.content}
-          </div>
-        ))}
-        {running && messages[messages.length - 1]?.role === 'user' && (
-          <div className="text-text-muted text-xs">
-            Thinking...
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Input */}
-      <div className="p-3 border-t border-border flex gap-2">
-        <textarea
-          ref={textareaRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask Claude... (Cmd+Enter)"
-          rows={3}
-          className="flex-1 p-2 border border-border rounded-md resize-none outline-none text-xs font-[inherit]"
-        />
-        <div className="flex flex-col gap-1">
-          {running ? (
-            <Button variant="danger" size="sm" onClick={handleStop}>
-              Stop
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleSubmit}
-              disabled={!input.trim()}
-            >
-              Send
-            </Button>
-          )}
+      <ResizeHandle side="left" onMouseDown={handleMouseDown} />
+      <aside style={{ width }} className="bg-bg-panel flex flex-col shrink-0">
+        <div className="px-3 py-2.5 border-b border-border font-semibold text-xs">
+          Agent
         </div>
-      </div>
-    </aside>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-auto p-3 text-xs leading-relaxed">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`mb-3 px-3 py-2 rounded-md whitespace-pre-wrap wrap-break-words ${
+                msg.role === 'user'
+                  ? 'bg-primary text-white'
+                  : 'bg-white text-text border border-border font-mono'
+              }`}
+            >
+              {msg.content}
+            </div>
+          ))}
+          {running && messages[messages.length - 1]?.role === 'user' && (
+            <div className="text-text-muted text-xs">Thinking...</div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input */}
+        <div className="p-3 border-t border-border flex gap-2">
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask Claude... (Cmd+Enter)"
+            rows={3}
+            className="flex-1 p-2 border border-border rounded-md resize-none outline-none text-xs font-[inherit]"
+          />
+          <div className="flex flex-col gap-1">
+            {running ? (
+              <Button variant="danger" size="sm" onClick={handleStop}>
+                Stop
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleSubmit}
+                disabled={!input.trim()}
+              >
+                Send
+              </Button>
+            )}
+          </div>
+        </div>
+      </aside>
     </>
   )
 }

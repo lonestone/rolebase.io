@@ -68,7 +68,7 @@ export function CustomImageDialog() {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30"
+      className="fixed inset-0 z-9999 flex items-center justify-center bg-black/30"
       onClick={(e) => {
         if (e.target === e.currentTarget) handleCancel()
       }}
@@ -123,11 +123,7 @@ export function CustomImageDialog() {
           <Button variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button
-            variant="primary"
-            onClick={handleSave}
-            disabled={!src}
-          >
+          <Button variant="primary" onClick={handleSave} disabled={!src}>
             {isEditing ? 'Save' : 'Insert'}
           </Button>
         </div>

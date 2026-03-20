@@ -40,26 +40,26 @@ export function Sidebar({ tree, onSelectFile }: Props) {
 
   return (
     <>
-    <aside
-      style={{ width }}
-      className="bg-bg-sidebar overflow-auto shrink-0 text-xs"
-    >
-      <div className="py-3">
-        {tree
-          .filter((node) => node.type === 'directory')
-          .map((node) => (
-            <TreeItem
-              key={node.path}
-              node={node}
-              depth={0}
-              selectedFile={selectedFile}
-              expandedPaths={expandedPaths}
-              onSelectFile={onSelectFile}
-            />
-          ))}
-      </div>
-    </aside>
-    <ResizeHandle side="right" onMouseDown={handleMouseDown} />
+      <aside
+        style={{ width }}
+        className="bg-bg-sidebar overflow-auto shrink-0 text-xs"
+      >
+        <div className="py-3">
+          {tree
+            .filter((node) => node.type === 'directory')
+            .map((node) => (
+              <TreeItem
+                key={node.path}
+                node={node}
+                depth={0}
+                selectedFile={selectedFile}
+                expandedPaths={expandedPaths}
+                onSelectFile={onSelectFile}
+              />
+            ))}
+        </div>
+      </aside>
+      <ResizeHandle side="right" onMouseDown={handleMouseDown} />
     </>
   )
 }
@@ -114,9 +114,7 @@ function TreeItem({
         }}
         style={{ paddingLeft: `${12 + depth * 16}px` }}
         className={`py-1 pr-3 flex items-center gap-1 select-none ${
-          isSelected
-            ? 'bg-primary text-white'
-            : 'text-text'
+          isSelected ? 'bg-primary text-white' : 'text-text'
         } ${
           isFile && isMdx
             ? 'cursor-pointer'
@@ -126,9 +124,7 @@ function TreeItem({
         } ${isFile ? 'font-normal' : 'font-medium'}`}
       >
         {!isFile && (
-          <span className="text-2xs w-3">
-            {expanded ? '▼' : '▶'}
-          </span>
+          <span className="text-2xs w-3">{expanded ? '▼' : '▶'}</span>
         )}
         {isFile && <span className="w-3" />}
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">

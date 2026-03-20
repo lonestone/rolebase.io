@@ -380,10 +380,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   }
 
   return (
-    <div
-      ref={blockRef}
-      className="relative my-1"
-    >
+    <div ref={blockRef} className="relative my-1">
       <div
         className={`border rounded transition-colors duration-150 ${
           selected ? 'border-gray-400' : 'border-gray-200'
@@ -396,7 +393,9 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           onDragEnd={handleDragEnd}
           onClick={handleSelect}
           className={`flex items-center justify-between px-2 py-1 bg-gray-100 text-xs font-mono cursor-grab ${
-            simpleProps.length > 0 || descriptor.hasChildren || complexProps.length > 0
+            simpleProps.length > 0 ||
+            descriptor.hasChildren ||
+            complexProps.length > 0
               ? 'border-b border-gray-200 rounded-t'
               : 'rounded'
           }`}

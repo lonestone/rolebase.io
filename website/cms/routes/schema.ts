@@ -30,7 +30,10 @@ const IMAGE_MARKER = Symbol('image')
 export async function parseContentSchemas(): Promise<
   Record<string, FrontmatterFieldSchema[]>
 > {
-  const configPath = join(process.cwd(), process.env.CONTENT_CONFIG || 'src/content.config.ts')
+  const configPath = join(
+    process.cwd(),
+    process.env.CONTENT_CONFIG || 'src/content.config.ts'
+  )
 
   const jiti = createJiti(import.meta.url, {
     moduleCache: false,
@@ -74,7 +77,9 @@ export async function parseContentSchemas(): Promise<
   return result
 }
 
-function parseZodShape(schema: z.ZodObject<z.ZodRawShape>): FrontmatterFieldSchema[] {
+function parseZodShape(
+  schema: z.ZodObject<z.ZodRawShape>
+): FrontmatterFieldSchema[] {
   const fields: FrontmatterFieldSchema[] = []
   const shape = schema.shape
 

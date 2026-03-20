@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 interface UseResizablePanelOptions {
   storageKey: string
@@ -18,7 +18,9 @@ export function useResizablePanel({
 }: UseResizablePanelOptions) {
   const [width, setWidth] = useState(() => {
     const stored = localStorage.getItem(storageKey)
-    return stored ? Math.max(minWidth, Math.min(maxWidth, Number(stored))) : defaultWidth
+    return stored
+      ? Math.max(minWidth, Math.min(maxWidth, Number(stored)))
+      : defaultWidth
   })
 
   const draggingRef = useRef(false)
