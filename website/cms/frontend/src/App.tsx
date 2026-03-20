@@ -42,13 +42,23 @@ export function App() {
   const [gitOpen, setGitOpen] = usePersistedPanel('cms-git-panel-open')
   const [agentOpen, setAgentOpen] = usePersistedPanel('cms-agent-panel-open')
 
+  function handleToggleGit() {
+    if (!gitOpen) setAgentOpen(false)
+    setGitOpen(!gitOpen)
+  }
+
+  function handleToggleAgent() {
+    if (!agentOpen) setGitOpen(false)
+    setAgentOpen(!agentOpen)
+  }
+
   return (
     <MediaModalProvider>
       <Header
         gitOpen={gitOpen}
-        onToggleGit={() => setGitOpen(!gitOpen)}
+        onToggleGit={handleToggleGit}
         agentOpen={agentOpen}
-        onToggleAgent={() => setAgentOpen(!agentOpen)}
+        onToggleAgent={handleToggleAgent}
       />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar

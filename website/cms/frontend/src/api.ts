@@ -59,12 +59,13 @@ export async function fetchGitDiff(path?: string): Promise<{ diff: string }> {
 
 export async function gitCommit(
   message: string,
+  paths: string[],
   push = false
 ): Promise<{ ok: boolean; commit?: string; error?: string }> {
   const res = await fetch(`${BASE}/git/commit`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, push }),
+    body: JSON.stringify({ message, paths, push }),
   })
   return res.json()
 }

@@ -22,8 +22,8 @@ export function useGitCommit() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (message: string) => {
-      const result = await gitCommit(message)
+    mutationFn: async ({ message, paths }: { message: string; paths: string[] }) => {
+      const result = await gitCommit(message, paths)
       if (!result.ok) throw new Error(result.error || 'Commit failed')
       return result
     },

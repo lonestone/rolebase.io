@@ -21,6 +21,8 @@ export function GitPanel() {
   const [diffFile, setDiffFile] = useState<string | null>(null)
   const { data: diff } = useGitDiff(diffFile)
   const [commitMsg, setCommitMsg] = useState('')
+  const [stagedPaths, setStagedPaths] = useState<Set<string>>(new Set())
+  const [confirmDiscard, setConfirmDiscard] = useState<string | null>(null)
   const commitMutation = useGitCommit()
   const discardMutation = useGitDiscard()
 
@@ -28,19 +30,54 @@ export function GitPanel() {
     setDiffFile(diffFile === path ? null : path)
   }
 
-  async function handleDiscard(path: string) {
-    await discardMutation.mutateAsync(path)
-    if (diffFile === path) {
-      setDiffFile(null)
+  function handleDiscard(path: string) {
+    if (confirmDiscard === path) {
+      discardMutation.mutate(path, {
+        onSuccess: () => {
+          if (diffFile === path) setDiffFile(null)
+          setStagedPaths((prev) => {
+            const next = new Set(prev)
+            next.delete(path)
+            return next
+          })
+        },
+      })
+      setConfirmDiscard(null)
+    } else {
+      setConfirmDiscard(path)
+    }
+  }
+
+  function handleToggleStaged(path: string) {
+    setStagedPaths((prev) => {
+      const next = new Set(prev)
+      if (next.has(path)) {
+        next.delete(path)
+      } else {
+        next.add(path)
+      }
+      return next
+    })
+  }
+
+  function handleToggleAll() {
+    if (stagedPaths.size === files.length) {
+      setStagedPaths(new Set())
+    } else {
+      setStagedPaths(new Set(files.map((f) => f.path)))
     }
   }
 
   async function handleCommit() {
-    if (!commitMsg.trim()) return
+    if (!commitMsg.trim() || stagedPaths.size === 0) return
     try {
-      await commitMutation.mutateAsync(commitMsg)
+      await commitMutation.mutateAsync({
+        message: commitMsg,
+        paths: [...stagedPaths],
+      })
       setCommitMsg('')
       setDiffFile(null)
+      setStagedPaths(new Set())
     } catch {
       // Error is available via commitMutation.error
     }
@@ -62,6 +99,8 @@ export function GitPanel() {
     )
   }
 
+  const allStaged = stagedPaths.size === files.length
+
   return (
     <>
     <ResizeHandle side="left" onMouseDown={handleMouseDown} />
@@ -72,40 +111,76 @@ export function GitPanel() {
       <div className="flex-1 overflow-auto">
         {/* File list */}
         <div className="py-3">
+          {/* Select all */}
+          <div className="px-4 pb-2 mb-1 border-b border-border">
+            <label className="flex items-center gap-2 text-xs text-text-muted cursor-pointer">
+              <input
+                type="checkbox"
+                checked={allStaged}
+                onChange={handleToggleAll}
+                className="accent-primary"
+              />
+              Stage all
+            </label>
+          </div>
+
           {files.map((file) => (
             <div
               key={file.path}
-              className={`px-4 py-1.5 flex items-center justify-between text-xs ${
+              className={`px-4 py-1.5 flex items-center gap-2 text-xs ${
                 diffFile === file.path ? 'bg-gray-100' : ''
               }`}
             >
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <span
-                  className={`text-2xs font-semibold w-4 text-center shrink-0 ${
-                    file.status === 'M'
-                      ? 'text-primary'
-                      : file.status === 'D'
-                      ? 'text-danger'
-                      : 'text-success'
-                  }`}
-                >
-                  {file.status}
-                </span>
-                <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-                  {file.path}
-                </span>
-              </div>
+              <input
+                type="checkbox"
+                checked={stagedPaths.has(file.path)}
+                onChange={() => handleToggleStaged(file.path)}
+                className="accent-primary shrink-0"
+                aria-label={`Stage ${file.path}`}
+              />
+              <span
+                className={`text-2xs font-semibold w-4 text-center shrink-0 ${
+                  file.status === 'M'
+                    ? 'text-primary'
+                    : file.status === 'D'
+                    ? 'text-danger'
+                    : 'text-success'
+                }`}
+              >
+                {file.status}
+              </span>
+              <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-1 min-w-0">
+                {file.path}
+              </span>
               <div className="flex gap-1 shrink-0">
                 <Button size="sm" onClick={() => handleViewDiff(file.path)}>
                   Diff
                 </Button>
-                <Button
-                  size="sm"
-                  className="border-danger! text-danger! hover:bg-red-50!"
-                  onClick={() => handleDiscard(file.path)}
-                >
-                  Discard
-                </Button>
+                {confirmDiscard === file.path ? (
+                  <>
+                    <Button
+                      size="sm"
+                      className="border-danger! text-danger! hover:bg-red-50!"
+                      onClick={() => handleDiscard(file.path)}
+                    >
+                      Confirm
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => setConfirmDiscard(null)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    size="sm"
+                    className="border-danger! text-danger! hover:bg-red-50!"
+                    onClick={() => handleDiscard(file.path)}
+                  >
+                    Discard
+                  </Button>
+                )}
               </div>
             </div>
           ))}
@@ -136,9 +211,9 @@ export function GitPanel() {
         <Button
           variant="success"
           onClick={handleCommit}
-          disabled={!commitMsg.trim() || commitMutation.isPending}
+          disabled={!commitMsg.trim() || stagedPaths.size === 0 || commitMutation.isPending}
         >
-          {commitMutation.isPending ? '...' : 'Commit'}
+          {commitMutation.isPending ? '...' : `Commit (${stagedPaths.size})`}
         </Button>
       </div>
       {commitMutation.error && (

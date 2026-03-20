@@ -11,6 +11,7 @@ import { componentsRoutes } from './routes/components.js'
 
 const port = parseInt(process.env.CMS_PORT || '4001')
 const contentDir = process.env.CONTENT_DIR || 'src/content'
+const assetsDir = process.env.ASSETS_DIR || 'src/assets'
 
 const app = new Hono()
 
@@ -37,7 +38,7 @@ app.use(
 app.use(
   '/assets/*',
   serveStatic({
-    root: './src/assets',
+    root: './' + assetsDir,
     rewriteRequestPath: (path) => path.replace(/^\/assets/, ''),
   })
 )

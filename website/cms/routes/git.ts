@@ -1,12 +1,27 @@
 import { Hono } from 'hono'
 import { execFile } from 'child_process'
 import { promisify } from 'util'
+import { unlink } from 'fs/promises'
+import { join } from 'path'
 
 const exec = promisify(execFile)
 
+let gitRoot: string | undefined
+
+async function getGitRoot() {
+  if (!gitRoot) {
+    const { stdout } = await exec('git', ['rev-parse', '--show-toplevel'], {
+      cwd: process.cwd(),
+    })
+    gitRoot = stdout.trimEnd()
+  }
+  return gitRoot
+}
+
 async function git(...args: string[]) {
+  const root = await getGitRoot()
   const { stdout } = await exec('git', args, {
-    cwd: process.cwd(),
+    cwd: root,
     maxBuffer: 10 * 1024 * 1024, // 10MB
   })
   return stdout.trimEnd()
@@ -47,13 +62,17 @@ gitRoutes.get('/diff', async (c) => {
 
 // Commit and optionally push
 gitRoutes.post('/commit', async (c) => {
-  const body = await c.req.json<{ message: string; push?: boolean }>()
+  const body = await c.req.json<{ message: string; paths?: string[]; push?: boolean }>()
   if (!body.message) {
     return c.json({ error: 'Missing commit message' }, 400)
   }
 
   try {
-    await git('add', '-A')
+    if (body.paths && body.paths.length > 0) {
+      await git('add', '--', ...body.paths)
+    } else {
+      await git('add', '-A')
+    }
     const commitOutput = await git('commit', '-m', body.message)
 
     let pushOutput = ''
@@ -92,7 +111,19 @@ gitRoutes.post('/discard', async (c) => {
   }
 
   try {
-    await git('checkout', '--', body.path)
+    // Check if the file is untracked (new file not known to git)
+    const status = await git('status', '--porcelain', '--', body.path)
+    const statusCode = status.substring(0, 2).trim()
+
+    if (statusCode === '??' || statusCode === 'A') {
+      // Untracked or newly added file: remove it
+      const root = await getGitRoot()
+      const fullPath = join(root, body.path)
+      await unlink(fullPath)
+    } else {
+      // Tracked file: restore from git
+      await git('checkout', '--', body.path)
+    }
     return c.json({ ok: true, path: body.path })
   } catch (err) {
     return c.json({ error: String(err) }, 500)

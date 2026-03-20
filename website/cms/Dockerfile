@@ -17,7 +17,12 @@ COPY . .
 # Build CMS frontend
 RUN npx vite build --config cms/frontend/vite.config.ts
 
+# Configure git for commits inside the container
+RUN git config --global --add safe.directory /app
+
 EXPOSE 4001 4321
 
-# Start Astro dev server + CMS backend
-CMD ["sh", "-c", "npx astro dev --host & npx tsx cms/server.ts"]
+# Clone the repo at runtime via entrypoint
+COPY cms/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
