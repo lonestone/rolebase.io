@@ -4,7 +4,7 @@ import { useMediaModal } from './MediaModal.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 
 export const inputClassName =
-  'px-1.5 py-1 border border-gray-300 rounded-sm text-xs font-mono bg-white flex-1 min-w-0'
+  'px-1.5 py-1 border border-gray-300 rounded-sm text-xs font-mono bg-white text-gray-900 flex-1 min-w-0'
 
 export const labelClassName =
   'flex items-start gap-1 text-gray-400 select-none text-xs'

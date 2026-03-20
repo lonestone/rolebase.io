@@ -389,59 +389,68 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           selected ? 'border-gray-400' : 'border-gray-200'
         }`}
       >
-        {/* Header: component name + actions, also serves as drag handle */}
+        {/* Header: component name + actions, serves as drag handle */}
         <div
           draggable
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           onClick={handleSelect}
-          className={`flex flex-col gap-0.5 px-2 py-1 bg-gray-100 text-xs font-mono ${
-            descriptor.hasChildren || complexProps.length > 0
+          className={`flex items-center justify-between px-2 py-1 bg-gray-100 text-xs font-mono cursor-grab ${
+            simpleProps.length > 0 || descriptor.hasChildren || complexProps.length > 0
               ? 'border-b border-gray-200 rounded-t'
               : 'rounded'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <span className="font-semibold text-gray-500 select-none">
-              {componentName}
-            </span>
-            <span className="flex gap-0.5">
-              <button
-                onClick={handleDuplicate}
-                title="Duplicate"
-                aria-label="Duplicate component"
-                tabIndex={0}
-                className="bg-transparent border-none cursor-pointer text-gray-400 text-xs leading-none p-0.5 rounded-sm hover:text-gray-700"
-              >
-                {iconComponentFor('content_copy')}
-              </button>
-              <button
-                onClick={handleDelete}
-                title="Delete"
-                aria-label="Delete component"
-                tabIndex={0}
-                className="bg-transparent border-none cursor-pointer text-gray-400 text-xs leading-none p-0.5 rounded-sm hover:text-red-600"
-              >
-                {iconComponentFor('delete_small')}
-              </button>
-            </span>
-          </div>
-
-          {simpleProps.map(({ name, rich }) => {
-            const value = properties[name] ?? ''
-            const schema = rich ?? { name, type: 'string' as const }
-
-            return (
-              <PropInput
-                key={name}
-                schema={schema}
-                value={value}
-                filePath={filePath}
-                onChange={(v) => handlePropChange(name, v)}
-              />
-            )
-          })}
+          <span className="font-semibold text-gray-500 select-none">
+            {componentName}
+          </span>
+          <span className="flex gap-0.5">
+            <button
+              onClick={handleDuplicate}
+              title="Duplicate"
+              aria-label="Duplicate component"
+              tabIndex={0}
+              className="bg-transparent border-none cursor-pointer text-gray-400 text-xs leading-none p-0.5 rounded-sm hover:text-gray-700"
+            >
+              {iconComponentFor('content_copy')}
+            </button>
+            <button
+              onClick={handleDelete}
+              title="Delete"
+              aria-label="Delete component"
+              tabIndex={0}
+              className="bg-transparent border-none cursor-pointer text-gray-400 text-xs leading-none p-0.5 rounded-sm hover:text-red-600"
+            >
+              {iconComponentFor('delete_small')}
+            </button>
+          </span>
         </div>
+
+        {/* Props */}
+        {simpleProps.length > 0 && (
+          <div
+            className={`flex flex-col gap-0.5 px-2 py-1 text-xs font-mono ${
+              descriptor.hasChildren || complexProps.length > 0
+                ? 'border-b border-gray-200'
+                : ''
+            }`}
+          >
+            {simpleProps.map(({ name, rich }) => {
+              const value = properties[name] ?? ''
+              const schema = rich ?? { name, type: 'string' as const }
+
+              return (
+                <PropInput
+                  key={name}
+                  schema={schema}
+                  value={value}
+                  filePath={filePath}
+                  onChange={(v) => handlePropChange(name, v)}
+                />
+              )
+            })}
+          </div>
+        )}
 
         {/* Complex props (json table editors) */}
         {complexProps.map(({ name, rich }) => (
