@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useState, useEffect } from 'react'
 import type { PropSchema } from '../api.js'
 import { useMediaModal } from './MediaModal.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
@@ -27,6 +27,45 @@ const labelTextStyle: React.CSSProperties = {
   minWidth: 100,
   flexShrink: 0,
   paddingTop: 3,
+}
+
+/**
+ * Input that keeps local state and only calls onChange on blur or Enter.
+ * Prevents every keystroke from triggering a parent state change.
+ */
+function DeferredInput({
+  value,
+  onChange,
+  ...rest
+}: {
+  value: string
+  onChange: (value: string) => void
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'>) {
+  const [local, setLocal] = useState(value)
+  useEffect(() => {
+    setLocal(value)
+  }, [value])
+
+  const commit = useCallback(() => {
+    if (local !== value) onChange(local)
+  }, [local, value, onChange])
+
+  return (
+    <input
+      {...rest}
+      value={local}
+      onChange={(e) => setLocal(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => {
+        // Stop propagation so Lexical doesn't intercept undo/redo etc.
+        e.stopPropagation()
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          commit()
+        }
+      }}
+    />
+  )
 }
 
 /** Convert camelCase to "Title Case" label */
@@ -78,10 +117,10 @@ export function ImagePropInput({
           minWidth: 0,
         }}
       >
-        <input
+        <DeferredInput
           type="text"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
           style={inputStyle}
           placeholder="./image.png"
         />
@@ -141,12 +180,12 @@ function StringArrayInput({
             key={i}
             style={{ display: 'flex', alignItems: 'center', gap: 4 }}
           >
-            <input
+            <DeferredInput
               type="text"
               value={item}
-              onChange={(e) => {
+              onChange={(v) => {
                 const next = [...items]
-                next[i] = e.target.value
+                next[i] = v
                 onChangeItems(next)
               }}
               style={inputStyle}
@@ -266,10 +305,10 @@ export function PropInput({
     return (
       <label style={labelStyle}>
         <span style={labelTextStyle}>{formatLabel(name)}</span>
-        <input
+        <DeferredInput
           type="number"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
           style={{ ...inputStyle, maxWidth: 80 }}
         />
       </label>
@@ -306,10 +345,10 @@ export function PropInput({
   return (
     <label style={labelStyle}>
       <span style={labelTextStyle}>{formatLabel(name)}</span>
-      <input
+      <DeferredInput
         type="text"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
         style={inputStyle}
       />
     </label>
