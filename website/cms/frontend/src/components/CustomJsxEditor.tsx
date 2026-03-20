@@ -309,6 +309,11 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
             acc[name] = attribute.value
             return acc
           }
+          // Boolean attribute without value (e.g. `fullWidth`) means true
+          if (attribute.value === null) {
+            acc[name] = 'true'
+            return acc
+          }
         }
         acc[name] = ''
         return acc
@@ -332,6 +337,10 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
                 value,
               },
             }
+          }
+          // Boolean attributes: serialize as valueless attribute (e.g. `fullWidth`)
+          if (richProp?.type === 'boolean' && value === 'true') {
+            return { type: 'mdxJsxAttribute' as const, name, value: null }
           }
           return { type: 'mdxJsxAttribute' as const, name, value }
         })
