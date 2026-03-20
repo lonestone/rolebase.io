@@ -23,6 +23,7 @@ import {
   $getSelection,
   $isNodeSelection,
   $setSelection,
+  BLUR_COMMAND,
   COMMAND_PRIORITY_LOW,
   KEY_ENTER_COMMAND,
 } from 'lexical'
@@ -252,9 +253,19 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
       COMMAND_PRIORITY_LOW
     )
 
+    const unregisterBlur = parentEditor.registerCommand(
+      BLUR_COMMAND,
+      () => {
+        setSelected(false)
+        return false
+      },
+      COMMAND_PRIORITY_LOW
+    )
+
     return () => {
       unregisterUpdate()
       unregisterEnter()
+      unregisterBlur()
     }
   }, [parentEditor, lexicalNode])
 
