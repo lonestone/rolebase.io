@@ -7,7 +7,6 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   COMMAND_PRIORITY_HIGH,
   $getNodeByKey,
-  $getNearestNodeFromDOMNode,
   $getRoot,
   type LexicalEditor,
   type LexicalNode,
@@ -36,12 +35,17 @@ export function endBlockDrag() {
   hideTargetLine()
 }
 
-// Check if the drop target is inside the dragged node (dropping into own children)
-function isDropInsideDraggedNode(targetElement: HTMLElement): boolean {
+// Check if the editor's root element lives inside the dragged node's DOM.
+// This prevents dropping a component into its own nested children,
+// without blocking drops in the parent editor when the mouse happens
+// to be over the dragged element's area.
+function isEditorInsideDraggedNode(editor: LexicalEditor): boolean {
   if (!dragState) return false
   const draggedElem = dragState.sourceEditor.getElementByKey(dragState.nodeKey)
   if (!draggedElem) return false
-  return draggedElem.contains(targetElement)
+  const editorRoot = editor.getRootElement()
+  if (!editorRoot) return false
+  return draggedElem.contains(editorRoot)
 }
 
 // ---------------------------------------------------------------------------
@@ -61,15 +65,11 @@ function getTargetLine(): HTMLDivElement {
   return targetLine
 }
 
-function showTargetLine(targetBlockElem: HTMLElement, mouseY: number) {
+function showTargetLineAt(lineY: number, left: number, width: number) {
   const line = getTargetLine()
-  const rect = targetBlockElem.getBoundingClientRect()
-  const midY = rect.top + rect.height / 2
-  const lineY = mouseY < midY ? rect.top - 1.5 : rect.bottom + 1.5
-
   line.style.top = `${lineY}px`
-  line.style.left = `${rect.left}px`
-  line.style.width = `${rect.width}px`
+  line.style.left = `${left}px`
+  line.style.width = `${width}px`
   line.style.opacity = '1'
 }
 
@@ -79,15 +79,67 @@ function hideTargetLine() {
   }
 }
 
-// Walk up from a node to find a direct child of root
-function $getTopLevelNode(node: ReturnType<typeof $getNearestNodeFromDOMNode>) {
-  if (!node) return null
+// ---------------------------------------------------------------------------
+// Find the closest drop target by scanning all top-level children's DOM rects.
+// Uses the midpoint of each block to decide before/after, then picks the
+// insertion edge closest to the mouse.
+// ---------------------------------------------------------------------------
+
+interface DropTarget {
+  node: LexicalNode
+  elem: HTMLElement
+  position: 'before' | 'after'
+}
+
+function $findDropTarget(
+  editor: LexicalEditor,
+  mouseY: number
+): DropTarget | null {
   const root = $getRoot()
-  let topLevel = node
-  while (topLevel.getParent() !== root && topLevel.getParent() !== null) {
-    topLevel = topLevel.getParent()!
+  const children = root.getChildren()
+  if (children.length === 0) return null
+
+  // Build list of {node, elem, rect} for all visible children except the dragged one
+  const blocks: { node: LexicalNode; elem: HTMLElement; rect: DOMRect }[] = []
+  for (const child of children) {
+    if (dragState && child.getKey() === dragState.nodeKey) continue
+    const elem = editor.getElementByKey(child.getKey())
+    if (!elem) continue
+    blocks.push({ node: child, elem, rect: elem.getBoundingClientRect() })
   }
-  return topLevel
+
+  if (blocks.length === 0) return null
+
+  // If mouse is above the first block, insert before it
+  if (mouseY <= blocks[0].rect.top + blocks[0].rect.height / 2) {
+    return { node: blocks[0].node, elem: blocks[0].elem, position: 'before' }
+  }
+
+  // If mouse is below the last block, insert after it
+  const last = blocks[blocks.length - 1]
+  if (mouseY >= last.rect.top + last.rect.height / 2) {
+    return { node: last.node, elem: last.elem, position: 'after' }
+  }
+
+  // Find the gap the mouse is in: between block[i] and block[i+1]
+  for (let i = 0; i < blocks.length - 1; i++) {
+    const current = blocks[i]
+    const next = blocks[i + 1]
+    const currentMid = current.rect.top + current.rect.height / 2
+    const nextMid = next.rect.top + next.rect.height / 2
+
+    if (mouseY >= currentMid && mouseY < nextMid) {
+      // Decide: closer to current's bottom or next's top?
+      const gapMid = (current.rect.bottom + next.rect.top) / 2
+      if (mouseY < gapMid) {
+        return { node: current.node, elem: current.elem, position: 'after' }
+      } else {
+        return { node: next.node, elem: next.elem, position: 'before' }
+      }
+    }
+  }
+
+  return { node: last.node, elem: last.elem, position: 'after' }
 }
 
 // ---------------------------------------------------------------------------
@@ -108,22 +160,23 @@ function BlockDragDropHandler() {
             event.dataTransfer.dropEffect = 'move'
           }
 
-          const target = event.target
-          if (!(target instanceof HTMLElement)) return true
-
-          // Block dropping into own children
-          if (isDropInsideDraggedNode(target)) {
+          // Block dropping into the dragged node's own nested editors
+          if (isEditorInsideDraggedNode(editor)) {
             hideTargetLine()
             return true
           }
 
-          // Position target line indicator
-          const topLevel = $getTopLevelNode($getNearestNodeFromDOMNode(target))
-          if (topLevel) {
-            const elem = editor.getElementByKey(topLevel.getKey())
-            if (elem) {
-              showTargetLine(elem, event.clientY)
-            }
+          // Find closest drop target by Y coordinate
+          const dropTarget = $findDropTarget(editor, event.clientY)
+          if (dropTarget) {
+            const rect = dropTarget.elem.getBoundingClientRect()
+            const lineY =
+              dropTarget.position === 'before'
+                ? rect.top - 1.5
+                : rect.bottom + 1.5
+            showTargetLineAt(lineY, rect.left, rect.width)
+          } else {
+            hideTargetLine()
           }
 
           return true
@@ -150,35 +203,25 @@ function BlockDragDropHandler() {
           event.preventDefault()
           hideTargetLine()
 
-          const target = event.target
-          if (!(target instanceof HTMLElement)) return true
+          // Block dropping into the dragged node's own nested editors
+          if (isEditorInsideDraggedNode(editor)) return true
 
-          // Block dropping into own children
-          if (isDropInsideDraggedNode(target)) return true
-
-          const topLevelTarget = $getTopLevelNode(
-            $getNearestNodeFromDOMNode(target)
-          )
-          if (!topLevelTarget) return true
+          // Find drop target — command handlers run in an update context,
+          // so $ functions work directly.
+          const dropTarget = $findDropTarget(editor, event.clientY)
+          if (!dropTarget) return true
 
           const sameEditor = dragState.sourceEditor === editor
 
           if (sameEditor) {
-            // Same editor: move the node directly
             const draggedNode = $getNodeByKey(dragData)
             if (!draggedNode) return true
-            if (topLevelTarget.getKey() === draggedNode.getKey()) return true
+            if (dropTarget.node.getKey() === draggedNode.getKey()) return true
 
-            const targetElem = editor.getElementByKey(topLevelTarget.getKey())
-            if (!targetElem) return true
-            const midY =
-              targetElem.getBoundingClientRect().top +
-              targetElem.getBoundingClientRect().height / 2
-
-            if (event.clientY < midY) {
-              topLevelTarget.insertBefore(draggedNode)
+            if (dropTarget.position === 'before') {
+              dropTarget.node.insertBefore(draggedNode)
             } else {
-              topLevelTarget.insertAfter(draggedNode)
+              dropTarget.node.insertAfter(draggedNode)
             }
           } else {
             // Cross-editor: export from source, import in target
@@ -193,7 +236,6 @@ function BlockDragDropHandler() {
 
             if (!serialized) return true
 
-            // Import the node in the current editor
             const registeredNodes = editor._nodes
             const nodeType = (serialized as any).type as string
             const nodeClass = registeredNodes.get(nodeType)
@@ -201,16 +243,10 @@ function BlockDragDropHandler() {
 
             const clone = (nodeClass.klass as any).importJSON(serialized)
 
-            const targetElem = editor.getElementByKey(topLevelTarget.getKey())
-            if (!targetElem) return true
-            const midY =
-              targetElem.getBoundingClientRect().top +
-              targetElem.getBoundingClientRect().height / 2
-
-            if (event.clientY < midY) {
-              topLevelTarget.insertBefore(clone)
+            if (dropTarget.position === 'before') {
+              dropTarget.node.insertBefore(clone)
             } else {
-              topLevelTarget.insertAfter(clone)
+              dropTarget.node.insertAfter(clone)
             }
           }
 
