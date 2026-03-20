@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useState,
   useRef,
+  useEffect,
 } from 'react'
 import {
   type JsxEditorProps,
@@ -15,7 +16,13 @@ import {
   iconComponentFor$,
 } from '@mdxeditor/editor'
 import { useCellValue } from '@mdxeditor/gurx'
-import { $getNodeByKey } from 'lexical'
+import {
+  $createNodeSelection,
+  $getNodeByKey,
+  $getSelection,
+  $isNodeSelection,
+  $setSelection,
+} from 'lexical'
 import type { ComponentDescriptor, PropSchema } from '../api.js'
 import { inputStyle, PropInput } from './PropInput.js'
 import { DragHandleIcon } from './DragHandleIcon.js'
@@ -250,7 +257,21 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const componentMeta = mdastNode.name ? meta[mdastNode.name] : undefined
 
   const [hovered, setHovered] = useState(false)
+  const [selected, setSelected] = useState(false)
   const blockRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    return parentEditor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const selection = $getSelection()
+        if ($isNodeSelection(selection)) {
+          setSelected(selection.has(lexicalNode.getKey()))
+        } else {
+          setSelected(false)
+        }
+      })
+    })
+  }, [parentEditor, lexicalNode])
 
   const handleDuplicate = useCallback(() => {
     parentEditor.update(() => {
@@ -334,6 +355,18 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
     [properties, componentMeta, updateMdastNode]
   )
 
+  const handleSelect = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation()
+      parentEditor.update(() => {
+        const selection = $createNodeSelection()
+        selection.add(lexicalNode.getKey())
+        $setSelection(selection)
+      })
+    },
+    [parentEditor, lexicalNode]
+  )
+
   const componentName = mdastNode.name ?? 'Fragment'
   const hasProps = descriptor.props.length > 0
 
@@ -386,7 +419,8 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
 
       <div
         style={{
-          border: '1px solid #e0e0e0',
+          border: selected ? '1px solid #999' : '1px solid #e0e0e0',
+          transition: 'border-color 0.15s',
           borderRadius: 4,
         }}
       >
@@ -411,6 +445,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           }}
         >
           <div
+            onClick={handleSelect}
             style={{
               display: 'flex',
               alignItems: 'center',
