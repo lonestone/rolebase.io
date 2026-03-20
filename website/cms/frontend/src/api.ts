@@ -149,6 +149,7 @@ export interface PropSchema {
     | 'image'
     | 'date'
     | 'string-array'
+  optional?: boolean
   options?: string[]
   itemSchema?: PropSchema[]
 }

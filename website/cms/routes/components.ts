@@ -8,6 +8,7 @@ const COMPONENTS_DIR = join(process.cwd(), 'src/components')
 interface PropSchema {
   name: string
   type: 'string' | 'number' | 'boolean' | 'select' | 'json' | 'image'
+  optional?: boolean
   options?: string[]
   itemSchema?: PropSchema[]
 }
@@ -46,8 +47,9 @@ function parseMembers(
 ): PropSchema[] {
   return node.members.filter(ts.isPropertySignature).map((member) => {
     const name = (member.name as ts.Identifier).text
-    if (!member.type) return { name, type: 'string' as const }
-    return { name, ...resolveType(member.type, interfaces) }
+    const optional = !!member.questionToken
+    if (!member.type) return { name, type: 'string' as const, optional }
+    return { name, optional, ...resolveType(member.type, interfaces) }
   })
 }
 
