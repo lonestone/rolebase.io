@@ -133,9 +133,14 @@ export function Editor({ filePath }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-text-muted">
-          {filePath}
-          {isDirty && <span className="text-primary ml-2">Modified</span>}
+        <span className="text-xl font-bold">
+          {filePath.replace(/\.mdx?$/, '').split('/').map((part, i, arr) => (
+            <span key={i}>
+              {i > 0 && <span className="text-text-muted/40 font-normal"> / </span>}
+              {part}
+            </span>
+          ))}
+          {isDirty && <span className="text-primary ml-2 text-sm font-normal">Modified</span>}
         </span>
         <Button
           variant="primary"

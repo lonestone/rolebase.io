@@ -128,7 +128,7 @@ function TreeItem({
         )}
         {isFile && <span className="w-3" />}
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-          {node.name}
+          {isFile ? node.name.replace(/\.mdx?$/, '') : node.name}
         </span>
       </div>
       {!isFile && expanded && node.children && (
