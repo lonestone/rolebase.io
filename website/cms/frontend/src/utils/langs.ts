@@ -1,0 +1,103 @@
+/**
+ * Maps ISO 639-1 language codes to ISO 3166-1 alpha-2 country codes for flag display.
+ */
+export const LANG_TO_COUNTRY: Record<string, string> = {
+  af: 'ZA',
+  am: 'ET',
+  ar: 'SA',
+  az: 'AZ',
+  be: 'BY',
+  bg: 'BG',
+  bn: 'BD',
+  bs: 'BA',
+  ca: 'ES',
+  cs: 'CZ',
+  cy: 'GB',
+  da: 'DK',
+  de: 'DE',
+  el: 'GR',
+  en: 'GB',
+  es: 'ES',
+  et: 'EE',
+  eu: 'ES',
+  fa: 'IR',
+  fi: 'FI',
+  fr: 'FR',
+  ga: 'IE',
+  gl: 'ES',
+  gu: 'IN',
+  he: 'IL',
+  hi: 'IN',
+  hr: 'HR',
+  hu: 'HU',
+  hy: 'AM',
+  id: 'ID',
+  is: 'IS',
+  it: 'IT',
+  ja: 'JP',
+  ka: 'GE',
+  kk: 'KZ',
+  km: 'KH',
+  kn: 'IN',
+  ko: 'KR',
+  ku: 'IQ',
+  ky: 'KG',
+  lb: 'LU',
+  lo: 'LA',
+  lt: 'LT',
+  lv: 'LV',
+  mk: 'MK',
+  ml: 'IN',
+  mn: 'MN',
+  mr: 'IN',
+  ms: 'MY',
+  mt: 'MT',
+  my: 'MM',
+  nb: 'NO',
+  ne: 'NP',
+  nl: 'NL',
+  nn: 'NO',
+  no: 'NO',
+  pa: 'IN',
+  pl: 'PL',
+  ps: 'AF',
+  pt: 'PT',
+  ro: 'RO',
+  ru: 'RU',
+  rw: 'RW',
+  si: 'LK',
+  sk: 'SK',
+  sl: 'SI',
+  so: 'SO',
+  sq: 'AL',
+  sr: 'RS',
+  sv: 'SE',
+  sw: 'KE',
+  ta: 'IN',
+  te: 'IN',
+  tg: 'TJ',
+  th: 'TH',
+  tk: 'TM',
+  tl: 'PH',
+  tr: 'TR',
+  uk: 'UA',
+  ur: 'PK',
+  uz: 'UZ',
+  vi: 'VN',
+  zh: 'CN',
+  zu: 'ZA',
+}
+
+/**
+ * Get the native name of a language using the Intl API.
+ * e.g. getLangName('fr') → 'français'
+ */
+export function getLangName(lang: string): string {
+  try {
+    const name = new Intl.DisplayNames([lang], { type: 'language' }).of(lang)
+    if (!name) return lang.toUpperCase()
+    return name.charAt(0).toUpperCase() + name.slice(1)
+  } catch {
+    return lang.toUpperCase()
+  }
+}

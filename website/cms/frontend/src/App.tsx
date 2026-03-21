@@ -7,6 +7,8 @@ import { GitPanel } from './components/GitPanel.js'
 import { Header } from './components/Header.js'
 import { useTree } from './hooks/useTree.js'
 import { MediaModalProvider } from './components/MediaModal.js'
+import type { TreeNode } from './api.js'
+import { getLocaleSiblings } from './utils/folderTarget.js'
 
 function usePersistedPanel(key: string, defaultValue = false) {
   const [open, setOpen] = useState(() => {
@@ -21,11 +23,25 @@ function usePersistedPanel(key: string, defaultValue = false) {
   return [open, setOpen] as const
 }
 
-function EditorPage() {
+function EditorPage({
+  tree,
+  onSelectFile,
+}: {
+  tree: TreeNode[]
+  onSelectFile: (path: string) => void
+}) {
   const location = useLocation()
   const filePath = decodeURIComponent(location.pathname.slice('/edit/'.length))
   if (!filePath) return <Placeholder />
-  return <Editor key={filePath} filePath={filePath} />
+  const localeSiblings = getLocaleSiblings(tree, filePath)
+  return (
+    <Editor
+      key={filePath}
+      filePath={filePath}
+      localeSiblings={localeSiblings}
+      onSelectFile={onSelectFile}
+    />
+  )
 }
 
 function Placeholder() {
@@ -68,7 +84,15 @@ export function App() {
         <main className="flex-1 overflow-auto p-4">
           <Routes>
             <Route path="/" element={<Placeholder />} />
-            <Route path="/edit/*" element={<EditorPage />} />
+            <Route
+              path="/edit/*"
+              element={
+                <EditorPage
+                  tree={tree}
+                  onSelectFile={(path) => navigate(`/edit/${path}`)}
+                />
+              }
+            />
           </Routes>
         </main>
         {gitOpen && <GitPanel />}

@@ -24,6 +24,7 @@
     "@tanstack/react-query": "^5.91.2",
     "astro": "^6.0.6",
     "cm6-graphql": "^0.2.1",
+    "country-flag-icons": "^1.6.15",
     "hono": "^4.12.8",
     "iconsax-astro": "^0.0.2",
     "react": "^19.2.4",

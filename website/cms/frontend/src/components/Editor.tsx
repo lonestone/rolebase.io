@@ -15,13 +15,15 @@ import FrontmatterEditor, {
   combineEsmAndContent,
 } from './FrontmatterEditor.js'
 import React from 'react'
-import Button from './Button.js'
+import EditorHeader from './EditorHeader.js'
 
 interface Props {
   filePath: string
+  localeSiblings?: { lang: string; path: string }[] | null
+  onSelectFile?: (path: string) => void
 }
 
-export function Editor({ filePath }: Props) {
+export function Editor({ filePath, localeSiblings, onSelectFile }: Props) {
   const { data: fileData, isLoading } = useFile(filePath)
   const saveFile = useSaveFile()
   const { jsxDescriptors, componentMeta } = useComponents()
@@ -126,50 +128,45 @@ export function Editor({ filePath }: Props) {
     [filePath, jsxDescriptors, ready]
   )
 
-  if (isLoading || !ready || !plugins) {
-    return <div className="p-5 text-text-muted">Loading...</div>
-  }
+  const loading = isLoading || !ready || !plugins
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-xl font-bold">
-          {filePath.replace(/\.mdx?$/, '').split('/').map((part, i, arr) => (
-            <span key={i}>
-              {i > 0 && <span className="text-text-muted/40 font-normal"> / </span>}
-              {part}
-            </span>
-          ))}
-          {isDirty && <span className="text-primary ml-2 text-sm font-normal">Modified</span>}
-        </span>
-        <Button
-          variant="primary"
-          onClick={handleSave}
-          disabled={!isDirty || saveFile.isPending}
-        >
-          {saveFile.isPending ? 'Saving...' : 'Save'}
-        </Button>
-      </div>
-      <div className="flex-1 flex flex-col border border-border rounded-md overflow-auto bg-white">
-        {schema && (
-          <FrontmatterEditor
-            schema={schema}
-            frontmatter={frontmatter}
-            filePath={filePath}
-            onChange={handleFrontmatterChange}
-          />
+      <EditorHeader
+        filePath={filePath}
+        isDirty={isDirty}
+        isSaving={saveFile.isPending}
+        localeSiblings={localeSiblings}
+        onSave={handleSave}
+        onSelectFile={onSelectFile}
+      />
+      <div className="flex-1 flex flex-col border border-border rounded-md overflow-auto bg-bg">
+        {loading ? (
+          <div className="p-5 text-text-muted">Loading...</div>
+        ) : (
+          <>
+            {schema && (
+              <FrontmatterEditor
+                schema={schema}
+                frontmatter={frontmatter}
+                filePath={filePath}
+                onChange={handleFrontmatterChange}
+              />
+            )}
+            <FilePathContext.Provider value={filePath}>
+              <ComponentMetaContext.Provider value={componentMeta}>
+                <MDXEditor
+                  ref={editorRef}
+                  markdown={originalBody}
+                  onChange={handleBodyChange}
+                  contentEditableClassName="mdxeditor-rich-text"
+                  plugins={plugins}
+                  className="bg-white"
+                />
+              </ComponentMetaContext.Provider>
+            </FilePathContext.Provider>
+          </>
         )}
-        <FilePathContext.Provider value={filePath}>
-          <ComponentMetaContext.Provider value={componentMeta}>
-            <MDXEditor
-              ref={editorRef}
-              markdown={originalBody}
-              onChange={handleBodyChange}
-              contentEditableClassName="mdxeditor-rich-text"
-              plugins={plugins}
-            />
-          </ComponentMetaContext.Provider>
-        </FilePathContext.Provider>
       </div>
     </div>
   )

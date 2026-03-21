@@ -3,6 +3,7 @@ import { useLocation } from 'react-router'
 import type { TreeNode } from '../api.js'
 import { useResizablePanel } from '../hooks/useResizablePanel.js'
 import { ResizeHandle } from './ResizeHandle.js'
+import { getFolderTarget } from '../utils/folderTarget.js'
 
 interface Props {
   tree: TreeNode[]
@@ -83,10 +84,29 @@ function TreeItem({
   const expanded = manualToggle ?? expandedPaths.has(node.path)
   const isFile = node.type === 'file'
   const isMdx = node.name.endsWith('.mdx') || node.name.endsWith('.md')
-  const isSelected = selectedFile === node.path
+
+  // Detect folders that should act as direct file links
+  const folderTarget = !isFile ? getFolderTarget(node) : null
+  const isCollapsedFolder = folderTarget !== null
+
+  // For collapsed folders, check if the selected file is one of the children
+  const isSelected = isFile
+    ? selectedFile === node.path
+    : isCollapsedFolder &&
+      node.children?.some((c) => c.path === selectedFile) === true
 
   if (isFile && !isMdx) {
     return null // Only show MDX files
+  }
+
+  const handleClick = () => {
+    if (isFile && isMdx) {
+      onSelectFile(node.path)
+    } else if (isCollapsedFolder) {
+      onSelectFile(folderTarget)
+    } else if (!isFile) {
+      setManualToggle(!expanded)
+    }
   }
 
   return (
@@ -95,21 +115,11 @@ function TreeItem({
         role="button"
         tabIndex={0}
         aria-label={node.name}
-        onClick={() => {
-          if (isFile && isMdx) {
-            onSelectFile(node.path)
-          } else if (!isFile) {
-            setManualToggle(!expanded)
-          }
-        }}
+        onClick={handleClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
-            if (isFile && isMdx) {
-              onSelectFile(node.path)
-            } else if (!isFile) {
-              setManualToggle(!expanded)
-            }
+            handleClick()
           }
         }}
         style={{ paddingLeft: `${12 + depth * 16}px` }}
@@ -121,17 +131,17 @@ function TreeItem({
             : isFile
             ? 'cursor-default'
             : 'cursor-pointer'
-        } ${isFile ? 'font-normal' : 'font-medium'}`}
+        } ${isFile || isCollapsedFolder ? 'font-normal' : 'font-medium'}`}
       >
-        {!isFile && (
+        {!isFile && !isCollapsedFolder && (
           <span className="text-2xs w-3">{expanded ? '▼' : '▶'}</span>
         )}
-        {isFile && <span className="w-3" />}
+        {(isFile || isCollapsedFolder) && <span className="w-3" />}
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
           {isFile ? node.name.replace(/\.mdx?$/, '') : node.name}
         </span>
       </div>
-      {!isFile && expanded && node.children && (
+      {!isFile && !isCollapsedFolder && expanded && node.children && (
         <div>
           {node.children.map((child) => (
             <TreeItem
