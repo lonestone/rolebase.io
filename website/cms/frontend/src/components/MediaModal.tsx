@@ -10,6 +10,7 @@ import React, {
 import { useTree } from '../hooks/useTree.js'
 import { uploadMedia, type TreeNode } from '../api.js'
 import Button from './Button.js'
+import { FiUpload } from 'react-icons/fi'
 
 // ---------------------------------------------------------------------------
 // Context for opening the media modal from anywhere
@@ -214,16 +215,14 @@ function MediaModalOverlay({
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-sm">Select media</span>
-            <span className="text-xs text-gray-400 font-mono">
-              {breadcrumb}
-            </span>
+            <span className="text-sm text-gray-400">{breadcrumb}</span>
           </div>
           <div className="flex gap-2">
             <Button
               variant="primary"
-              size="sm"
               onClick={() => fileInputRef.current?.click()}
             >
+              <FiUpload className="inline -mt-px mr-1" />
               Upload
             </Button>
             <input
@@ -248,7 +247,7 @@ function MediaModalOverlay({
           <div className="px-4 pt-2">
             <button
               onClick={handleParent}
-              className="bg-transparent border-none cursor-pointer text-primary text-xs p-0 font-mono hover:underline"
+              className="bg-transparent border-none cursor-pointer text-primary text-sm p-0 hover:underline"
             >
               &larr; Parent directory
             </button>
@@ -273,7 +272,7 @@ function MediaModalOverlay({
                       handleNavigate(entry.path)
                     }
                   }}
-                  className="flex items-center gap-1.5 px-2 py-1.5 rounded cursor-pointer text-xs font-mono hover:bg-gray-100"
+                  className="flex items-center gap-1.5 px-2 py-1.5 rounded cursor-pointer text-sm hover:bg-gray-100"
                 >
                   <span className="text-sm">&#x1F4C1;</span>
                   {entry.name}
@@ -306,7 +305,7 @@ function MediaModalOverlay({
                     className="w-full h-20 object-contain bg-[#fafafa] rounded-sm"
                   />
                   <span
-                    className="text-2xs text-gray-500 text-center overflow-hidden text-ellipsis whitespace-nowrap w-full font-mono"
+                    className="text-xs leading-tight text-gray-400 text-center overflow-hidden text-ellipsis whitespace-nowrap w-full"
                     title={entry.name}
                   >
                     {entry.name}
@@ -315,7 +314,7 @@ function MediaModalOverlay({
               ))}
             </div>
           ) : directories.length === 0 ? (
-            <div className="text-gray-400 p-4 text-center text-xs">
+            <div className="text-gray-400 p-4 text-center text-sm">
               No media files in this directory
             </div>
           ) : null}

@@ -59,7 +59,6 @@ export default function EditorHeader({
       <div className="flex-1 text-right">
         <Button
           variant="primary"
-          size="lg"
           onClick={onSave}
           disabled={!isDirty || isSaving}
         >

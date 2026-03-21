@@ -3,6 +3,7 @@ import type { PropSchema } from '../api.js'
 import { useMediaModal } from './MediaModal.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 import { useFilePath } from '../contexts/FilePathContext.js'
+import Button from './Button.js'
 
 export const inputClassName =
   'px-1.5 py-1 border border-gray-300 rounded-sm text-xs font-mono bg-white text-gray-900 flex-1 min-w-0'
@@ -104,13 +105,7 @@ export function ImagePropInput({
           className={inputClassName}
           placeholder="./image.png"
         />
-        <button
-          type="button"
-          onClick={handleSelect}
-          className="bg-gray-200 border border-gray-300 rounded-sm cursor-pointer text-2xs px-1.5 py-0.5 whitespace-nowrap hover:bg-gray-300"
-        >
-          Select
-        </button>
+        <Button onClick={handleSelect}>Select</Button>
       </span>
       {previewSrc && (
         <img
@@ -219,13 +214,7 @@ export function PropInput({
 
   // Image picker
   if (type === 'image') {
-    return (
-      <ImagePropInput
-        name={name}
-        value={value}
-        onChange={onChange}
-      />
-    )
+    return <ImagePropInput name={name} value={value} onChange={onChange} />
   }
 
   // Boolean checkbox
