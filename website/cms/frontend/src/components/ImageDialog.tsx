@@ -7,7 +7,7 @@ import {
 } from '@mdxeditor/editor'
 import { useCellValue, usePublisher } from '@mdxeditor/gurx'
 import { useMediaModal } from './MediaModal.js'
-import { FilePathContext } from './CustomJsxEditor.js'
+import { useFilePath } from '../contexts/FilePathContext.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
 import Button from './Button.js'
 
@@ -17,7 +17,7 @@ export function CustomImageDialog() {
   const insertImage = usePublisher(insertImage$)
   const saveImage = usePublisher(saveImage$)
   const { openMediaModal } = useMediaModal()
-  const filePath = React.useContext(FilePathContext)
+  const filePath = useFilePath()!
 
   const [src, setSrc] = useState('')
   const [alt, setAlt] = useState('')

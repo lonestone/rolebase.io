@@ -7,8 +7,7 @@ import { GitPanel } from './components/GitPanel.js'
 import { Header } from './components/Header.js'
 import { useTree } from './hooks/useTree.js'
 import { MediaModalProvider } from './components/MediaModal.js'
-import type { TreeNode } from './api.js'
-import { getLocaleSiblings } from './utils/folderTarget.js'
+import { FilePathProvider } from './contexts/FilePathContext.js'
 
 function usePersistedPanel(key: string, defaultValue = false) {
   const [open, setOpen] = useState(() => {
@@ -23,25 +22,11 @@ function usePersistedPanel(key: string, defaultValue = false) {
   return [open, setOpen] as const
 }
 
-function EditorPage({
-  tree,
-  onSelectFile,
-}: {
-  tree: TreeNode[]
-  onSelectFile: (path: string) => void
-}) {
+function useCurrentFilePath(): string | null {
   const location = useLocation()
-  const filePath = decodeURIComponent(location.pathname.slice('/edit/'.length))
-  if (!filePath) return <Placeholder />
-  const localeSiblings = getLocaleSiblings(tree, filePath)
-  return (
-    <Editor
-      key={filePath}
-      filePath={filePath}
-      localeSiblings={localeSiblings}
-      onSelectFile={onSelectFile}
-    />
-  )
+  if (!location.pathname.startsWith('/edit/')) return null
+  const path = decodeURIComponent(location.pathname.slice('/edit/'.length))
+  return path || null
 }
 
 function Placeholder() {
@@ -55,6 +40,7 @@ function Placeholder() {
 export function App() {
   const { tree } = useTree()
   const navigate = useNavigate()
+  const filePath = useCurrentFilePath()
   const [gitOpen, setGitOpen] = usePersistedPanel('cms-git-panel-open')
   const [agentOpen, setAgentOpen] = usePersistedPanel('cms-agent-panel-open')
 
@@ -68,36 +54,34 @@ export function App() {
     setAgentOpen(!agentOpen)
   }
 
+  function handleSelectFile(path: string) {
+    navigate(`/edit/${path}`)
+  }
+
   return (
-    <MediaModalProvider>
-      <Header
-        gitOpen={gitOpen}
-        onToggleGit={handleToggleGit}
-        agentOpen={agentOpen}
-        onToggleAgent={handleToggleAgent}
-      />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar
-          tree={tree}
-          onSelectFile={(path) => navigate(`/edit/${path}`)}
+    <FilePathProvider filePath={filePath}>
+      <MediaModalProvider>
+        <Header
+          gitOpen={gitOpen}
+          onToggleGit={handleToggleGit}
+          agentOpen={agentOpen}
+          onToggleAgent={handleToggleAgent}
         />
-        <main className="flex-1 overflow-auto p-4">
-          <Routes>
-            <Route path="/" element={<Placeholder />} />
-            <Route
-              path="/edit/*"
-              element={
-                <EditorPage
-                  tree={tree}
-                  onSelectFile={(path) => navigate(`/edit/${path}`)}
-                />
-              }
-            />
-          </Routes>
-        </main>
-        {gitOpen && <GitPanel />}
-        {agentOpen && <AgentPanel />}
-      </div>
-    </MediaModalProvider>
+        <div className="flex flex-1 overflow-hidden">
+          <Sidebar tree={tree} onSelectFile={handleSelectFile} />
+          <main className="flex-1 overflow-auto p-4">
+            <Routes>
+              <Route path="/" element={<Placeholder />} />
+              <Route
+                path="/edit/*"
+                element={<Editor key={filePath} tree={tree} onSelectFile={handleSelectFile} />}
+              />
+            </Routes>
+          </main>
+          {gitOpen && <GitPanel />}
+          {agentOpen && <AgentPanel />}
+        </div>
+      </MediaModalProvider>
+    </FilePathProvider>
   )
 }

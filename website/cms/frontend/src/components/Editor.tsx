@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
-import { ComponentMetaContext, FilePathContext } from './CustomJsxEditor.js'
+import { ComponentMetaContext } from './CustomJsxEditor.js'
 import { useComponents } from '../hooks/useComponents.js'
 import { useFile, useSaveFile } from '../hooks/useFile.js'
 import { MDXEditor, type MDXEditorMethods } from '@mdxeditor/editor'
@@ -16,14 +16,22 @@ import FrontmatterEditor, {
 } from './FrontmatterEditor.js'
 import React from 'react'
 import EditorHeader from './EditorHeader.js'
+import { useFilePath } from '../contexts/FilePathContext.js'
+import type { TreeNode } from '../api.js'
+import { getLocaleSiblings } from '../utils/folderTarget.js'
 
 interface Props {
-  filePath: string
-  localeSiblings?: { lang: string; path: string }[] | null
-  onSelectFile?: (path: string) => void
+  tree: TreeNode[]
+  onSelectFile: (path: string) => void
 }
 
-export function Editor({ filePath, localeSiblings, onSelectFile }: Props) {
+export function Editor({ tree, onSelectFile }: Props) {
+  const filePath = useFilePath()!
+  const localeSiblings = useMemo(
+    () => getLocaleSiblings(tree, filePath),
+    [tree, filePath]
+  )
+
   const { data: fileData, isLoading } = useFile(filePath)
   const saveFile = useSaveFile()
   const { jsxDescriptors, componentMeta } = useComponents()
@@ -133,7 +141,6 @@ export function Editor({ filePath, localeSiblings, onSelectFile }: Props) {
   return (
     <div className="flex flex-col h-full">
       <EditorHeader
-        filePath={filePath}
         isDirty={isDirty}
         isSaving={saveFile.isPending}
         localeSiblings={localeSiblings}
@@ -149,22 +156,19 @@ export function Editor({ filePath, localeSiblings, onSelectFile }: Props) {
               <FrontmatterEditor
                 schema={schema}
                 frontmatter={frontmatter}
-                filePath={filePath}
                 onChange={handleFrontmatterChange}
               />
             )}
-            <FilePathContext.Provider value={filePath}>
-              <ComponentMetaContext.Provider value={componentMeta}>
-                <MDXEditor
-                  ref={editorRef}
-                  markdown={originalBody}
-                  onChange={handleBodyChange}
-                  contentEditableClassName="mdxeditor-rich-text"
-                  plugins={plugins}
-                  className="bg-white"
-                />
-              </ComponentMetaContext.Provider>
-            </FilePathContext.Provider>
+            <ComponentMetaContext.Provider value={componentMeta}>
+              <MDXEditor
+                ref={editorRef}
+                markdown={originalBody}
+                onChange={handleBodyChange}
+                contentEditableClassName="mdxeditor-rich-text"
+                plugins={plugins}
+                className="bg-white"
+              />
+            </ComponentMetaContext.Provider>
           </>
         )}
       </div>

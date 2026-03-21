@@ -34,14 +34,10 @@ import {
   startBlockDrag,
   endBlockDrag,
 } from './BlockDragDropPlugin.js'
-
 // Context to pass rich prop metadata from Editor to CustomJsxEditor
 export const ComponentMetaContext = createContext<
   Record<string, ComponentDescriptor>
 >({})
-
-// Context to pass the current file path for image resolution
-export const FilePathContext = createContext<string>('')
 
 const isExpressionValue = (
   value: unknown
@@ -211,7 +207,6 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const { parentEditor, lexicalNode } = useNestedEditorContext()
   const iconComponentFor = useCellValue(iconComponentFor$)
   const meta = useContext(ComponentMetaContext)
-  const filePath = useContext(FilePathContext)
   const componentMeta = mdastNode.name ? meta[mdastNode.name] : undefined
 
   const [selected, setSelected] = useState(false)
@@ -454,7 +449,6 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
                   key={name}
                   schema={schema}
                   value={value}
-                  filePath={filePath}
                   onChange={(v) => handlePropChange(name, v)}
                 />
               )

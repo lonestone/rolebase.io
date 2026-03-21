@@ -23,7 +23,7 @@ export default function LangButton({ lang, active, onClick }: Props) {
       type="button"
       onClick={onClick}
       aria-label={label}
-      className={`flex items-center gap-1.5 cursor-pointer text-xs leading-none px-1.5 pt-1 pb-2.5 mt-1.5 -my-px rounded-t-lg border z-1 transition-colors ${
+      className={`flex items-center gap-1.5 cursor-pointer text-xs leading-none px-3 pt-1 pb-2.5 mt-1.5 -my-px rounded-t-lg border z-1 transition-colors ${
         active
           ? 'border-border border-t-gray-300 border-b-transparent bg-bg'
           : 'border-transparent text-text-muted hover:border-border'

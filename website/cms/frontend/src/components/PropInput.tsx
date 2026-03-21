@@ -2,6 +2,7 @@ import React, { useMemo, useCallback, useState, useEffect } from 'react'
 import type { PropSchema } from '../api.js'
 import { useMediaModal } from './MediaModal.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
+import { useFilePath } from '../contexts/FilePathContext.js'
 
 export const inputClassName =
   'px-1.5 py-1 border border-gray-300 rounded-sm text-xs font-mono bg-white text-gray-900 flex-1 min-w-0'
@@ -69,14 +70,13 @@ export function formatLabel(name: string): string {
 export function ImagePropInput({
   name,
   value,
-  filePath,
   onChange,
 }: {
   name: string
   value: string
-  filePath: string
   onChange: (value: string) => void
 }) {
+  const filePath = useFilePath()!
   const { openMediaModal } = useMediaModal()
 
   const previewSrc = useMemo(
@@ -180,7 +180,6 @@ function StringArrayInput({
 interface PropInputProps {
   schema: PropSchema
   value: string
-  filePath: string
   onChange: (value: string) => void
   /** For string-array type: the raw array value */
   arrayValue?: string[]
@@ -191,7 +190,6 @@ interface PropInputProps {
 export function PropInput({
   schema,
   value,
-  filePath,
   onChange,
   arrayValue,
   onChangeArray,
@@ -225,7 +223,6 @@ export function PropInput({
       <ImagePropInput
         name={name}
         value={value}
-        filePath={filePath}
         onChange={onChange}
       />
     )

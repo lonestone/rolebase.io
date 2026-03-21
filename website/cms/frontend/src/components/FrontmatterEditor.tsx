@@ -97,14 +97,12 @@ function toDisplayValue(value: unknown): string {
 interface Props {
   schema: FrontmatterFieldSchema[]
   frontmatter: FrontmatterData
-  filePath: string
   onChange: (data: FrontmatterData) => void
 }
 
 export default function FrontmatterEditor({
   schema,
   frontmatter,
-  filePath,
   onChange,
 }: Props) {
   const handleFieldChange = useCallback(
@@ -135,7 +133,6 @@ export default function FrontmatterEditor({
             key={field.name}
             schema={field}
             value={toDisplayValue(raw)}
-            filePath={filePath}
             onChange={(v) => handleFieldChange(field.name, field.type, v)}
             arrayValue={arrayValue}
             onChangeArray={(items) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from './Button.js'
 import LangButton from './LangButton.js'
+import { useFilePath } from '../contexts/FilePathContext.js'
 
 interface LocaleSibling {
   lang: string
@@ -8,7 +9,6 @@ interface LocaleSibling {
 }
 
 interface Props {
-  filePath: string
   isDirty: boolean
   isSaving: boolean
   localeSiblings?: LocaleSibling[] | null
@@ -17,13 +17,13 @@ interface Props {
 }
 
 export default function EditorHeader({
-  filePath,
   isDirty,
   isSaving,
   localeSiblings,
   onSave,
   onSelectFile,
 }: Props) {
+  const filePath = useFilePath()!
   const currentLang = filePath
     .split('/')
     .pop()
