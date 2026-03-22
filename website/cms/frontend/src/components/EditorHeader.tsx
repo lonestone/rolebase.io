@@ -34,7 +34,7 @@ export default function EditorHeader({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="text-xl font-bold py-2">
+      <div className="text-xl font-bold py-2 pl-3">
         {pathToShow.split('/').map((part, i) => (
           <span key={i}>
             {i > 0 && (

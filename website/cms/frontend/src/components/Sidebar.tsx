@@ -5,6 +5,13 @@ import { useResizablePanel } from '../hooks/useResizablePanel.js'
 import { ResizeHandle } from './ResizeHandle.js'
 import { getFolderTarget } from '../utils/folderTarget.js'
 
+function hasMdxFiles(node: TreeNode): boolean {
+  if (node.type === 'file') {
+    return node.name.endsWith('.mdx') || node.name.endsWith('.md')
+  }
+  return node.children?.some(hasMdxFiles) === true
+}
+
 interface Props {
   tree: TreeNode[]
   onSelectFile: (path: string) => void
@@ -43,7 +50,7 @@ export function Sidebar({ tree, onSelectFile }: Props) {
     <>
       <aside
         style={{ width }}
-        className="bg-bg-sidebar overflow-auto shrink-0 text-xs"
+        className="bg-bg-panel overflow-auto shrink-0 text-xs"
       >
         <div className="py-3">
           {tree
@@ -95,9 +102,8 @@ function TreeItem({
     : isCollapsedFolder &&
       node.children?.some((c) => c.path === selectedFile) === true
 
-  if (isFile && !isMdx) {
-    return null // Only show MDX files
-  }
+  if (isFile && !isMdx) return null
+  if (!isFile && !hasMdxFiles(node)) return null
 
   const handleClick = () => {
     if (isFile && isMdx) {

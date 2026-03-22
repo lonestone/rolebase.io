@@ -302,7 +302,7 @@ function MediaModalOverlay({
                   <img
                     src={previewUrl(entry)}
                     alt={entry.name}
-                    className="w-full h-20 object-contain bg-[#fafafa] rounded-sm"
+                    className="w-full h-20 object-contain bg-bg rounded-sm"
                   />
                   <span
                     className="text-xs leading-tight text-gray-400 text-center overflow-hidden text-ellipsis whitespace-nowrap w-full"

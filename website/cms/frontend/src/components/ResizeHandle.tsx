@@ -11,7 +11,7 @@ export function ResizeHandle({ onMouseDown, side }: Props) {
       role="separator"
       aria-orientation="vertical"
       onMouseDown={onMouseDown}
-      className={`w-1 cursor-col-resize bg-transparent shrink-0 relative hover:bg-primary/30 ${
+      className={`w-1 cursor-col-resize bg-bg-panel shrink-0 relative hover:bg-primary/30 ${
         side === 'left' ? 'border-l border-border' : 'border-r border-border'
       }`}
     />

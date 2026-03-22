@@ -80,7 +80,7 @@ export function CustomImageDialog() {
 
         {/* Preview */}
         {previewSrc && (
-          <div className="mb-3 bg-[#fafafa] rounded p-2 text-center">
+          <div className="mb-3 bg-bg rounded p-2 text-center">
             <img
               src={previewSrc}
               alt=""

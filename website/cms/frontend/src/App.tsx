@@ -69,12 +69,18 @@ export function App() {
         />
         <div className="flex flex-1 overflow-hidden">
           <Sidebar tree={tree} onSelectFile={handleSelectFile} />
-          <main className="flex-1 overflow-auto p-4">
+          <main className="flex-1 overflow-auto p-4 bg-bg-main">
             <Routes>
               <Route path="/" element={<Placeholder />} />
               <Route
                 path="/edit/*"
-                element={<Editor key={filePath} tree={tree} onSelectFile={handleSelectFile} />}
+                element={
+                  <Editor
+                    key={filePath}
+                    tree={tree}
+                    onSelectFile={handleSelectFile}
+                  />
+                }
               />
             </Routes>
           </main>
