@@ -36,6 +36,7 @@ const docs = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    order: z.number().optional(),
   }),
 })
 
@@ -44,6 +45,7 @@ const guides = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    order: z.number().optional(),
   }),
 })
 
@@ -52,6 +54,18 @@ const developers = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    order: z.number().optional(),
+  }),
+})
+
+const apiCategories = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/api-categories',
+  }),
+  schema: z.object({
+    title: z.string(),
+    order: z.number().optional(),
   }),
 })
 
@@ -78,6 +92,7 @@ export const collections = {
   docs,
   guides,
   developers,
+  'api-categories': apiCategories,
   api,
   pages,
 }

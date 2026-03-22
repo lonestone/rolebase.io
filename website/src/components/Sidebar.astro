@@ -15,30 +15,47 @@ const t = translations[locale]
 interface SidebarSection {
   title: string
   basePath: string
-  links: readonly { slug: string; label: string }[]
+  links: { slug: string; label: string }[]
   code?: boolean
+}
+
+function sortEntries(entries: { id: string; data: { title: string; order?: number } }[]) {
+  return entries.sort((a, b) => {
+    const aOrder = a.data.order ?? Infinity
+    const bOrder = b.data.order ?? Infinity
+    if (aOrder !== bOrder) return aOrder - bOrder
+    return a.data.title.localeCompare(b.data.title)
+  })
+}
+
+function entriesToLinks(entries: { id: string; data: { title: string } }[]) {
+  return entries.map((e) => {
+    const slug = getSlugFromId(e.id)
+    return { slug: slug === 'index' ? '' : slug, label: e.data.title }
+  })
 }
 
 const sections: SidebarSection[] = []
 
 if (section === 'docs' || section === 'guides') {
+  const allDocs = await getCollection('docs')
+  const docs = sortEntries(allDocs.filter((e) => getLangFromId(e.id) === locale))
+
+  const allGuides = await getCollection('guides')
+  const guides = sortEntries(allGuides.filter((e) => getLangFromId(e.id) === locale))
+
   sections.push(
-    {
-      title: t.documentation,
-      basePath: '/docs',
-      links: t.docsLinks,
-    },
-    {
-      title: t.guides,
-      basePath: '/guides',
-      links: t.guidesLinks,
-    }
+    { title: t.documentation, basePath: '/docs', links: entriesToLinks(docs) },
+    { title: t.guides, basePath: '/guides', links: entriesToLinks(guides) }
   )
 } else if (section === 'developers') {
+  const allDevs = await getCollection('developers')
+  const devs = sortEntries(allDevs.filter((e) => getLangFromId(e.id) === locale))
+
   sections.push({
     title: t.developers,
     basePath: '/developers',
-    links: t.developersLinks,
+    links: entriesToLinks(devs),
   })
 } else if (section === 'api') {
   // Introduction link
@@ -54,16 +71,21 @@ if (section === 'docs' || section === 'guides') {
     (e) => getLangFromId(e.id) === locale && e.data.entity && e.data.category
   )
 
-  // Group by category, preserving category order from translations
-  const categoryOrder = Object.keys(t.apiCategories)
-  for (const category of categoryOrder) {
+  // Load categories from content collection, sorted by order
+  const allCategories = await getCollection('api-categories')
+  const categories = allCategories
+    .filter((e) => getLangFromId(e.id) === locale)
+    .sort((a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity))
+
+  for (const cat of categories) {
+    const key = getSlugFromId(cat.id)
     const entries = apiEntries
-      .filter((e) => e.data.category === category)
+      .filter((e) => e.data.category === key)
       .sort((a, b) => (a.data.entity ?? '').localeCompare(b.data.entity ?? ''))
 
     if (entries.length > 0) {
       sections.push({
-        title: t.apiCategories[category],
+        title: cat.data.title,
         basePath: '/api',
         links: entries.map((e) => ({
           slug: getSlugFromId(e.id),
