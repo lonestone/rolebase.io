@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { MdArrowRight } from 'react-icons/md'
 import { useLocation } from 'react-router'
 import type { TreeNode } from '../api.js'
 import { useResizablePanel } from '../hooks/useResizablePanel.js'
@@ -53,18 +54,16 @@ export function Sidebar({ tree, onSelectFile }: Props) {
         className="bg-bg-panel overflow-auto shrink-0 text-xs"
       >
         <div className="py-3">
-          {tree
-            .filter((node) => node.type === 'directory')
-            .map((node) => (
-              <TreeItem
-                key={node.path}
-                node={node}
-                depth={0}
-                selectedFile={selectedFile}
-                expandedPaths={expandedPaths}
-                onSelectFile={onSelectFile}
-              />
-            ))}
+          {tree.map((node) => (
+            <TreeItem
+              key={node.path}
+              node={node}
+              depth={0}
+              selectedFile={selectedFile}
+              expandedPaths={expandedPaths}
+              onSelectFile={onSelectFile}
+            />
+          ))}
         </div>
       </aside>
       <ResizeHandle side="right" onMouseDown={handleMouseDown} />
@@ -140,7 +139,10 @@ function TreeItem({
         } ${isFile || isCollapsedFolder ? 'font-normal' : 'font-medium'}`}
       >
         {!isFile && !isCollapsedFolder && (
-          <span className="text-2xs w-3">{expanded ? '▼' : '▶'}</span>
+          <MdArrowRight
+            className="w-5 h-5 shrink-0 transition-transform duration-150"
+            style={{ transform: expanded ? 'rotate(90deg)' : undefined }}
+          />
         )}
         {(isFile || isCollapsedFolder) && <span className="w-3" />}
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
