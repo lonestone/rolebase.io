@@ -1,0 +1,52 @@
+---
+import {
+  Home2,
+  Hierarchy,
+  DocumentText,
+  Repeat,
+  Calendar,
+  SearchNormal1,
+  ClipboardImport,
+  ExportSquare,
+  NotificationBing,
+  Activity,
+  ShieldTick,
+  Code1,
+  Edit2,
+} from 'iconsax-astro'
+
+const iconMap: Record<string, any> = {
+  dashboard: Home2,
+  roles: Hierarchy,
+  decisions: DocumentText,
+  recurring: Repeat,
+  calendar: Calendar,
+  search: SearchNormal1,
+  'import': ClipboardImport,
+  'export': ExportSquare,
+  notifications: NotificationBing,
+  activity: Activity,
+  governance: ShieldTick,
+  opensource: Code1,
+  realtime: Edit2,
+}
+
+interface Props {
+  title: string
+  icon: keyof typeof iconMap
+  class?: string
+}
+
+const { title, icon, class: className } = Astro.props
+const Icon = iconMap[icon]
+---
+
+<div class:list={['flex gap-4', className]}>
+  <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-light/10 flex items-center justify-center">
+    <Icon size="24" color="var(--color-primary)" />
+  </div>
+  <div>
+    <h3 class="font-semibold text-base mt-0 mb-1">{title}</h3>
+    <p class="text-sm text-text-secondary mt-0 mb-0"><slot /></p>
+  </div>
+</div>
