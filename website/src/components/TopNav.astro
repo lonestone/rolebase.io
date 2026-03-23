@@ -19,7 +19,8 @@ const { staticHeader = false } = Astro.props
 <TopNavShell staticHeader={staticHeader}>
   <Fragment slot="nav">
     <NavLink path="/docs">{t.documentation}</NavLink>
-    <NavLink path="/guides" href={lp('/guides/run-your-first-meeting')}>{t.guides}</NavLink>
+    <NavLink path="/client-cases">{t.clientCases}</NavLink>
+    <NavLink path="/pricing">{t.pricing}</NavLink>
     <NavLink path="/blog">{t.blog}</NavLink>
   </Fragment>
   <Fragment slot="right">

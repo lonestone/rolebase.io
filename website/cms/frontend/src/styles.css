@@ -15,8 +15,7 @@
   --font-size-2xs--line-height: 1;
 }
 
-/* MDXEditor overrides */
-.mdxeditor {
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.6;
