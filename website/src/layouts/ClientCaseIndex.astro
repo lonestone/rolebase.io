@@ -15,9 +15,9 @@ const basePath = `/${locale}${t.clientCasesPath}`
 const items = (await getCollection('client-cases', (item) => item.id.endsWith(`/${locale}`)))
 ---
 
-<WebsiteLayout title={t.clientCases}>
+<WebsiteLayout title={t.clientCasesTitle}>
   <div class="mb-10">
-    <h1 class="text-4xl font-bold mb-3">{t.clientCases}</h1>
+    <h1 class="text-4xl font-bold mb-3">{t.clientCasesTitle}</h1>
     <p class="text-lg text-text-secondary">{t.clientCasesSubtitle}</p>
   </div>
 

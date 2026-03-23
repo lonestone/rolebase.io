@@ -10,6 +10,7 @@ export const translations = {
     apiReference: 'API Reference',
     apiIntroduction: 'Introduction',
     blog: 'Blog',
+    blogTitle: 'Rolebase Blog',
     terms: 'Legal Notice',
     switchLang: '\uD83C\uDDEB\uD83C\uDDF7 FR',
     bookDemo: 'Book a demo',
@@ -30,6 +31,7 @@ export const translations = {
     similarPosts: 'Continue reading',
     updatedOn: 'Updated on',
     clientCases: 'Case Studies',
+    clientCasesTitle: 'Rolebase Case Studies',
     clientCasesPath: '/client-cases',
     clientCasesSubtitle:
       'Discover how our clients use Rolebase to transform their governance.',
@@ -43,6 +45,9 @@ export const translations = {
     features: 'Features',
     pricing: 'Pricing',
     glossary: 'Glossary',
+    glossarySubtitle:
+      'Key terms and definitions for self-governance and Role Based Management.',
+    glossaryDefinition: 'Definition',
     support: 'Support',
     about: 'About',
     privacyPolicy: 'Privacy Policy',
@@ -58,6 +63,7 @@ export const translations = {
     apiReference: 'Référence API',
     apiIntroduction: 'Introduction',
     blog: 'Blog',
+    blogTitle: 'Blog de Rolebase',
     terms: 'Mentions légales',
     switchLang: '\uD83C\uDDEC\uD83C\uDDE7 EN',
     bookDemo: 'Demander une démo',
@@ -78,6 +84,7 @@ export const translations = {
     similarPosts: 'Continuer la lecture',
     updatedOn: 'Mis à jour le',
     clientCases: 'Cas clients',
+    clientCasesTitle: 'Cas clients de Rolebase',
     clientCasesPath: '/client-cases',
     clientCasesSubtitle:
       'Découvrez comment nos clients utilisent Rolebase pour transformer leur gouvernance.',
@@ -91,6 +98,9 @@ export const translations = {
     features: 'Fonctionnalités',
     pricing: 'Tarifs',
     glossary: 'Glossaire',
+    glossarySubtitle:
+      'Les termes et définitions clés de la gouvernance partagée et du Role Based Management.',
+    glossaryDefinition: 'Définition',
     support: 'Support',
     about: 'À propos',
     privacyPolicy: 'Politique Données Personnelles',

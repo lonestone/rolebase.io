@@ -6,7 +6,8 @@ import BlogSidebar from '../components/BlogSidebar.astro'
 import BlogCard from '../components/BlogCard.astro'
 import InlineCta from '../components/InlineCta.astro'
 import { mdxComponents } from '../components'
-import { type Locale, translations, getSlugFromId } from '../i18n'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import { type Locale, translations, localePath, getSlugFromId } from '../i18n'
 
 interface Props {
   post: CollectionEntry<'blog'>
@@ -31,6 +32,7 @@ if (similarSlugs.length > 0) {
 <BlogLayout title={post.data.title}>
   <article class="min-w-0 flex-1">
     <header class="mb-10 pb-6 border-b border-gray-100">
+      <Breadcrumb category={t.blog} categoryUrl={localePath(locale, '/blog')} title={post.data.title} hideTitle class="mb-3" />
       <h1 class="mb-4 font-medium text-3xl md:text-4xl lg:text-5xl">
         {post.data.title}
       </h1>

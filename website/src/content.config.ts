@@ -79,6 +79,21 @@ const api = defineCollection({
   }),
 })
 
+const glossary = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/glossary',
+  }),
+  schema: z.object({
+    name: z.string(),
+    summary: z.string(),
+    description: z.string().optional(),
+    date: z.coerce.date().optional(),
+    update: z.coerce.date().optional(),
+    draft: z.boolean().optional(),
+  }),
+})
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
   schema: z.object({
@@ -94,5 +109,6 @@ export const collections = {
   developers,
   'api-categories': apiCategories,
   api,
+  glossary,
   pages,
 }

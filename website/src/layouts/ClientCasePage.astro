@@ -5,7 +5,8 @@ import { Image } from 'astro:assets'
 import BlogLayout from './BlogLayout.astro'
 import BlogSidebar from '../components/BlogSidebar.astro'
 import { mdxComponents } from '../components'
-import { type Locale, translations } from '../i18n'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import { type Locale, translations, localePath } from '../i18n'
 
 interface Props {
   item: CollectionEntry<'client-cases'>
@@ -20,6 +21,7 @@ const { Content, headings } = await render(item)
 <BlogLayout title={item.data.title}>
   <article class="min-w-0 flex-1">
     <header class="mb-10 pb-6 border-b border-gray-100">
+      <Breadcrumb category={t.clientCases} categoryUrl={localePath(locale, t.clientCasesPath)} title={item.data.title} hideTitle class="mb-3" />
       <h1 class="mb-4 font-medium text-3xl md:text-4xl lg:text-5xl">
         {item.data.title}
       </h1>

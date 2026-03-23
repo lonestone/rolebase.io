@@ -1,5 +1,7 @@
 ---
 import DocsLayout from './DocsLayout.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import { getLocaleFromPath, translations, localePath } from '../i18n'
 
 interface Props {
   title: string
@@ -8,11 +10,22 @@ interface Props {
 }
 
 const { title, section = 'docs', description } = Astro.props
+const locale = getLocaleFromPath(Astro.url.pathname)
+const t = translations[locale]
+
+const categoryMap = {
+  docs: { label: t.documentation, path: '/docs' },
+  guides: { label: t.guides, path: '/docs' },
+  developers: { label: t.developers, path: '/developers' },
+  api: { label: t.apiReference, path: '/api' },
+} as const
+const cat = categoryMap[section]
 ---
 
 <DocsLayout title={title} section={section}>
   <article>
     <header class="mb-8">
+      <Breadcrumb category={cat.label} categoryUrl={localePath(locale, cat.path)} title={title} hideTitle class="mb-3" />
       <h1 class="mt-0 text-4xl font-bold">{title}</h1>
       {description && <p class="text-lg text-text-secondary">{description}</p>}
     </header>

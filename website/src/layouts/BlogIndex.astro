@@ -15,9 +15,9 @@ const posts = (await getCollection('blog', (post) => post.id.endsWith(`/${locale
   .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
 ---
 
-<WebsiteLayout title={t.blog}>
+<WebsiteLayout title={t.blogTitle}>
   <div class="mb-10">
-    <h1 class="text-4xl font-bold mb-3">{t.blog}</h1>
+    <h1 class="text-4xl font-bold mb-3">{t.blogTitle}</h1>
     <p class="text-lg text-text-secondary">{t.blogSubtitle}</p>
   </div>
 
