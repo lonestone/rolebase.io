@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CirclesBackground from '../components/CirclesBackground.astro'
+import { mdxComponents } from '../components'
+import { getLocaleFromPath } from '../i18n'
+import type { Locale } from '../i18n'
+
+const locale = getLocaleFromPath(Astro.url.pathname)
+const entries = await getCollection('pages', (e) => e.id === `404/${locale}`)
+const entry = entries[0]
+const { Content } = await render(entry)
+---
+
+<BaseLayout title={entry.data.title}>
+  <div class="relative overflow-hidden flex-1 flex flex-col justify-center">
+    <CirclesBackground />
+    <Content components={mdxComponents} />
+  </div>
+</BaseLayout>

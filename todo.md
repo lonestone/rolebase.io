@@ -1,8 +1,5 @@
-404 page
 crisp + lien support en footer
-page fonctionnalités
 sitemap -> redirects
-page tarifs
 pages alternatives (blog posts)
 llms.txt et .md routes
 

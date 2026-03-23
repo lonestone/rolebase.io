@@ -1,0 +1,14 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<iframe
+  class:list={['border-0', className]}
+  style="border: none; aspect-ratio: 157/277"
+  src="https://rive.app/s/_KTEFCoAdECSya8cB_ofqQ/embed"
+  allowfullscreen
+/>
