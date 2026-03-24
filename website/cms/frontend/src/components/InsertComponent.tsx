@@ -15,7 +15,7 @@ export function InsertComponent() {
   const items = useMemo(
     () =>
       Object.values(componentMeta)
-        .filter((c) => c.name !== '*')
+        .filter((c) => c.name !== '*' && c.name !== 'Fragment')
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((c) => ({ value: c.name, label: c.name })),
     [componentMeta]

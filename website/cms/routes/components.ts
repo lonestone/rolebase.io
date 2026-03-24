@@ -16,7 +16,7 @@ interface PropSchema {
 interface ComponentDescriptor {
   name: string
   props: PropSchema[]
-  hasChildren: boolean
+  slots: string[]
 }
 
 // Parse interface Props from Astro frontmatter using the TypeScript compiler
@@ -117,21 +117,36 @@ function resolveType(
   return { type: 'string' }
 }
 
-// Check if the template part (after the second ---) contains <slot
-function hasSlot(source: string): boolean {
+// Parse all <slot> tags from the template part (after the second ---)
+// Returns slot names. Empty string "" represents the default (unnamed) slot.
+function parseSlots(source: string): string[] {
   const parts = source.split('---')
   const template = parts.slice(2).join('---')
-  return /<slot[\s/>]/.test(template)
+
+  const slots: string[] = []
+
+  const re = /<slot([\s/][^>]*)?>/g
+  let match
+  while ((match = re.exec(template)) !== null) {
+    const rest = match[1] || ''
+    const nameMatch = rest.match(/name=["']([^"']+)["']/)
+    const name = nameMatch ? nameMatch[1] : ''
+    if (!slots.includes(name)) {
+      slots.push(name)
+    }
+  }
+
+  return slots
 }
 
 function parseComponent(source: string): {
   props: PropSchema[]
-  hasChildren: boolean
+  slots: string[]
 } {
   const fmMatch = source.match(/^---\n([\s\S]*?)\n---/)
-  if (!fmMatch) return { props: [], hasChildren: hasSlot(source) }
-  const props = parseProps(fmMatch[1])
-  return { props, hasChildren: hasSlot(source) }
+  const props = fmMatch ? parseProps(fmMatch[1]) : []
+  const slots = parseSlots(source)
+  return { props, slots }
 }
 
 export const componentsRoutes = new Hono()
@@ -147,27 +162,20 @@ componentsRoutes.get('/', async (c) => {
       } else if (entry.name.endsWith('.astro')) {
         const name = entry.name.replace('.astro', '')
         const source = await readFile(join(dir, entry.name), 'utf-8')
-        const { props, hasChildren } = parseComponent(source)
-        components.push({ name, props, hasChildren })
+        const { props, slots } = parseComponent(source)
+        components.push({ name, props, slots })
       }
     }
   }
 
   await scan(COMPONENTS_DIR)
 
-  // Fragment is used by Astro for named slots (<Fragment slot="...">)
-  components.push({
-    name: 'Fragment',
-    props: [{ name: 'slot', type: 'string' }],
-    hasChildren: true,
-  })
-
   // Wildcard descriptor: catch-all for HTML tags (img, section, div, etc.)
   // and any other unknown components used in MDX content
   components.push({
     name: '*',
     props: [],
-    hasChildren: true,
+    slots: [''],
   })
 
   components.sort((a, b) => a.name.localeCompare(b.name))

@@ -201,6 +201,24 @@ function needsBlockWrapping(children: any[]): boolean {
   return children.length > 0 && !children.some((c) => c.type === 'paragraph')
 }
 
+// Check if a mdast node is a <Fragment slot="..."> (named slot wrapper)
+function isNamedFragment(node: any): boolean {
+  return (
+    node.type === 'mdxJsxFlowElement' &&
+    node.name === 'Fragment' &&
+    node.attributes?.some(
+      (a: any) => a.name === 'slot' && typeof a.value === 'string'
+    )
+  )
+}
+
+function isFragmentForSlot(slotName: string) {
+  return (node: any) =>
+    node.type === 'mdxJsxFlowElement' &&
+    node.name === 'Fragment' &&
+    node.attributes?.some((a: any) => a.name === 'slot' && a.value === slotName)
+}
+
 export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
   const updateMdastNode = useMdastNodeUpdater()
   const removeNode = useLexicalNodeRemove()
@@ -369,6 +387,8 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
 
   const componentName = mdastNode.name ?? 'Fragment'
   const hasProps = descriptor.props.length > 0
+  const slots = componentMeta?.slots ?? (descriptor.hasChildren ? [''] : [])
+  const namedSlots = slots.filter((s) => s !== '')
 
   // Separate simple props (rendered in header) from complex ones (rendered below)
   const simpleProps: { name: string; rich?: PropSchema }[] = []
@@ -400,8 +420,8 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           onClick={handleSelect}
           className={`flex items-center justify-between px-2 py-1 bg-gray-100 text-xs font-mono cursor-grab ${
             simpleProps.length > 0 ||
-            descriptor.hasChildren ||
-            complexProps.length > 0
+            complexProps.length > 0 ||
+            slots.length > 0
               ? 'border-b border-gray-200 rounded-t'
               : 'rounded'
           }`}
@@ -435,7 +455,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
         {simpleProps.length > 0 && (
           <div
             className={`flex flex-col gap-0.5 px-2 py-1 text-xs font-mono ${
-              descriptor.hasChildren || complexProps.length > 0
+              complexProps.length > 0 || slots.length > 0
                 ? 'border-b border-gray-200'
                 : ''
             }`}
@@ -461,7 +481,7 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           <div
             key={name}
             className={`px-2 py-1 ${
-              descriptor.hasChildren ? 'border-b border-gray-200' : ''
+              slots.length > 0 ? 'border-b border-gray-200' : ''
             }`}
           >
             <JsonTableEditor
@@ -472,35 +492,123 @@ export function CustomJsxEditor({ mdastNode, descriptor }: JsxEditorProps) {
           </div>
         ))}
 
-        {/* Children */}
-        {descriptor.hasChildren ? (
-          <div className="px-2 py-1">
-            <NestedLexicalEditor
-              block
-              getContent={(node: any) => {
-                // If all children are inline (phrasing) content, wrap in a
-                // paragraph so the block-level NestedLexicalEditor can render them
-                if (needsBlockWrapping(node.children)) {
-                  return [{ type: 'paragraph', children: node.children }]
-                }
-                return node.children
-              }}
-              getUpdatedMdastNode={(node: any, children: any) => {
-                // Unwrap: if the original node had inline children and we get
-                // back a single paragraph, unwrap it to preserve the original
-                // compact MDX format (<Comp>text</Comp>)
-                if (
-                  needsBlockWrapping(node.children) &&
-                  children.length === 1 &&
-                  children[0].type === 'paragraph'
-                ) {
-                  return { ...node, children: children[0].children }
-                }
-                return { ...node, children }
-              }}
-            />
+        {/* Slot editors */}
+        {slots.map((slotName, i) => (
+          <div
+            key={slotName}
+            className={`px-2 py-1 ${
+              i < slots.length - 1 ? 'border-b border-gray-200' : ''
+            }`}
+          >
+            {/* Show label when there are multiple slots */}
+            {slots.length > 1 && (
+              <div className="text-2xs text-gray-400 font-mono mb-0.5">
+                {slotName || 'children'}
+              </div>
+            )}
+            {slotName === '' ? (
+              <NestedLexicalEditor
+                block
+                getContent={(node: any) => {
+                  const defaultChildren = namedSlots.length
+                    ? node.children.filter((c: any) => !isNamedFragment(c))
+                    : node.children
+                  if (needsBlockWrapping(defaultChildren)) {
+                    return [{ type: 'paragraph', children: defaultChildren }]
+                  }
+                  return defaultChildren
+                }}
+                getUpdatedMdastNode={(node: any, children: any) => {
+                  if (namedSlots.length) {
+                    // Preserve named Fragment children, replace only default children
+                    const fragments = node.children.filter(isNamedFragment)
+                    const defaultChildren = node.children.filter(
+                      (c: any) => !isNamedFragment(c)
+                    )
+                    let finalChildren = children
+                    if (
+                      needsBlockWrapping(defaultChildren) &&
+                      children.length === 1 &&
+                      children[0].type === 'paragraph'
+                    ) {
+                      finalChildren = children[0].children
+                    }
+                    return {
+                      ...node,
+                      children: [...fragments, ...finalChildren],
+                    }
+                  }
+                  if (
+                    needsBlockWrapping(node.children) &&
+                    children.length === 1 &&
+                    children[0].type === 'paragraph'
+                  ) {
+                    return { ...node, children: children[0].children }
+                  }
+                  return { ...node, children }
+                }}
+              />
+            ) : (
+              <NestedLexicalEditor
+                block
+                getContent={(node: any) => {
+                  const fragment = node.children.find(
+                    isFragmentForSlot(slotName)
+                  )
+                  if (!fragment) return []
+                  if (needsBlockWrapping(fragment.children)) {
+                    return [{ type: 'paragraph', children: fragment.children }]
+                  }
+                  return fragment.children
+                }}
+                getUpdatedMdastNode={(node: any, children: any) => {
+                  const fragment = node.children.find(
+                    isFragmentForSlot(slotName)
+                  )
+                  let finalChildren = children
+                  if (
+                    fragment &&
+                    needsBlockWrapping(fragment.children) &&
+                    children.length === 1 &&
+                    children[0].type === 'paragraph'
+                  ) {
+                    finalChildren = children[0].children
+                  }
+
+                  const newNodeChildren = [...node.children]
+                  const fragIndex = newNodeChildren.findIndex(
+                    isFragmentForSlot(slotName)
+                  )
+                  const newFragment = {
+                    type: 'mdxJsxFlowElement',
+                    name: 'Fragment',
+                    attributes: [
+                      {
+                        type: 'mdxJsxAttribute',
+                        name: 'slot',
+                        value: slotName,
+                      },
+                    ],
+                    children: finalChildren,
+                  }
+                  if (fragIndex >= 0) {
+                    newNodeChildren[fragIndex] = newFragment
+                  } else if (finalChildren.length > 0) {
+                    const firstNonFrag = newNodeChildren.findIndex(
+                      (c: any) => !isNamedFragment(c)
+                    )
+                    newNodeChildren.splice(
+                      firstNonFrag >= 0 ? firstNonFrag : newNodeChildren.length,
+                      0,
+                      newFragment
+                    )
+                  }
+                  return { ...node, children: newNodeChildren }
+                }}
+              />
+            )}
           </div>
-        ) : null}
+        ))}
       </div>
     </div>
   )

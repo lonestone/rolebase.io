@@ -7,7 +7,7 @@ import { CustomJsxEditor } from '../components/CustomJsxEditor.js'
 function buildDescriptors(
   components: ComponentDescriptor[]
 ): JsxComponentDescriptor[] {
-  return components.map(({ name, props, hasChildren }) => ({
+  const descriptors = components.map(({ name, props, slots }) => ({
     name,
     kind: 'flow' as const,
     props: props.map((p) => ({
@@ -17,9 +17,19 @@ function buildDescriptors(
         | 'number'
         | 'expression',
     })),
-    hasChildren,
+    hasChildren: slots.length > 0,
     Editor: CustomJsxEditor,
   }))
+  // Fragment is needed by the mdxeditor parser for existing <Fragment slot="..."> in MDX.
+  // It is not shown in the component insertion menus.
+  descriptors.push({
+    name: 'Fragment',
+    kind: 'flow',
+    props: [{ name: 'slot', type: 'string' }],
+    hasChildren: true,
+    Editor: CustomJsxEditor,
+  })
+  return descriptors
 }
 
 function buildComponentMeta(

@@ -176,7 +176,7 @@ export interface PropSchema {
 export interface ComponentDescriptor {
   name: string
   props: PropSchema[]
-  hasChildren: boolean
+  slots: string[]
 }
 
 export async function fetchComponents(): Promise<ComponentDescriptor[]> {
