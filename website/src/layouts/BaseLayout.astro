@@ -29,6 +29,10 @@ const isDevSection = currentPath.includes('/developers') || currentPath.includes
         src="https://umami.internal.lonestone.io/script.js"
         data-website-id="b551cd9c-5426-410a-83ed-94d46b6a7865"></script>
     )}
+    <script is:inline>
+      window.$crisp=[];window.CRISP_WEBSITE_ID="652544cd-14f6-4c8c-9a04-2a56676dd4a0";
+      (function(){var d=document;var s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+    </script>
   </head>
   <body class="min-h-dvh flex flex-col">
     {isDevSection ? <TopNavDev /> : <TopNav staticHeader={staticHeader} />}
