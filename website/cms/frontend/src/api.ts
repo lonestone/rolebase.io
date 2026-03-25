@@ -105,17 +105,30 @@ export async function fetchClaudeStatus(): Promise<{
   return res.json()
 }
 
+export interface Conversation {
+  id: string
+  firstMessage: string
+  timestamp: string
+  name?: string
+}
+
+export async function fetchConversations(): Promise<Conversation[]> {
+  const res = await fetch(`${BASE}/claude/conversations`)
+  return res.json()
+}
+
 export function sendPrompt(
   prompt: string,
   onEvent: (event: any) => void,
-  onDone: () => void
+  onDone: () => void,
+  sessionId?: string
 ): AbortController {
   const controller = new AbortController()
 
   fetch(`${BASE}/claude/prompt`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify({ prompt, sessionId }),
     signal: controller.signal,
   }).then(async (res) => {
     const reader = res.body?.getReader()
@@ -123,6 +136,7 @@ export function sendPrompt(
 
     const decoder = new TextDecoder()
     let buffer = ''
+    let currentEventType = ''
 
     // eslint-disable-next-line
     while (true) {
@@ -134,16 +148,23 @@ export function sendPrompt(
       buffer = lines.pop() || ''
 
       for (const line of lines) {
-        if (line.startsWith('data:')) {
+        if (line.startsWith('event:')) {
+          currentEventType = line.slice(6).trim()
+        } else if (line.startsWith('data:')) {
           try {
             const data = JSON.parse(line.slice(5).trim())
             onEvent(data)
           } catch {
-            // skip
+            // Non-JSON data line, emit as raw error/info
+            const text = line.slice(5).trim()
+            if (text) {
+              onEvent({
+                type: currentEventType || 'raw',
+                message: text,
+              })
+            }
           }
-        }
-        if (line.startsWith('event:done')) {
-          onDone()
+          currentEventType = ''
         }
       }
     }
@@ -155,6 +176,19 @@ export function sendPrompt(
 
 export async function stopClaude(): Promise<void> {
   await fetch(`${BASE}/claude/stop`, { method: 'POST' })
+}
+
+export async function respondToPermission(
+  requestId: string,
+  behavior: 'allow' | 'deny',
+  updatedInput?: Record<string, unknown>
+): Promise<{ ok: boolean }> {
+  const res = await fetch(`${BASE}/claude/permission`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ requestId, behavior, updatedInput }),
+  })
+  return res.json()
 }
 
 export interface PropSchema {

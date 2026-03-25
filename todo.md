@@ -1,4 +1,3 @@
-crisp + lien support en footer
 sitemap -> redirects
 pages alternatives (blog posts)
 llms.txt et .md routes
