@@ -24,7 +24,11 @@ export function AgentThread({
   conversations,
   onSelectConversation,
 }: Props) {
-  const { ref: scrollRef, onScroll, scrollToBottom } = useAutoScroll<HTMLDivElement>()
+  const {
+    ref: scrollRef,
+    onScroll,
+    scrollToBottom,
+  } = useAutoScroll<HTMLDivElement>()
   const isRunning = useAuiState((s) => s.thread.isRunning)
   const { permission, clear: clearPermission } = usePendingPermission(isRunning)
 
@@ -78,13 +82,11 @@ function AgentComposer() {
   return (
     <ComposerPrimitive.Root className="p-3 border-t border-border flex gap-2">
       <ComposerPrimitive.Input
-        placeholder="Ask Claude... (Enter to send)"
+        placeholder={'Ask Claude...\nEnter to send, Shift+Enter for new line'}
         className="flex-1 p-2 border border-border rounded-md resize-none outline-none text-sm font-[inherit] bg-white min-h-[60px] max-h-[120px]"
         rows={3}
+        autoFocus
       />
-      <ComposerPrimitive.Send className="self-end px-3 py-1.5 text-xs font-semibold rounded-md bg-primary text-white hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-default">
-        Send
-      </ComposerPrimitive.Send>
     </ComposerPrimitive.Root>
   )
 }

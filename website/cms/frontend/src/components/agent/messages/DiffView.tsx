@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function DiffView({ oldStr, newStr }: Props) {
-  const changes = useMemo(() => diffLines(oldStr, newStr), [oldStr, newStr])
+  const changes = useMemo(() => diffLines(oldStr ?? '', newStr ?? ''), [oldStr, newStr])
 
   return (
     <div className="font-mono text-[10px] leading-relaxed">

@@ -19,6 +19,11 @@ export function formatResult(content: any): string {
   return JSON.stringify(content)
 }
 
+/** Strip "Human: " / "Assistant: " prefixes added by the SDK */
+export function stripRolePrefix(text: string): string {
+  return text.replace(/^(Human|Assistant):\s*/i, '')
+}
+
 /** Strip `cat -n` style line number prefixes (e.g. "     1→content") */
 function stripLineNumbers(text: string): string {
   if (!text) return ''

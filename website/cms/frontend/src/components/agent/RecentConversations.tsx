@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import type { Conversation } from '../../api.js'
+import { stripRolePrefix } from './messages/utils.js'
 
 interface Props {
   conversations: Conversation[]
@@ -18,19 +19,22 @@ export function RecentConversations({ conversations, onSelect }: Props) {
           <div className="text-[10px] text-text-muted uppercase tracking-wide mb-2">
             Recent
           </div>
-          {visible.map((conv) => (
-            <button
-              key={conv.id}
-              onClick={() => onSelect(conv.id)}
-              className="w-full text-left px-3 py-2 rounded-md hover:bg-bg-hover cursor-pointer"
-              tabIndex={0}
-              aria-label={`Resume: ${conv.summary.slice(0, 50)}`}
-            >
-              <div className="text-xs text-text line-clamp-2 leading-relaxed">
-                {conv.customTitle || conv.summary}
-              </div>
-            </button>
-          ))}
+          {visible.map((conv) => {
+            const label = stripRolePrefix(conv.customTitle || conv.summary)
+            return (
+              <button
+                key={conv.id}
+                onClick={() => onSelect(conv.id)}
+                className="w-full text-left px-3 py-2 rounded-md hover:bg-bg-hover cursor-pointer"
+                tabIndex={0}
+                aria-label={`Resume: ${label.slice(0, 50)}`}
+              >
+                <div className="text-xs text-text line-clamp-2 leading-relaxed">
+                  {label}
+                </div>
+              </button>
+            )
+          })}
           {!expanded && conversations.length > 3 && (
             <button
               onClick={() => setExpanded(true)}

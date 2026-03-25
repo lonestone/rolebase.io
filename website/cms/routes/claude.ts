@@ -8,6 +8,8 @@ import {
   query,
   type Query,
 } from '@anthropic-ai/claude-agent-sdk'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 import { ROOT_DIR } from '../root.js'
 
 export const claudeRoutes = new Hono()
@@ -32,7 +34,9 @@ interface PendingPermission {
   input: Record<string, unknown>
   title?: string
   decisionReason?: string
-  resolve: (result: { behavior: 'allow' } | { behavior: 'deny'; message: string }) => void
+  resolve: (
+    result: { behavior: 'allow' } | { behavior: 'deny'; message: string }
+  ) => void
 }
 
 let pendingPermission: PendingPermission | null = null
@@ -265,11 +269,36 @@ claudeRoutes.post('/permissions/:id/respond', async (c) => {
   if (behavior === 'allow') {
     perm.resolve({ behavior: 'allow', updatedInput: perm.input })
   } else {
-    perm.resolve({ behavior: 'deny', message: message || 'User denied permission' })
+    perm.resolve({
+      behavior: 'deny',
+      message: message || 'User denied permission',
+    })
   }
 
   return c.json({ ok: true })
 })
+
+/** Try to read the JSONL transcript for a session, searching known project dirs */
+async function readSessionJsonl(sessionId: string): Promise<string> {
+  const home = process.env.HOME || '~'
+  const projectsDir = join(home, '.claude', 'projects')
+  // The project dir name is the cwd with slashes replaced by dashes, leading dash stripped
+  // Sessions may be under ROOT_DIR or its parent depending on the cwd used
+  const candidates = [
+    ROOT_DIR,
+    join(ROOT_DIR, '..'), // parent (e.g. rolebase vs rolebase/website)
+  ]
+  for (const dir of candidates) {
+    const resolved = dir.replace(/\//g, '-')
+    const path = join(projectsDir, resolved, `${sessionId}.jsonl`)
+    try {
+      return await readFile(path, 'utf-8')
+    } catch {
+      // try next
+    }
+  }
+  throw new Error(`Session JSONL not found for ${sessionId}`)
+}
 
 // List recent conversations
 claudeRoutes.get('/conversations', async (c) => {
@@ -290,13 +319,65 @@ claudeRoutes.get('/conversations', async (c) => {
   }
 })
 
-// Get messages for a specific conversation
+// Get messages for a specific conversation (includes subagent steps)
 claudeRoutes.get('/conversations/:id/messages', async (c) => {
   const sessionId = c.req.param('id')
   try {
-    const messages = await getSessionMessages(sessionId, { dir: ROOT_DIR })
+    const raw = await readSessionJsonl(sessionId)
+    const lines = raw
+      .trim()
+      .split('\n')
+      .map((l) => JSON.parse(l))
+
+    // Collect progress events grouped by parentToolUseID
+    const progressByParent = new Map<string, any[]>()
+    for (const line of lines) {
+      if (line.type === 'progress' && line.parentToolUseID) {
+        const arr = progressByParent.get(line.parentToolUseID) || []
+        arr.push(line.data?.message)
+        progressByParent.set(line.parentToolUseID, arr)
+      }
+    }
+
+    // Build message list: top-level user/assistant + inline subagent steps
+    const messages: any[] = []
+    for (const line of lines) {
+      if (line.type !== 'user' && line.type !== 'assistant') continue
+      if (line.isSidechain) continue
+
+      messages.push(line)
+
+      // After an assistant message, check if it has Agent tool_use blocks
+      if (line.type === 'assistant') {
+        const content = line.message?.content
+        if (!Array.isArray(content)) continue
+        for (const block of content) {
+          if (block.type === 'tool_use' && block.name === 'Agent') {
+            const subSteps = progressByParent.get(block.id)
+            if (subSteps) {
+              for (const step of subSteps) {
+                if (!step) continue
+                messages.push({
+                  type: step.type === 'user' ? 'user' : 'assistant',
+                  message: step.message || step,
+                  parent_tool_use_id: block.id,
+                })
+              }
+            }
+          }
+        }
+      }
+    }
+
     return c.json(messages)
-  } catch {
-    return c.json([])
+  } catch (e) {
+    console.log(e)
+    // Fallback to SDK method
+    try {
+      const messages = await getSessionMessages(sessionId, { dir: ROOT_DIR })
+      return c.json(messages)
+    } catch {
+      return c.json([])
+    }
   }
 })
