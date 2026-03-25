@@ -13,3 +13,10 @@
   from = "/"
   to = "/en"
   status = 302
+
+# Glossary: /glossaire-rbm/:slug → /fr/glossary/:slug
+[[redirects]]
+  from = "/glossaire-rbm/:slug"
+  to = "/fr/glossary/:slug"
+  status = 301
+

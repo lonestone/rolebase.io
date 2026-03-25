@@ -1,0 +1,172 @@
+# ============================================================
+# en.rolebase.io → www.rolebase.io/en
+# Redirect-only site: every URL from the old en.rolebase.io
+# sitemap is explicitly redirected to the new localized site.
+# No catch-all: unmapped URLs will correctly 404.
+# ============================================================
+
+# Home
+/                                                                                          https://www.rolebase.io/en    301
+
+# Main pages
+/contact                                                                                   https://www.rolebase.io/en/contact     301
+/demande-demo                                                                              https://www.rolebase.io/en/contact     301
+/faq                                                                                       https://www.rolebase.io/en             301
+/tarifs                                                                                    https://www.rolebase.io/en/pricing     301
+/privacy                                                                                   https://www.rolebase.io/en/privacy     301
+/legal                                                                                     https://www.rolebase.io/en/legal       301
+/conditions-generales-de-vente                                                             https://www.rolebase.io/en/terms       301
+/conditions-dutilisation-de-lia-par-rolebase                                               https://www.rolebase.io/en/legal       301
+/blog                                                                                      https://www.rolebase.io/en/blog        301
+/cas-clients                                                                               https://www.rolebase.io/en/client-cases        301
+/cas-clients/scop-evea                                                                     https://www.rolebase.io/en/client-cases/scop-evea      301
+/default-template-pages/cas-client-lonestone                                               https://www.rolebase.io/en/client-cases/lonestone      301
+/glossaire-rbm                                                                             https://www.rolebase.io/en/glossary    301
+/integrations                                                                              https://www.rolebase.io/en/features    301
+/components                                                                                https://www.rolebase.io/en             301
+/calculateur-deconomie-de-temps                                                            https://www.rolebase.io/en             301
+
+# Platform feature pages
+/plateforme/organigramme                                                                   https://www.rolebase.io/en/features    301
+/plateforme/roles                                                                          https://www.rolebase.io/en/features    301
+/plateforme/reunions                                                                       https://www.rolebase.io/en/features    301
+/plateforme/taches                                                                         https://www.rolebase.io/en/features    301
+/plateforme/sujets                                                                         https://www.rolebase.io/en/features    301
+/plateforme/gestion-equipe                                                                 https://www.rolebase.io/en/features    301
+/plateforme/flowchart                                                                      https://www.rolebase.io/en/features    301
+/plateforme/team-management                                                                https://www.rolebase.io/en/features    301
+/plateforme/tasks                                                                          https://www.rolebase.io/en/features    301
+/plateforme/subjects                                                                       https://www.rolebase.io/en/features    301
+/plateforme/meetings                                                                       https://www.rolebase.io/en/features    301
+/plateforme/knowledge-management                                                           https://www.rolebase.io/en/features    301
+/plateforme/onboarding-offboarding                                                         https://www.rolebase.io/en/features    301
+/plateforme/annuaire-intelligent                                                           https://www.rolebase.io/en/features    301
+/plateforme/recherche-intelligente                                                         https://www.rolebase.io/en/features    301
+/plateforme/capture-du-knowledge                                                           https://www.rolebase.io/en/features    301
+/plateforme/registre-des-decisions                                                         https://www.rolebase.io/en/features    301
+/plateforme/comptes-rendus-de-reunions                                                     https://www.rolebase.io/en/features    301
+/plateforme/diffusion-de-linformation                                                      https://www.rolebase.io/en/features    301
+/plateforme/reunions-dequipe                                                               https://www.rolebase.io/en/features    301
+/plateforme/responsabilites-des-equipes                                                    https://www.rolebase.io/en/features    301
+/plateforme/optimisation-des-temps-de-reunions                                             https://www.rolebase.io/en/features    301
+/plateforme/resumes-de-reunion-par-ia                                                      https://www.rolebase.io/en/features    301
+/plateforme/fil-dactualites                                                                https://www.rolebase.io/en/features    301
+/plateforme/next-step-de-reunion                                                           https://www.rolebase.io/en/features    301
+
+# Alternatives → features (no equivalent page)
+/alternatives                                                                              https://www.rolebase.io/en/features    301
+/alternatives/holaspirit                                                                   https://www.rolebase.io/en/features    301
+/alternatives/glassfrog                                                                    https://www.rolebase.io/en/features    301
+/alternatives/notion                                                                       https://www.rolebase.io/en/features    301
+/alternatives/slite                                                                        https://www.rolebase.io/en/features    301
+/alternatives/lucidchart                                                                   https://www.rolebase.io/en/features    301
+
+# Pour qui → home (no equivalent page)
+/pour-qui/pme                                                                              https://www.rolebase.io/en             301
+/pour-qui/entreprise-liberee                                                               https://www.rolebase.io/en             301
+/pour-qui/equipe-autonome                                                                  https://www.rolebase.io/en             301
+
+# Glossary entries
+/glossaire-rbm/agile                                                                       https://www.rolebase.io/en/glossary/agile                      301
+/glossaire-rbm/brian-robertson                                                             https://www.rolebase.io/en/glossary/brian-robertson             301
+/glossaire-rbm/cercle                                                                      https://www.rolebase.io/en/glossary/cercle                     301
+/glossaire-rbm/checklist                                                                   https://www.rolebase.io/en/glossary/checklist                  301
+/glossaire-rbm/conduite-du-changement                                                      https://www.rolebase.io/en/glossary/conduite-du-changement     301
+/glossaire-rbm/consentement                                                                https://www.rolebase.io/en/glossary/consentement               301
+/glossaire-rbm/david-allen                                                                 https://www.rolebase.io/en/glossary/david-allen                301
+/glossaire-rbm/decision                                                                    https://www.rolebase.io/en/glossary/decision                   301
+/glossaire-rbm/design-thinking                                                             https://www.rolebase.io/en/glossary/design-thinking            301
+/glossaire-rbm/domaine                                                                     https://www.rolebase.io/en/glossary/domaine                    301
+/glossaire-rbm/facilitateur                                                                https://www.rolebase.io/en/glossary/facilitateur               301
+/glossaire-rbm/feedback                                                                    https://www.rolebase.io/en/glossary/feedback                   301
+/glossaire-rbm/feedback-oscar                                                              https://www.rolebase.io/en/glossary/feedback-oscar             301
+/glossaire-rbm/frederic-laloux                                                             https://www.rolebase.io/en/glossary/frederic-laloux            301
+/glossaire-rbm/gouvernance                                                                 https://www.rolebase.io/en/glossary/gouvernance                301
+/glossaire-rbm/holacratie                                                                  https://www.rolebase.io/en/glossary/holacratie                 301
+/glossaire-rbm/indicateur                                                                  https://www.rolebase.io/en/glossary/indicateur                 301
+/glossaire-rbm/methodes-agiles                                                             https://www.rolebase.io/en/glossary/methodes-agiles            301
+/glossaire-rbm/muda                                                                        https://www.rolebase.io/en/glossary/muda                       301
+/glossaire-rbm/note                                                                        https://www.rolebase.io/en/glossary/note                       301
+/glossaire-rbm/organigramme                                                                https://www.rolebase.io/en/glossary/organigramme               301
+/glossaire-rbm/organisation-horizontale                                                    https://www.rolebase.io/en/glossary/organisation-horizontale   301
+/glossaire-rbm/organisation-opale                                                          https://www.rolebase.io/en/glossary/organisation-opale         301
+/glossaire-rbm/poka-yoke                                                                   https://www.rolebase.io/en/glossary/poka-yoke                  301
+/glossaire-rbm/quaker                                                                      https://www.rolebase.io/en/glossary/quaker                     301
+/glossaire-rbm/raison-detre                                                                https://www.rolebase.io/en/glossary/raison-detre               301
+/glossaire-rbm/redevabilite                                                                https://www.rolebase.io/en/glossary/redevabilite               301
+/glossaire-rbm/reunion                                                                     https://www.rolebase.io/en/glossary/reunion                    301
+/glossaire-rbm/reunion-de-gouvernance                                                      https://www.rolebase.io/en/glossary/reunion-de-gouvernance     301
+/glossaire-rbm/reunion-tactique                                                            https://www.rolebase.io/en/glossary/reunion-tactique           301
+/glossaire-rbm/role                                                                        https://www.rolebase.io/en/glossary/role                       301
+/glossaire-rbm/sociocratie                                                                 https://www.rolebase.io/en/glossary/sociocratie                301
+/glossaire-rbm/sujet                                                                       https://www.rolebase.io/en/glossary/sujet                      301
+/glossaire-rbm/tache                                                                       https://www.rolebase.io/en/glossary/tache                      301
+/glossaire-rbm/tension                                                                     https://www.rolebase.io/en/glossary/tension                    301
+/glossaire-rbm/toyota-production-system                                                    https://www.rolebase.io/en/glossary/toyota-production-system   301
+
+# Documentation
+/documentation/pour-commencer                                                              https://www.rolebase.io/en/docs/getting-started        301
+/documentation/onboarding-rolebase                                                         https://www.rolebase.io/en/docs/getting-started        301
+/documentation/creer-organigramme                                                          https://www.rolebase.io/en/docs/org-chart              301
+/documentation/partager-organigramme                                                       https://www.rolebase.io/en/docs/org-chart              301
+/documentation/import-organisation                                                         https://www.rolebase.io/en/docs/import                 301
+/documentation/google-calendar                                                             https://www.rolebase.io/en/docs/apps-integrations      301
+/documentation/inviter-des-collaborateurs                                                  https://www.rolebase.io/en/docs/members                301
+/documentation/supprimer-un-collaborateur                                                  https://www.rolebase.io/en/docs/members                301
+/documentation/creer-modele-reunion                                                        https://www.rolebase.io/en/docs/meetings               301
+/documentation/reunion-recurrente                                                          https://www.rolebase.io/en/docs/meetings               301
+/documentation/utilisation-des-reunions-dequipe-dans-rolebase                             https://www.rolebase.io/en/docs/meetings               301
+/documentation/comment-generer-un-resume-de-reunion-par-ia-avec-rolebase                  https://www.rolebase.io/en/docs/meetings               301
+/documentation/comment-utiliser-les-next-steps-de-reunion-dans-rolebase                   https://www.rolebase.io/en/docs/meetings               301
+/documentation/utilisation-du-registre-des-decisions-sur-rolebase                         https://www.rolebase.io/en/docs/decisions              301
+/documentation/comment-utiliser-le-fil-dactualites-rolebase                               https://www.rolebase.io/en/docs/news-feed              301
+/documentation/page-blanche                                                                https://www.rolebase.io/en/docs/threads                301
+/documentation/comment-capturer-votre-connaissance-interne-avec-rolebase                  https://www.rolebase.io/en/docs/threads                301
+/documentation/comment-utiliser-la-recherche-intelligente-de-rolebase                     https://www.rolebase.io/en/docs                        301
+
+# Blog — old FR slugs → EN new slugs
+/blog/10-bonnes-pratiques-pour-la-gouvernance-collaborative                                https://www.rolebase.io/en/blog/collaborative-governance       301
+/blog/10-conseils-pour-des-retours-constructifs-entre-pairs                                https://www.rolebase.io/en/blog/peer-feedback                  301
+/blog/3-solutions-pour-ameliorer-la-communication-dequipe                                  https://www.rolebase.io/en/blog/team-communication             301
+/blog/5-etapes-pour-optimiser-vos-reunions-dequipe                                         https://www.rolebase.io/en/blog/optimize-meetings              301
+/blog/7-outils-essentiels-pour-la-gestion-dequipes-horizontales                            https://www.rolebase.io/en/blog/horizontal-tools               301
+/blog/checklist-mise-en-place-dune-structure-horizontale                                   https://www.rolebase.io/en/blog/horizontal-checklist           301
+/blog/comment-attribuer-des-roles-en-reunion                                               https://www.rolebase.io/en/blog/assign-roles-meetings          301
+/blog/comment-decider-en-collectif-avec-la-decision-par-consentement                       https://www.rolebase.io/en/blog/consent-decision               301
+/blog/comment-definir-les-roles-dans-une-organisation-horizontale                          https://www.rolebase.io/en/blog/define-roles                   301
+/blog/comment-donner-un-feedback-constructif-avec-la-methode-oscar                         https://www.rolebase.io/en/blog/oscar-feedback                 301
+/blog/comment-faire-des-comptes-rendus-de-reunions-gagner-du-temps-nourrir-la-documentation-interne  https://www.rolebase.io/en/blog/meeting-minutes       301
+/blog/comment-integrer-lamelioration-continue-au-management-horizontal                     https://www.rolebase.io/en/blog/continuous-improvement         301
+/blog/comment-integrer-le-feedback-dans-la-gestion-horizontale                             https://www.rolebase.io/en/blog/feedback-horizontal            301
+/blog/comment-la-gestion-horizontale-renforce-la-confiance                                 https://www.rolebase.io/en/blog/horizontal-trust               301
+/blog/creer-un-organigramme-pour-votre-entreprise                                          https://www.rolebase.io/en/blog/create-org-chart               301
+/blog/differences-entre-structure-plate-et-hierarchique                                    https://www.rolebase.io/en/blog/flat-vs-hierarchical           301
+/blog/faq-management-horizontal-et-productivite-dequipe                                    https://www.rolebase.io/en/blog/horizontal-faq                 301
+/blog/guide-complet-sur-lanalyse-de-sentiment-dequipe                                      https://www.rolebase.io/en/blog/sentiment-analysis             301
+/blog/guide-complet-transition-vers-un-management-horizontal                               https://www.rolebase.io/en/blog/horizontal-transition          301
+/blog/guide-ultime-des-organigrammes-open-source                                           https://www.rolebase.io/en/blog/open-source-org-charts         301
+/blog/holacratie-vs-sociocratie-quelles-differences                                        https://www.rolebase.io/en/blog/holacracy-vs-sociocracy        301
+/blog/introduction-a-la-sociocratie-une-approche-dynamique-de-la-gouvernance               https://www.rolebase.io/en/blog/sociocracy-intro               301
+/blog/introduction-a-lholacratie-repenser-la-gouvernance-organisationnelle                  https://www.rolebase.io/en/blog/holacracy-intro                301
+/blog/introduction-au-role-based-management-votre-solution-contre-les-silos                https://www.rolebase.io/en/blog/role-based-management          301
+/blog/introduction-aux-methodes-agiles                                                      https://www.rolebase.io/en/blog/agile-methods                  301
+/blog/la-reunion-de-gouvernance-pour-faire-evoluer-son-organisation                         https://www.rolebase.io/en/blog/governance-meeting             301
+/blog/la-reunion-tactique-ou-reunion-de-triage                                             https://www.rolebase.io/en/blog/tactical-meeting               301
+/blog/la-reunionite-aigue-definition-en-entreprise-et-nos-solutions-pour-y-dire-stop       https://www.rolebase.io/en/blog/meeting-overload                301
+/blog/le-role-de-leader-en-holacratie                                                      https://www.rolebase.io/en/blog/holacracy-leader               301
+/blog/leadership-horizontal-vs-leadership-traditionnel                                     https://www.rolebase.io/en/blog/horizontal-leadership          301
+/blog/les-meilleures-solutions-open-source-pour-creer-un-organigramme                      https://www.rolebase.io/en/blog/open-source-org-chart-tools    301
+/blog/management-horizontal-vs-vertical-avantages-et-differences                           https://www.rolebase.io/en/blog/horizontal-vs-vertical         301
+/blog/mieux-attribuer-les-roles-avec-lelection-sans-candidat                               https://www.rolebase.io/en/blog/election-without-candidate     301
+/blog/pourquoi-remplacer-la-fiche-de-poste-par-des-roles                                   https://www.rolebase.io/en/blog/roles-vs-job-descriptions      301
+/blog/reunion-a-distance-efficaces-nos-secrets-pour-lentreprise-hybride-ou-full-remote     https://www.rolebase.io/en/blog/remote-meetings                301
+/blog/reunionite-le-pourquoi-selon-un-chercheur-et-nos-5-conseils-pour-la-combattre        https://www.rolebase.io/en/blog/meeting-overload-tips           301
+
+# Blog — EN slugs
+/blog/the-dynamic-organisational-chart-or-the-org-chart-of-the-future                     https://www.rolebase.io/en/blog/dynamic-org-chart              301
+/blog/the-movement-that-has-been-questioning-management-for-over-50-years                  https://www.rolebase.io/en/blog/management-movement            301
+/blog/the-no-1-pitfall-of-business-owners-when-scaling-and-how-to-avoid-it                https://www.rolebase.io/en/blog/scaling-pitfall                301
+/blog/the-subtle-but-constant-ways-your-team-is-losing-energy-and-focus                   https://www.rolebase.io/en/blog/team-energy-loss               301
+/blog/why-hierarchy-isnt-a-very-good-way-of-organising-work-today                         https://www.rolebase.io/en/blog/hierarchy-problems             301
+/blog/how-to-craft-incredibly-productive-meetings                                          https://www.rolebase.io/en/blog/productive-meetings            301
+/blog/how-to-actually-make-project-handovers-between-teams-efficient                       https://www.rolebase.io/en/blog/project-handovers              301

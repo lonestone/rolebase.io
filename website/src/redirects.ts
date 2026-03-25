@@ -5,7 +5,91 @@ type Redirects = NonNullable<AstroUserConfig['redirects']>
 // Static redirections only, wildcards in netlify.toml
 export const redirects: Redirects = {
   '/demande-demo': '/fr/contact',
+  '/book-a-demo': '/en/contact',
   '/tarifs': '/fr/pricing',
+  '/pricing': '/en/pricing',
+
+  // Platform feature pages (old site → new /features)
+  '/plateforme/flowchart': '/en/features',
+  '/plateforme/organigramme': '/fr/features',
+  '/plateforme/roles': '/fr/features',
+  '/plateforme/team-management': '/en/features',
+  '/plateforme/gestion-equipe': '/fr/features',
+  '/plateforme/tasks': '/en/features',
+  '/plateforme/taches': '/fr/features',
+  '/plateforme/subjects': '/en/features',
+  '/plateforme/sujets': '/fr/features',
+  '/plateforme/meetings': '/en/features',
+  '/plateforme/reunions': '/fr/features',
+  '/plateforme/knowledge-management': '/fr/features',
+  '/plateforme/onboarding-offboarding': '/fr/features',
+  '/plateforme/annuaire-intelligent': '/fr/features',
+  '/plateforme/recherche-intelligente': '/fr/features',
+  '/plateforme/capture-du-knowledge': '/fr/features',
+  '/plateforme/registre-des-decisions': '/fr/features',
+  '/plateforme/comptes-rendus-de-reunions': '/fr/features',
+  '/plateforme/diffusion-de-linformation': '/fr/features',
+  '/plateforme/reunions-dequipe': '/fr/features',
+  '/plateforme/responsabilites-des-equipes': '/fr/features',
+  '/plateforme/optimisation-des-temps-de-reunions': '/fr/features',
+  '/plateforme/resumes-de-reunion-par-ia': '/fr/features',
+  '/plateforme/fil-dactualites': '/fr/features',
+  '/plateforme/next-step-de-reunion': '/fr/features',
+
+  // Alternatives → /fr/features (no equivalent in new site)
+  '/alternatives': '/fr/features',
+  '/alternatives/holaspirit': '/fr/features',
+  '/alternatives/glassfrog': '/fr/features',
+  '/alternatives/notion': '/fr/features',
+  '/alternatives/slite': '/fr/features',
+  '/alternatives/lucidchart': '/fr/features',
+
+  // Pour qui → homepage (no equivalent in new site)
+  '/pour-qui/pme': '/fr',
+  '/pour-qui/entreprise-liberee': '/fr',
+  '/pour-qui/equipe-autonome': '/fr',
+
+  // Main page redirects (old site → new localized site)
+  '/contact': '/fr/contact',
+  '/blog': '/fr/blog',
+  '/cas-clients': '/fr/client-cases',
+  '/cas-clients/scop-evea': '/fr/client-cases/scop-evea',
+  '/cas-clients/lonestone': '/fr/client-cases/lonestone',
+  '/glossaire-rbm': '/fr/glossary',
+  '/privacy': '/fr/privacy',
+  '/legal': '/fr/legal',
+  '/conditions-generales-de-vente': '/fr/terms',
+  '/conditions-dutilisation-de-lia-par-rolebase': '/fr/legal',
+  '/faq': '/fr',
+  '/integrations': '/fr/features',
+  '/calculateur-deconomie-de-temps': '/fr',
+
+  // Documentation redirects (old /documentation/* → new /fr/docs/*)
+  '/documentation/pour-commencer': '/fr/docs/getting-started',
+  '/documentation/onboarding-rolebase': '/fr/docs/getting-started',
+  '/documentation/creer-organigramme': '/fr/docs/org-chart',
+  '/documentation/partager-organigramme': '/fr/docs/org-chart',
+  '/documentation/import-organisation': '/fr/docs/import',
+  '/documentation/google-calendar': '/fr/docs/apps-integrations',
+  '/documentation/inviter-des-collaborateurs': '/fr/docs/members',
+  '/documentation/supprimer-un-collaborateur': '/fr/docs/members',
+  '/documentation/creer-modele-reunion': '/fr/docs/meetings',
+  '/documentation/reunion-recurrente': '/fr/docs/meetings',
+  '/documentation/utilisation-des-reunions-dequipe-dans-rolebase':
+    '/fr/docs/meetings',
+  '/documentation/comment-generer-un-resume-de-reunion-par-ia-avec-rolebase':
+    '/fr/docs/meetings',
+  '/documentation/comment-utiliser-les-next-steps-de-reunion-dans-rolebase':
+    '/fr/docs/meetings',
+  '/documentation/utilisation-du-registre-des-decisions-sur-rolebase':
+    '/fr/docs/decisions',
+  '/documentation/comment-utiliser-le-fil-dactualites-rolebase':
+    '/fr/docs/news-feed',
+  '/documentation/page-blanche': '/fr/docs/threads',
+  '/documentation/comment-capturer-votre-connaissance-interne-avec-rolebase':
+    '/fr/docs/threads',
+  '/documentation/comment-utiliser-la-recherche-intelligente-de-rolebase':
+    '/fr/docs',
 
   // Blog redirects: pre-2026 posts (FR old slugs)
   '/blog/10-bonnes-pratiques-pour-la-gouvernance-collaborative':
