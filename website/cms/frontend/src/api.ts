@@ -158,6 +158,30 @@ export async function fetchConversationMessages(
   return res.json()
 }
 
+// Claude permissions
+
+export interface PendingPermission {
+  pending: true
+  id: string
+  toolName: string
+  input: Record<string, unknown>
+  title?: string
+  decisionReason?: string
+}
+
+export async function respondToPermission(
+  id: string,
+  behavior: 'allow' | 'deny',
+  message?: string
+): Promise<{ ok: boolean }> {
+  const res = await fetch(`${BASE}/claude/permissions/${id}/respond`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ behavior, message }),
+  })
+  return res.json()
+}
+
 export interface PropSchema {
   name: string
   type:

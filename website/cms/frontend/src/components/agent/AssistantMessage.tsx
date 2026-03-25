@@ -1,6 +1,7 @@
 import React from 'react'
-import { MessagePrimitive } from '@assistant-ui/react'
+import { MessagePrimitive, ThreadPrimitive } from '@assistant-ui/react'
 import { TextBlock, ThinkingBlock, ToolCallBlock } from './messages/index.js'
+import { TypingIndicator } from './messages/TypingIndicator.js'
 
 export function AssistantMessage() {
   return (
@@ -21,6 +22,11 @@ export function AssistantMessage() {
           },
         }}
       />
+      <MessagePrimitive.If last>
+        <ThreadPrimitive.If running>
+          <TypingIndicator />
+        </ThreadPrimitive.If>
+      </MessagePrimitive.If>
     </MessagePrimitive.Root>
   )
 }

@@ -150,5 +150,7 @@ function cleanText(text: string | undefined): string {
     .split('\n')
     .filter((line) => !line.includes('/private/tmp/claude-'))
     .join('\n')
+  // Strip "Human: " / "Assistant: " prefixes added by the SDK
+  cleaned = cleaned.replace(/^(Human|Assistant):\s*/i, '')
   return cleaned.trim()
 }

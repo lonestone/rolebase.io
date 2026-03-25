@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { streamText, convertToModelMessages } from 'ai'
 import { claudeCode } from 'ai-sdk-provider-claude-code'
+import type { CanUseTool } from 'ai-sdk-provider-claude-code'
 import {
   listSessions,
   getSessionMessages,
@@ -22,6 +23,41 @@ const allowedTools = [
   'TodoWrite',
   'NotebookEdit',
 ]
+
+// --- Permission request handling ---
+
+interface PendingPermission {
+  id: string
+  toolName: string
+  input: Record<string, unknown>
+  title?: string
+  decisionReason?: string
+  resolve: (result: { behavior: 'allow' } | { behavior: 'deny'; message: string }) => void
+}
+
+let pendingPermission: PendingPermission | null = null
+let permissionIdCounter = 0
+// SSE listeners waiting for permission events
+const permissionListeners = new Set<(perm: PendingPermission) => void>()
+
+const canUseTool: CanUseTool = async (toolName, input, options) => {
+  const id = String(++permissionIdCounter)
+  return new Promise((resolve) => {
+    const perm: PendingPermission = {
+      id,
+      toolName,
+      input,
+      title: options.title,
+      decisionReason: options.decisionReason,
+      resolve,
+    }
+    pendingPermission = perm
+    // Notify all SSE listeners
+    for (const listener of permissionListeners) {
+      listener(perm)
+    }
+  })
+}
 
 // Auth status cache
 let statusCache: {
@@ -159,9 +195,13 @@ claudeRoutes.post('/chat', async (c) => {
   const { messages } = body
   const sessionId = c.req.query('sessionId') || body.sessionId
 
+  // Clear any stale pending permission from a previous request
+  pendingPermission = null
+
   const result = streamText({
     model: claudeCode('sonnet', {
       allowedTools,
+      canUseTool,
       cwd: ROOT_DIR,
       ...(sessionId ? { resume: sessionId } : {}),
     }),
@@ -169,6 +209,66 @@ claudeRoutes.post('/chat', async (c) => {
   })
 
   return result.toUIMessageStreamResponse()
+})
+
+// SSE stream for permission requests (no polling needed)
+claudeRoutes.get('/permissions/events', (c) => {
+  const stream = new ReadableStream({
+    start(controller) {
+      const encoder = new TextEncoder()
+      const send = (perm: PendingPermission) => {
+        const data = JSON.stringify({
+          id: perm.id,
+          toolName: perm.toolName,
+          input: perm.input,
+          title: perm.title,
+          decisionReason: perm.decisionReason,
+        })
+        controller.enqueue(encoder.encode(`data: ${data}\n\n`))
+      }
+
+      // Send current pending permission if any
+      if (pendingPermission) send(pendingPermission)
+
+      // Listen for future permission requests
+      permissionListeners.add(send)
+
+      // Cleanup when client disconnects
+      c.req.raw.signal.addEventListener('abort', () => {
+        permissionListeners.delete(send)
+        controller.close()
+      })
+    },
+  })
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+    },
+  })
+})
+
+// Respond to a permission request
+claudeRoutes.post('/permissions/:id/respond', async (c) => {
+  const id = c.req.param('id')
+  const { behavior, message } = await c.req.json()
+
+  if (!pendingPermission || pendingPermission.id !== id) {
+    return c.json({ error: 'No matching pending permission' }, 404)
+  }
+
+  const perm = pendingPermission
+  pendingPermission = null
+
+  if (behavior === 'allow') {
+    perm.resolve({ behavior: 'allow', updatedInput: perm.input })
+  } else {
+    perm.resolve({ behavior: 'deny', message: message || 'User denied permission' })
+  }
+
+  return c.json({ ok: true })
 })
 
 // List recent conversations

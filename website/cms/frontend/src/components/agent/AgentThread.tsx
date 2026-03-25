@@ -2,12 +2,15 @@ import React, { useEffect } from 'react'
 import {
   ThreadPrimitive,
   ComposerPrimitive,
+  useAuiState,
 } from '@assistant-ui/react'
 import { UserMessage } from './UserMessage.js'
 import { AssistantMessage } from './AssistantMessage.js'
 import { RecentConversations } from './RecentConversations.js'
 import { LoadedMessages } from './LoadedMessages.js'
+import { PermissionRequest } from './PermissionRequest.js'
 import { useAutoScroll } from '../../hooks/useAutoScroll.js'
+import { usePendingPermission } from '../../hooks/usePendingPermission.js'
 import type { Conversation } from '../../api.js'
 
 interface Props {
@@ -22,10 +25,16 @@ export function AgentThread({
   onSelectConversation,
 }: Props) {
   const { ref: scrollRef, onScroll, scrollToBottom } = useAutoScroll<HTMLDivElement>()
+  const isRunning = useAuiState((s) => s.thread.isRunning)
+  const { permission, clear: clearPermission } = usePendingPermission(isRunning)
 
   useEffect(() => {
     scrollToBottom()
   }, [loadedMessages, scrollToBottom])
+
+  useEffect(() => {
+    if (permission) scrollToBottom()
+  }, [permission, scrollToBottom])
 
   const hasHistory = loadedMessages && loadedMessages.length > 0
 
@@ -39,10 +48,12 @@ export function AgentThread({
         {hasHistory ? (
           <LoadedMessages messages={loadedMessages} />
         ) : (
-          <RecentConversations
-            conversations={conversations}
-            onSelect={onSelectConversation}
-          />
+          <ThreadPrimitive.Empty>
+            <RecentConversations
+              conversations={conversations}
+              onSelect={onSelectConversation}
+            />
+          </ThreadPrimitive.Empty>
         )}
         <ThreadPrimitive.Messages
           components={{
@@ -50,6 +61,12 @@ export function AgentThread({
             AssistantMessage,
           }}
         />
+        {permission && (
+          <PermissionRequest
+            permission={permission}
+            onResolved={clearPermission}
+          />
+        )}
         <div className="h-2" />
       </div>
       <AgentComposer />
