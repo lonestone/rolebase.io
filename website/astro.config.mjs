@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { redirects } from './src/redirects'
 import rehypeMdClass from './src/rehype-md-class'
+import enrichMd from './src/integrations/enrich-md'
 
 export default defineConfig({
   vite: {
@@ -19,7 +20,7 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [rehypeMdClass],
   },
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap(), enrichMd()],
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
