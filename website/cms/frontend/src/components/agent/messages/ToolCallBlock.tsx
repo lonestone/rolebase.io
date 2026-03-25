@@ -145,6 +145,18 @@ function renderToolBody(name: string, input: any): ToolBody {
     }
   }
 
+  if (name === 'WebFetch') {
+    return {
+      summary: input.url || '',
+      content: input.prompt || null,
+      hasRawDetails: false,
+    }
+  }
+
+  if (name === 'WebSearch') {
+    return { summary: input.query || '', content: null, hasRawDetails: false }
+  }
+
   return { summary: '', content: null, hasRawDetails: true }
 }
 

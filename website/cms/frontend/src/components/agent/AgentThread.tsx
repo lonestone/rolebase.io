@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import {
   ThreadPrimitive,
   ComposerPrimitive,
   useAuiState,
+  useAui,
 } from '@assistant-ui/react'
 import { UserMessage } from './UserMessage.js'
 import { AssistantMessage } from './AssistantMessage.js'
@@ -79,6 +80,12 @@ export function AgentThread({
 }
 
 function AgentComposer() {
+  const isRunning = useAuiState((s) => s.thread.isRunning)
+  const aui = useAui()
+  const handleStop = useCallback(() => {
+    aui.thread().cancelRun()
+  }, [aui])
+
   return (
     <ComposerPrimitive.Root className="p-3 border-t border-border flex gap-2">
       <ComposerPrimitive.Input
@@ -87,6 +94,16 @@ function AgentComposer() {
         rows={3}
         autoFocus
       />
+      {isRunning && (
+        <button
+          onClick={handleStop}
+          className="self-end px-3 py-1.5 text-xs font-semibold rounded-md bg-red-600 text-white hover:bg-red-700 cursor-pointer"
+          aria-label="Stop generation"
+          tabIndex={0}
+        >
+          Stop
+        </button>
+      )}
     </ComposerPrimitive.Root>
   )
 }
