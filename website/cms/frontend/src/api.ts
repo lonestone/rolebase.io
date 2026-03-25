@@ -97,7 +97,44 @@ export async function gitDiscard(path: string): Promise<{ ok: boolean }> {
   return res.json()
 }
 
-// Claude conversations
+// Claude agent
+
+export interface ClaudeStatus {
+  authenticated: boolean
+  error?: string
+  account?: { email?: string; organization?: string }
+}
+
+export async function fetchClaudeStatus(
+  force = false
+): Promise<ClaudeStatus> {
+  const url = force
+    ? `${BASE}/claude/status?force=true`
+    : `${BASE}/claude/status`
+  const res = await fetch(url)
+  return res.json()
+}
+
+export interface LoginResult {
+  manualUrl?: string
+  automaticUrl?: string
+  error?: string
+}
+
+export async function startClaudeLogin(): Promise<LoginResult> {
+  const res = await fetch(`${BASE}/claude/login`, { method: 'POST' })
+  return res.json()
+}
+
+export interface LoginWaitResult {
+  account?: ClaudeStatus['account']
+  error?: string
+}
+
+export async function waitClaudeLogin(): Promise<LoginWaitResult> {
+  const res = await fetch(`${BASE}/claude/login/wait`, { method: 'POST' })
+  return res.json()
+}
 
 export interface Conversation {
   id: string
