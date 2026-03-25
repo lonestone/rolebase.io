@@ -92,20 +92,6 @@ body {
   @apply max-w-full;
 }
 
-.mdxeditor-select-content [data-editor-dropdown] {
-  @apply max-h-[50vh] overflow-y-auto;
-  scrollbar-width: thin;
-}
-
-.mdxeditor-select-content [data-editor-dropdown]::-webkit-scrollbar {
-  width: 6px;
-}
-
-.mdxeditor-select-content [data-editor-dropdown]::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-
 /* Slash command menu */
 .slash-command-menu {
   @apply bg-white border border-border rounded-md shadow-lg max-h-70 overflow-y-auto min-w-45;

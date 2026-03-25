@@ -25,8 +25,6 @@ import {
   InsertCodeBlock,
   ListsToggle,
   Separator,
-  ConditionalContents,
-  ChangeCodeMirrorLanguage,
   type JsxComponentDescriptor,
 } from '@mdxeditor/editor'
 import { CustomImageDialog } from './ImageDialog.js'
@@ -34,28 +32,23 @@ import { InsertComponent } from './InsertComponent.js'
 import { blockDragDropPlugin } from './BlockDragDropPlugin.js'
 import { slashCommandPlugin } from './SlashCommandPlugin.js'
 import { resolvePreviewSrc } from '../utils/resolvePreviewSrc.js'
-import { graphqlLanguageSupport } from 'cm6-graphql'
+import { LanguageDescription } from '@codemirror/language'
 import { languages } from '@codemirror/language-data'
+import { graphqlLanguageSupport } from 'cm6-graphql'
 import React from 'react'
 
-// Build codeBlockLanguages from @codemirror/language-data, deduplicated:
-// keep only the shortest alias per language name.
-const codeBlockLanguages: Record<string, string> = {
-  '': 'Plain text',
-  graphql: 'GraphQL',
-}
-const seen = new Map<string, string>() // label -> shortest key
-for (const lang of languages) {
-  const keys = [lang.name.toLowerCase(), ...lang.alias]
-  const label = lang.name
-  const prev = seen.get(label)
-  const shortest = keys.reduce((a, b) => (a.length <= b.length ? a : b))
-  if (prev === undefined || shortest.length < prev.length) {
-    if (prev !== undefined) delete codeBlockLanguages[prev]
-    seen.set(label, shortest)
-    codeBlockLanguages[shortest] = label
-  }
-}
+const graphqlLanguage = LanguageDescription.of({
+  name: 'GraphQL',
+  extensions: ['graphql', 'gql'],
+  support: graphqlLanguageSupport(),
+})
+
+const codeBlockLanguages = [
+  { name: 'Plain text', extensioins: [''] },
+  ...[...languages, graphqlLanguage].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  ),
+]
 
 interface CreatePluginsParams {
   filePath: string
@@ -85,10 +78,7 @@ export function createPlugins({
 
     markdownShortcutPlugin(),
     codeBlockPlugin({ defaultCodeBlockLanguage: '' }),
-    codeMirrorPlugin({
-      codeBlockLanguages,
-      codeMirrorExtensions: [graphqlLanguageSupport()],
-    }),
+    codeMirrorPlugin({ codeBlockLanguages }),
     jsxPlugin({ jsxComponentDescriptors: jsxDescriptors }),
     blockDragDropPlugin(),
     slashCommandPlugin(),
@@ -115,14 +105,6 @@ export function createPlugins({
           <InsertThematicBreak />
           <Separator />
           <InsertComponent />
-          <ConditionalContents
-            options={[
-              {
-                when: (editor) => editor?.editorType === 'codeblock',
-                contents: () => <ChangeCodeMirrorLanguage />,
-              },
-            ]}
-          />
         </DiffSourceToggleWrapper>
       ),
     }),

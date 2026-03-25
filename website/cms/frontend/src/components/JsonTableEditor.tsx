@@ -70,7 +70,7 @@ export default function JsonTableEditor({ value, schema, onChange }: Props) {
 
   return (
     <div className="py-1">
-      <table className="w-full border-collapse m-0 text-xs font-mono">
+      <table className="w-full border-collapse m-0! text-xs font-mono">
         <thead>
           <tr>
             {schema.map((s) => (
