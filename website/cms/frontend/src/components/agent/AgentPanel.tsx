@@ -1,76 +1,19 @@
-import React, { useState, useRef } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
-import { sendPrompt, stopClaude, type Conversation } from '../../api.js'
+import React, { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useResizablePanel } from '../../hooks/useResizablePanel.js'
 import { ResizeHandle } from '../ResizeHandle.js'
-import { AgentEventList } from './AgentEventList.js'
-import { AgentInput } from './AgentInput.js'
-import { ConversationList } from './ConversationList.js'
-import type { AgentEvent } from './types.js'
+import { ChatView } from './ChatView.js'
+import { fetchConversations, fetchConversationMessages } from '../../api.js'
+import { RiAddLine } from 'react-icons/ri'
 
 export function AgentPanel() {
-  const queryClient = useQueryClient()
-  const [events, setEvents] = useState<AgentEvent[]>([])
-  const [input, setInput] = useState('')
-  const [running, setRunning] = useState(false)
   const [sessionId, setSessionId] = useState<string | null>(null)
-  const abortRef = useRef<AbortController | null>(null)
+  const [loadedMessages, setLoadedMessages] = useState<any[] | null>(null)
 
-  const hasConversation = events.length > 0
-
-  function handleSubmit() {
-    const prompt = input.trim()
-    if (!prompt || running) return
-
-    setInput('')
-    setEvents((prev) => [...prev, { type: 'user_prompt', content: prompt }])
-    setRunning(true)
-
-    const controller = sendPrompt(
-      prompt,
-      (event) => {
-        // Capture session_id from result event
-        if (event.type === 'result' && event.session_id) {
-          setSessionId(event.session_id)
-        }
-        setEvents((prev) => [...prev, event])
-      },
-      () => {
-        setRunning(false)
-        queryClient.invalidateQueries({ queryKey: ['tree'] })
-        queryClient.invalidateQueries({ queryKey: ['gitStatus'] })
-      },
-      sessionId ?? undefined
-    )
-
-    abortRef.current = controller
-  }
-
-  function handleStop() {
-    abortRef.current?.abort()
-    stopClaude()
-    setRunning(false)
-  }
-
-  function handleSelectConversation(conv: Conversation) {
-    setSessionId(conv.id)
-    setEvents([
-      {
-        type: 'user_prompt',
-        content: conv.name || conv.firstMessage,
-      },
-      {
-        type: 'system',
-        subtype: 'resumed',
-        message: 'Conversation resumed',
-      },
-    ])
-  }
-
-  function handleNewConversation() {
-    setSessionId(null)
-    setEvents([])
-  }
+  const { data: conversations = [] } = useQuery({
+    queryKey: ['conversations'],
+    queryFn: () => fetchConversations(20),
+  })
 
   const { width, handleMouseDown } = useResizablePanel({
     storageKey: 'cms-agent-panel-width',
@@ -80,40 +23,39 @@ export function AgentPanel() {
     side: 'left',
   })
 
+  function handleNewConversation() {
+    setSessionId(null)
+    setLoadedMessages(null)
+  }
+
+  async function handleSelectConversation(id: string) {
+    setSessionId(id)
+    const messages = await fetchConversationMessages(id)
+    setLoadedMessages(messages)
+  }
+
   return (
     <>
       <ResizeHandle side="left" onMouseDown={handleMouseDown} />
       <aside style={{ width }} className="bg-bg-panel flex flex-col shrink-0">
         <div className="px-3 py-2.5 border-b border-border font-semibold text-xs flex items-center justify-between">
           <span>Agent</span>
-          {hasConversation && (
-            <button
-              onClick={handleNewConversation}
-              className="text-[10px] text-text-muted hover:text-text cursor-pointer"
-              aria-label="New conversation"
-              tabIndex={0}
-            >
-              + New
-            </button>
-          )}
+          <button
+            onClick={handleNewConversation}
+            className="p-1 rounded hover:bg-bg-hover text-text-muted hover:text-text cursor-pointer"
+            aria-label="New conversation"
+            tabIndex={0}
+          >
+            <RiAddLine size={14} />
+          </button>
         </div>
 
-        {hasConversation ? (
-          <AgentEventList
-            events={events}
-            running={running}
-            onPermissionResponse={() => {}}
-          />
-        ) : (
-          <ConversationList onSelect={handleSelectConversation} />
-        )}
-
-        <AgentInput
-          input={input}
-          running={running}
-          onInputChange={setInput}
-          onSubmit={handleSubmit}
-          onStop={handleStop}
+        <ChatView
+          key={sessionId}
+          sessionId={sessionId}
+          loadedMessages={loadedMessages}
+          conversations={conversations}
+          onSelectConversation={handleSelectConversation}
         />
       </aside>
     </>

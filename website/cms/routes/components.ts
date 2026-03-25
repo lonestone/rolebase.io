@@ -2,8 +2,9 @@ import { Hono } from 'hono'
 import { readdir, readFile } from 'fs/promises'
 import { join } from 'path'
 import * as ts from 'typescript'
+import { ROOT_DIR } from '../root.js'
 
-const COMPONENTS_DIR = join(process.cwd(), 'src/components')
+const COMPONENTS_DIR = join(ROOT_DIR, 'src/components')
 
 interface PropSchema {
   name: string

@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import { join, dirname } from 'path'
+import { ROOT_DIR } from '../root.js'
 import { parseContentSchemas } from './schema.js'
 
 const contentDir = process.env.CONTENT_DIR || 'src/content'
@@ -38,7 +39,7 @@ fileRoutes.get('/', async (c) => {
   }
 
   try {
-    const fullPath = join(process.cwd(), contentDir, filePath)
+    const fullPath = join(ROOT_DIR, contentDir, filePath)
     const content = await readFile(fullPath, 'utf-8')
 
     // Include frontmatter schema if the file belongs to a known collection
@@ -64,7 +65,7 @@ fileRoutes.post('/', async (c) => {
   }
 
   try {
-    const fullPath = join(process.cwd(), contentDir, body.path)
+    const fullPath = join(ROOT_DIR, contentDir, body.path)
     await mkdir(dirname(fullPath), { recursive: true })
     await writeFile(fullPath, body.content, 'utf-8')
     return c.json({ ok: true, path: body.path })

@@ -4,12 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev & tsx cms/server.ts",
-    "dev:astro": "astro dev",
-    "dev:cms": "npx vite dev --config cms/frontend/vite.config.ts",
+    "dev": "astro dev",
     "build": "astro build",
-    "build:cms": "vite build --config cms/frontend/vite.config.ts",
-    "cms": "tsx cms/server.ts",
     "preview": "astro preview",
     "astro": "astro",
     "postinstall": "patch-package --patch-dir patches"
@@ -18,28 +14,9 @@
     "@astrojs/mdx": "^5.0.2",
     "@astrojs/netlify": "^7.0.3",
     "@astrojs/sitemap": "^3.7.1",
-    "@hono/node-server": "^1.19.11",
-    "@mdxeditor/editor": "^3.53.1",
     "@tailwindcss/vite": "^4.2.2",
-    "@tanstack/react-query": "^5.91.2",
     "astro": "^6.0.6",
-    "cm6-graphql": "^0.2.1",
-    "country-flag-icons": "^1.6.15",
-    "hono": "^4.12.8",
     "iconsax-astro": "^0.0.2",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-icons": "^5.6.0",
-    "react-router": "^7.13.1",
-    "tailwindcss": "^4.2.2",
-    "tsx": "^4.21.0",
-    "yaml": "^2.8.2"
-  },
-  "devDependencies": {
-    "@types/prismjs": "^1.26.6",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^4.7.0",
-    "vite": "^7.3.1"
+    "tailwindcss": "^4.2.2"
   }
 }

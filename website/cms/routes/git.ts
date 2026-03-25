@@ -3,6 +3,7 @@ import { execFile } from 'child_process'
 import { promisify } from 'util'
 import { unlink } from 'fs/promises'
 import { join } from 'path'
+import { ROOT_DIR } from '../root.js'
 
 const exec = promisify(execFile)
 
@@ -11,7 +12,7 @@ let gitRoot: string | undefined
 async function getGitRoot() {
   if (!gitRoot) {
     const { stdout } = await exec('git', ['rev-parse', '--show-toplevel'], {
-      cwd: process.cwd(),
+      cwd: ROOT_DIR,
     })
     gitRoot = stdout.trimEnd()
   }

@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
+import { ROOT_DIR } from '../root.js'
 
 const contentDir = process.env.CONTENT_DIR || 'src/content'
 
@@ -20,7 +21,7 @@ uploadRoutes.post('/', async (c) => {
     return c.json({ error: 'Invalid path' }, 400)
   }
 
-  const fullDir = join(process.cwd(), contentDir, targetDir)
+  const fullDir = join(ROOT_DIR, contentDir, targetDir)
   await mkdir(fullDir, { recursive: true })
 
   const relPath = join(targetDir, file.name)

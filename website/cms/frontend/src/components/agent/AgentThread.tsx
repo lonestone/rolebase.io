@@ -1,0 +1,73 @@
+import React, { useEffect } from 'react'
+import {
+  ThreadPrimitive,
+  ComposerPrimitive,
+} from '@assistant-ui/react'
+import { UserMessage } from './UserMessage.js'
+import { AssistantMessage } from './AssistantMessage.js'
+import { RecentConversations } from './RecentConversations.js'
+import { LoadedMessages } from './LoadedMessages.js'
+import { useAutoScroll } from '../../hooks/useAutoScroll.js'
+import type { Conversation } from '../../api.js'
+
+interface Props {
+  loadedMessages: any[] | null
+  conversations: Conversation[]
+  onSelectConversation: (id: string) => void
+}
+
+export function AgentThread({
+  loadedMessages,
+  conversations,
+  onSelectConversation,
+}: Props) {
+  const { ref: scrollRef, onScroll, scrollToBottom } = useAutoScroll<HTMLDivElement>()
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [loadedMessages, scrollToBottom])
+
+  const hasHistory = loadedMessages && loadedMessages.length > 0
+
+  return (
+    <ThreadPrimitive.Root className="flex flex-col flex-1 overflow-hidden">
+      <div
+        ref={scrollRef}
+        onScroll={onScroll}
+        className="flex-1 overflow-y-auto p-3"
+      >
+        {hasHistory ? (
+          <LoadedMessages messages={loadedMessages} />
+        ) : (
+          <RecentConversations
+            conversations={conversations}
+            onSelect={onSelectConversation}
+          />
+        )}
+        <ThreadPrimitive.Messages
+          components={{
+            UserMessage,
+            AssistantMessage,
+          }}
+        />
+        <div className="h-2" />
+      </div>
+      <AgentComposer />
+    </ThreadPrimitive.Root>
+  )
+}
+
+function AgentComposer() {
+  return (
+    <ComposerPrimitive.Root className="p-3 border-t border-border flex gap-2">
+      <ComposerPrimitive.Input
+        placeholder="Ask Claude... (Enter to send)"
+        className="flex-1 p-2 border border-border rounded-md resize-none outline-none text-sm font-[inherit] bg-white min-h-[60px] max-h-[120px]"
+        rows={3}
+      />
+      <ComposerPrimitive.Send className="self-end px-3 py-1.5 text-xs font-semibold rounded-md bg-primary text-white hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-default">
+        Send
+      </ComposerPrimitive.Send>
+    </ComposerPrimitive.Root>
+  )
+}

@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { readdir } from 'fs/promises'
 import { join, relative } from 'path'
+import { ROOT_DIR } from '../root.js'
 
 const contentDir = process.env.CONTENT_DIR || 'src/content'
 
@@ -11,7 +12,7 @@ interface TreeNode {
   children?: TreeNode[]
 }
 
-const contentRoot = join(process.cwd(), contentDir)
+const contentRoot = join(ROOT_DIR, contentDir)
 
 async function buildTree(dir: string): Promise<TreeNode[]> {
   const entries = await readdir(dir, { withFileTypes: true })

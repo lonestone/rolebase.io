@@ -96,3 +96,41 @@ body {
 .slash-command-menu {
   @apply bg-white border border-border rounded-md shadow-lg max-h-70 overflow-y-auto min-w-45;
 }
+
+/* Agent panel markdown */
+.prose-agent p {
+  @apply my-1.5 first:mt-0 last:mb-0;
+}
+.prose-agent ul {
+  @apply my-1.5 list-disc pl-4;
+}
+.prose-agent ol {
+  @apply my-1.5 list-decimal pl-4;
+}
+.prose-agent li {
+  @apply mb-0.5;
+}
+.prose-agent code {
+  @apply rounded bg-bg-main px-1 py-0.5 text-[10px];
+}
+.prose-agent pre {
+  @apply my-1.5 overflow-x-auto rounded bg-[#1a1a2e] p-2 text-[10px] text-[#e2e8f0];
+}
+.prose-agent pre code {
+  @apply bg-transparent p-0;
+}
+.prose-agent a {
+  @apply text-primary underline;
+}
+.prose-agent h1,
+.prose-agent h2,
+.prose-agent h3,
+.prose-agent h4 {
+  @apply font-semibold mt-2 mb-1;
+}
+.prose-agent blockquote {
+  @apply my-1.5 border-l-2 border-text-muted pl-2 text-text-muted italic;
+}
+.prose-agent strong {
+  @apply font-semibold;
+}

@@ -2,6 +2,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { createJiti } from 'jiti'
 import { z } from 'zod'
+import { ROOT_DIR } from '../root.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -31,7 +32,7 @@ export async function parseContentSchemas(): Promise<
   Record<string, FrontmatterFieldSchema[]>
 > {
   const configPath = join(
-    process.cwd(),
+    ROOT_DIR,
     process.env.CONTENT_CONFIG || 'src/content.config.ts'
   )
 

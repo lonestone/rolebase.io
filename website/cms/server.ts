@@ -2,12 +2,17 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from '@hono/node-server/serve-static'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
+import { ROOT_DIR } from './root.js'
 import { treeRoutes } from './routes/tree.js'
 import { fileRoutes } from './routes/file.js'
 import { gitRoutes } from './routes/git.js'
 import { claudeRoutes } from './routes/claude.js'
 import { uploadRoutes } from './routes/upload.js'
 import { componentsRoutes } from './routes/components.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const port = parseInt(process.env.CMS_PORT || '4001')
 const contentDir = process.env.CONTENT_DIR || 'src/content'
@@ -29,7 +34,7 @@ app.route('/api/components', componentsRoutes)
 app.use(
   '/content/*',
   serveStatic({
-    root: './' + contentDir,
+    root: join(ROOT_DIR, contentDir),
     rewriteRequestPath: (path) => path.replace(/^\/content/, ''),
   })
 )
@@ -38,16 +43,16 @@ app.use(
 app.use(
   '/assets/*',
   serveStatic({
-    root: './' + assetsDir,
+    root: join(ROOT_DIR, assetsDir),
     rewriteRequestPath: (path) => path.replace(/^\/assets/, ''),
   })
 )
 
-// Serve CMS frontend (built files in cms/dist/)
-app.use('/*', serveStatic({ root: './cms/dist' }))
+// Serve CMS frontend (built files in dist/)
+app.use('/*', serveStatic({ root: join(__dirname, 'dist') }))
 
 // SPA fallback: serve index.html for all non-matched routes
-app.get('*', serveStatic({ root: './cms/dist', path: 'index.html' }))
+app.get('*', serveStatic({ root: join(__dirname, 'dist'), path: 'index.html' }))
 
 console.log(`CMS server running on http://localhost:${port}`)
 
