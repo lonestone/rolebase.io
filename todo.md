@@ -1,7 +1,3 @@
-sitemap -> redirects
-pages alternatives (blog posts)
-llms.txt et .md routes
-
 # TODO
 
 - Pages solutions : annuaire privé, communauté, animation de réseau
