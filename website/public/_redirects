@@ -1,6 +1,6 @@
-# Redirect root to browser language
-/  /fr  302  Language=fr
-/  /en  302
+# Redirect root to browser language (forced to override webapp's index.html)
+/  /fr  302!  Language=fr
+/  /en  302!
 
 # Glossary
 /glossaire-rbm/:slug  /fr/glossary/:slug  301
