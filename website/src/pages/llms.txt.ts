@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 import { getLangFromId, getSlugFromId } from '../i18n'
 
-const siteUrl = 'https://rolebase.io'
+const siteUrl = import.meta.env.SITE?.replace(/\/$/, '') || ''
 
 function notDraft(entry: { data: { draft?: boolean } }) {
   return !entry.data.draft

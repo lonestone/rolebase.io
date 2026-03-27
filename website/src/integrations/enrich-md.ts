@@ -33,13 +33,16 @@ function decodeHtmlEntities(str: string): string {
  * Extracts title and description from <head>, content from <main>.
  */
 export default function enrichMd(): AstroIntegration {
+  let siteUrl = ''
   return {
     name: 'enrich-md',
     hooks: {
+      'astro:config:done': ({ config }) => {
+        siteUrl = config.site?.replace(/\/$/, '') || ''
+      },
       'astro:build:done': ({ dir }) => {
         const distDir = fileURLToPath(dir)
         const htmlFiles = globSync('**/*.html', { cwd: distDir })
-        const siteUrl = 'https://rolebase.io'
 
         let generated = 0
 
