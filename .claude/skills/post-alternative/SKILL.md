@@ -31,24 +31,26 @@ Identify differentiators that matter most for this specific competitor. The angl
 
 ### 3. Take screenshots
 
-Take screenshots of both the competitor and Rolebase to include in the blog post. Use the screenshot skill script:
+Take screenshots of the competitor to include in the blog post. Use the screenshot skill script:
 
 ```bash
 node .claude/skills/screenshot/scripts/screenshot.js <url> <output.png>
 ```
 
 **Competitor screenshots:**
-- Homepage of the competitor
-- Key product pages (pricing, features) if relevant
+- Homepage of the competitor → save in the blog post folder: `website/src/content/blog/alternative-{competitor-slug}/competitor-homepage.png`
+- Key product pages (pricing, features) if relevant → same folder
+- Reference with relative path: `![Description](./competitor-homepage.png)`
 
-**Rolebase screenshots:**
-- Rolebase homepage: `https://rolebase.io` or relevant product pages
-- Key feature screens that match the differentiators identified in step 2
+**Rolebase screenshots (shared, do NOT duplicate):**
+Shared Rolebase screenshots are stored in `website/src/assets/screenshots/` and reused across all alternative posts. Available screenshots:
+- `rolebase-homepage.png`
+- `rolebase-features.png`
+- `rolebase-pricing.png`
 
-Save all screenshots in the blog post folder: `website/src/content/blog/alternative-{competitor-slug}/`.
-Use descriptive filenames (e.g., `competitor-homepage.png`, `rolebase-org-chart.png`).
+Reference them from MDX with: `![Description](../../../assets/screenshots/rolebase-homepage.png)`
 
-Reference screenshots in MDX with markdown image syntax: `![Description](./filename.png)`
+If a new Rolebase screenshot is needed, add it to `website/src/assets/screenshots/` (not in the blog post folder).
 
 ### 4. Style reference
 
@@ -80,14 +82,18 @@ The `image` field is the blog post thumbnail. Use the competitor homepage screen
 Target **2,500-3,500 words**. Follow this structure:
 
 1. **Opening paragraph** — The pain point driving people away, position Rolebase as the solution
-2. **Acknowledge the competitor** (1 paragraph) — Respectfully recognize strengths
-3. **Why teams look for alternatives** (H2) — 3-5 pain points from real user complaints
-4. **How Rolebase approaches things differently** (H2) — 3-5 differentiators as H3s, led by benefits, with Rolebase screenshots illustrating each point
-5. **Feature comparison** (H2) — Markdown table, 8-12 features, honest, dated
-6. **Pricing comparison** (H2) — Real prices, TCO, mention free tier and open source
-7. **Who should choose which?** (H2) — Recommendation by use case, OK to recommend competitor
-8. **Making the switch** (H2) — Migration ease, import features
-9. **Conclusion** (no CTA button — CTAs are automatically inserted by the blog layout)
+2. **Competitor homepage screenshot** — Insert `![Competitor name homepage](./competitor-homepage.png)` before the first H2
+3. **Acknowledge the competitor** (1 paragraph) — Respectfully recognize strengths
+4. **Why teams look for alternatives** (H2) — 3-5 pain points from real user complaints
+5. **How Rolebase approaches things differently** (H2) — 3-5 differentiators as H3s, led by benefits. Include all 3 shared Rolebase screenshots:
+   - `rolebase-features.png` — in the first differentiator section
+   - `rolebase-homepage.png` — in the org chart or visual section
+   - `rolebase-pricing.png` — in the pricing comparison section (step 7)
+6. **Feature comparison** (H2) — Markdown table, 8-12 features, honest, dated
+7. **Pricing comparison** (H2) — Insert `rolebase-pricing.png` after the H2, then real prices, TCO, mention free tier and open source
+8. **Who should choose which?** (H2) — Recommendation by use case, OK to recommend competitor
+9. **Making the switch** (H2) — Migration ease, import features
+10. **Conclusion** (no CTA button — CTAs are automatically inserted by the blog layout)
 
 #### Writing principles
 
@@ -100,6 +106,7 @@ See `references/alternative-page-guide.md` for the complete methodology. Key rul
 - Date your claims (pricing and features change).
 - Recommend the competitor when appropriate — builds trust.
 - Mirror language from real user reviews.
+- Never link to the competitor's website. Mention them by name only, no hyperlinks.
 
 #### SEO
 

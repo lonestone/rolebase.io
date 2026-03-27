@@ -14,7 +14,7 @@ const linkClass = 'no-underline hover:underline'
 
 <footer class="border-t border-border bg-bg-secondary py-12 px-6">
   <div class="max-w-5xl mx-auto">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-text-secondary">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-sm text-text-secondary">
 
       <div class="flex flex-col gap-4">
         <a href={lp('')} class="no-underline hover:no-underline">
@@ -37,8 +37,14 @@ const linkClass = 'no-underline hover:underline'
         <a href={lp('/features')} class={linkClass}>{t.features}</a>
         <a href={lp(t.clientCasesPath)} class={linkClass}>{t.clientCases}</a>
         <a href={lp('/pricing')} class={linkClass}>{t.pricing}</a>
-        <a href={lp('')} class={linkClass}>{t.altHolaspirit}</a>
-        <a href={lp('')} class={linkClass}>{t.altNestr}</a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="font-medium text-text-main">{t.footerComparisons}</span>
+        <a href={lp('/blog/alternative-holaspirit')} class={linkClass}>{t.altHolaspirit}</a>
+        <a href={lp('/blog/alternative-nestr')} class={linkClass}>{t.altNestr}</a>
+        <a href={lp('/blog/alternative-glassfrog')} class={linkClass}>{t.altGlassfrog}</a>
+        <a href={lp('/blog/alternative-peerdom')} class={linkClass}>{t.altPeerdom}</a>
       </div>
 
       <div class="flex flex-col gap-2">

@@ -13,6 +13,7 @@ module.exports = function cleanup() {
     '.cc-banner', '#onetrust-banner-sdk',
     '[aria-label*="cookie"]', '[aria-label*="consent"]',
     '#CybotCookiebotDialog', '[id*="Cookiebot"]',
+    '#cc--main',
   ];
   cookieSelectors.forEach((sel) => {
     document.querySelectorAll(sel).forEach((el) => el.remove());

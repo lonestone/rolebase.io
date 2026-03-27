@@ -36,10 +36,10 @@ export const redirects: Redirects = {
   '/plateforme/fil-dactualites': '/fr/features',
   '/plateforme/next-step-de-reunion': '/fr/features',
 
-  // Alternatives → /fr/features (no equivalent in new site)
+  // Alternatives
   '/alternatives': '/fr/features',
-  '/alternatives/holaspirit': '/fr/features',
-  '/alternatives/glassfrog': '/fr/features',
+  '/alternatives/holaspirit': '/fr/blog/alternative-holaspirit',
+  '/alternatives/glassfrog': '/fr/blog/alternative-glassfrog',
   '/alternatives/notion': '/fr/features',
   '/alternatives/slite': '/fr/features',
   '/alternatives/lucidchart': '/fr/features',
