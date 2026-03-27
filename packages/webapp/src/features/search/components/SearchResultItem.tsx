@@ -1,6 +1,6 @@
 import CircleByIdButton from '@/circle/components/CircleByIdButton'
 import useDateLocale from '@/common/hooks/useDateLocale'
-import { Box, Button, ButtonProps, Spacer, Text } from '@chakra-ui/react'
+import { Box, BoxProps, Spacer, Text } from '@chakra-ui/react'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React, { useMemo } from 'react'
@@ -9,16 +9,17 @@ import SearchResultIcon from './SearchResultIcon'
 
 export const searchItemTitleSeparator = ' › '
 
-interface Props extends ButtonProps {
+interface Props extends BoxProps {
   item?: SearchItem
   prevItem?: SearchItem
   standalone?: boolean
   highlighted?: boolean
+  size?: string
 }
 
-export default React.forwardRef<HTMLButtonElement, Props>(
+export default React.forwardRef<HTMLDivElement, Props>(
   function SearchResultItem(
-    { item, prevItem, standalone, highlighted, ...buttonProps },
+    { item, prevItem, standalone, highlighted, size, ...boxProps },
     ref
   ) {
     const dateLocale = useDateLocale()
@@ -56,19 +57,26 @@ export default React.forwardRef<HTMLButtonElement, Props>(
     }, [item, prevItem])
 
     return (
-      <Button
-        isActive={highlighted}
+      <Box
+        role="option"
+        tabIndex={0}
+        aria-label={item?.title}
+        aria-selected={highlighted || undefined}
         ref={ref}
         pointerEvents="auto"
+        display="flex"
+        alignItems="center"
         justifyContent="start"
-        variant="solid"
+        cursor="pointer"
         py={2}
         pl={`calc(var(--chakra-sizes-3) + ${depth * 20}px)`}
-        {...buttonProps}
+        _hover={{ bg: 'gray.100', _dark: { bg: 'whiteAlpha.100' } }}
+        {...boxProps}
+        bg={highlighted ? (boxProps?._active as any)?.bg : boxProps?.bg}
       >
         {item && (
           <>
-            <SearchResultIcon item={item} size={buttonProps?.size} />
+            <SearchResultIcon item={item} size={size} />
             <Box ml={2} textAlign="left">
               {title}
             </Box>
@@ -93,12 +101,12 @@ export default React.forwardRef<HTMLButtonElement, Props>(
               <CircleByIdButton
                 id={item.circleId}
                 ml={2}
-                size={buttonProps?.size === 'sm' ? 'xs' : 'sm'}
+                size={size === 'sm' ? 'xs' : 'sm'}
               />
             )}
           </>
         )}
-      </Button>
+      </Box>
     )
   }
 )

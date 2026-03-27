@@ -1,8 +1,8 @@
 import {
+  Box,
   Button,
   ButtonProps,
   HTMLChakraProps,
-  IconButton,
   Spacer,
   forwardRef,
 } from '@chakra-ui/react'
@@ -91,21 +91,37 @@ export default forwardRef(function SidebarItem(
 
       <Spacer />
       {onAdd && (
-        <IconButton
+        <Box
+          as="span"
+          role="button"
+          tabIndex={0}
           aria-label={t('common.add')}
-          icon={<AddIcon size={20} />}
           onClick={handleAddClick}
-          variant="ghost"
-          size="sm"
-          color="gray"
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              onAdd()
+            }
+          }}
+          display="inline-flex"
+          alignItems="center"
+          justifyContent="center"
+          borderRadius="md"
+          p={1}
           mr={2}
+          color="gray"
+          cursor="pointer"
           _hover={{
             color: 'black',
+            bg: 'blackAlpha.100',
             _dark: {
               color: 'white',
+              bg: 'whiteAlpha.200',
             },
           }}
-        />
+        >
+          <AddIcon size={20} />
+        </Box>
       )}
     </Button>
   )

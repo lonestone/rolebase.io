@@ -68,7 +68,6 @@ export default function SearchButton({
     selectItem,
     getMenuProps,
     getInputProps,
-    getComboboxProps,
     getItemProps,
   } = useCombobox({
     items: filteredItems,
@@ -105,7 +104,7 @@ export default function SearchButton({
   }
 
   return (
-    <Box {...getComboboxProps()}>
+    <Box>
       <InputGroup size={size}>
         {!isOpen && (
           <Button ref={buttonRef} {...buttonProps} onClick={handleClick}>

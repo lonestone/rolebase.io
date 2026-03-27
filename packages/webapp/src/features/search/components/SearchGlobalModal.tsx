@@ -4,7 +4,6 @@ import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import { ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
 import {
-  Box,
   Button,
   HStack,
   Input,
@@ -86,7 +85,6 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
     highlightedIndex,
     getMenuProps,
     getInputProps,
-    getComboboxProps,
     getItemProps,
     inputValue,
   } = useCombobox({
@@ -110,28 +108,29 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
     <Modal size="lg" closeOnEsc {...modalProps}>
       <ModalOverlay />
       <ModalContent p={5} bg="white" _dark={{ bg: 'gray.800' }}>
-        <Box {...getComboboxProps()}>
-          <InputGroup size="lg">
-            <InputLeftElement pointerEvents="none">
-              <SearchIcon color="gray.500" />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder={t('SearchGlobalModal.placeholder', {
-                org: org?.name,
-              })}
-              borderRadius="md"
-              background={colorMode === 'light' ? 'white' : 'gray.800'}
-              {...getInputProps({
+        <InputGroup size="lg">
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon color="gray.500" />
+          </InputLeftElement>
+          <Input
+            type="text"
+            placeholder={t('SearchGlobalModal.placeholder', {
+              org: org?.name,
+            })}
+            borderRadius="md"
+            background={colorMode === 'light' ? 'white' : 'gray.800'}
+            {...getInputProps(
+              {
                 onKeyDown(event) {
                   if (event.key === 'Escape') {
                     ;(event as any).preventDownshiftDefault = true
                   }
                 },
-              })}
-            />
-          </InputGroup>
-        </Box>
+              },
+              { suppressRefError: true }
+            )}
+          />
+        </InputGroup>
 
         <HStack mt={2}>
           <Text>{t('SearchGlobalModal.in')}</Text>
@@ -165,36 +164,40 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
           </Menu>
         </HStack>
 
+        <List
+          mt={3}
+          mx={-5}
+          {...getMenuProps({}, { suppressRefError: true })}
+          display={!loading && items.length > 0 ? undefined : 'none'}
+        >
+          {items.slice(0, maxDisplayedItems).map((item, index) => (
+            <ListItem key={index} mb={1}>
+              <SearchResultItem
+                item={item}
+                highlighted={index === highlightedIndex}
+                size="sm"
+                w="100%"
+                h="auto"
+                whiteSpace="break-spaces"
+                py={2}
+                px={5}
+                bg="transparent"
+                borderRadius="none"
+                _active={{
+                  bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
+                }}
+                {...getItemProps({ item, index })}
+              />
+            </ListItem>
+          ))}
+        </List>
         {loading ? (
           <Loading active size="sm" />
-        ) : noResult ? (
-          <Text color="gray.500" fontSize="sm" textAlign="center" mt={3}>
-            {t('SearchGlobalModal.noResults')}
-          </Text>
         ) : (
-          items.length > 0 && (
-            <List mt={3} mx={-5} {...getMenuProps()}>
-              {items.slice(0, maxDisplayedItems).map((item, index) => (
-                <ListItem key={index} mb={1}>
-                  <SearchResultItem
-                    item={item}
-                    highlighted={index === highlightedIndex}
-                    size="sm"
-                    w="100%"
-                    h="auto"
-                    whiteSpace="break-spaces"
-                    py={2}
-                    px={5}
-                    bg="transparent"
-                    borderRadius="none"
-                    _active={{
-                      bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
-                    }}
-                    {...getItemProps({ item, index })}
-                  />
-                </ListItem>
-              ))}
-            </List>
+          noResult && (
+            <Text color="gray.500" fontSize="sm" textAlign="center" mt={3}>
+              {t('SearchGlobalModal.noResults')}
+            </Text>
           )
         )}
       </ModalContent>

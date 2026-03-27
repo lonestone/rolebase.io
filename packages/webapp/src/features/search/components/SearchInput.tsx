@@ -74,7 +74,6 @@ export default function SearchInput({
     selectItem,
     getMenuProps,
     getInputProps,
-    getComboboxProps,
     getItemProps,
   } = useCombobox({
     items: filteredItems,
@@ -93,7 +92,7 @@ export default function SearchInput({
   )
 
   // Button
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLDivElement>(null)
   const buttonGroupRef = useRef<HTMLDivElement>(null)
   const buttonDimensions = useElementSize(buttonGroupRef)
   const [buttonWidth, setButtonWidth] = useState<number>(0)
@@ -123,7 +122,7 @@ export default function SearchInput({
   const inputVisible = isOpen || !valueItem
 
   return (
-    <Box display="flex" {...getComboboxProps()}>
+    <Box display="flex">
       <ButtonGroup
         ref={buttonGroupRef}
         display={inputVisible ? 'none' : undefined}
@@ -144,7 +143,7 @@ export default function SearchInput({
             item={valueItem}
             standalone
             highlighted={false}
-            {...buttonGroup}
+            size={buttonGroup?.size as string}
             pr={onClear ? 1 : undefined}
             borderRight={onClear ? 'none' : undefined}
             overflow="hidden"
@@ -174,7 +173,6 @@ export default function SearchInput({
 
       <Input
         type="text"
-        onFocus={openMenu}
         display={inputVisible ? '' : 'none'}
         w={buttonWidth ? `${buttonWidth}px` : 'auto'}
         {...buttonGroup}
