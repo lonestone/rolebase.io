@@ -12,8 +12,8 @@ export default {
     ? 'https://staging--rolebase.netlify.app'
     : 'https://rolebase.io',
 
-  // Website to redirect unauthentified users to
-  websiteUrl: 'https://www.rolebase.io',
+  // Website url
+  websiteUrl: 'https://rolebase.io',
 
   // Nhost
   nhost: {

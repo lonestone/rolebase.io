@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm ci && npx turbo build && cd website && npm install && npm run build && cd .. && mkdir -p dist && cp -r packages/webapp/dist/* dist/ && cp -r website/dist/* dist/ && echo '/*  /index.html  200' >> dist/_redirects"
   publish = "dist"
 
 # Redirect root to browser language
@@ -14,9 +14,8 @@
   to = "/en"
   status = 302
 
-# Glossary: /glossaire-rbm/:slug → /fr/glossary/:slug
+# Glossary: /glossaire-rbm/:slug -> /fr/glossary/:slug
 [[redirects]]
   from = "/glossaire-rbm/:slug"
   to = "/fr/glossary/:slug"
   status = 301
-

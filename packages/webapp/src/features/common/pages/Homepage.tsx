@@ -1,17 +1,6 @@
 import AuthPage from '@/user/pages/AuthPage'
-import React, { useEffect } from 'react'
-import settings, { isLocal, isStaging } from 'src/settings'
-import Loading from '../atoms/Loading'
-
-const redirectToWebsite = !isLocal && !isStaging
+import React from 'react'
 
 export default function Homepage() {
-  // Redirect to website (prod only)
-  useEffect(() => {
-    if (redirectToWebsite) {
-      window.location.href = settings.websiteUrl
-    }
-  }, [])
-
-  return redirectToWebsite ? <Loading active center /> : <AuthPage />
+  return <AuthPage />
 }
