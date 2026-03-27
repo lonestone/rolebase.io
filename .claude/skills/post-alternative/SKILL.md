@@ -42,7 +42,7 @@ node .claude/skills/screenshot/scripts/screenshot.js <url> <output.png>
 - Key product pages (pricing, features) if relevant
 
 **Rolebase screenshots:**
-- Rolebase homepage: `https://www.rolebase.io` or relevant product pages
+- Rolebase homepage: `https://rolebase.io` or relevant product pages
 - Key feature screens that match the differentiators identified in step 2
 
 Save all screenshots in the blog post folder: `website/src/content/blog/alternative-{competitor-slug}/`.

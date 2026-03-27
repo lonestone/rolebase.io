@@ -2,7 +2,7 @@ export const DUMMY_MARKDOWN = `# Welcome to the Editor story
 
 This is a **story** for the richtext editor. It contains:
 * List
-* [link](https://rolebase.io), 
+* [link](https://rolebase.io),
 * \`code\`
 * _style!_
 

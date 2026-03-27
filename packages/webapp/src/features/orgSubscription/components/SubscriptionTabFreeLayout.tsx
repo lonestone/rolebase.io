@@ -10,7 +10,7 @@ import SubscriptionFreePlanCardFooter from './SubscriptionFreePlanCardFooter'
 import SubscriptionPlanCard from './SubscriptionPlanCard'
 
 export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const plansData = useSubscriptionPlanData()
   const [selectedPlanType, setSelectedPlanType] =
     useState<Subscription_Plan_Type_Enum | null>(null)
@@ -50,7 +50,7 @@ export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
         <Flex w="100%" justifyContent="end">
           <Button
             as="a"
-            href="https://www.rolebase.io/contact"
+            href={`/${i18n.language}/contact`}
             target="_blank"
             leftIcon={<EmailIcon />}
             colorScheme="gray"

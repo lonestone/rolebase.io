@@ -1280,7 +1280,7 @@
     "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
     "emptyParagraphPlaceholder": "Appuyez sur \"/\" pour afficher les commandes…",
-    "termsAndPrivacy": "les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions générales</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de confidentialité</a>",
+    "termsAndPrivacy": "les <a href=\"/fr/terms\">Conditions générales</a> et la <a href=\"/fr/privacy\">Politique de confidentialité</a>",
     "dates": {
       "today": "Aujourd'hui",
       "tomorrow": "Demain",

@@ -27,7 +27,7 @@ export default function SubscriptionTabSubLayout({
   onSubscriptionUpdated,
   ...flexProps
 }: SubscriptionTabSubLayoutProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const plansData = useSubscriptionPlanData()
   const [currentPlanData, setCurrentPlanData] = useState<SubscriptionPlan>()
   const {
@@ -117,7 +117,7 @@ export default function SubscriptionTabSubLayout({
             <Button
               as="a"
               variant="outline"
-              href="https://www.rolebase.io/contact"
+              href={`/${i18n.language}/contact`}
               target="_blank"
               leftIcon={<EmailIcon />}
             >

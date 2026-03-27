@@ -1247,7 +1247,7 @@
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",
     "emptyParagraphPlaceholder": "Press '/' for commands…",
-    "termsAndPrivacy": "the <a href=\"https://en.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</a> and the <a href=\"https://en.rolebase.io/privacy\">Privacy Policy</a>",
+    "termsAndPrivacy": "the <a href=\"/en/terms\">Terms and Conditions</a> and the <a href=\"/en/privacy\">Privacy Policy</a>",
     "dates": {
       "today": "Today",
       "tomorrow": "Tomorrow",

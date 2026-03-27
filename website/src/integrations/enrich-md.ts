@@ -39,7 +39,7 @@ export default function enrichMd(): AstroIntegration {
       'astro:build:done': ({ dir }) => {
         const distDir = fileURLToPath(dir)
         const htmlFiles = globSync('**/*.html', { cwd: distDir })
-        const siteUrl = 'https://www.rolebase.io'
+        const siteUrl = 'https://rolebase.io'
 
         let generated = 0
 
