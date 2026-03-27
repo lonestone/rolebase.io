@@ -1,0 +1,6 @@
+# Redirect root to browser language
+/  /fr  302  Language=fr
+/  /en  302
+
+# Glossary
+/glossaire-rbm/:slug  /fr/glossary/:slug  301
