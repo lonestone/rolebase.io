@@ -132,7 +132,7 @@ When modifying the product, update the documentation accordingly **in both EN an
 
 ### Guidelines
 
-- Always use the `<Button>` component (`src/components/Button.astro`) for buttons and call-to-action links. Available variants: `yellow`, `orange`, `primary`, `outline-primary`, `outline`. Sizes: `sm`, `md`.
+- Always use the `<Button>` component (`src/components/Button.astro`) for buttons and call-to-action links. Use the `label` prop for text (not children). Available variants: `yellow`, `orange`, `primary`, `outline-primary`, `outline`. Sizes: `sm`, `md`.
 - All `.astro` components in `src/components/` (recursively) are automatically available in all MDX content. Do not add import statements for these components in MDX files. To add a new MDX component, place it in `src/components/` and it will be auto-discovered.
 - Documentation and guides are written for non-technical users. Keep developer/technical content (API, GraphQL, self-hosting, code) in the Developers section.
 - Sidebar links for documentation and guides are defined in `src/i18n.ts` (`docsLinks` and `guidesLinks`).

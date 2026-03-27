@@ -8,7 +8,7 @@ import {
 
 export const SubscriptionLimits = {
   free: 5,
-  [Subscription_Plan_Type_Enum.Startup]: 200,
+  [Subscription_Plan_Type_Enum.Startup]: Infinity,
   [Subscription_Plan_Type_Enum.Business]: Infinity,
 } satisfies Record<Subscription_Plan_Type_Enum | 'free', number>
 

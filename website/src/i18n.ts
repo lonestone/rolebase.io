@@ -19,6 +19,7 @@ export const translations = {
     ctaDescription:
       'Clarify roles, run efficient meetings, and make better decisions as a team.',
     ctaButton: 'Book a demo',
+    ctaButtonSelfServe: 'Try on your own',
     sidebarToc: 'Table of contents',
     sidebarTagline:
       'Rolebase is the open-source platform for self-managed organizations.',
@@ -72,6 +73,7 @@ export const translations = {
     ctaDescription:
       'Clarifiez les rôles, menez des réunions efficaces et prenez de meilleures décisions en équipe.',
     ctaButton: 'Demander une démo',
+    ctaButtonSelfServe: 'Tester en autonomie',
     sidebarToc: 'Sommaire',
     sidebarTagline:
       'Rolebase est la plateforme open-source pour les organisations auto-gouvernées.',

@@ -67,10 +67,13 @@ Create both `en.mdx` and `fr.mdx` in `website/src/content/blog/alternative-{comp
 title: 'Best Alternative to {Competitor} for {Use Case}'
 summary: 'One-sentence summary highlighting the key differentiator'
 date: {today YYYY-MM-DD}
+image: './competitor-homepage.png'
 similarPosts:
   - 'open-source-org-chart-tools'
 ---
 ```
+
+The `image` field is the blog post thumbnail. Use the competitor homepage screenshot as the thumbnail image.
 
 #### Post structure
 
@@ -84,7 +87,7 @@ Target **2,500-3,500 words**. Follow this structure:
 6. **Pricing comparison** (H2) — Real prices, TCO, mention free tier and open source
 7. **Who should choose which?** (H2) — Recommendation by use case, OK to recommend competitor
 8. **Making the switch** (H2) — Migration ease, import features
-9. **Conclusion with CTA**
+9. **Conclusion** (no CTA button — CTAs are automatically inserted by the blog layout)
 
 #### Writing principles
 
