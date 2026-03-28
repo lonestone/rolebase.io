@@ -20,18 +20,15 @@
     />
     <title>Rolebase</title>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-6PHDDZW2V2"
-    ></script>
+    <!-- Umami Analytics (production only) -->
     <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
+      if (location.hostname === 'rolebase.io') {
+        var s = document.createElement('script')
+        s.defer = true
+        s.src = 'https://umami.internal.lonestone.io/script.js'
+        s.dataset.websiteId = 'bd9370b9-340a-41e4-b25f-e865fb445c63'
+        document.head.appendChild(s)
       }
-      gtag('js', new Date())
-      gtag('config', 'G-6PHDDZW2V2')
     </script>
   </head>
   <body>
