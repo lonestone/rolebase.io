@@ -7,11 +7,15 @@ import { redirects } from './src/redirects'
 import rehypeMdClass from './src/rehype-md-class'
 import enrichMd from './src/integrations/enrich-md'
 
+const site = 'https://rolebase.io'
+const defaultLocale = 'en'
+const locales = ['en', 'fr']
+
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: 'https://rolebase.io',
+  site,
   adapter: netlify({ imageCDN: true, edgeMiddleware: false }),
   output: 'static',
   trailingSlash: 'never',
@@ -20,10 +24,21 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [rehypeMdClass],
   },
-  integrations: [mdx(), sitemap(), enrichMd()],
+  integrations: [
+    mdx(),
+    sitemap({
+      // Exclude root URL (redirects to /en/) to avoid duplicate hreflang entries
+      filter: (page) => page !== `${site}/`,
+      i18n: {
+        defaultLocale,
+        locales: Object.fromEntries(locales.map((l) => [l, l])),
+      },
+    }),
+    enrichMd(),
+  ],
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'fr'],
+    defaultLocale,
+    locales,
     routing: {
       prefixDefaultLocale: true,
     },
