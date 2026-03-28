@@ -2,7 +2,7 @@
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 import Button from './Button.astro'
-import { getLocaleFromPath, translations } from '../i18n'
+import { getLangFromUrl, getTranslations } from '../i18n'
 
 interface Props {
   headings: { depth: number; slug: string; text: string }[]
@@ -15,8 +15,8 @@ const stripLeadingNumber = (text: string) =>
 const h2s = headings
   .filter((h) => h.depth === 2)
   .map((h) => ({ ...h, text: stripLeadingNumber(h.text) }))
-const locale = getLocaleFromPath(Astro.url.pathname)
-const t = translations[locale]
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
 ---
 
 {image && (
@@ -35,7 +35,7 @@ const t = translations[locale]
         id="toc-nav"
         class="space-y-1 rounded-2xl bg-gray-50 px-4 py-4 transition-all duration-300 ease-in-out overflow-hidden"
       >
-        <p class="px-2 py-2 text-lg font-medium">{t.sidebarToc}</p>
+        <p class="px-2 py-2 text-lg font-medium">{t.sidebar.toc}</p>
         {h2s.map((h, i) => (
           <a
             href={`#${h.slug}`}
@@ -50,7 +50,7 @@ const t = translations[locale]
         id="toc-select"
         class="block w-full rounded-xl bg-gray-50 px-4 text-base text-gray-700 outline-none transition-all duration-300 ease-in-out overflow-hidden opacity-0 h-0 border-0"
       >
-        <option value="" disabled>{t.sidebarToc}</option>
+        <option value="" disabled>{t.sidebar.toc}</option>
         {h2s.map((h, i) => (
           <option value={h.slug}>
             {i + 1}. {h.text}
@@ -62,16 +62,16 @@ const t = translations[locale]
 
   <div class="rounded-2xl bg-yellow-50 p-6 text-base leading-relaxed">
     <p class="font-medium">
-      {t.sidebarTagline}
+      {t.sidebar.tagline}
     </p>
     <p class="mt-3 text-gray-600">
-      {t.ctaDescription}
+      {t.cta.description}
     </p>
     <p class="mt-3">
-      <a href={`/${locale}`} class="underline">{t.sidebarDiscover}</a>
+      <a href={`/${lang}`} class="underline">{t.sidebar.discover}</a>
     </p>
     <div class="text-center">
-      <Button href={`/${locale}/contact`} variant="orange" class="mt-4" label={t.ctaButton} />
+      <Button href={`/${lang}/contact`} variant="orange" class="mt-4" label={t.cta.button} />
     </div>
   </div>
 </div>

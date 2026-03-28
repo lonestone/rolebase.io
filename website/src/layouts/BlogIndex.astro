@@ -2,28 +2,28 @@
 import { getCollection } from 'astro:content'
 import WebsiteLayout from './WebsiteLayout.astro'
 import BlogCard from '../components/BlogCard.astro'
-import { type Locale, translations } from '../i18n'
+import { type Lang, getTranslations } from '../i18n'
 
 interface Props {
-  locale: Locale
+  lang: Lang
 }
 
-const { locale } = Astro.props
-const t = translations[locale]
+const { lang } = Astro.props
+const t = await getTranslations(lang)
 
-const posts = (await getCollection('blog', (post) => post.id.endsWith(`/${locale}`)))
+const posts = (await getCollection('blog', (post) => post.id.endsWith(`/${lang}`)))
   .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
 ---
 
-<WebsiteLayout title={t.blogTitle}>
+<WebsiteLayout title={t.blog.title}>
   <div class="mb-10">
-    <h1 class="text-4xl font-bold mb-3">{t.blogTitle}</h1>
-    <p class="text-lg text-text-secondary">{t.blogSubtitle}</p>
+    <h1 class="text-4xl font-bold mb-3">{t.blog.title}</h1>
+    <p class="text-lg text-text-secondary">{t.blog.subtitle}</p>
   </div>
 
   <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
     {posts.map((post) => (
-      <BlogCard post={post} locale={locale} />
+      <BlogCard post={post} lang={lang} />
     ))}
   </div>
 </WebsiteLayout>

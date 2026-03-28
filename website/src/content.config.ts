@@ -94,6 +94,10 @@ const glossary = defineCollection({
   }),
 })
 
+const translations = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/translations' }),
+})
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
   schema: z.object({
@@ -110,5 +114,6 @@ export const collections = {
   'api-categories': apiCategories,
   api,
   glossary,
+  translations,
   pages,
 }

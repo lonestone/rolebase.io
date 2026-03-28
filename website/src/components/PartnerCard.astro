@@ -2,7 +2,7 @@
 import Button from './Button.astro'
 import { Image } from 'astro:assets'
 import { resolveContentImage, type ImagePath } from '../resolve-image'
-import { getLocaleFromPath, translations } from '../i18n'
+import { getLangFromUrl, getTranslations } from '../i18n'
 
 interface Props {
   name: string
@@ -11,8 +11,8 @@ interface Props {
 }
 
 const { name, logo, url } = Astro.props
-const locale = getLocaleFromPath(Astro.url.pathname)
-const t = translations[locale]
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
 
 const resolvedImage = await resolveContentImage(logo)
 ---
@@ -40,6 +40,6 @@ const resolvedImage = await resolveContentImage(logo)
     <p class="text-text-secondary mb-4">
       <slot />
     </p>
-    <Button href={url} variant="outline-primary" size="sm" targetBlank label={t.partnersVisitWebsite} />
+    <Button href={url} variant="outline-primary" size="sm" targetBlank label={t.partners.visitWebsite} />
   </div>
 </div>

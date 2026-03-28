@@ -1,5 +1,5 @@
 ---
-import { getLocaleFromPath, localePath } from '../i18n'
+import { getLangFromUrl, langPath } from '../i18n'
 
 interface Props {
   path: string
@@ -11,8 +11,8 @@ interface Props {
 const { path, href, exact = false, code = false } = Astro.props
 
 const currentPath = Astro.url.pathname
-const locale = getLocaleFromPath(currentPath)
-const resolvedHref = href ?? localePath(locale, path)
+const lang = getLangFromUrl(Astro.url)
+const resolvedHref = href ?? langPath(lang, path)
 const active = exact ? currentPath === resolvedHref : currentPath.includes(path)
 ---
 

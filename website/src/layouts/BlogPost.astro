@@ -7,22 +7,22 @@ import BlogCard from '../components/BlogCard.astro'
 import InlineCta from '../components/InlineCta.astro'
 import { mdxComponents } from '../components'
 import Breadcrumb from '../components/Breadcrumb.astro'
-import { type Locale, translations, localePath, getSlugFromId } from '../i18n'
+import { type Lang, getTranslations, langPath, getSlugFromId } from '../i18n'
 
 interface Props {
   post: CollectionEntry<'blog'>
-  locale: Locale
+  lang: Lang
 }
 
-const { post, locale } = Astro.props
-const t = translations[locale]
+const { post, lang } = Astro.props
+const t = await getTranslations(lang)
 const { Content, headings } = await render(post)
-const dateLocale = locale === 'fr' ? 'fr-FR' : 'en-US'
+const dateLang = lang === 'fr' ? 'fr-FR' : 'en-US'
 
 const similarSlugs = post.data.similarPosts ?? []
 let similarPosts: CollectionEntry<'blog'>[] = []
 if (similarSlugs.length > 0) {
-  const allPosts = await getCollection('blog', (p) => p.id.endsWith(`/${locale}`))
+  const allPosts = await getCollection('blog', (p) => p.id.endsWith(`/${lang}`))
   similarPosts = similarSlugs
     .map((slug) => allPosts.find((p) => getSlugFromId(p.id) === slug))
     .filter((p): p is CollectionEntry<'blog'> => !!p)
@@ -32,7 +32,7 @@ if (similarSlugs.length > 0) {
 <BlogLayout title={post.data.title}>
   <article class="min-w-0 flex-1">
     <header class="mb-10 pb-6 border-b border-gray-100">
-      <Breadcrumb category={t.blog} categoryUrl={localePath(locale, '/blog')} title={post.data.title} hideTitle class="mb-3" />
+      <Breadcrumb category={t.blog.label} categoryUrl={langPath(lang, '/blog')} title={post.data.title} hideTitle class="mb-3" />
       <h1 class="mb-4 font-medium text-3xl md:text-4xl lg:text-5xl">
         {post.data.title}
       </h1>
@@ -40,7 +40,7 @@ if (similarSlugs.length > 0) {
       <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-400">
         {post.data.date && (
           <p>
-            {post.data.date.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+            {post.data.date.toLocaleDateString(dateLang, { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         )}
         {post.data.author && (
@@ -49,7 +49,7 @@ if (similarSlugs.length > 0) {
       </div>
       {post.data.update && (
         <p class="mt-1 text-sm text-gray-400">
-          {t.updatedOn} {post.data.update.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+          {t.updatedOn} {post.data.update.toLocaleDateString(dateLang, { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       )}
     </header>
@@ -64,10 +64,10 @@ if (similarSlugs.length > 0) {
   <InlineCta />
   {similarPosts.length > 0 && (
     <section slot="after" class="mt-16 pt-10 border-t border-gray-100">
-      <h2 class="text-2xl font-medium mb-8">{t.similarPosts}</h2>
+      <h2 class="text-2xl font-medium mb-8">{t.blog.similarPosts}</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {similarPosts.map((p) => (
-          <BlogCard post={p} locale={locale} />
+          <BlogCard post={p} lang={lang} />
         ))}
       </div>
     </section>

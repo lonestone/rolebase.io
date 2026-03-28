@@ -1,15 +1,15 @@
 ---
-import { translations, getLocaleFromPath } from '../i18n'
+import { getTranslations, getLangFromUrl } from '../i18n'
 import TopNavShell from './TopNavShell.astro'
 import NavLink from './NavLink.astro'
 
-const locale = getLocaleFromPath(Astro.url.pathname)
-const t = translations[locale]
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
 ---
 
 <TopNavShell logoSuffix={t.developers}>
   <Fragment slot="nav">
     <NavLink path="/developers">{t.documentation}</NavLink>
-    <NavLink path="/api">{t.apiReference}</NavLink>
+    <NavLink path="/api">{t.api.reference}</NavLink>
   </Fragment>
 </TopNavShell>

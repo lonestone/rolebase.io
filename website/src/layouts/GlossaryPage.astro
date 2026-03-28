@@ -5,23 +5,23 @@ import BlogLayout from './BlogLayout.astro'
 import BlogSidebar from '../components/BlogSidebar.astro'
 import Breadcrumb from '../components/Breadcrumb.astro'
 import { mdxComponents } from '../components'
-import { type Locale, translations, localePath } from '../i18n'
+import { type Lang, getTranslations, langPath } from '../i18n'
 
 interface Props {
   item: CollectionEntry<'glossary'>
-  locale: Locale
+  lang: Lang
 }
 
-const { item, locale } = Astro.props
-const t = translations[locale]
+const { item, lang } = Astro.props
+const t = await getTranslations(lang)
 const { Content, headings } = await render(item)
-const dateLocale = locale === 'fr' ? 'fr-FR' : 'en-US'
+const dateLang = lang === 'fr' ? 'fr-FR' : 'en-US'
 ---
 
-<BlogLayout title={`${item.data.name} - ${t.glossaryDefinition}`} description={item.data.description}>
+<BlogLayout title={`${item.data.name} - ${t.glossary.definition}`} description={item.data.description}>
   <article class="min-w-0 flex-1">
     <header class="mb-10 pb-6 border-b border-gray-100">
-      <Breadcrumb category={t.glossary} categoryUrl={localePath(locale, '/glossary')} title={item.data.name} hideTitle class="mb-3" />
+      <Breadcrumb category={t.glossary.label} categoryUrl={langPath(lang, '/glossary')} title={item.data.name} hideTitle class="mb-3" />
       <h1 class="mb-4 font-medium text-3xl md:text-4xl lg:text-5xl">
         {item.data.name}
       </h1>
@@ -29,13 +29,13 @@ const dateLocale = locale === 'fr' ? 'fr-FR' : 'en-US'
       <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-400">
         {item.data.date && (
           <p>
-            {item.data.date.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+            {item.data.date.toLocaleDateString(dateLang, { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         )}
       </div>
       {item.data.update && item.data.update.getTime() !== item.data.date?.getTime() && (
         <p class="mt-1 text-sm text-gray-400">
-          {t.updatedOn} {item.data.update.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+          {t.updatedOn} {item.data.update.toLocaleDateString(dateLang, { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       )}
     </header>

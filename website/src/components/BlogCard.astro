@@ -1,17 +1,17 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import { Image } from 'astro:assets'
-import { type Locale, getSlugFromId } from '../i18n'
+import { type Lang, getSlugFromId } from '../i18n'
 
 interface Props {
   post: CollectionEntry<'blog'>
-  locale: Locale
+  lang: Lang
 }
 
-const { post, locale } = Astro.props
+const { post, lang } = Astro.props
 
 function formatDate(date: Date) {
-  return date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
+  return date.toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -20,7 +20,7 @@ function formatDate(date: Date) {
 ---
 
 <a
-  href={`/${locale}/blog/${getSlugFromId(post.id)}`}
+  href={`/${lang}/blog/${getSlugFromId(post.id)}`}
   class="group block overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-primary hover:shadow-lg no-underline"
 >
   {post.data.image ? (

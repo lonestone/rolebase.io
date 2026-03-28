@@ -1,13 +1,13 @@
 ---
-import { translations, getLocaleFromPath, getOtherLocaleHref, localePath } from '../i18n'
+import { getTranslations, getLangFromUrl, getOtherLangHref, langPath } from '../i18n'
 import Logo from './Logo.astro'
 
 const currentPath = Astro.url.pathname
-const locale = getLocaleFromPath(currentPath)
-const t = translations[locale]
-const otherLocaleHref = getOtherLocaleHref(currentPath, locale)
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
+const otherLangHref = getOtherLangHref(currentPath, lang)
 
-const lp = (path: string) => localePath(locale, path)
+const lp = (path: string) => langPath(lang, path)
 
 interface Props {
   staticHeader?: boolean
@@ -33,7 +33,7 @@ const { staticHeader = false, logoSuffix } = Astro.props
       <div class="flex-1"></div>
       <div class="flex items-center gap-3" data-right>
         <a
-          href={otherLocaleHref}
+          href={otherLangHref}
           class="text-xs font-semibold px-2 py-0.5 border border-border rounded text-text-secondary no-underline hover:no-underline hover:bg-border"
         >{t.switchLang}</a>
         <slot name="right" />

@@ -2,6 +2,7 @@ import React from 'react'
 import Button from './Button.js'
 import LangButton from './LangButton.js'
 import { useFilePath } from '../contexts/FilePathContext.js'
+import { stripExtension } from '../utils/supportedFiles.js'
 
 interface LocaleSibling {
   lang: string
@@ -24,13 +25,11 @@ export default function EditorHeader({
   onSelectFile,
 }: Props) {
   const filePath = useFilePath()!
-  const currentLang = filePath
-    .split('/')
-    .pop()
-    ?.replace(/\.mdx?$/, '')
+  const fileName = filePath.split('/').pop() ?? ''
+  const currentLang = stripExtension(fileName)
   const pathToShow = localeSiblings
     ? filePath.split('/').slice(0, -1).join('/')
-    : filePath.replace(/\.mdx?$/, '')
+    : filePath.slice(0, filePath.length - fileName.length) + currentLang
 
   return (
     <div className="flex items-center justify-between">

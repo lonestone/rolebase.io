@@ -1,24 +1,24 @@
 ---
 import { getCollection } from 'astro:content'
 import WebsiteLayout from './WebsiteLayout.astro'
-import { type Locale, translations, getSlugFromId } from '../i18n'
+import { type Lang, getTranslations, getSlugFromId } from '../i18n'
 
 interface Props {
-  locale: Locale
+  lang: Lang
 }
 
-const { locale } = Astro.props
-const t = translations[locale]
-const basePath = `/${locale}/glossary`
+const { lang } = Astro.props
+const t = await getTranslations(lang)
+const basePath = `/${lang}/glossary`
 
-const items = (await getCollection('glossary', (item) => item.id.endsWith(`/${locale}`) && !item.data.draft))
-  .sort((a, b) => a.data.name.localeCompare(b.data.name, locale))
+const items = (await getCollection('glossary', (item) => item.id.endsWith(`/${lang}`) && !item.data.draft))
+  .sort((a, b) => a.data.name.localeCompare(b.data.name, lang))
 ---
 
-<WebsiteLayout title={t.glossary}>
+<WebsiteLayout title={t.glossary.label}>
   <div class="mb-10">
-    <h1 class="text-4xl font-bold mb-3">{t.glossary}</h1>
-    <p class="text-lg text-text-secondary">{t.glossarySubtitle}</p>
+    <h1 class="text-4xl font-bold mb-3">{t.glossary.label}</h1>
+    <p class="text-lg text-text-secondary">{t.glossary.subtitle}</p>
   </div>
 
   <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

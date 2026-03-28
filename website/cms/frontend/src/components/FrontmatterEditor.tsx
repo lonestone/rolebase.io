@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import YAML from 'yaml'
 import type { FrontmatterFieldSchema } from '../api.js'
-import { PropInput } from './PropInput.js'
+import { PropInput, formatLabel } from './PropInput.js'
 
 // ---------------------------------------------------------------------------
 // YAML frontmatter parsing / serialization
@@ -105,9 +105,29 @@ export default function FrontmatterEditor({
   frontmatter,
   onChange,
 }: Props) {
+  return (
+    <div className="flex flex-col gap-0.5 px-3 py-2 bg-bg border-b border-border rounded-t-md text-xs">
+      <FieldGroup
+        schema={schema}
+        data={frontmatter}
+        onChange={onChange}
+        depth={0}
+      />
+    </div>
+  )
+}
+
+interface FieldGroupProps {
+  schema: FrontmatterFieldSchema[]
+  data: FrontmatterData
+  onChange: (data: FrontmatterData) => void
+  depth: number
+}
+
+function FieldGroup({ schema, data, onChange, depth }: FieldGroupProps) {
   const handleFieldChange = useCallback(
     (fieldName: string, fieldType: string, value: string) => {
-      const updated = { ...frontmatter }
+      const updated = { ...data }
       if (fieldType === 'string-array') {
         updated[fieldName] = value
           ? value
@@ -120,27 +140,46 @@ export default function FrontmatterEditor({
       }
       onChange(updated)
     },
-    [frontmatter, onChange]
+    [data, onChange]
   )
 
   return (
-    <div className="flex flex-col gap-0.5 px-3 py-2 bg-bg border-b border-border rounded-t-md text-xs">
+    <>
       {schema.map((field) => {
-        const raw = frontmatter[field.name]
+        if (field.type === 'object' && field.children) {
+          const nested = (data[field.name] ?? {}) as FrontmatterData
+          return (
+            <div key={field.name} style={{ paddingLeft: depth > 0 ? 16 : 0 }}>
+              <div className="font-medium text-gray-400 pt-2 pb-0.5">
+                {formatLabel(field.name)}
+              </div>
+              <FieldGroup
+                schema={field.children}
+                data={nested}
+                onChange={(updated) =>
+                  onChange({ ...data, [field.name]: updated })
+                }
+                depth={depth + 1}
+              />
+            </div>
+          )
+        }
+        const raw = data[field.name]
         const arrayValue = Array.isArray(raw) ? raw.map(String) : []
         return (
-          <PropInput
-            key={field.name}
-            schema={field}
-            value={toDisplayValue(raw)}
-            onChange={(v) => handleFieldChange(field.name, field.type, v)}
-            arrayValue={arrayValue}
-            onChangeArray={(items) => {
-              onChange({ ...frontmatter, [field.name]: items })
-            }}
-          />
+          <div key={field.name} style={{ paddingLeft: depth > 0 ? 16 : 0 }}>
+            <PropInput
+              schema={field}
+              value={toDisplayValue(raw)}
+              onChange={(v) => handleFieldChange(field.name, field.type, v)}
+              arrayValue={arrayValue}
+              onChangeArray={(items) => {
+                onChange({ ...data, [field.name]: items })
+              }}
+            />
+          </div>
         )
       })}
-    </div>
+    </>
   )
 }

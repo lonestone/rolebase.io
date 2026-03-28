@@ -2,23 +2,23 @@
 import { getCollection } from 'astro:content'
 import { Image } from 'astro:assets'
 import WebsiteLayout from './WebsiteLayout.astro'
-import { type Locale, translations, getSlugFromId } from '../i18n'
+import { type Lang, getTranslations, getSlugFromId } from '../i18n'
 
 interface Props {
-  locale: Locale
+  lang: Lang
 }
 
-const { locale } = Astro.props
-const t = translations[locale]
-const basePath = `/${locale}${t.clientCasesPath}`
+const { lang } = Astro.props
+const t = await getTranslations(lang)
+const basePath = `/${lang}/client-cases`
 
-const items = (await getCollection('client-cases', (item) => item.id.endsWith(`/${locale}`)))
+const items = (await getCollection('client-cases', (item) => item.id.endsWith(`/${lang}`)))
 ---
 
-<WebsiteLayout title={t.clientCasesTitle}>
+<WebsiteLayout title={t.clientCases.title}>
   <div class="mb-10">
-    <h1 class="text-4xl font-bold mb-3">{t.clientCasesTitle}</h1>
-    <p class="text-lg text-text-secondary">{t.clientCasesSubtitle}</p>
+    <h1 class="text-4xl font-bold mb-3">{t.clientCases.title}</h1>
+    <p class="text-lg text-text-secondary">{t.clientCases.subtitle}</p>
   </div>
 
   <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -37,7 +37,7 @@ const items = (await getCollection('client-cases', (item) => item.id.endsWith(`/
         <div class="p-5">
           {(item.data.sector || item.data.teamSize) && (
             <p class="mb-2 text-sm text-text-secondary">
-              {item.data.sector}{item.data.sector && item.data.teamSize && ' · '}{item.data.teamSize && `${item.data.teamSize} ${t.employees}`}
+              {item.data.sector}{item.data.sector && item.data.teamSize && ' · '}{item.data.teamSize && `${item.data.teamSize} ${t.clientCases.employees}`}
             </p>
           )}
           <h2 class="text-lg font-medium leading-snug group-hover:text-primary transition-colors">

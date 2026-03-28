@@ -14,7 +14,7 @@
     "@astrojs/mdx": "^5.0.2",
     "@astrojs/netlify": "^7.0.3",
     "@astrojs/sitemap": "^3.7.1",
-    "@tailwindcss/vite": "^4.2.2",
+    "@tailwindcss/postcss": "^4.2.2",
     "astro": "^6.0.6",
     "glob": "^13.0.6",
     "iconsax-astro": "^0.0.2",

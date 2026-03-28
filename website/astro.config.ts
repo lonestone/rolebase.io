@@ -2,19 +2,14 @@ import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import netlify from '@astrojs/netlify'
 import sitemap from '@astrojs/sitemap'
-import tailwindcss from '@tailwindcss/vite'
 import { redirects } from './src/redirects'
 import rehypeMdClass from './src/rehype-md-class'
 import enrichMd from './src/integrations/enrich-md'
+import config from './website.config'
 
-const site = 'https://rolebase.io'
-const defaultLocale = 'en'
-const locales = ['en', 'fr']
+const { site, langs, defaultLang } = config
 
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()],
-  },
   site,
   adapter: netlify({ imageCDN: true, edgeMiddleware: false }),
   output: 'static',
@@ -30,15 +25,15 @@ export default defineConfig({
       // Exclude root URL (redirects to /en/) to avoid duplicate hreflang entries
       filter: (page) => page !== `${site}/`,
       i18n: {
-        defaultLocale,
-        locales: Object.fromEntries(locales.map((l) => [l, l])),
+        defaultLocale: defaultLang,
+        locales: Object.fromEntries(langs.map((l) => [l, l])),
       },
     }),
     enrichMd(),
   ],
   i18n: {
-    defaultLocale,
-    locales,
+    defaultLocale: defaultLang,
+    locales: [...langs],
     routing: {
       prefixDefaultLocale: true,
     },

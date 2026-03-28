@@ -20,6 +20,7 @@ export async function fetchTree(): Promise<TreeNode[]> {
 
 export interface FrontmatterFieldSchema extends PropSchema {
   required?: boolean
+  children?: FrontmatterFieldSchema[]
 }
 
 export interface FileResponse {
@@ -193,6 +194,7 @@ export interface PropSchema {
     | 'image'
     | 'date'
     | 'string-array'
+    | 'object'
   optional?: boolean
   options?: string[]
   itemSchema?: PropSchema[]

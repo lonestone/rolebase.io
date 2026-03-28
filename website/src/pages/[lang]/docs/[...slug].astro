@@ -2,12 +2,11 @@
 import { getCollection, render } from 'astro:content'
 import GuidePage from '../../../layouts/GuidePage.astro'
 import { mdxComponents } from '../../../components'
-import type { Locale } from '../../../i18n'
+import { langs } from '../../../i18n'
 
 export async function getStaticPaths() {
-  const locales: Locale[] = ['en', 'fr']
   const paths = []
-  for (const lang of locales) {
+  for (const lang of langs) {
     const entries = await getCollection('docs', (e) => e.id.endsWith(`/${lang}`))
     for (const entry of entries) {
       const slug = entry.id.replace(`/${lang}`, '')

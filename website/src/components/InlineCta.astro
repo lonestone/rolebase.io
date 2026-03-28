@@ -1,23 +1,23 @@
 ---
 import Button from './Button.astro'
-import { getLocaleFromPath, translations } from '../i18n'
+import { getLangFromUrl, getTranslations } from '../i18n'
 
-const locale = getLocaleFromPath(Astro.url.pathname)
-const t = translations[locale]
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
 ---
 
 <div id="inline-cta-tpl" hidden>
   <div class="relative my-10 overflow-hidden rounded-2xl bg-yellow-50 p-8 md:p-12">
     <div class="relative z-10">
       <p class="mb-2 text-2xl font-medium">
-        {t.ctaTitle}
+        {t.cta.title}
       </p>
       <p class="mb-6 leading-relaxed md:pr-30">
-        {t.ctaDescription}
+        {t.cta.description}
       </p>
       <div class="flex flex-wrap gap-3">
-        <Button href={`/${locale}/contact`} variant="orange" label={t.ctaButton} />
-        <Button href="/signup" variant="outline" label={t.ctaButtonSelfServe} />
+        <Button href={`/${lang}/contact`} variant="orange" label={t.cta.button} />
+        <Button href="/signup" variant="outline" label={t.cta.buttonSelfServe} />
       </div>
     </div>
   </div>

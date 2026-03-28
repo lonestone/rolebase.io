@@ -1,12 +1,12 @@
 ---
 import GlossaryIndex from '../../../layouts/GlossaryIndex.astro'
-import type { Locale } from '../../../i18n'
+import { langs } from '../../../i18n'
 
 export function getStaticPaths() {
-  return [{ params: { lang: 'en' } }, { params: { lang: 'fr' } }]
+  return langs.map(lang => ({ params: { lang } }))
 }
 
-const lang = Astro.params.lang as Locale
+const { lang } = Astro.params
 ---
 
-<GlossaryIndex locale={lang} />
+<GlossaryIndex lang={lang} />

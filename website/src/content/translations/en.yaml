@@ -1,0 +1,66 @@
+documentation: Documentation
+guides: Guides
+developers: Developers
+terms: Legal Notice
+switchLang: "\U0001F1EB\U0001F1F7 FR"
+bookDemo: Book a demo
+login: Log in / Sign up
+features: Features
+pricing: Pricing
+support: Support
+about: About
+privacyPolicy: Privacy Policy
+termsOfSale: Terms of Sale
+updatedOn: Updated on
+
+blog:
+  label: Blog
+  title: Rolebase Blog
+  subtitle: Stay up to date with the latest news, product updates, and insights about self-governance.
+  similarPosts: Continue reading
+
+clientCases:
+  label: Case Studies
+  title: Rolebase Case Studies
+  subtitle: Discover how our clients use Rolebase to transform their governance.
+  sector: Sector
+  teamSize: Team size
+  employees: employees
+
+glossary:
+  label: Glossary
+  subtitle: Key terms and definitions for self-governance and Role Based Management.
+  definition: Definition
+
+partners:
+  label: Partners
+  visitWebsite: Visit website
+
+cta:
+  title: Try Rolebase for free
+  description: Clarify roles, run efficient meetings, and make better decisions as a team.
+  button: Book a demo
+  buttonSelfServe: Try on your own
+
+sidebar:
+  toc: Table of contents
+  tagline: Rolebase is the open-source platform for self-managed organizations.
+  discover: Discover Rolebase
+
+api:
+  reference: API Reference
+  introduction: Introduction
+  fieldLabel: Field
+  typeLabel: Type
+  descriptionLabel: Description
+
+footer:
+  product: Product
+  comparisons: Comparisons
+  resources: Resources
+  company: Company
+  alternatives:
+    holaspirit: Alternative to Holaspirit
+    nestr: Alternative to Nestr
+    glassfrog: Alternative to GlassFrog
+    peerdom: Alternative to Peerdom

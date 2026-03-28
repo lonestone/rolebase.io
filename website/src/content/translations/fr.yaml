@@ -1,0 +1,66 @@
+documentation: Documentation
+guides: Guides
+developers: Développeurs
+terms: Mentions légales
+switchLang: "\U0001F1EC\U0001F1E7 EN"
+bookDemo: Demander une démo
+login: Connexion / Inscription
+features: Fonctionnalités
+pricing: Tarifs
+support: Support
+about: À propos
+privacyPolicy: Politique Données Personnelles
+termsOfSale: Conditions Générales de Vente
+updatedOn: Mis à jour le
+
+blog:
+  label: Blog
+  title: Blog de Rolebase
+  subtitle: "Restez informé des dernières actualités, mises à jour produit et réflexions sur l'auto-gouvernance."
+  similarPosts: Continuer la lecture
+
+clientCases:
+  label: Cas clients
+  title: Cas clients de Rolebase
+  subtitle: Découvrez comment nos clients utilisent Rolebase pour transformer leur gouvernance.
+  sector: Secteur
+  teamSize: Effectif
+  employees: collaborateurs
+
+glossary:
+  label: Glossaire
+  subtitle: Les termes et définitions clés de la gouvernance partagée et du Role Based Management.
+  definition: Définition
+
+partners:
+  label: Partenaires
+  visitWebsite: Visiter le site
+
+cta:
+  title: Essayez Rolebase gratuitement
+  description: Clarifiez les rôles, menez des réunions efficaces et prenez de meilleures décisions en équipe.
+  button: Demander une démo
+  buttonSelfServe: Tester en autonomie
+
+sidebar:
+  toc: Sommaire
+  tagline: Rolebase est la plateforme open-source pour les organisations auto-gouvernées.
+  discover: Découvrir Rolebase
+
+api:
+  reference: Référence API
+  introduction: Introduction
+  fieldLabel: Champ
+  typeLabel: Type
+  descriptionLabel: Description
+
+footer:
+  product: Produit
+  comparisons: Comparatifs
+  resources: Ressources
+  company: Entreprise
+  alternatives:
+    holaspirit: Alternative à Holaspirit
+    nestr: Alternative à Nestr
+    glassfrog: Alternative à GlassFrog
+    peerdom: Alternative à Peerdom

@@ -1,24 +1,23 @@
 ---
 import { getCollection } from 'astro:content'
 import GlossaryPage from '../../../layouts/GlossaryPage.astro'
-import type { Locale } from '../../../i18n'
+import { langs } from '../../../i18n'
 
 export async function getStaticPaths() {
-  const locales: Locale[] = ['en', 'fr']
   const paths = []
-  for (const lang of locales) {
+  for (const lang of langs) {
     const items = await getCollection('glossary', (item) => item.id.endsWith(`/${lang}`) && !item.data.draft)
     for (const item of items) {
       paths.push({
         params: { lang, slug: item.id.replace(`/${lang}`, '') },
-        props: { item, locale: lang },
+        props: { item, lang },
       })
     }
   }
   return paths
 }
 
-const { item, locale } = Astro.props
+const { item, lang } = Astro.props
 ---
 
-<GlossaryPage item={item} locale={locale} />
+<GlossaryPage item={item} lang={lang} />

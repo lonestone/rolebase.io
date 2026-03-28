@@ -5,12 +5,13 @@ import type { TreeNode } from '../api.js'
 import { useResizablePanel } from '../hooks/useResizablePanel.js'
 import { ResizeHandle } from './ResizeHandle.js'
 import { getFolderTarget } from '../utils/folderTarget.js'
+import { isSupportedFile, stripExtension } from '../utils/supportedFiles.js'
 
-function hasMdxFiles(node: TreeNode): boolean {
+function hasSupportedFiles(node: TreeNode): boolean {
   if (node.type === 'file') {
-    return node.name.endsWith('.mdx') || node.name.endsWith('.md')
+    return isSupportedFile(node.name)
   }
-  return node.children?.some(hasMdxFiles) === true
+  return node.children?.some(hasSupportedFiles) === true
 }
 
 interface Props {
@@ -89,7 +90,7 @@ function TreeItem({
   const [manualToggle, setManualToggle] = useState<boolean | null>(null)
   const expanded = manualToggle ?? expandedPaths.has(node.path)
   const isFile = node.type === 'file'
-  const isMdx = node.name.endsWith('.mdx') || node.name.endsWith('.md')
+  const isSupported = isSupportedFile(node.name)
 
   // Detect folders that should act as direct file links
   const folderTarget = !isFile ? getFolderTarget(node) : null
@@ -101,11 +102,11 @@ function TreeItem({
     : isCollapsedFolder &&
       node.children?.some((c) => c.path === selectedFile) === true
 
-  if (isFile && !isMdx) return null
-  if (!isFile && !hasMdxFiles(node)) return null
+  if (isFile && !isSupported) return null
+  if (!isFile && !hasSupportedFiles(node)) return null
 
   const handleClick = () => {
-    if (isFile && isMdx) {
+    if (isFile && isSupported) {
       onSelectFile(node.path)
     } else if (isCollapsedFolder) {
       onSelectFile(folderTarget)
@@ -131,7 +132,7 @@ function TreeItem({
         className={`py-1 pr-3 flex items-center gap-1 select-none ${
           isSelected ? 'bg-primary text-white' : 'text-text'
         } ${
-          isFile && isMdx
+          isFile && isSupported
             ? 'cursor-pointer'
             : isFile
             ? 'cursor-default'
@@ -144,9 +145,9 @@ function TreeItem({
             style={{ transform: expanded ? 'rotate(90deg)' : undefined }}
           />
         )}
-        {(isFile || isCollapsedFolder) && <span className="w-3" />}
+        {(isFile || isCollapsedFolder) && <span className="w-5 shrink-0" />}
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-          {isFile ? node.name.replace(/\.mdx?$/, '') : node.name}
+          {isFile ? stripExtension(node.name) : node.name}
         </span>
       </div>
       {!isFile && !isCollapsedFolder && expanded && node.children && (

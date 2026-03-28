@@ -1,13 +1,12 @@
 ---
-import { translations, getLocaleFromPath, localePath } from '../i18n'
+import { getTranslations, getLangFromUrl, langPath } from '../i18n'
 import Icon from './Icon.astro'
 import Logo from './Logo.astro'
 
-const currentPath = Astro.url.pathname
-const locale = getLocaleFromPath(currentPath)
-const t = translations[locale]
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
 
-const lp = (path: string) => localePath(locale, path)
+const lp = (path: string) => langPath(lang, path)
 
 const linkClass = 'no-underline hover:underline'
 ---
@@ -33,33 +32,33 @@ const linkClass = 'no-underline hover:underline'
       </div>
 
       <div class="flex flex-col gap-2">
-        <span class="font-medium text-text-main">{t.footerProduct}</span>
+        <span class="font-medium text-text-main">{t.footer.product}</span>
         <a href={lp('/features')} class={linkClass}>{t.features}</a>
-        <a href={lp(t.clientCasesPath)} class={linkClass}>{t.clientCases}</a>
+        <a href={lp('/client-cases')} class={linkClass}>{t.clientCases.label}</a>
         <a href={lp('/pricing')} class={linkClass}>{t.pricing}</a>
       </div>
 
       <div class="flex flex-col gap-2">
-        <span class="font-medium text-text-main">{t.footerComparisons}</span>
-        <a href={lp('/blog/alternative-holaspirit')} class={linkClass}>{t.altHolaspirit}</a>
-        <a href={lp('/blog/alternative-nestr')} class={linkClass}>{t.altNestr}</a>
-        <a href={lp('/blog/alternative-glassfrog')} class={linkClass}>{t.altGlassfrog}</a>
-        <a href={lp('/blog/alternative-peerdom')} class={linkClass}>{t.altPeerdom}</a>
+        <span class="font-medium text-text-main">{t.footer.comparisons}</span>
+        <a href={lp('/blog/alternative-holaspirit')} class={linkClass}>{t.footer.alternatives.holaspirit}</a>
+        <a href={lp('/blog/alternative-nestr')} class={linkClass}>{t.footer.alternatives.nestr}</a>
+        <a href={lp('/blog/alternative-glassfrog')} class={linkClass}>{t.footer.alternatives.glassfrog}</a>
+        <a href={lp('/blog/alternative-peerdom')} class={linkClass}>{t.footer.alternatives.peerdom}</a>
       </div>
 
       <div class="flex flex-col gap-2">
-        <span class="font-medium text-text-main">{t.footerResources}</span>
+        <span class="font-medium text-text-main">{t.footer.resources}</span>
         <a href={lp('/docs')} class={linkClass}>{t.documentation}</a>
         <a href={lp('/developers')} class={linkClass}>{t.developers}</a>
-        <a href={lp('/glossary')} class={linkClass}>{t.glossary}</a>
+        <a href={lp('/glossary')} class={linkClass}>{t.glossary.label}</a>
         <a href="#" class={linkClass} onclick="if(window.$crisp){$crisp.push(['do','chat:open'])}return false">{t.support}</a>
-        <a href={lp('/blog')} class={linkClass}>{t.blog}</a>
+        <a href={lp('/blog')} class={linkClass}>{t.blog.label}</a>
       </div>
 
       <div class="flex flex-col gap-2">
-        <span class="font-medium text-text-main">{t.footerCompany}</span>
+        <span class="font-medium text-text-main">{t.footer.company}</span>
         <a href={lp('')} class={linkClass}>{t.about}</a>
-        <a href={lp('/partners')} class={linkClass}>{t.partners}</a>
+        <a href={lp('/partners')} class={linkClass}>{t.partners.label}</a>
         <a href={lp('/legal')} class={linkClass}>{t.terms}</a>
         <a href={lp('/privacy')} class={linkClass}>{t.privacyPolicy}</a>
         <a href={lp('/terms')} class={linkClass}>{t.termsOfSale}</a>

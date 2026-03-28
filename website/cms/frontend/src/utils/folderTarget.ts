@@ -1,4 +1,5 @@
 import type { TreeNode } from '../api.js'
+import { isSupportedFile, stripExtension } from './supportedFiles.js'
 
 /**
  * Check if a directory node should act as a direct file link.
@@ -11,30 +12,22 @@ import type { TreeNode } from '../api.js'
 export function getFolderTarget(node: TreeNode): string | null {
   if (node.type !== 'directory' || !node.children) return null
 
-  const mdxFiles = node.children.filter(
-    (c) =>
-      c.type === 'file' &&
-      (c.name.endsWith('.mdx') || c.name.endsWith('.md'))
+  const files = node.children.filter(
+    (c) => c.type === 'file' && isSupportedFile(c.name)
   )
 
-  if (mdxFiles.length === 0) return null
+  if (files.length === 0) return null
 
   // Case 1: Only a single index file
-  if (
-    mdxFiles.length === 1 &&
-    mdxFiles[0].name.replace(/\.mdx?$/, '') === 'index'
-  ) {
-    return mdxFiles[0].path
+  if (files.length === 1 && stripExtension(files[0].name) === 'index') {
+    return files[0].path
   }
 
   // Case 2: All files have 2-letter base names (locale files)
-  const allLocale = mdxFiles.every((f) => {
-    const base = f.name.replace(/\.mdx?$/, '')
-    return base.length === 2
-  })
+  const allLocale = files.every((f) => stripExtension(f.name).length === 2)
   if (allLocale) {
     // Sort alphabetically so "en" comes before "fr"
-    const sorted = [...mdxFiles].sort((a, b) => a.name.localeCompare(b.name))
+    const sorted = [...files].sort((a, b) => a.name.localeCompare(b.name))
     return sorted[0].path
   }
 
@@ -56,22 +49,19 @@ export function getLocaleSiblings(
   const parentNode = findNode(tree, parentPath)
   if (!parentNode || !parentNode.children) return null
 
-  const mdxFiles = parentNode.children.filter(
-    (c) =>
-      c.type === 'file' &&
-      (c.name.endsWith('.mdx') || c.name.endsWith('.md'))
+  const files = parentNode.children.filter(
+    (c) => c.type === 'file' && isSupportedFile(c.name)
   )
 
-  const allLocale = mdxFiles.every((f) => {
-    const base = f.name.replace(/\.mdx?$/, '')
-    return base.length === 2
-  })
+  const allLocale = files.every(
+    (f) => stripExtension(f.name).length === 2
+  )
 
-  if (!allLocale || mdxFiles.length < 2) return null
+  if (!allLocale || files.length < 2) return null
 
-  return mdxFiles
+  return files
     .map((f) => ({
-      lang: f.name.replace(/\.mdx?$/, ''),
+      lang: stripExtension(f.name),
       path: f.path,
     }))
     .sort((a, b) => a.lang.localeCompare(b.lang))

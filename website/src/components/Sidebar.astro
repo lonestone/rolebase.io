@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import { translations, getLocaleFromPath, getLangFromId, getSlugFromId } from '../i18n'
+import { getTranslations, getLangFromUrl, getLangFromId, getSlugFromId } from '../i18n'
 import NavLink from './NavLink.astro'
 
 interface Props {
@@ -9,8 +9,8 @@ interface Props {
 
 const { section } = Astro.props
 
-const locale = getLocaleFromPath(Astro.url.pathname)
-const t = translations[locale]
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
 
 interface SidebarSection {
   title: string
@@ -39,10 +39,10 @@ const sections: SidebarSection[] = []
 
 if (section === 'docs' || section === 'guides') {
   const allDocs = await getCollection('docs')
-  const docs = sortEntries(allDocs.filter((e) => getLangFromId(e.id) === locale))
+  const docs = sortEntries(allDocs.filter((e) => getLangFromId(e.id) === lang))
 
   const allGuides = await getCollection('guides')
-  const guides = sortEntries(allGuides.filter((e) => getLangFromId(e.id) === locale))
+  const guides = sortEntries(allGuides.filter((e) => getLangFromId(e.id) === lang))
 
   sections.push(
     { title: t.documentation, basePath: '/docs', links: entriesToLinks(docs) },
@@ -50,7 +50,7 @@ if (section === 'docs' || section === 'guides') {
   )
 } else if (section === 'developers') {
   const allDevs = await getCollection('developers')
-  const devs = sortEntries(allDevs.filter((e) => getLangFromId(e.id) === locale))
+  const devs = sortEntries(allDevs.filter((e) => getLangFromId(e.id) === lang))
 
   sections.push({
     title: t.developers,
@@ -60,21 +60,21 @@ if (section === 'docs' || section === 'guides') {
 } else if (section === 'api') {
   // Introduction link
   sections.push({
-    title: t.apiReference,
+    title: t.api.reference,
     basePath: '/api',
-    links: [{ slug: '', label: t.apiIntroduction }],
+    links: [{ slug: '', label: t.api.introduction }],
   })
 
   // Load API entities from content collection
   const allApiEntries = await getCollection('api')
   const apiEntries = allApiEntries.filter(
-    (e) => getLangFromId(e.id) === locale && e.data.entity && e.data.category
+    (e) => getLangFromId(e.id) === lang && e.data.entity && e.data.category
   )
 
   // Load categories from content collection, sorted by order
   const allCategories = await getCollection('api-categories')
   const categories = allCategories
-    .filter((e) => getLangFromId(e.id) === locale)
+    .filter((e) => getLangFromId(e.id) === lang)
     .sort((a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity))
 
   for (const cat of categories) {

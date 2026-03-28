@@ -3,11 +3,10 @@ import { getCollection, render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CirclesBackground from '../components/CirclesBackground.astro'
 import { mdxComponents } from '../components'
-import { getLocaleFromPath } from '../i18n'
-import type { Locale } from '../i18n'
+import { getLangFromUrl } from '../i18n'
 
-const locale = getLocaleFromPath(Astro.url.pathname)
-const entries = await getCollection('pages', (e) => e.id === `404/${locale}`)
+const lang = getLangFromUrl(Astro.url)
+const entries = await getCollection('pages', (e) => e.id === `404/${lang}`)
 const entry = entries[0]
 const { Content } = await render(entry)
 ---

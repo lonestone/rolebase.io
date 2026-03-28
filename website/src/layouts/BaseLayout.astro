@@ -2,7 +2,7 @@
 import TopNav from '../components/TopNav.astro'
 import TopNavDev from '../components/TopNavDev.astro'
 import Footer from '../components/Footer.astro'
-import { getLocaleFromPath } from '../i18n'
+import { getLangFromUrl } from '../i18n'
 import '../styles/global.css'
 
 interface Props {
@@ -12,12 +12,12 @@ interface Props {
 
 const { title, staticHeader = false } = Astro.props
 const currentPath = Astro.url.pathname
-const locale = getLocaleFromPath(currentPath)
+const lang = getLangFromUrl(Astro.url)
 const isDevSection = currentPath.includes('/developers') || currentPath.includes('/api')
 ---
 
 <!doctype html>
-<html lang={locale}>
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
