@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 import { useSearch } from '../hooks/useSearch'
 import { SearchItem } from '../searchTypes'
-import SearchResultItem from './SearchResultItem'
+import SearchResultButton from './SearchResultButton'
 import SearchResultsList from './SearchResultsList'
 
 export interface SearchInputProps
@@ -84,6 +84,13 @@ export default function SearchInput({
     itemToString: () => '',
     onInputValueChange,
     onSelectedItemChange,
+    stateReducer: (state, actionAndChanges) => {
+      const { changes, type } = actionAndChanges
+      if (type === useCombobox.stateChangeTypes.InputClick) {
+        return { ...changes, isOpen: true }
+      }
+      return changes
+    },
   })
 
   const valueItem = useMemo(
@@ -92,7 +99,7 @@ export default function SearchInput({
   )
 
   // Button
-  const buttonRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const buttonGroupRef = useRef<HTMLDivElement>(null)
   const buttonDimensions = useElementSize(buttonGroupRef)
   const [buttonWidth, setButtonWidth] = useState<number>(0)
@@ -138,12 +145,12 @@ export default function SearchInput({
           placement="top"
           hasArrow
         >
-          <SearchResultItem
+          <SearchResultButton
             ref={buttonRef}
             item={valueItem}
             standalone
             highlighted={false}
-            size={buttonGroup?.size as string}
+            {...buttonGroup}
             pr={onClear ? 1 : undefined}
             borderRight={onClear ? 'none' : undefined}
             overflow="hidden"

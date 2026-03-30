@@ -15,7 +15,7 @@ import {
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchItem } from '../searchTypes'
-import SearchResultItem from './SearchResultItem'
+import SearchResultButton from './SearchResultButton'
 
 interface Props {
   items: SearchItem[]
@@ -124,7 +124,7 @@ export default function SearchResultsList({
 
         {items.map((item, index) => (
           <ListItem key={index}>
-            <SearchResultItem
+            <SearchResultButton
               {...getItemProps({ item, index })}
               item={item}
               prevItem={items[index - 1]}

@@ -175,6 +175,9 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
               <SearchResultItem
                 item={item}
                 highlighted={index === highlightedIndex}
+                highlightedBg={
+                  colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
+                }
                 size="sm"
                 w="100%"
                 h="auto"
@@ -183,9 +186,6 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
                 px={5}
                 bg="transparent"
                 borderRadius="none"
-                _active={{
-                  bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
-                }}
                 {...getItemProps({ item, index })}
               />
             </ListItem>
