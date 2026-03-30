@@ -5,10 +5,11 @@ import { Button, CloseButton, Heading, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const BOOK_DEMO_URL = 'https://calendar.app.google/Y1mM2Lgc1FjzWFRYA'
+const BOOK_DEMO_URL =
+  'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3HO94pvxEZhJHdFj9De9aQVxQysIRmZLG3ZohdET30avcVhkhCe3yrKRNLwjW8SCtr_qLaAwWe'
 
 export default function BookDemoModal() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { metadata, setMetadata } = useUserMetadata()
   const isOwner = useOrgOwner()
   const [closed, setClosed] = useState(false)
@@ -19,7 +20,9 @@ export default function BookDemoModal() {
   }
 
   const handleBookDemo = () => {
-    window.open(BOOK_DEMO_URL, '_blank')
+    const url = new URL(BOOK_DEMO_URL)
+    url.searchParams.set('hl', i18n.language)
+    window.open(url.toString(), '_blank')
     handleClose()
   }
 
