@@ -20,13 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { ExportIcon } from 'src/icons'
 import { trpc } from 'src/trpc'
 
-const optionalEntities = [
-  'decisions',
-  'tasks',
-  'threads',
-  'meetings',
-  'meetings_recurring',
-] as const
+const optionalEntities = ['decisions', 'tasks', 'threads', 'meetings'] as const
 
 type ExportFormat = 'xlsx' | 'json'
 

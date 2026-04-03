@@ -143,8 +143,7 @@
       "decisions": "Decisions",
       "tasks": "Tasks",
       "threads": "Discussions",
-      "meetings": "Meetings",
-      "meetings_recurring": "Recurring meetings"
+      "meetings": "Meetings"
     }
   },
   "CircleFormController": {

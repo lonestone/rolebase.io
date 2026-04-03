@@ -20,7 +20,6 @@ const optionalEntityNames = [
   'tasks',
   'threads',
   'meetings',
-  'meetings_recurring',
 ] as const
 
 // All entity keys used in the export data map
@@ -34,6 +33,7 @@ type EntityName =
   | 'meeting_steps'
   | 'meeting_attendees'
   | 'meeting_templates'
+  | 'meetings_recurring'
 
 export default authedProcedure
   .input(
@@ -78,12 +78,12 @@ export default authedProcedure
       decisions: org.decisions,
       tasks: org.tasks,
       threads: org.threads,
-      thread_activities: data.thread_activity,
+      thread_activities: data.thread_activity.map(flattenThreadActivityData),
       thread_extra_members: data.thread_extra_member,
       thread_poll_answers: data.thread_poll_answer,
       thread_activity_reactions: data.thread_activity_reaction,
       meetings: org.meetings,
-      meeting_steps: data.meeting_step,
+      meeting_steps: data.meeting_step.map(flattenMeetingStepData),
       meeting_attendees: data.meeting_attendee,
       meeting_templates: org.meeting_templates,
       meetings_recurring: org.meetings_recurring,
@@ -109,6 +109,7 @@ export default authedProcedure
       selectedData.meeting_steps = allEntityData.meeting_steps
       selectedData.meeting_attendees = allEntityData.meeting_attendees
       selectedData.meeting_templates = allEntityData.meeting_templates
+      selectedData.meetings_recurring = allEntityData.meetings_recurring
     }
 
     if (format === 'json') {
@@ -119,10 +120,11 @@ export default authedProcedure
       }
     }
 
-    // XLSX: one sheet per entity
     const wb = XLSX.utils.book_new()
     for (const [name, rows] of Object.entries(selectedData)) {
-      const sheet = XLSX.utils.json_to_sheet(rows.length > 0 ? rows : [])
+      const sheet = XLSX.utils.json_to_sheet(
+        rows.length > 0 ? truncateForExcel(rows) : []
+      )
       XLSX.utils.book_append_sheet(wb, sheet, name.substring(0, 31))
     }
     const buffer = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' })
@@ -133,6 +135,70 @@ export default authedProcedure
       data: buffer,
     }
   })
+
+// XLSX: one sheet per entity
+// Excel cells have a 32767 character limit
+const EXCEL_MAX_CELL_LENGTH = 32767
+function truncateForExcel(rows: unknown[]): unknown[] {
+  return rows.map((row) => {
+    if (typeof row !== 'object' || row === null) return row
+    const result: Record<string, unknown> = {}
+    for (const [key, value] of Object.entries(row as Record<string, unknown>)) {
+      if (typeof value === 'string' && value.length > EXCEL_MAX_CELL_LENGTH) {
+        result[key] = value.substring(0, EXCEL_MAX_CELL_LENGTH - 3) + '...'
+      } else {
+        result[key] = value
+      }
+    }
+    return result
+  })
+}
+
+// Extract the main interesting field from thread_activity.data based on type
+function flattenThreadActivityData(
+  activity: Record<string, unknown>
+): Record<string, unknown> {
+  const { data, ...rest } = activity
+  if (data == null || typeof data !== 'object') return { ...rest, data }
+  const d = data as Record<string, unknown>
+  const type = rest.type as string
+
+  // Extract the most relevant field per activity type
+  switch (type) {
+    case 'Message':
+      return { ...rest, data: stringify(d.message) }
+    case 'Poll':
+      return { ...rest, data: stringify(d.question) }
+    case 'MeetingNote':
+      return { ...rest, data: stringify(d.notes) }
+    default:
+      // Thread, Meeting, Task, Decision, ChangeStatus: no large data
+      return { ...rest, data: stringify(d) }
+  }
+}
+
+// Extract the main interesting field from meeting_step.data based on type
+function flattenMeetingStepData(
+  step: Record<string, unknown>
+): Record<string, unknown> {
+  const { data, ...rest } = step
+  if (data == null || typeof data !== 'object') return { ...rest, data }
+  const d = data as Record<string, unknown>
+  const type = rest.type as string
+
+  switch (type) {
+    case 'Threads':
+      return { ...rest, data: stringify(d.threadsIds) }
+    default:
+      // Tour, Checklist, Indicators, Tasks: empty or small data
+      return { ...rest, data: stringify(d) }
+  }
+}
+
+function stringify(value: unknown): string {
+  if (typeof value === 'string') return value
+  return JSON.stringify(value)
+}
 
 const GET_ORG_EXPORT_DATA = gql(`
   query getOrgExportData($orgId: uuid!) {
