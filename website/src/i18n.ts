@@ -10,7 +10,7 @@ export async function getTranslations(lang: Lang) {
 }
 
 export function getLangFromUrl(url: URL): Lang {
-  const first = url.pathname.split('/')[1]
+  const first = url.pathname.split('/')[1]?.replace(/\.html$/, '')
   return langs.includes(first as Lang) ? (first as Lang) : defaultLang
 }
 
