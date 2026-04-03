@@ -1,0 +1,59 @@
+---
+title: 'Export'
+description: 'Export your organization data in XLSX or JSON format.'
+order: 14
+---
+
+## Overview
+
+Rolebase allows organization owners to export their data in multiple formats. This is useful for backups, analysis in external tools, or migration to another platform.
+
+## Accessing the Export Tool
+
+1. Open your organization in Rolebase.
+2. Go to **Settings**.
+3. In the sidebar, under **Organization**, click **Export**.
+
+<Callout type="info" title="Owner access required">
+  Only organization owners can export data. If you do not see the Export option,
+  contact your organization owner.
+</Callout>
+
+## Choosing a Format
+
+Two export formats are available:
+
+| Format | Description                                                                                      |
+| ------ | ------------------------------------------------------------------------------------------------ |
+| XLSX   | Excel spreadsheet with one sheet per entity. Best for viewing and editing in a spreadsheet tool.  |
+| JSON   | Structured data format. Best for developers and API-based workflows.                             |
+
+## Exported Data
+
+Every export includes **members** and the **org chart** (roles, circles, role assignments, and circle links). You can also include additional entities:
+
+| Entity             | Description                                                                                         | Included       |
+| ------------------ | --------------------------------------------------------------------------------------------------- | -------------- |
+| Members            | All members with name, email, and role                                                              | Always         |
+| Org chart          | Roles, circles, role assignments, and circle links                                                  | Always         |
+| Decisions          | Governance decisions recorded in circles                                                            | Optional       |
+| Tasks              | Tasks with status, assignee, and due date                                                           | Optional       |
+| Discussions        | Threads with their messages, extra members, poll answers, and reactions                              | Optional       |
+| Meetings           | Meeting records with agenda steps, attendee presence, summaries, and meeting templates               | Optional       |
+| Recurring meetings | Recurring meeting configurations                                                                    | Optional       |
+
+## Exporting
+
+1. Select your preferred format (XLSX or JSON).
+2. Check the optional entities you want to include.
+3. Click **Export**.
+4. The file downloads automatically to your computer.
+
+## Org Chart Export
+
+In addition to data export, you can also export a visual image of your org chart as a PNG file. Open the org chart view and click the **Export (PNG)** button.
+
+## Next Steps
+
+- Learn about [importing data](/en/docs/import) from other tools.
+- Use the [GraphQL API](/en/developers) for programmatic data access.

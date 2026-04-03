@@ -1,4 +1,5 @@
 import AppsPage from '@/apps/pages/AppsPage'
+import ExportPage from '@/org/pages/ExportPage'
 import CirclesPage from '@/circle/pages/CirclesPage'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
@@ -132,6 +133,7 @@ export default function OrgRoute() {
           <Route path="settings" element={<SettingsLayout />}>
             <Route path="org" element={<OrgSettingsPage />} />
             <Route path="apps" element={<AppsPage />} />
+            <Route path="export" element={<ExportPage />} />
             <Route path="credentials" element={<CredentialsSettingsPage />} />
             <Route
               path="notifications"

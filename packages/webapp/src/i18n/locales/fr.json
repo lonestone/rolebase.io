@@ -129,6 +129,24 @@
     "download": "Télécharger au format PNG",
     "center": "Centrer"
   },
+  "ExportPage": {
+    "heading": "Export",
+    "description": "Exportez les données de votre organisation. Choisissez un format et sélectionnez les entités à inclure.",
+    "format": "Format",
+    "entities": "Entités à exporter",
+    "button": "Exporter",
+    "toastSuccess": "Export téléchargé !",
+    "toastError": "Une erreur est survenue lors de l'export.",
+    "entity": {
+      "members": "Membres",
+      "orgChart": "Organigramme (rôles, cercles, attributions)",
+      "decisions": "Décisions",
+      "tasks": "Tâches",
+      "threads": "Discussions",
+      "meetings": "Réunions",
+      "meetings_recurring": "Réunions récurrentes"
+    }
+  },
   "CircleFormController": {
     "label": "Rôle"
   },
@@ -935,6 +953,7 @@
     "orgSettings": "Organisation",
     "subscription": "Abonnement",
     "apps": "Intégrations & API",
+    "export": "Export",
     "superAdmin": "Administration",
     "toastSaved": "Paramètres enregistrés !"
   },

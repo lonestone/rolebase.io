@@ -1,6 +1,8 @@
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
+import useOrgOwner from '@/member/hooks/useOrgOwner'
+import { useOrgId } from '@/org/hooks/useOrgId'
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import { Box, Flex, Heading, useMediaQuery, VStack } from '@chakra-ui/react'
@@ -10,6 +12,7 @@ import { Outlet } from 'react-router-dom'
 import {
   AppsIcon,
   CircleIcon,
+  ExportIcon,
   NotificationIcon,
   SuperAdminIcon,
   UserInfoIcon,
@@ -22,7 +25,9 @@ const sidebarWidth = '250px'
 export default function SettingsLayout() {
   const { t } = useTranslation()
   const pathBase = usePathInOrg('settings') || '/settings'
+  const orgId = useOrgId()
   const isAdmin = useOrgAdmin()
+  const isOwner = useOrgOwner()
   const isSuperAdmin = useSuperAdmin()
   const [isSmallScreen] = useMediaQuery('(max-width: 1024px)')
 
@@ -61,14 +66,21 @@ export default function SettingsLayout() {
             }}
           >
             {/* Organization Section */}
-            {isAdmin && (
+            {(isAdmin || isOwner) && orgId && (
               <VStack align="stretch" spacing={1}>
                 <SidebarGroupTitle>
                   {t('SettingsMenu.org.heading')}
                 </SidebarGroupTitle>
-                <SidebarItemLink to={`${pathBase}/org`} icon={CircleIcon}>
-                  {t('Settings.orgSettings')}
-                </SidebarItemLink>
+                {isAdmin && (
+                  <SidebarItemLink to={`${pathBase}/org`} icon={CircleIcon}>
+                    {t('Settings.orgSettings')}
+                  </SidebarItemLink>
+                )}
+                {isOwner && (
+                  <SidebarItemLink to={`${pathBase}/export`} icon={ExportIcon}>
+                    {t('Settings.export')}
+                  </SidebarItemLink>
+                )}
               </VStack>
             )}
 

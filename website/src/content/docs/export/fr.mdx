@@ -1,0 +1,60 @@
+---
+title: 'Export'
+description: 'Exportez les données de votre organisation en XLSX ou JSON.'
+order: 14
+---
+
+## Vue d'ensemble
+
+Rolebase permet aux propriétaires d'organisation d'exporter leurs données dans plusieurs formats. C'est utile pour les sauvegardes, l'analyse dans des outils externes ou la migration vers une autre plateforme.
+
+## Accéder à l'outil d'export
+
+1. Ouvrez votre organisation dans Rolebase.
+2. Allez dans **Paramètres**.
+3. Dans la barre latérale, sous **Organisation**, cliquez sur **Export**.
+
+<Callout type="info" title="Accès propriétaire requis">
+  Seuls les propriétaires de l'organisation peuvent exporter les données. Si
+  vous ne voyez pas l'option Export, contactez le propriétaire de votre
+  organisation.
+</Callout>
+
+## Choisir un format
+
+Deux formats d'export sont disponibles :
+
+| Format | Description                                                                                              |
+| ------ | -------------------------------------------------------------------------------------------------------- |
+| XLSX   | Fichier Excel avec un onglet par entité. Idéal pour consulter et modifier dans un tableur.               |
+| JSON   | Format de données structuré. Idéal pour les développeurs et les workflows basés sur l'API.               |
+
+## Données exportées
+
+Chaque export inclut les **membres** et l'**organigramme** (rôles, cercles, attributions de rôles et liens entre cercles). Vous pouvez aussi inclure des entités supplémentaires :
+
+| Entité               | Description                                                                                          | Inclus         |
+| -------------------- | ---------------------------------------------------------------------------------------------------- | -------------- |
+| Membres              | Tous les membres avec nom, email et rôle                                                             | Toujours       |
+| Organigramme         | Rôles, cercles, attributions de rôles et liens entre cercles                                         | Toujours       |
+| Décisions            | Décisions de gouvernance enregistrées dans les cercles                                               | Optionnel      |
+| Tâches               | Tâches avec statut, assignation et date d'échéance                                                   | Optionnel      |
+| Discussions          | Fils de discussion avec leurs messages, membres supplémentaires, réponses aux sondages et réactions   | Optionnel      |
+| Réunions             | Comptes-rendus de réunions avec étapes d'agenda, présence des participants, résumés et modèles        | Optionnel      |
+| Réunions récurrentes | Configurations des réunions récurrentes                                                              | Optionnel      |
+
+## Exporter
+
+1. Sélectionnez votre format préféré (XLSX ou JSON).
+2. Cochez les entités optionnelles à inclure.
+3. Cliquez sur **Exporter**.
+4. Le fichier se télécharge automatiquement sur votre ordinateur.
+
+## Export de l'organigramme
+
+En complément de l'export de données, vous pouvez exporter une image de votre organigramme au format PNG. Ouvrez la vue organigramme et cliquez sur le bouton **Export (PNG)**.
+
+## Prochaines étapes
+
+- Découvrez [l'import de données](/fr/docs/import) depuis d'autres outils.
+- Utilisez l'[API GraphQL](/fr/developers) pour un accès programmatique aux données.
