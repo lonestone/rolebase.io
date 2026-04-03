@@ -411,9 +411,10 @@ export class HolaspiritImporter extends Importer {
     const tasks: Task_Insert_Input[] = []
 
     for (const row of this.data['Tasks']) {
-      // Get circleId
+      // Get circleId from Context field (circle name)
       const circleId =
-        this.getMapCircleId(row.Circle, row.Role) || this.orgCircleId
+        (row.Context && this.getMapCircleId(undefined, row.Context)) ||
+        this.orgCircleId
 
       // Get memberId
       // TODO: Handle multiple members
@@ -460,15 +461,8 @@ export class HolaspiritImporter extends Importer {
 
     let notes = ''
 
-    if (roleData.NOTES) {
-      notes += await this.importHTMLContent(roleData.NOTES)
-    }
-    if (roleData['OBJECTIFS CLES']) {
-      const goals = await this.importHTMLContent(roleData['OBJECTIFS CLES'])
-      notes += `\n### Objectifs :\n${goals}`
-    }
-    if (roleData['Strategy']) {
-      const strategy = await this.importHTMLContent(roleData['Strategy'])
+    if (roleData['Stratégie']) {
+      const strategy = await this.importHTMLContent(roleData['Stratégie'])
       notes += `\n### Stratégie :\n${strategy}`
     }
 

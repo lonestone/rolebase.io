@@ -28,12 +28,22 @@ export interface HolaspiritMember {
   Email: string
   Phone: string
   Language: string
+  Timezone: string
   Avatar: string
   Created: string // Date
   'Last connection': string // Date
   Privilege: 'owner' | 'admin' | 'member'
-  Suspended: false
+  Suspended: boolean
+  'Circle count': number
   'Role count': number
+  'SCIM ID'?: string
+  Compétences?: string
+  Localisations?: string
+  Biographie?: string
+  'circle count'?: number
+  'Job Title'?: string
+  'Managed by'?: string
+  'Manager of'?: string
 }
 
 export interface HolaspiritAssignation {
@@ -44,10 +54,15 @@ export interface HolaspiritAssignation {
   Circle: string
   'Role ID'?: string
   Role?: string
+  Hiring?: string
   TimeSpent: number
+  TimeSpentAssignation?: number
+  TimeSpentAssignationUpdate?: string
   Since?: string // Date
   Until?: string // Date
-  Core: true
+  Scope?: string
+  'Decision Maker'?: boolean
+  'Circle Admin'?: boolean
 }
 
 export interface HolaspiritCirclesRole {
@@ -55,16 +70,16 @@ export interface HolaspiritCirclesRole {
   Circle?: string
   'Role ID': string
   Role: string
-  HasAssignation: true
+  Template?: boolean
+  Hiring?: string
+  HasAssignation: boolean
   Created: string // Date
   TimeSpent: number
   IsCircle: boolean
   Purpose: string
   Domains: string
   Accountabilities: string
-  Strategy?: string
-  ['OBJECTIFS CLES']?: string
-  NOTES?: string
+  Stratégie?: string
 }
 
 export interface HolaspiritPolicy {
@@ -78,16 +93,25 @@ export interface HolaspiritPolicy {
 }
 
 export interface HolaspiritTask {
-  'Circle ID'?: string
-  Circle?: string
-  'Role ID'?: string
-  Role?: string
+  'Board ID'?: string
+  Board?: string
   Members?: string
+  Column?: string
   Status: 'current' | 'done'
+  'Task ID': string
   Title: string
+  Labels?: string
   Description?: string
+  'Todo Lists'?: string
+  'Parent Task'?: string
+  'Parent Todo List'?: string
   Created: string // Date
-  Archived: string // Date
+  'Start date'?: string // Date
+  Term?: string // Date
+  Completed?: string // Date
+  Archived?: string // Date
+  Private?: boolean
+  Context?: string
 }
 
 export interface HolaspiritBoard {
@@ -104,9 +128,10 @@ export interface HolaspiritPublication {
   Circle: string
   'Role ID': string
   Role: string
+  Member?: string
   Title: string
-  Description: string
-  Type: string
+  Description?: string
+  Type?: string
 }
 
 export interface HolaspiritChecklist {
@@ -115,6 +140,7 @@ export interface HolaspiritChecklist {
   'Role ID'?: string
   Role?: string
   Recurrence: string
+  LastCheckDate?: string
   Members: string
   Title: string
   Description?: string
@@ -126,6 +152,7 @@ export interface HolaspiritMetric {
   'Role ID'?: string
   Role?: string
   Recurrence: string
+  LastCheckDate?: string
   Members: string
   Title: string
   Description?: string
@@ -135,9 +162,12 @@ export interface HolaspiritMeeting {
   'Circle ID': string
   Circle: string
   Template: string
+  Description?: string
   Status: 'closed'
   'Opened At': string // Date
   'Duration (s)': number
-  'Scheduled At': string // Date
-  Tensions: 1
+  'Scheduled At'?: string // Date
+  'Scheduled Duration (s)'?: number
+  Tensions: number
+  Context?: string
 }

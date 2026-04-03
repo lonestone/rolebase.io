@@ -22,7 +22,7 @@ import { nameSchema, slugSchema } from '@rolebase/shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import slugify from 'slugify'
 import { ChevronRightIcon } from 'src/icons'
 import settings from 'src/settings'
@@ -152,11 +152,16 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
           </Heading>
           <Text>{t('OrgCreateModal.import.text')}</Text>
 
-          <Link to="/import" tabIndex={-1}>
-            <Button colorScheme="blue" mt={7}>
-              {t('OrgCreateModal.import.button')}
-            </Button>
-          </Link>
+          <Button
+            colorScheme="blue"
+            mt={7}
+            onClick={() => {
+              modalProps.onClose()
+              navigate('/import')
+            }}
+          >
+            {t('OrgCreateModal.import.button')}
+          </Button>
         </Box>
 
         <OnboardingVideo type={OnboardingVideoType.CreateOrg} />
