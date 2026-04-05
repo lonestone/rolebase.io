@@ -11,7 +11,7 @@ interface Props {
 
 const { headings, image } = Astro.props
 const stripLeadingNumber = (text: string) =>
-  text.replace(/^\d+[\)\/\-\.]\s*/, '')
+  text.replace(/^\d+\s*[\)\/\-\.·•]\s*/, '')
 const h2s = headings
   .filter((h) => h.depth === 2)
   .map((h) => ({ ...h, text: stripLeadingNumber(h.text) }))
