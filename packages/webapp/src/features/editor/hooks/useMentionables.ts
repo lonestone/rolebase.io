@@ -1,5 +1,5 @@
 import { useStoreState } from '@store/hooks'
-import { MentionEntities } from '../lib/nodes/MentionNode'
+import { MentionEntities } from '@rolebase/editor'
 import { Mentionable } from '../lib/plugins/MentionsPlugin'
 
 export default function useMentionables(): Mentionable[] {

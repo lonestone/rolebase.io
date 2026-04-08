@@ -21,7 +21,7 @@ import {
   LexicalEditor,
 } from 'lexical'
 import { forwardRef, useImperativeHandle } from 'react'
-import { markdownTransformers } from '../MarkdownTransformers'
+import { markdownTransformers } from '@rolebase/editor'
 
 export interface EditorHandle {
   editor: LexicalEditor

@@ -1,3 +1,4 @@
+import { exportToMarkdown } from '@rolebase/editor'
 import * as yup from 'yup'
 import { gql, Member_Role_Enum } from '../../gql'
 import { guardOrg } from '../../guards/guardOrg'
@@ -68,22 +69,27 @@ export default authedProcedure
       throw new Error('Organization not found')
     }
 
+    const roleRichTextFields = ['purpose', 'domain', 'accountabilities', 'checklist', 'indicators', 'notes']
+    const richTextDescription = ['description']
+    const richTextSummary = ['summary']
+    const richTextNotes = ['notes']
+
     // All available entity data
     const allEntityData: Record<EntityName, unknown[]> = {
       members: org.members,
-      roles: org.roles,
+      roles: (org.roles as Record<string, unknown>[]).map((r) => convertRichTextFields(r, roleRichTextFields)),
       circles: org.circles,
       circle_members: data.circle_member,
       circle_links: data.circle_link,
-      decisions: org.decisions,
-      tasks: org.tasks,
+      decisions: (org.decisions as Record<string, unknown>[]).map((r) => convertRichTextFields(r, richTextDescription)),
+      tasks: (org.tasks as Record<string, unknown>[]).map((r) => convertRichTextFields(r, richTextDescription)),
       threads: org.threads,
       thread_activities: data.thread_activity.map(flattenThreadActivityData),
       thread_extra_members: data.thread_extra_member,
       thread_poll_answers: data.thread_poll_answer,
       thread_activity_reactions: data.thread_activity_reaction,
-      meetings: org.meetings,
-      meeting_steps: data.meeting_step.map(flattenMeetingStepData),
+      meetings: (org.meetings as Record<string, unknown>[]).map((r) => convertRichTextFields(r, richTextSummary)),
+      meeting_steps: (data.meeting_step as Record<string, unknown>[]).map(flattenMeetingStepData).map((r) => convertRichTextFields(r, richTextNotes)),
       meeting_attendees: data.meeting_attendee,
       meeting_templates: org.meeting_templates,
       meetings_recurring: org.meetings_recurring,
@@ -196,8 +202,23 @@ function flattenMeetingStepData(
 }
 
 function stringify(value: unknown): string {
-  if (typeof value === 'string') return value
+  if (typeof value === 'string') return exportToMarkdown(value)
   return JSON.stringify(value)
+}
+
+// Convert Lexical JSON fields to markdown in a row
+function convertRichTextFields(
+  row: Record<string, unknown>,
+  fields: string[]
+): Record<string, unknown> {
+  const result = { ...row }
+  for (const field of fields) {
+    const value = result[field]
+    if (typeof value === 'string' && value.length > 0) {
+      result[field] = exportToMarkdown(value)
+    }
+  }
+  return result
 }
 
 const GET_ORG_EXPORT_DATA = gql(`

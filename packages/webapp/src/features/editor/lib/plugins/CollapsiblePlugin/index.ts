@@ -32,17 +32,13 @@ import {
   $createCollapsibleContainerNode,
   $isCollapsibleContainerNode,
   CollapsibleContainerNode,
-} from './CollapsibleContainerNode'
-import {
   $createCollapsibleContentNode,
   $isCollapsibleContentNode,
   CollapsibleContentNode,
-} from './CollapsibleContentNode'
-import {
   $createCollapsibleTitleNode,
   $isCollapsibleTitleNode,
   CollapsibleTitleNode,
-} from './CollapsibleTitleNode'
+} from '@rolebase/editor'
 
 export const INSERT_COLLAPSIBLE_COMMAND = createCommand<void>()
 export const TOGGLE_COLLAPSIBLE_COMMAND = createCommand<NodeKey>()

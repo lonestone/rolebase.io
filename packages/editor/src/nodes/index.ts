@@ -6,20 +6,18 @@ import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { MarkNode } from '@lexical/mark'
 import { OverflowNode } from '@lexical/overflow'
-import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 
-import {
-  CollapsibleContainerNode,
-  CollapsibleContentNode,
-  CollapsibleTitleNode,
-  KeywordNode,
-  MentionNode,
-} from '@rolebase/editor'
+import { CollapsibleContainerNode } from './CollapsibleContainerNode'
+import { CollapsibleContentNode } from './CollapsibleContentNode'
+import { CollapsibleTitleNode } from './CollapsibleTitleNode'
 import { FigmaNode } from './FigmaNode'
 import { FileNode } from './FileNode'
+import { HorizontalRuleNode } from './HorizontalRuleNode'
 import { ImageNode } from './ImageNode'
+import { KeywordNode } from './KeywordNode'
+import { MentionNode } from './MentionNode'
 import { TweetNode } from './TweetNode'
 import { YouTubeNode } from './YouTubeNode'
 

@@ -33,6 +33,7 @@
     "@hello-pangea/dnd": "^16.2.0",
     "@hookform/resolvers": "^2.8.8",
     "@lexical/headless": "^0.9.1",
+    "@rolebase/editor": "*",
     "@lexical/markdown": "^0.9.1",
     "@lexical/react": "^0.9.1",
     "@nhost/nhost-js": "^4.2.0",

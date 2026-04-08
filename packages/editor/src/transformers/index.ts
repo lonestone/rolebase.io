@@ -17,11 +17,6 @@ import {
   Transformer,
 } from '@lexical/markdown'
 import {
-  $createHorizontalRuleNode,
-  $isHorizontalRuleNode,
-  HorizontalRuleNode,
-} from '@lexical/react/LexicalHorizontalRuleNode'
-import {
   $createTableCellNode,
   $createTableNode,
   $createTableRowNode,
@@ -44,13 +39,18 @@ import {
   $createImageNode,
   $isImageNode,
   ImageNode,
-} from '../../nodes/ImageNode'
+} from '../nodes/ImageNode'
 import {
   $createTweetNode,
   $isTweetNode,
   TweetNode,
-} from '../../nodes/TweetNode'
-import emojiList from '../../utils/emoji-list'
+} from '../nodes/TweetNode'
+import {
+  $createHorizontalRuleNode,
+  $isHorizontalRuleNode,
+  HorizontalRuleNode,
+} from '../nodes/HorizontalRuleNode'
+import emojiList from './emoji-list'
 
 // Simple links with chevrons: <https://example.com>
 const SIMPLE_LINK: TextMatchTransformer = {

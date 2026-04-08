@@ -74,7 +74,7 @@ export function $createKeywordNode(keyword: string): KeywordNode {
 }
 
 export function $isKeywordNode(
-  node: LexicalNode | null | undefined | undefined
+  node: LexicalNode | null | undefined
 ): boolean {
   return node instanceof KeywordNode
 }
