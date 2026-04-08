@@ -44,7 +44,7 @@ const graphqlLanguage = LanguageDescription.of({
 })
 
 const codeBlockLanguages = [
-  { name: 'Plain text', extensioins: [''] },
+  { name: 'Plain text', extensions: [''] },
   ...[...languages, graphqlLanguage].sort((a, b) =>
     a.name.localeCompare(b.name)
   ),
