@@ -4,7 +4,6 @@ import CirclesPage from '@/circle/pages/CirclesPage'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import Page404 from '@/common/pages/Page404'
-import SuperAdminPage from '@/common/pages/SuperAdminPage'
 import DashboardPage from '@/dashboard/pages/DashboardPage'
 import DecisionPage from '@/decision/pages/DecisionPage '
 import SettingsLayout from '@/layout/components/SettingsLayout'
@@ -18,7 +17,6 @@ import TaskPage from '@/task/pages/TaskPage'
 import TasksPage from '@/task/pages/TasksPage'
 import ThreadPage from '@/thread/pages/ThreadPage'
 import ThreadsPage from '@/thread/pages/ThreadsPage'
-import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import CredentialsSettingsPage from '@/user/pages/CredentialsSettingsPage'
 import NotificationsSettingsPage from '@/user/pages/NotificationsSettingsPage'
 import { useOrgBySlugSubscription, useOrgSubscription } from '@gql'
@@ -40,7 +38,6 @@ type Params = {
 
 export default function OrgRoute() {
   const { orgId, slug } = useParams<Params>()
-  const superAdmin = useSuperAdmin()
 
   // Subscribe to org structure
   // either by id or slug
@@ -139,7 +136,6 @@ export default function OrgRoute() {
               path="notifications"
               element={<NotificationsSettingsPage />}
             />
-            {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
           </Route>
           <Route path="*" element={<Page404 />} />
         </Routes>

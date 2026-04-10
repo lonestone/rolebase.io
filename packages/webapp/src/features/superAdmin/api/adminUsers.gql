@@ -1,0 +1,37 @@
+query AdminUsers($limit: Int!, $offset: Int!, $search: String!, $searchCitext: citext!) {
+  users(
+    limit: $limit
+    offset: $offset
+    where: {
+      _or: [
+        { displayName: { _ilike: $search } }
+        { email: { _ilike: $searchCitext } }
+      ]
+    }
+    order_by: { createdAt: desc }
+  ) {
+    id
+    displayName
+    email
+    createdAt
+    lastSeen
+    disabled
+    members_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  usersAggregate(
+    where: {
+      _or: [
+        { displayName: { _ilike: $search } }
+        { email: { _ilike: $searchCitext } }
+      ]
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}

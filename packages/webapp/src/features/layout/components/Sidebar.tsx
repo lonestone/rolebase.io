@@ -14,6 +14,7 @@ import SearchGlobalModal from '@/search/components/SearchGlobalModal'
 import TaskModal from '@/task/modals/TaskModal'
 import ThreadEditModal from '@/thread/modals/ThreadEditModal'
 import { useAuth } from '@/user/hooks/useAuth'
+import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import {
   Avatar,
   Flex,
@@ -41,6 +42,7 @@ import {
   SettingsIcon,
   SidebarLeftIcon,
   SubscriptionIcon,
+  SuperAdminIcon,
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
@@ -75,6 +77,7 @@ export default function Sidebar() {
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const isOwner = useOrgOwner()
+  const isSuperAdmin = useSuperAdmin()
 
   // User display name and avatar
   const displayName = currentMember?.name || user?.displayName || ''
@@ -295,6 +298,12 @@ export default function Sidebar() {
                 </SidebarItemLink>
               )}
             </>
+          )}
+
+          {isSuperAdmin && (
+            <SidebarItemLink to="/admin" icon={SuperAdminIcon}>
+              {t('Sidebar.admin')}
+            </SidebarItemLink>
           )}
 
           <SidebarItemLink

@@ -1,0 +1,31 @@
+query AdminOrgs($limit: Int!, $offset: Int!, $search: String!) {
+  org(
+    limit: $limit
+    offset: $offset
+    where: { name: { _ilike: $search }, archived: { _eq: false } }
+    order_by: { createdAt: desc }
+  ) {
+    id
+    name
+    slug
+    createdAt
+    archived
+    org_subscription {
+      id
+      status
+      type
+    }
+    members_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  org_aggregate(
+    where: { name: { _ilike: $search }, archived: { _eq: false } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}

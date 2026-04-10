@@ -928,6 +928,7 @@
     "lock": "Lock sidebar open",
     "orgs": "Organizations",
     "settings": "Settings",
+    "admin": "Administration",
     "menu": "Menu",
     "news": "News",
     "roles": "Org chart",
@@ -1074,6 +1075,66 @@
       "feature2": "Unlimited members",
       "feature3": "Priority tips and support",
       "feature4": "Custom integrations"
+    }
+  },
+  "SuperAdmin": {
+    "heading": "Administration",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "orgs": "Organizations",
+      "users": "Users",
+      "maintenance": "Maintenance"
+    },
+    "dashboard": {
+      "heading": "Dashboard",
+      "totalOrgs": "Organizations",
+      "totalUsers": "Users",
+      "dau": "DAU (24h)",
+      "mau": "MAU (30d)",
+      "growth": "Growth",
+      "period": {
+        "30d": "30 days",
+        "90d": "90 days",
+        "1y": "1 year",
+        "3y": "3 years"
+      }
+    },
+    "orgs": {
+      "heading": "Organizations",
+      "searchPlaceholder": "Search organizations...",
+      "total": "organizations",
+      "noSubscription": "Free",
+      "columns": {
+        "name": "Name",
+        "slug": "Slug",
+        "created": "Created",
+        "members": "Members",
+        "subscription": "Subscription"
+      }
+    },
+    "users": {
+      "heading": "Users",
+      "searchPlaceholder": "Search users...",
+      "total": "users",
+      "active": "Enabled",
+      "disabled": "Disabled",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "created": "Created",
+        "lastSeen": "Last seen",
+        "orgs": "Orgs",
+        "status": "Status"
+      }
+    },
+    "maintenance": {
+      "heading": "Maintenance",
+      "searchReindex": "Reindex search engine",
+      "recomputeCache": "Recompute circle_participant_cache"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
     }
   },
   "SuperAdminPage": {

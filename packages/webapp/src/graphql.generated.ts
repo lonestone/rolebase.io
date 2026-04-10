@@ -21209,6 +21209,40 @@ export type GetSearchResultsQueryVariables = Exact<{
 
 export type GetSearchResultsQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, name: string, picture?: string | null }>, circle: Array<{ __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } }>, thread: Array<{ __typename?: 'thread', id: string, circleId: string, title: string, createdAt: string }>, meeting: Array<{ __typename?: 'meeting', id: string, circleId: string, title: string, startDate: string }>, task: Array<{ __typename?: 'task', id: string, circleId: string, title: string, dueDate?: string | null }>, decision: Array<{ __typename?: 'decision', id: string, circleId: string, title: string, createdAt: string }> };
 
+export type AdminGrowthQueryVariables = Exact<{
+  since: Scalars['timestamptz']['input'];
+}>;
+
+
+export type AdminGrowthQuery = { __typename?: 'query_root', org: Array<{ __typename?: 'org', createdAt: string }>, users: Array<{ __typename?: 'users', createdAt: string }>, org_aggregate: { __typename?: 'org_aggregate', aggregate?: { __typename?: 'org_aggregate_fields', count: number } | null }, usersAggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
+
+export type AdminOrgsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  search: Scalars['String']['input'];
+}>;
+
+
+export type AdminOrgsQuery = { __typename?: 'query_root', org: Array<{ __typename?: 'org', id: string, name: string, slug?: string | null, createdAt: string, archived: boolean, org_subscription?: { __typename?: 'org_subscription', id: string, status: Subscription_Payment_Status_Enum, type: Subscription_Plan_Type_Enum } | null, members_aggregate: { __typename?: 'member_aggregate', aggregate?: { __typename?: 'member_aggregate_fields', count: number } | null } }>, org_aggregate: { __typename?: 'org_aggregate', aggregate?: { __typename?: 'org_aggregate_fields', count: number } | null } };
+
+export type AdminStatsQueryVariables = Exact<{
+  dauSince: Scalars['timestamptz']['input'];
+  mauSince: Scalars['timestamptz']['input'];
+}>;
+
+
+export type AdminStatsQuery = { __typename?: 'query_root', org_aggregate: { __typename?: 'org_aggregate', aggregate?: { __typename?: 'org_aggregate_fields', count: number } | null }, usersAggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null }, dau: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null }, mau: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
+
+export type AdminUsersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  search: Scalars['String']['input'];
+  searchCitext: Scalars['citext']['input'];
+}>;
+
+
+export type AdminUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: string, displayName: string, email?: string | null, createdAt: string, lastSeen?: string | null, disabled: boolean, members_aggregate: { __typename?: 'member_aggregate', aggregate?: { __typename?: 'member_aggregate_fields', count: number } | null } }>, usersAggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
+
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
@@ -24554,6 +24588,243 @@ export type GetSearchResultsLazyQueryHookResult = ReturnType<typeof useGetSearch
 export type GetSearchResultsQueryResult = Apollo.QueryResult<GetSearchResultsQuery, GetSearchResultsQueryVariables>;
 export function refetchGetSearchResultsQuery(variables: GetSearchResultsQueryVariables) {
       return { query: GetSearchResultsDocument, variables: variables }
+    }
+export const AdminGrowthDocument = gql`
+    query AdminGrowth($since: timestamptz!) {
+  org(
+    where: {createdAt: {_gte: $since}, archived: {_eq: false}}
+    order_by: {createdAt: asc}
+  ) {
+    createdAt
+  }
+  users(where: {createdAt: {_gte: $since}}, order_by: {createdAt: asc}) {
+    createdAt
+  }
+  org_aggregate(where: {createdAt: {_lt: $since}, archived: {_eq: false}}) {
+    aggregate {
+      count
+    }
+  }
+  usersAggregate(where: {createdAt: {_lt: $since}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useAdminGrowthQuery__
+ *
+ * To run a query within a React component, call `useAdminGrowthQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAdminGrowthQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAdminGrowthQuery({
+ *   variables: {
+ *      since: // value for 'since'
+ *   },
+ * });
+ */
+export function useAdminGrowthQuery(baseOptions: Apollo.QueryHookOptions<AdminGrowthQuery, AdminGrowthQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AdminGrowthQuery, AdminGrowthQueryVariables>(AdminGrowthDocument, options);
+      }
+export function useAdminGrowthLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AdminGrowthQuery, AdminGrowthQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AdminGrowthQuery, AdminGrowthQueryVariables>(AdminGrowthDocument, options);
+        }
+export type AdminGrowthQueryHookResult = ReturnType<typeof useAdminGrowthQuery>;
+export type AdminGrowthLazyQueryHookResult = ReturnType<typeof useAdminGrowthLazyQuery>;
+export type AdminGrowthQueryResult = Apollo.QueryResult<AdminGrowthQuery, AdminGrowthQueryVariables>;
+export function refetchAdminGrowthQuery(variables: AdminGrowthQueryVariables) {
+      return { query: AdminGrowthDocument, variables: variables }
+    }
+export const AdminOrgsDocument = gql`
+    query AdminOrgs($limit: Int!, $offset: Int!, $search: String!) {
+  org(
+    limit: $limit
+    offset: $offset
+    where: {name: {_ilike: $search}, archived: {_eq: false}}
+    order_by: {createdAt: desc}
+  ) {
+    id
+    name
+    slug
+    createdAt
+    archived
+    org_subscription {
+      id
+      status
+      type
+    }
+    members_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  org_aggregate(where: {name: {_ilike: $search}, archived: {_eq: false}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useAdminOrgsQuery__
+ *
+ * To run a query within a React component, call `useAdminOrgsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAdminOrgsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAdminOrgsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *      search: // value for 'search'
+ *   },
+ * });
+ */
+export function useAdminOrgsQuery(baseOptions: Apollo.QueryHookOptions<AdminOrgsQuery, AdminOrgsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AdminOrgsQuery, AdminOrgsQueryVariables>(AdminOrgsDocument, options);
+      }
+export function useAdminOrgsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AdminOrgsQuery, AdminOrgsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AdminOrgsQuery, AdminOrgsQueryVariables>(AdminOrgsDocument, options);
+        }
+export type AdminOrgsQueryHookResult = ReturnType<typeof useAdminOrgsQuery>;
+export type AdminOrgsLazyQueryHookResult = ReturnType<typeof useAdminOrgsLazyQuery>;
+export type AdminOrgsQueryResult = Apollo.QueryResult<AdminOrgsQuery, AdminOrgsQueryVariables>;
+export function refetchAdminOrgsQuery(variables: AdminOrgsQueryVariables) {
+      return { query: AdminOrgsDocument, variables: variables }
+    }
+export const AdminStatsDocument = gql`
+    query AdminStats($dauSince: timestamptz!, $mauSince: timestamptz!) {
+  org_aggregate(where: {archived: {_eq: false}}) {
+    aggregate {
+      count
+    }
+  }
+  usersAggregate {
+    aggregate {
+      count
+    }
+  }
+  dau: usersAggregate(where: {lastSeen: {_gte: $dauSince}}) {
+    aggregate {
+      count
+    }
+  }
+  mau: usersAggregate(where: {lastSeen: {_gte: $mauSince}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useAdminStatsQuery__
+ *
+ * To run a query within a React component, call `useAdminStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAdminStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAdminStatsQuery({
+ *   variables: {
+ *      dauSince: // value for 'dauSince'
+ *      mauSince: // value for 'mauSince'
+ *   },
+ * });
+ */
+export function useAdminStatsQuery(baseOptions: Apollo.QueryHookOptions<AdminStatsQuery, AdminStatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AdminStatsQuery, AdminStatsQueryVariables>(AdminStatsDocument, options);
+      }
+export function useAdminStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AdminStatsQuery, AdminStatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AdminStatsQuery, AdminStatsQueryVariables>(AdminStatsDocument, options);
+        }
+export type AdminStatsQueryHookResult = ReturnType<typeof useAdminStatsQuery>;
+export type AdminStatsLazyQueryHookResult = ReturnType<typeof useAdminStatsLazyQuery>;
+export type AdminStatsQueryResult = Apollo.QueryResult<AdminStatsQuery, AdminStatsQueryVariables>;
+export function refetchAdminStatsQuery(variables: AdminStatsQueryVariables) {
+      return { query: AdminStatsDocument, variables: variables }
+    }
+export const AdminUsersDocument = gql`
+    query AdminUsers($limit: Int!, $offset: Int!, $search: String!, $searchCitext: citext!) {
+  users(
+    limit: $limit
+    offset: $offset
+    where: {_or: [{displayName: {_ilike: $search}}, {email: {_ilike: $searchCitext}}]}
+    order_by: {createdAt: desc}
+  ) {
+    id
+    displayName
+    email
+    createdAt
+    lastSeen
+    disabled
+    members_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  usersAggregate(
+    where: {_or: [{displayName: {_ilike: $search}}, {email: {_ilike: $searchCitext}}]}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useAdminUsersQuery__
+ *
+ * To run a query within a React component, call `useAdminUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAdminUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAdminUsersQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *      search: // value for 'search'
+ *      searchCitext: // value for 'searchCitext'
+ *   },
+ * });
+ */
+export function useAdminUsersQuery(baseOptions: Apollo.QueryHookOptions<AdminUsersQuery, AdminUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AdminUsersQuery, AdminUsersQueryVariables>(AdminUsersDocument, options);
+      }
+export function useAdminUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AdminUsersQuery, AdminUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AdminUsersQuery, AdminUsersQueryVariables>(AdminUsersDocument, options);
+        }
+export type AdminUsersQueryHookResult = ReturnType<typeof useAdminUsersQuery>;
+export type AdminUsersLazyQueryHookResult = ReturnType<typeof useAdminUsersLazyQuery>;
+export type AdminUsersQueryResult = Apollo.QueryResult<AdminUsersQuery, AdminUsersQueryVariables>;
+export function refetchAdminUsersQuery(variables: AdminUsersQueryVariables) {
+      return { query: AdminUsersDocument, variables: variables }
     }
 export const GetTaskDocument = gql`
     query getTask($id: uuid!) {

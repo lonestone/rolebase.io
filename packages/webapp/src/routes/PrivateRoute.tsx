@@ -4,7 +4,7 @@ import CrispSetUser from '@/common/atoms/CrispSetUser'
 import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import Page404 from '@/common/pages/Page404'
-import SuperAdminPage from '@/common/pages/SuperAdminPage'
+import SuperAdminRoutes from './SuperAdminRoutes'
 import LoggedLayout from '@/layout/components/LoggedLayout'
 import SettingsLayout from '@/layout/components/SettingsLayout'
 import MemberInvitationPage from '@/member/pages/MemberInvitationPage'
@@ -81,8 +81,9 @@ export default function PrivateRoute() {
           <Route path="apps" element={<AppsPage />} />
           <Route path="credentials" element={<CredentialsSettingsPage />} />
           <Route path="notifications" element={<NotificationsSettingsPage />} />
-          {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
         </Route>
+
+        {superAdmin && SuperAdminRoutes()}
 
         <Route path="apps" element={<Navigate to="/settings/apps" replace />} />
 

@@ -1,0 +1,26 @@
+query AdminGrowth($since: timestamptz!) {
+  org(
+    where: { createdAt: { _gte: $since }, archived: { _eq: false } }
+    order_by: { createdAt: asc }
+  ) {
+    createdAt
+  }
+  users(
+    where: { createdAt: { _gte: $since } }
+    order_by: { createdAt: asc }
+  ) {
+    createdAt
+  }
+  org_aggregate(
+    where: { createdAt: { _lt: $since }, archived: { _eq: false } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  usersAggregate(where: { createdAt: { _lt: $since } }) {
+    aggregate {
+      count
+    }
+  }
+}

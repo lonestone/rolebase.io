@@ -962,6 +962,7 @@
     "orgs": "Organisations",
     "menu": "Menu",
     "settings": "Paramètres",
+    "admin": "Administration",
     "news": "Actualités",
     "roles": "Organigramme",
     "threads": "Discussions",
@@ -1110,6 +1111,66 @@
       "feature2": "Membres actifs en illimité",
       "feature3": "Support et conseils prioritaires",
       "feature4": "Intégrations sur mesure"
+    }
+  },
+  "SuperAdmin": {
+    "heading": "Administration",
+    "sidebar": {
+      "dashboard": "Tableau de bord",
+      "orgs": "Organisations",
+      "users": "Utilisateurs",
+      "maintenance": "Maintenance"
+    },
+    "dashboard": {
+      "heading": "Tableau de bord",
+      "totalOrgs": "Organisations",
+      "totalUsers": "Utilisateurs",
+      "dau": "DAU (24h)",
+      "mau": "MAU (30j)",
+      "growth": "Croissance",
+      "period": {
+        "30d": "30 jours",
+        "90d": "90 jours",
+        "1y": "1 an",
+        "3y": "3 ans"
+      }
+    },
+    "orgs": {
+      "heading": "Organisations",
+      "searchPlaceholder": "Rechercher des organisations...",
+      "total": "organisations",
+      "noSubscription": "Gratuit",
+      "columns": {
+        "name": "Nom",
+        "slug": "Slug",
+        "created": "Création",
+        "members": "Membres",
+        "subscription": "Abonnement"
+      }
+    },
+    "users": {
+      "heading": "Utilisateurs",
+      "searchPlaceholder": "Rechercher des utilisateurs...",
+      "total": "utilisateurs",
+      "active": "Activé",
+      "disabled": "Désactivé",
+      "columns": {
+        "name": "Nom",
+        "email": "Email",
+        "created": "Création",
+        "lastSeen": "Dernière connexion",
+        "orgs": "Orgs",
+        "status": "Statut"
+      }
+    },
+    "maintenance": {
+      "heading": "Maintenance",
+      "searchReindex": "Réindexer le moteur de recherche",
+      "recomputeCache": "Recalculer circle_participant_cache"
+    },
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant"
     }
   },
   "SuperAdminPage": {

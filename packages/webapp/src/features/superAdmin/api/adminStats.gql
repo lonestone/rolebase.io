@@ -1,0 +1,22 @@
+query AdminStats($dauSince: timestamptz!, $mauSince: timestamptz!) {
+  org_aggregate(where: { archived: { _eq: false } }) {
+    aggregate {
+      count
+    }
+  }
+  usersAggregate {
+    aggregate {
+      count
+    }
+  }
+  dau: usersAggregate(where: { lastSeen: { _gte: $dauSince } }) {
+    aggregate {
+      count
+    }
+  }
+  mau: usersAggregate(where: { lastSeen: { _gte: $mauSince } }) {
+    aggregate {
+      count
+    }
+  }
+}

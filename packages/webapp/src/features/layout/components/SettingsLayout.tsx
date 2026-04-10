@@ -4,7 +4,6 @@ import useOrgAdmin from '@/member/hooks/useOrgAdmin'
 import useOrgOwner from '@/member/hooks/useOrgOwner'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
-import useSuperAdmin from '@/user/hooks/useSuperAdmin'
 import { Box, Flex, Heading, useMediaQuery, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +13,6 @@ import {
   CircleIcon,
   ExportIcon,
   NotificationIcon,
-  SuperAdminIcon,
   UserInfoIcon,
 } from 'src/icons'
 import SidebarGroupTitle from './SidebarGroupTitle'
@@ -28,7 +26,6 @@ export default function SettingsLayout() {
   const orgId = useOrgId()
   const isAdmin = useOrgAdmin()
   const isOwner = useOrgOwner()
-  const isSuperAdmin = useSuperAdmin()
   const [isSmallScreen] = useMediaQuery('(max-width: 1024px)')
 
   return (
@@ -106,17 +103,6 @@ export default function SettingsLayout() {
               </SidebarItemLink>
             </VStack>
 
-            {/* Admin Section */}
-            {isSuperAdmin && (
-              <VStack align="stretch" spacing={1}>
-                <SidebarGroupTitle>
-                  {t('SettingsMenu.org.superAdmin')}
-                </SidebarGroupTitle>
-                <SidebarItemLink to={`${pathBase}/admin`} icon={SuperAdminIcon}>
-                  {t('Settings.superAdmin')}
-                </SidebarItemLink>
-              </VStack>
-            )}
           </VStack>
 
           {/* Main Content */}
