@@ -9,7 +9,8 @@ export interface EmailMessage {
   From: EmailAddress
   To: EmailAddress[]
   Subject: string
-  HTMLPart: string
+  HTMLPart?: string
+  TextPart?: string
 }
 
 export async function sendEmail(...messages: EmailMessage[]) {

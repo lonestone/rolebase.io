@@ -14,7 +14,7 @@ export default webhookProcedure.mutation(async () => {
   const now = Date.now()
 
   for (const member of members) {
-    const inviteDate = new Date(member.inviteDate)
+    const inviteDate = new Date(member.inviteDate!)
     const daysSinceInvite = (now - inviteDate.getTime()) / (1000 * 60 * 60 * 24)
 
     // Check if we're in a reminder window (within 1 day after a threshold)
@@ -34,7 +34,7 @@ export default webhookProcedure.mutation(async () => {
       await sendMemberActivityEmail({
         recipients: [
           {
-            Email: member.inviteEmail,
+            Email: member.inviteEmail!,
             Name: member.name,
           },
         ],

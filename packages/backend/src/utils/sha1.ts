@@ -1,15 +1,7 @@
 import crypto from 'crypto'
 
-export function sha1(input: string | Buffer) {
+export function sha1(input: string | Uint8Array) {
   const hash = crypto.createHash('sha1')
-
-  if (Buffer.isBuffer(input)) {
-    hash.update(input)
-  } else if (typeof input === 'string') {
-    hash.update(Buffer.from(input))
-  } else {
-    throw new Error('Input must be a Buffer or a string')
-  }
-
+  hash.update(input)
   return hash.digest('hex')
 }

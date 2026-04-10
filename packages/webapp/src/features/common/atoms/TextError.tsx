@@ -4,10 +4,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  error: Error | ApolloError
+  error: Error | ApolloError | undefined
 }
 
 export default function TextError({ error }: Props) {
+  if (!error) return null
   const { t } = useTranslation()
 
   return (
