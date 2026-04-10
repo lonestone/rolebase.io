@@ -22,7 +22,7 @@ import { ThreadActivityChangeStatusFragment } from '@rolebase/shared/model/threa
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React, { ReactNode, useContext, useMemo } from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 import { ThreadContext } from '../contexts/ThreadContext'
 import ActivityDeleteModal from '../modals/ActivityDeleteModal'
 import ThreadActivityAnchor from './ThreadActivityAnchor'

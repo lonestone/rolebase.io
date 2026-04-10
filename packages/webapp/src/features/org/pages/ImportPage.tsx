@@ -16,7 +16,7 @@ import {
 import { Crisp } from 'crisp-sdk-web'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { ChevronRightIcon, UploadIcon } from 'src/icons'
 import { nhost } from 'src/nhost'
 import { trpc } from 'src/trpc'

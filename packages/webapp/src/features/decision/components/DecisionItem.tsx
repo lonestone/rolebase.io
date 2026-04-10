@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { DecisionFragment } from '@gql'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 import { DecisionIcon, PrivacyIcon } from 'src/icons'
 import DecisionModal from '../modals/DecisionModal'
 

@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import useQueryParams from './useQueryParams'
 
 // Return query params and a function to update them

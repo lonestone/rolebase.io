@@ -4,7 +4,7 @@ import AdminMaintenancePage from '@/superAdmin/pages/AdminMaintenancePage'
 import AdminOrgsPage from '@/superAdmin/pages/AdminOrgsPage'
 import AdminUsersPage from '@/superAdmin/pages/AdminUsersPage'
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 
 export default function SuperAdminRoutes() {
   return (

@@ -17,7 +17,7 @@ import {
   $isRangeSelection,
 } from 'lexical'
 import { useEffect } from 'react'
-import { useInRouterContext, useNavigate } from 'react-router-dom'
+import { useInRouterContext, useNavigate } from 'react-router'
 
 type LinkFilter = (event: MouseEvent, linkNode: LinkNode) => boolean
 

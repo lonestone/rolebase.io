@@ -19,7 +19,7 @@ import {
 import { Task_Status_Enum, TaskFragment } from '@gql'
 import { formatRelative } from 'date-fns'
 import React from 'react'
-import { Link as ReachLink, useLocation } from 'react-router-dom'
+import { Link as ReachLink, useLocation } from 'react-router'
 import { PrivacyIcon, TaskIcon } from 'src/icons'
 import useUpdateTaskStatus from '../hooks/useUpdateTaskStatus'
 import TaskModal from '../modals/TaskModal'

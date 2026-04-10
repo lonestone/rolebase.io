@@ -2,7 +2,7 @@ import Homepage from '@/common/pages/Homepage'
 import AuthPage from '@/user/pages/AuthPage'
 import ResetPasswordPage from '@/user/pages/ResetPasswordPage'
 import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router'
 
 export default function PublicRoute() {
   return (

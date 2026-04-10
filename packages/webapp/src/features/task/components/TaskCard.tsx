@@ -16,7 +16,7 @@ import {
 import { TaskFragment } from '@gql'
 import { formatRelative } from 'date-fns'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 import { PrivacyIcon } from 'src/icons'
 import TaskModal from '../modals/TaskModal'
 

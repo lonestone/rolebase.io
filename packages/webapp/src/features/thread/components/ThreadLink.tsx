@@ -1,7 +1,7 @@
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import { Link, LinkProps } from '@chakra-ui/react'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 
 interface Props extends LinkProps {
   name: string

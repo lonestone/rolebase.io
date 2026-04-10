@@ -8,7 +8,7 @@ import { Box, Heading, Text, useDisclosure } from '@chakra-ui/react'
 import { Elements } from '@stripe/react-stripe-js'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import SubscriptionTabs from '../components/SubscriptionTabs'
 import SubscriptionConfirmationModal from '../modals/SubscriptionConfirmationModal'
 

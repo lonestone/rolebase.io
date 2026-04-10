@@ -19,7 +19,7 @@ import { emailSchema } from '@rolebase/shared/schemas'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { nhost } from 'src/nhost'
 import * as yup from 'yup'
 

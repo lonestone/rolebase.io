@@ -6,7 +6,7 @@ import useCircleMemberLink from '@/participants/hooks/useCircleMemberLink'
 import { Avatar, LinkOverlay, LinkOverlayProps } from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 
 interface Props extends LinkOverlayProps {
   member: MemberFragment

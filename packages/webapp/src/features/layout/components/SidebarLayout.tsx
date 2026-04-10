@@ -1,7 +1,7 @@
 import { Box, IconButton, Tooltip, useDisclosure } from '@chakra-ui/react'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { MenuIcon, SidebarRightIcon } from 'src/icons'
 import { SidebarContext, defaultSidebarWidth } from '../contexts/SidebarContext'
 import SidebarResizeHandle from './SidebarResizeHandle'

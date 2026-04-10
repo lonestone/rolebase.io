@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { ThreadFragment } from '@gql'
 import React from 'react'
-import { Link as ReachLink, useLocation } from 'react-router-dom'
+import { Link as ReachLink, useLocation } from 'react-router'
 import { PrivacyIcon } from 'src/icons'
 import useThreadStatus from '../hooks/useThreadStatus'
 import ThreadModal from '../modals/ThreadModal'

@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 import { CopyIcon } from 'src/icons'
 import { trpc } from 'src/trpc'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, LinkProps } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router'
 import { MaximizeIcon } from 'src/icons'
 import IconTextButton from './IconTextButton'
 

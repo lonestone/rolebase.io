@@ -1,7 +1,7 @@
 import Page404 from '@/common/pages/Page404'
 import { Container } from '@chakra-ui/react'
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import TaskContent from '../components/TaskContent'
 
 type Params = {

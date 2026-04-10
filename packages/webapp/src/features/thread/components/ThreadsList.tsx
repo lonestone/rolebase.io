@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'
 import { ThreadWithStatus } from '../hooks/useThreads'
 import ThreadItem from './ThreadItem'

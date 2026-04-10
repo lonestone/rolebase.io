@@ -2,7 +2,7 @@ import { useNormalClickHandler } from '@/common/hooks/useNormalClickHandler'
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import { Link, LinkProps, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 import TaskModal from '../modals/TaskModal'
 
 interface Props extends LinkProps {

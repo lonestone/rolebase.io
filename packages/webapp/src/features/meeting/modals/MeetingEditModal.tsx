@@ -53,7 +53,7 @@ import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { ChevronDownIcon } from 'src/icons'
 import * as yup from 'yup'
 import MeetingStepsConfigController, {

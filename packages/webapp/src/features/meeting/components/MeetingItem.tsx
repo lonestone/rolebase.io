@@ -17,7 +17,7 @@ import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as ReachLink, useLocation } from 'react-router-dom'
+import { Link as ReachLink, useLocation } from 'react-router'
 import { MeetingIcon, PrivacyIcon } from 'src/icons'
 import MeetingModal from '../modals/MeetingModal'
 

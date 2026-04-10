@@ -8,7 +8,7 @@ import useUserSignOut from '@/user/hooks/useUserSignOut'
 import { Flex, MenuDivider, MenuItem, MenuList } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { CurrentMemberIcon, LogoutIcon, UserInfoIcon } from 'src/icons'
 
 export default function UserSettingsMenuList() {

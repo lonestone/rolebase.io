@@ -20,7 +20,7 @@ import { App_Type_Enum, useOrgsSubscription } from '@gql'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router'
 import { langs, locales } from 'src/i18n'
 import OrgRoute from './OrgRoute'
 

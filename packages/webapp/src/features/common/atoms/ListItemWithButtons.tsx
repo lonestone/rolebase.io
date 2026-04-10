@@ -1,6 +1,6 @@
 import { HStack, LinkBox, LinkBoxProps, LinkOverlay } from '@chakra-ui/react'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 import { useHoverItemStyle } from '../hooks/useHoverItemStyle'
 
 interface Props extends LinkBoxProps {

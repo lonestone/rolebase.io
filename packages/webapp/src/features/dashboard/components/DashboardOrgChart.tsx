@@ -17,7 +17,7 @@ import { getOrgPath } from '@rolebase/shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 export default function DashboardOrgChart(boxProps: BoxProps) {
   const { t } = useTranslation()

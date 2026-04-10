@@ -10,7 +10,7 @@ import {
 import { App_Type_Enum } from '@gql'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router'
 import { BackIcon } from 'src/icons'
 import appsParams from '../appsParams'
 

@@ -22,7 +22,7 @@ import NotificationsSettingsPage from '@/user/pages/NotificationsSettingsPage'
 import { useOrgBySlugSubscription, useOrgSubscription } from '@gql'
 import { useStoreActions } from '@store/hooks'
 import React, { Suspense, lazy, useEffect } from 'react'
-import { Navigate, Route, Routes, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@/meeting/pages/MeetingsPage'))

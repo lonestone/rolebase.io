@@ -21,7 +21,7 @@ import { useStoreState } from '@store/hooks'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { CreateIcon } from 'src/icons'
 import OrgCreateModal from '../modals/OrgCreateModal'
 

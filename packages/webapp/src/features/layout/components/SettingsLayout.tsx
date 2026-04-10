@@ -7,7 +7,7 @@ import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import { Box, Flex, Heading, useMediaQuery, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 import {
   AppsIcon,
   CircleIcon,

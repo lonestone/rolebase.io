@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { trpc } from 'src/trpc'
 import useOrg from '../hooks/useOrg'
 

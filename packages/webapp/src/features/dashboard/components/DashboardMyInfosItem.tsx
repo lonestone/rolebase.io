@@ -1,7 +1,7 @@
 import { usePathInOrg } from '@/org/hooks/usePathInOrg'
 import { Card, CardBody, CardHeader, Heading, Link } from '@chakra-ui/react'
 import React, { PropsWithChildren, ReactNode } from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink } from 'react-router'
 
 type Props = PropsWithChildren<{
   title: string

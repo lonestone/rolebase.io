@@ -1,11 +1,10 @@
-import { UnregisterCallback } from 'history'
 import { useCallback, useEffect, useRef } from 'react'
 
 const message = 'You have unsaved changes. Are you sure you want to leave?'
 
 // Count number of components using this hook, to use history.block once at a time
 let historyBlockCount = 0
-let historyReleaseCallback: UnregisterCallback | undefined = undefined
+let historyReleaseCallback: (() => void) | undefined = undefined
 
 // Prevents window from closing when preventHandler returns true
 export function usePreventClose() {
