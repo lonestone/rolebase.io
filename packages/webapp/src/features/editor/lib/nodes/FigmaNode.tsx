@@ -46,6 +46,10 @@ function FigmaComponent({
 }
 
 export class FigmaNode extends BaseFigmaNode {
+  static getType(): string {
+    return 'figma'
+  }
+
   static clone(node: FigmaNode): FigmaNode {
     return new FigmaNode(node.__id, node.__format, node.__key)
   }

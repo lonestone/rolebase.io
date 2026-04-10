@@ -8,6 +8,10 @@ import React, { Suspense } from 'react'
 import FileComponent from './FileComponent'
 
 export class FileNode extends BaseFileNode {
+  static getType(): string {
+    return 'file'
+  }
+
   static clone(node: FileNode): FileNode {
     return new FileNode(
       node.__url,

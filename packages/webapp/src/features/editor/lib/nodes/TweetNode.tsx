@@ -100,6 +100,10 @@ function TweetComponent({
 }
 
 export class TweetNode extends BaseTweetNode {
+  static getType(): string {
+    return 'tweet'
+  }
+
   static clone(node: TweetNode): TweetNode {
     return new TweetNode(node.__id, node.__format, node.__key)
   }

@@ -48,6 +48,10 @@ function YouTubeComponent({
 }
 
 export class YouTubeNode extends BaseYouTubeNode {
+  static getType(): string {
+    return 'youtube'
+  }
+
   static clone(node: YouTubeNode): YouTubeNode {
     return new YouTubeNode(node.__id, node.__format, node.__key)
   }

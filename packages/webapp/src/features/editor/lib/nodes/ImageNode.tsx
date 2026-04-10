@@ -14,6 +14,10 @@ const ImageComponent = React.lazy(
 )
 
 export class ImageNode extends BaseImageNode {
+  static getType(): string {
+    return 'image'
+  }
+
   static clone(node: ImageNode): ImageNode {
     return new ImageNode(
       node.__src,
