@@ -3,12 +3,13 @@ import BaseLayout from './BaseLayout.astro'
 
 interface Props {
   title: string
+  image?: ImageMetadata
 }
 
-const { title } = Astro.props
+const { title, image } = Astro.props
 ---
 
-<BaseLayout title={title} staticHeader>
+<BaseLayout title={title} staticHeader image={image}>
   <main class="max-w-6xl mx-auto px-6 py-16">
     <div class="flex flex-col gap-8 md:flex-row lg:gap-12">
       <slot />

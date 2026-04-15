@@ -2,18 +2,22 @@
 import TopNav from '../components/TopNav.astro'
 import TopNavDev from '../components/TopNavDev.astro'
 import Footer from '../components/Footer.astro'
+import SocialPreview from '../components/SocialPreview.astro'
 import { getLangFromUrl } from '../i18n'
+import { getCanonicalPath } from '../utils/getCanonicalPath'
 import '../styles/global.css'
 
 interface Props {
   title: string
   staticHeader?: boolean
+  image?: ImageMetadata
 }
 
-const { title, staticHeader = false } = Astro.props
+const { title, staticHeader = false, image } = Astro.props
 const currentPath = Astro.url.pathname
 const lang = getLangFromUrl(Astro.url)
 const isDevSection = currentPath.includes('/developers') || currentPath.includes('/api')
+const canonicalPath = getCanonicalPath(currentPath)
 ---
 
 <!doctype html>
@@ -23,6 +27,8 @@ const isDevSection = currentPath.includes('/developers') || currentPath.includes
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={new URL(canonicalPath, Astro.site).href} />
+    <SocialPreview image={image} />
     {import.meta.env.PROD && (
       <script
         defer

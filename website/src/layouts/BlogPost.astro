@@ -29,7 +29,7 @@ if (similarSlugs.length > 0) {
 }
 ---
 
-<BlogLayout title={post.data.title}>
+<BlogLayout title={post.data.title} image={post.data.image}>
   <article class="min-w-0 flex-1">
     <header class="mb-10 pb-6 border-b border-gray-100">
       <Breadcrumb category={t.blog.label} categoryUrl={langPath(lang, '/blog')} title={post.data.title} hideTitle class="mb-3" />
