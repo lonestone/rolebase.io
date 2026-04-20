@@ -97,11 +97,16 @@ export default function enrichMd(): AstroIntegration {
         }
 
         // Write Netlify _headers: Link headers advertising the .md alternate
-        // (RFC 8288) for each page.
-        const sections = mdPages.map(
-          ({ urlPath, mdUrlPath }) =>
+        // (RFC 8288) for each page, plus explicit Content-Type for .md files
+        // served directly.
+        const sections: string[] = [
+          '/*.md\n  Content-Type: text/markdown; charset=utf-8',
+        ]
+        for (const { urlPath, mdUrlPath } of mdPages) {
+          sections.push(
             `${urlPath}\n  Link: <${mdUrlPath}>; rel="alternate"; type="text/markdown"`
-        )
+          )
+        }
         writeFileSync(join(distDir, '_headers'), sections.join('\n\n') + '\n')
 
         console.log(
