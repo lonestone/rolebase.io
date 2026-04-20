@@ -18,6 +18,7 @@ const currentPath = Astro.url.pathname
 const lang = getLangFromUrl(Astro.url)
 const isDevSection = currentPath.includes('/developers') || currentPath.includes('/api')
 const canonicalPath = getCanonicalPath(currentPath)
+const mdAlternatePath = `${canonicalPath}.md`
 ---
 
 <!doctype html>
@@ -28,6 +29,11 @@ const canonicalPath = getCanonicalPath(currentPath)
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={new URL(canonicalPath, Astro.site).href} />
+    <link
+      rel="alternate"
+      type="text/markdown"
+      href={new URL(mdAlternatePath, Astro.site).href}
+    />
     <SocialPreview image={image} />
     {import.meta.env.PROD && (
       <script

@@ -45,6 +45,7 @@ export default function enrichMd(): AstroIntegration {
         const htmlFiles = globSync('**/*.html', { cwd: distDir })
 
         let generated = 0
+        const mdPages: Array<{ urlPath: string; mdUrlPath: string }> = []
 
         for (const htmlFile of htmlFiles) {
           const htmlPath = join(distDir, htmlFile)
@@ -89,9 +90,23 @@ export default function enrichMd(): AstroIntegration {
           const mdPath = htmlPath.replace(/\.html$/, '.md')
           writeFileSync(mdPath, `${fm}\n\n${body}\n`)
           generated++
+
+          const urlPath = slug ? `/${slug}` : '/'
+          const mdUrlPath = slug ? `/${slug}.md` : '/index.md'
+          mdPages.push({ urlPath, mdUrlPath })
         }
 
-        console.log(`Generated ${generated} .md files from HTML`)
+        // Write Netlify _headers: Link headers advertising the .md alternate
+        // (RFC 8288) for each page.
+        const sections = mdPages.map(
+          ({ urlPath, mdUrlPath }) =>
+            `${urlPath}\n  Link: <${mdUrlPath}>; rel="alternate"; type="text/markdown"`
+        )
+        writeFileSync(join(distDir, '_headers'), sections.join('\n\n') + '\n')
+
+        console.log(
+          `Generated ${generated} .md files and _headers with ${mdPages.length} entries`
+        )
       },
     },
   }
