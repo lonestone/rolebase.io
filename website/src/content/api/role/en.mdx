@@ -7,69 +7,22 @@ category: 'circles-roles'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    { name: 'id', type: 'uuid', description: 'Unique identifier for the role' },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    { name: 'name', type: 'String', description: 'Name of the role' },
-    {
-      name: 'purpose',
-      type: 'String',
-      description: "The role's purpose or mission",
-    },
-    {
-      name: 'domain',
-      type: 'String',
-      description: 'Areas of authority and control',
-    },
-    {
-      name: 'accountabilities',
-      type: 'String',
-      description: 'List of accountabilities',
-    },
-    {
-      name: 'checklist',
-      type: 'String',
-      description: 'Checklist of recurring responsibilities',
-    },
-    {
-      name: 'indicators',
-      type: 'String',
-      description: 'Performance indicators to track',
-    },
-    { name: 'notes', type: 'String', description: 'Additional notes' },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Whether the role is archived (default: false)',
-    },
-    {
-      name: 'base',
-      type: 'Boolean',
-      description: 'Whether this is a base role (default: false)',
-    },
-    {
-      name: 'singleMember',
-      type: 'Boolean',
-      description: 'Whether the role can only have one member (default: false)',
-    },
-    {
-      name: 'parentLink',
-      type: 'Boolean',
-      description:
-        'Whether the role can be linked to parent circles (default: false)',
-    },
-    {
-      name: 'colorHue',
-      type: 'Smallint',
-      description: 'Color hue for visual representation (optional)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the role |
+| `orgId` | `uuid` | Reference to the organization |
+| `name` | `String` | Name of the role |
+| `purpose` | `String` | The role's purpose or mission |
+| `domain` | `String` | Areas of authority and control |
+| `accountabilities` | `String` | List of accountabilities |
+| `checklist` | `String` | Checklist of recurring responsibilities |
+| `indicators` | `String` | Performance indicators to track |
+| `notes` | `String` | Additional notes |
+| `archived` | `Boolean` | Whether the role is archived (default: false) |
+| `base` | `Boolean` | Whether this is a base role (default: false) |
+| `singleMember` | `Boolean` | Whether the role can only have one member (default: false) |
+| `parentLink` | `Boolean` | Whether the role can be linked to parent circles (default: false) |
+| `colorHue` | `Smallint` | Color hue for visual representation (optional) |
 
 ## Relationships
 

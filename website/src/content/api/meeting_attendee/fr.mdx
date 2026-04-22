@@ -7,28 +7,13 @@ category: 'meetings'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: "Identifiant unique de l'enregistrement de participation",
-    },
-    { name: 'meetingId', type: 'uuid', description: 'Référence à la réunion' },
-    { name: 'memberId', type: 'uuid', description: 'Référence au membre' },
-    {
-      name: 'present',
-      type: 'Boolean',
-      description: 'Indique si le membre est présent à la réunion (optionnel)',
-    },
-    {
-      name: 'startNotified',
-      type: 'Boolean',
-      description:
-        'Indique si une notification de début a été envoyée (par défaut : false)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'enregistrement de participation |
+| `meetingId` | `uuid` | Référence à la réunion |
+| `memberId` | `uuid` | Référence au membre |
+| `present` | `Boolean` | Indique si le membre est présent à la réunion (optionnel) |
+| `startNotified` | `Boolean` | Indique si une notification de début a été envoyée (par défaut : false) |
 
 ## Relations
 

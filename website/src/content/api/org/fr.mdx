@@ -7,55 +7,17 @@ category: 'org-members'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: "Identifiant unique de l'organisation",
-    },
-    { name: 'name', type: 'String', description: "Nom de l'organisation" },
-    {
-      name: 'slug',
-      type: 'String',
-      description: 'Identifiant unique adapté aux URL (optionnel)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description:
-        "Indique si l'organisation est archivée (par défaut : false)",
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: "Date de création de l'organisation",
-    },
-    {
-      name: 'defaultGraphView',
-      type: 'String',
-      description: 'Paramètre de vue graphique par défaut (optionnel)',
-    },
-    {
-      name: 'protectGovernance',
-      type: 'Boolean',
-      description:
-        'Indique si les modifications de gouvernance sont restreintes aux leaders (par défaut : false)',
-    },
-    {
-      name: 'shareMembers',
-      type: 'Boolean',
-      description:
-        'Indique si les informations des membres sont partagées publiquement (par défaut : false)',
-    },
-    {
-      name: 'shareOrg',
-      type: 'Boolean',
-      description:
-        "Indique si les informations de l'organisation sont partagées publiquement (par défaut : false)",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'organisation |
+| `name` | `String` | Nom de l'organisation |
+| `slug` | `String` | Identifiant unique adapté aux URL (optionnel) |
+| `archived` | `Boolean` | Indique si l'organisation est archivée (par défaut : false) |
+| `createdAt` | `Timestamp` | Date de création de l'organisation |
+| `defaultGraphView` | `String` | Paramètre de vue graphique par défaut (optionnel) |
+| `protectGovernance` | `Boolean` | Indique si les modifications de gouvernance sont restreintes aux leaders (par défaut : false) |
+| `shareMembers` | `Boolean` | Indique si les informations des membres sont partagées publiquement (par défaut : false) |
+| `shareOrg` | `Boolean` | Indique si les informations de l'organisation sont partagées publiquement (par défaut : false) |
 
 ## Relations
 

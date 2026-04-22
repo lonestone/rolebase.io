@@ -7,62 +7,18 @@ category: 'threads'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: "Identifiant unique de l'activité (généré automatiquement)",
-    },
-    {
-      name: 'threadId',
-      type: 'uuid',
-      description: 'Référence à la discussion parente',
-    },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: "Référence à l'utilisateur qui a créé l'activité",
-    },
-    {
-      name: 'type',
-      type: 'Thread_Activity_Type_Enum',
-      description:
-        "Type d'activité : Message, Poll, Thread, Meeting, Task, Decision, MeetingNote ou ChangeStatus",
-    },
-    {
-      name: 'data',
-      type: 'JSON',
-      description: "Contenu de l'activité (le format dépend du type)",
-    },
-    {
-      name: 'createdAt',
-      type: 'timestamptz',
-      description:
-        "Date de création de l'activité (par défaut : horodatage actuel)",
-    },
-    {
-      name: 'refThreadId',
-      type: 'uuid',
-      description: 'Référence optionnelle à une autre discussion',
-    },
-    {
-      name: 'refMeetingId',
-      type: 'uuid',
-      description: 'Référence optionnelle à une réunion',
-    },
-    {
-      name: 'refTaskId',
-      type: 'uuid',
-      description: 'Référence optionnelle à une tâche',
-    },
-    {
-      name: 'refDecisionId',
-      type: 'uuid',
-      description: 'Référence optionnelle à une décision',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'activité (généré automatiquement) |
+| `threadId` | `uuid` | Référence à la discussion parente |
+| `userId` | `uuid` | Référence à l'utilisateur qui a créé l'activité |
+| `type` | `Thread_Activity_Type_Enum` | Type d'activité : Message, Poll, Thread, Meeting, Task, Decision, MeetingNote ou ChangeStatus |
+| `data` | `JSON` | Contenu de l'activité (le format dépend du type) |
+| `createdAt` | `timestamptz` | Date de création de l'activité (par défaut : horodatage actuel) |
+| `refThreadId` | `uuid` | Référence optionnelle à une autre discussion |
+| `refMeetingId` | `uuid` | Référence optionnelle à une réunion |
+| `refTaskId` | `uuid` | Référence optionnelle à une tâche |
+| `refDecisionId` | `uuid` | Référence optionnelle à une décision |
 
 ## Types d'activité
 

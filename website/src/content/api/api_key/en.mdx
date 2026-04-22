@@ -7,37 +7,13 @@ category: 'other'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the API key (auto-generated)',
-    },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: 'Reference to the user who owns this key',
-    },
-    {
-      name: 'name',
-      type: 'String',
-      description: 'Descriptive name for the API key',
-    },
-    {
-      name: 'value',
-      type: 'String',
-      description:
-        'The actual API key value (auto-generated, shown once on creation)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'When the API key was created (defaults to current timestamp)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the API key (auto-generated) |
+| `userId` | `uuid` | Reference to the user who owns this key |
+| `name` | `String` | Descriptive name for the API key |
+| `value` | `String` | The actual API key value (auto-generated, shown once on creation) |
+| `createdAt` | `Timestamp` | When the API key was created (defaults to current timestamp) |
 
 ## Relationships
 

@@ -7,28 +7,13 @@ category: 'circles-roles'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: "Identifiant unique de l'appartenance au cercle",
-    },
-    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
-    { name: 'memberId', type: 'uuid', description: 'Référence au membre' },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: "Date de création de l'appartenance",
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description:
-        "Indique si l'appartenance est archivée (par défaut : false)",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'appartenance au cercle |
+| `circleId` | `uuid` | Référence au cercle |
+| `memberId` | `uuid` | Référence au membre |
+| `createdAt` | `Timestamp` | Date de création de l'appartenance |
+| `archived` | `Boolean` | Indique si l'appartenance est archivée (par défaut : false) |
 
 ## Relations
 

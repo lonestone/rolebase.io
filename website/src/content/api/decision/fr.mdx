@@ -7,49 +7,17 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Identifiant unique de la décision (généré automatiquement)',
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Référence au cercle où la décision a été prise',
-    },
-    {
-      name: 'memberId',
-      type: 'uuid',
-      description: 'Référence au membre qui a pris la décision',
-    },
-    { name: 'title', type: 'String', description: 'Titre de la décision' },
-    {
-      name: 'description',
-      type: 'String',
-      description:
-        'Description détaillée de la décision (supporte le texte riche)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'Date de création de la décision (par défaut : horodatage actuel)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Indique si la décision est archivée (par défaut : false)',
-    },
-    {
-      name: 'private',
-      type: 'Boolean',
-      description: 'Indique si la décision est privée (par défaut : false)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de la décision (généré automatiquement) |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `circleId` | `uuid` | Référence au cercle où la décision a été prise |
+| `memberId` | `uuid` | Référence au membre qui a pris la décision |
+| `title` | `String` | Titre de la décision |
+| `description` | `String` | Description détaillée de la décision (supporte le texte riche) |
+| `createdAt` | `Timestamp` | Date de création de la décision (par défaut : horodatage actuel) |
+| `archived` | `Boolean` | Indique si la décision est archivée (par défaut : false) |
+| `private` | `Boolean` | Indique si la décision est privée (par défaut : false) |
 
 ## Relations
 

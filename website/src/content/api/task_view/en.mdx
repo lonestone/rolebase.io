@@ -7,31 +7,12 @@ category: 'tasks'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the task view (auto-generated)',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    {
-      name: 'key',
-      type: 'String',
-      description:
-        "Unique key for the view within the organization (e.g., 'backlog', 'sprint')",
-    },
-    {
-      name: 'tasksIds',
-      type: 'uuid[]',
-      description: 'Array of task IDs included in this view',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the task view (auto-generated) |
+| `orgId` | `uuid` | Reference to the organization |
+| `key` | `String` | Unique key for the view within the organization (e.g., 'backlog', 'sprint') |
+| `tasksIds` | `uuid[]` | Array of task IDs included in this view |
 
 ## Relationships
 

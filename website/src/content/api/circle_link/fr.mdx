@@ -7,26 +7,12 @@ category: 'circles-roles'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Identifiant unique du lien de cercle',
-    },
-    { name: 'parentId', type: 'uuid', description: 'Référence au cercle hôte' },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Référence au cercle invité',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'Date de création du lien de cercle',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique du lien de cercle |
+| `parentId` | `uuid` | Référence au cercle hôte |
+| `circleId` | `uuid` | Référence au cercle invité |
+| `createdAt` | `Timestamp` | Date de création du lien de cercle |
 
 ## Relations
 

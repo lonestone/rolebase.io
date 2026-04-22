@@ -7,54 +7,19 @@ category: 'org-members'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    { name: 'id', type: 'uuid', description: 'Identifiant unique du membre' },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    { name: 'name', type: 'String', description: "Nom d'affichage du membre" },
-    {
-      name: 'description',
-      type: 'String',
-      description: 'Description ou biographie du membre',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Indique si le membre est archivé (par défaut : false)',
-    },
-    {
-      name: 'picture',
-      type: 'String',
-      description: 'URL de la photo de profil du membre (optionnel)',
-    },
-    {
-      name: 'pictureFileId',
-      type: 'uuid',
-      description: 'Référence au fichier de photo de profil stocké (optionnel)',
-    },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: 'Référence au compte utilisateur associé (optionnel)',
-    },
-    {
-      name: 'inviteEmail',
-      type: 'String',
-      description: "Adresse e-mail utilisée pour l'invitation (optionnel)",
-    },
-    {
-      name: 'inviteDate',
-      type: 'Timestamp',
-      description: "Date d'envoi de l'invitation (optionnel)",
-    },
-    {
-      name: 'role',
-      type: 'Member_Role_Enum',
-      description:
-        "Rôle du membre dans l'organisation : Owner, Admin, Member ou Readonly",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique du membre |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `name` | `String` | Nom d'affichage du membre |
+| `description` | `String` | Description ou biographie du membre |
+| `archived` | `Boolean` | Indique si le membre est archivé (par défaut : false) |
+| `picture` | `String` | URL de la photo de profil du membre (optionnel) |
+| `pictureFileId` | `uuid` | Référence au fichier de photo de profil stocké (optionnel) |
+| `userId` | `uuid` | Référence au compte utilisateur associé (optionnel) |
+| `inviteEmail` | `String` | Adresse e-mail utilisée pour l'invitation (optionnel) |
+| `inviteDate` | `Timestamp` | Date d'envoi de l'invitation (optionnel) |
+| `role` | `Member_Role_Enum` | Rôle du membre dans l'organisation : Owner, Admin, Member ou Readonly |
 
 ## Relations
 

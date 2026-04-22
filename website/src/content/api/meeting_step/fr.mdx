@@ -7,33 +7,14 @@ category: 'meetings'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    { name: 'id', type: 'uuid', description: "Identifiant unique de l'étape" },
-    { name: 'meetingId', type: 'uuid', description: 'Référence à la réunion' },
-    {
-      name: 'stepConfigId',
-      type: 'String',
-      description:
-        "Référence à la configuration de l'étape dans le stepsConfig de la réunion",
-    },
-    {
-      name: 'type',
-      type: 'Meeting_Step_Type_Enum',
-      description: "Type d'étape de réunion",
-    },
-    {
-      name: 'data',
-      type: 'meeting_step_data',
-      description: "Données et contenu spécifiques à l'étape",
-    },
-    {
-      name: 'notes',
-      type: 'String',
-      description: "Notes et documentation de l'étape",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'étape |
+| `meetingId` | `uuid` | Référence à la réunion |
+| `stepConfigId` | `String` | Référence à la configuration de l'étape dans le stepsConfig de la réunion |
+| `type` | `Meeting_Step_Type_Enum` | Type d'étape de réunion |
+| `data` | `meeting_step_data` | Données et contenu spécifiques à l'étape |
+| `notes` | `String` | Notes et documentation de l'étape |
 
 ## Relations
 

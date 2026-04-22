@@ -7,22 +7,11 @@ category: 'threads'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        'Unique identifier for the extra member entry (auto-generated)',
-    },
-    { name: 'threadId', type: 'uuid', description: 'Reference to the thread' },
-    {
-      name: 'memberId',
-      type: 'uuid',
-      description: 'Reference to the member being added',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the extra member entry (auto-generated) |
+| `threadId` | `uuid` | Reference to the thread |
+| `memberId` | `uuid` | Reference to the member being added |
 
 ## Relationships
 

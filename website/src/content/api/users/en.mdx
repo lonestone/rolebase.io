@@ -7,133 +7,37 @@ category: 'other'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the user (auto-generated)',
-    },
-    { name: 'displayName', type: 'String', description: "User's display name" },
-    {
-      name: 'email',
-      type: 'String',
-      description: "User's email address (unique, optional)",
-    },
-    {
-      name: 'emailVerified',
-      type: 'Boolean',
-      description: 'Whether the email has been verified (defaults to false)',
-    },
-    {
-      name: 'phoneNumber',
-      type: 'String',
-      description: "User's phone number (unique, optional)",
-    },
-    {
-      name: 'phoneNumberVerified',
-      type: 'Boolean',
-      description:
-        'Whether the phone number has been verified (defaults to false)',
-    },
-    {
-      name: 'avatarUrl',
-      type: 'String',
-      description: "URL to the user's avatar image",
-    },
-    { name: 'locale', type: 'String', description: "User's preferred locale" },
-    {
-      name: 'metadata',
-      type: 'JSON',
-      description: 'Additional user metadata (e.g., timezone, preferences)',
-    },
-    {
-      name: 'newEmail',
-      type: 'String',
-      description: 'New email address pending verification (optional)',
-    },
-    {
-      name: 'isAnonymous',
-      type: 'Boolean',
-      description: 'Whether this is an anonymous user (defaults to false)',
-    },
-    {
-      name: 'disabled',
-      type: 'Boolean',
-      description: 'Whether the user account is disabled (defaults to false)',
-    },
-    {
-      name: 'lastSeen',
-      type: 'Timestamp',
-      description: 'When the user was last active (optional)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'When the account was created (defaults to current timestamp)',
-    },
-    {
-      name: 'updatedAt',
-      type: 'Timestamp',
-      description:
-        'When the account was last updated (defaults to current timestamp)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the user (auto-generated) |
+| `displayName` | `String` | User's display name |
+| `email` | `String` | User's email address (unique, optional) |
+| `emailVerified` | `Boolean` | Whether the email has been verified (defaults to false) |
+| `phoneNumber` | `String` | User's phone number (unique, optional) |
+| `phoneNumberVerified` | `Boolean` | Whether the phone number has been verified (defaults to false) |
+| `avatarUrl` | `String` | URL to the user's avatar image |
+| `locale` | `String` | User's preferred locale |
+| `metadata` | `JSON` | Additional user metadata (e.g., timezone, preferences) |
+| `newEmail` | `String` | New email address pending verification (optional) |
+| `isAnonymous` | `Boolean` | Whether this is an anonymous user (defaults to false) |
+| `disabled` | `Boolean` | Whether the user account is disabled (defaults to false) |
+| `lastSeen` | `Timestamp` | When the user was last active (optional) |
+| `createdAt` | `Timestamp` | When the account was created (defaults to current timestamp) |
+| `updatedAt` | `Timestamp` | When the account was last updated (defaults to current timestamp) |
 
 ### Authentication Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'passwordHash',
-      type: 'String',
-      description:
-        'Hashed password for password authentication (never exposed via API)',
-    },
-    {
-      name: 'activeMfaType',
-      type: 'String',
-      description: 'Active multi-factor authentication method (optional)',
-    },
-    {
-      name: 'totpSecret',
-      type: 'String',
-      description: 'Secret for time-based one-time password (optional)',
-    },
-    {
-      name: 'otpHash',
-      type: 'String',
-      description: 'One-time password hash (never exposed via API)',
-    },
-    {
-      name: 'otpHashExpiresAt',
-      type: 'Timestamp',
-      description: 'When the OTP hash expires',
-    },
-    {
-      name: 'otpMethodLastUsed',
-      type: 'String',
-      description: 'Last used OTP method (optional)',
-    },
-    {
-      name: 'ticket',
-      type: 'String',
-      description: 'Authentication ticket (optional)',
-    },
-    {
-      name: 'ticketExpiresAt',
-      type: 'Timestamp',
-      description: 'When the authentication ticket expires',
-    },
-    {
-      name: 'currentChallenge',
-      type: 'String',
-      description: 'Current authentication challenge (optional)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `passwordHash` | `String` | Hashed password for password authentication (never exposed via API) |
+| `activeMfaType` | `String` | Active multi-factor authentication method (optional) |
+| `totpSecret` | `String` | Secret for time-based one-time password (optional) |
+| `otpHash` | `String` | One-time password hash (never exposed via API) |
+| `otpHashExpiresAt` | `Timestamp` | When the OTP hash expires |
+| `otpMethodLastUsed` | `String` | Last used OTP method (optional) |
+| `ticket` | `String` | Authentication ticket (optional) |
+| `ticketExpiresAt` | `Timestamp` | When the authentication ticket expires |
+| `currentChallenge` | `String` | Current authentication challenge (optional) |
 
 ## Relationships
 

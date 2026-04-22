@@ -7,62 +7,19 @@ category: 'tasks'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the task (auto-generated)',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization this task belongs to',
-    },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Reference to the circle this task is associated with',
-    },
-    {
-      name: 'memberId',
-      type: 'uuid',
-      description: 'Reference to the assigned member (optional)',
-    },
-    { name: 'title', type: 'String', description: 'Title of the task' },
-    {
-      name: 'description',
-      type: 'String',
-      description: 'Detailed description of the task',
-    },
-    {
-      name: 'status',
-      type: 'Task_Status_Enum',
-      description:
-        'Current status: Open, InProgress, InReview, Blocked, or Done',
-    },
-    {
-      name: 'dueDate',
-      type: 'Timestamp',
-      description: 'When the task is due (optional)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the task was created (defaults to current timestamp)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Whether the task is archived (defaults to false)',
-    },
-    {
-      name: 'private',
-      type: 'Boolean',
-      description: 'Whether the task is private (defaults to false)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the task (auto-generated) |
+| `orgId` | `uuid` | Reference to the organization this task belongs to |
+| `circleId` | `uuid` | Reference to the circle this task is associated with |
+| `memberId` | `uuid` | Reference to the assigned member (optional) |
+| `title` | `String` | Title of the task |
+| `description` | `String` | Detailed description of the task |
+| `status` | `Task_Status_Enum` | Current status: Open, InProgress, InReview, Blocked, or Done |
+| `dueDate` | `Timestamp` | When the task is due (optional) |
+| `createdAt` | `Timestamp` | When the task was created (defaults to current timestamp) |
+| `archived` | `Boolean` | Whether the task is archived (defaults to false) |
+| `private` | `Boolean` | Whether the task is private (defaults to false) |
 
 ## Task Status
 

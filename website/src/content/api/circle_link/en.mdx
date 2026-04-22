@@ -7,30 +7,12 @@ category: 'circles-roles'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the circle link',
-    },
-    {
-      name: 'parentId',
-      type: 'uuid',
-      description: 'Reference to the hosting circle',
-    },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Reference to the invited circle',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the circle link was created',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the circle link |
+| `parentId` | `uuid` | Reference to the hosting circle |
+| `circleId` | `uuid` | Reference to the invited circle |
+| `createdAt` | `Timestamp` | When the circle link was created |
 
 ## Relationships
 

@@ -7,26 +7,11 @@ category: 'threads'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        "Identifiant unique de l'entrée de membre supplémentaire (généré automatiquement)",
-    },
-    {
-      name: 'threadId',
-      type: 'uuid',
-      description: 'Référence à la discussion',
-    },
-    {
-      name: 'memberId',
-      type: 'uuid',
-      description: 'Référence au membre ajouté',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'entrée de membre supplémentaire (généré automatiquement) |
+| `threadId` | `uuid` | Référence à la discussion |
+| `memberId` | `uuid` | Référence au membre ajouté |
 
 ## Relations
 

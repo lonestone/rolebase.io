@@ -7,37 +7,14 @@ category: 'meetings'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    { name: 'id', type: 'uuid', description: 'Unique identifier for the step' },
-    {
-      name: 'meetingId',
-      type: 'uuid',
-      description: 'Reference to the meeting',
-    },
-    {
-      name: 'stepConfigId',
-      type: 'String',
-      description:
-        "Reference to the step configuration in the meeting's stepsConfig",
-    },
-    {
-      name: 'type',
-      type: 'Meeting_Step_Type_Enum',
-      description: 'Type of meeting step',
-    },
-    {
-      name: 'data',
-      type: 'meeting_step_data',
-      description: 'Step-specific data and content',
-    },
-    {
-      name: 'notes',
-      type: 'String',
-      description: 'Notes and documentation for the step',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the step |
+| `meetingId` | `uuid` | Reference to the meeting |
+| `stepConfigId` | `String` | Reference to the step configuration in the meeting's stepsConfig |
+| `type` | `Meeting_Step_Type_Enum` | Type of meeting step |
+| `data` | `meeting_step_data` | Step-specific data and content |
+| `notes` | `String` | Notes and documentation for the step |
 
 ## Relationships
 

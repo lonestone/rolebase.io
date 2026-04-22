@@ -7,54 +7,17 @@ category: 'org-members'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the organization',
-    },
-    { name: 'name', type: 'String', description: 'Name of the organization' },
-    {
-      name: 'slug',
-      type: 'String',
-      description: 'URL-friendly unique identifier (optional)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Whether the organization is archived (default: false)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the organization was created',
-    },
-    {
-      name: 'defaultGraphView',
-      type: 'String',
-      description: 'Default graph view setting (optional)',
-    },
-    {
-      name: 'protectGovernance',
-      type: 'Boolean',
-      description:
-        'Whether governance changes are restricted to leaders (default: false)',
-    },
-    {
-      name: 'shareMembers',
-      type: 'Boolean',
-      description:
-        'Whether member information is publicly shared (default: false)',
-    },
-    {
-      name: 'shareOrg',
-      type: 'Boolean',
-      description:
-        'Whether organization information is publicly shared (default: false)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the organization |
+| `name` | `String` | Name of the organization |
+| `slug` | `String` | URL-friendly unique identifier (optional) |
+| `archived` | `Boolean` | Whether the organization is archived (default: false) |
+| `createdAt` | `Timestamp` | When the organization was created |
+| `defaultGraphView` | `String` | Default graph view setting (optional) |
+| `protectGovernance` | `Boolean` | Whether governance changes are restricted to leaders (default: false) |
+| `shareMembers` | `Boolean` | Whether member information is publicly shared (default: false) |
+| `shareOrg` | `Boolean` | Whether organization information is publicly shared (default: false) |
 
 ## Relationships
 

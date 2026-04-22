@@ -7,36 +7,13 @@ category: 'threads'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the reaction (auto-generated)',
-    },
-    {
-      name: 'activityId',
-      type: 'uuid',
-      description: 'Reference to the thread activity being reacted to',
-    },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: 'Reference to the user who added the reaction',
-    },
-    {
-      name: 'shortcode',
-      type: 'String',
-      description: 'Unicode emoji character or shortcode',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'When the reaction was created (defaults to current timestamp)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the reaction (auto-generated) |
+| `activityId` | `uuid` | Reference to the thread activity being reacted to |
+| `userId` | `uuid` | Reference to the user who added the reaction |
+| `shortcode` | `String` | Unicode emoji character or shortcode |
+| `createdAt` | `Timestamp` | When the reaction was created (defaults to current timestamp) |
 
 ## Relationships
 

@@ -7,45 +7,15 @@ category: 'other'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the news item (auto-generated)',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Reference to the circle (optional)',
-    },
-    {
-      name: 'threadId',
-      type: 'uuid',
-      description: 'Reference to the source thread (if applicable)',
-    },
-    {
-      name: 'decisionId',
-      type: 'uuid',
-      description: 'Reference to the source decision (if applicable)',
-    },
-    {
-      name: 'meetingId',
-      type: 'uuid',
-      description: 'Reference to the source meeting (if applicable)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the news item was created',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the news item (auto-generated) |
+| `orgId` | `uuid` | Reference to the organization |
+| `circleId` | `uuid` | Reference to the circle (optional) |
+| `threadId` | `uuid` | Reference to the source thread (if applicable) |
+| `decisionId` | `uuid` | Reference to the source decision (if applicable) |
+| `meetingId` | `uuid` | Reference to the source meeting (if applicable) |
+| `createdAt` | `Timestamp` | When the news item was created |
 
 ## Implementation
 

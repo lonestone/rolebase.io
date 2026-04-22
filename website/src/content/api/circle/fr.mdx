@@ -7,28 +7,13 @@ category: 'circles-roles'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    { name: 'id', type: 'uuid', description: 'Identifiant unique du cercle' },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    {
-      name: 'roleId',
-      type: 'uuid',
-      description: 'Référence au rôle associé à ce cercle',
-    },
-    {
-      name: 'parentId',
-      type: 'uuid',
-      description:
-        'Référence au cercle parent (optionnel, null pour les cercles de premier niveau)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Indique si le cercle est archivé (par défaut : false)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique du cercle |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `roleId` | `uuid` | Référence au rôle associé à ce cercle |
+| `parentId` | `uuid` | Référence au cercle parent (optionnel, null pour les cercles de premier niveau) |
+| `archived` | `Boolean` | Indique si le cercle est archivé (par défaut : false) |
 
 ## Relations
 

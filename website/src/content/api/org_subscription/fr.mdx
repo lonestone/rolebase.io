@@ -7,37 +7,14 @@ category: 'org-members'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: "Identifiant unique de l'abonnement",
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    {
-      name: 'type',
-      type: 'Subscription_Plan_Type_Enum',
-      description: "Type de plan d'abonnement (Startup ou Business)",
-    },
-    {
-      name: 'status',
-      type: 'Subscription_Payment_Status_Enum',
-      description: "Statut de paiement actuel de l'abonnement",
-    },
-    {
-      name: 'stripeCustomerId',
-      type: 'String',
-      description: 'Identifiant client Stripe pour la facturation',
-    },
-    {
-      name: 'stripeSubscriptionId',
-      type: 'String',
-      description:
-        "Identifiant d'abonnement Stripe pour les paiements récurrents (optionnel)",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'abonnement |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `type` | `Subscription_Plan_Type_Enum` | Type de plan d'abonnement (Startup ou Business) |
+| `status` | `Subscription_Payment_Status_Enum` | Statut de paiement actuel de l'abonnement |
+| `stripeCustomerId` | `String` | Identifiant client Stripe pour la facturation |
+| `stripeSubscriptionId` | `String` | Identifiant d'abonnement Stripe pour les paiements récurrents (optionnel) |
 
 ## Types de plans d'abonnement
 

@@ -7,62 +7,19 @@ category: 'meetings'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the recurring configuration',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    { name: 'circleId', type: 'uuid', description: 'Reference to the circle' },
-    {
-      name: 'templateId',
-      type: 'uuid',
-      description: 'Reference to the meeting template',
-    },
-    {
-      name: 'rrule',
-      type: 'String',
-      description: 'iCal (RFC 5545) format recurrence rule',
-    },
-    {
-      name: 'duration',
-      type: 'Smallint',
-      description: 'Meeting duration in minutes',
-    },
-    {
-      name: 'scope',
-      type: 'participants_scope',
-      description: 'Configuration for participant selection',
-    },
-    {
-      name: 'private',
-      type: 'Boolean',
-      description:
-        'Whether meetings in the series are private (default: false)',
-    },
-    {
-      name: 'invitedReadonly',
-      type: 'Boolean',
-      description: 'Whether invited members are read-only (default: false)',
-    },
-    {
-      name: 'videoConf',
-      type: 'JSON',
-      description: 'Default video conferencing settings (optional)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the recurring configuration was created',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the recurring configuration |
+| `orgId` | `uuid` | Reference to the organization |
+| `circleId` | `uuid` | Reference to the circle |
+| `templateId` | `uuid` | Reference to the meeting template |
+| `rrule` | `String` | iCal (RFC 5545) format recurrence rule |
+| `duration` | `Smallint` | Meeting duration in minutes |
+| `scope` | `participants_scope` | Configuration for participant selection |
+| `private` | `Boolean` | Whether meetings in the series are private (default: false) |
+| `invitedReadonly` | `Boolean` | Whether invited members are read-only (default: false) |
+| `videoConf` | `JSON` | Default video conferencing settings (optional) |
+| `createdAt` | `Timestamp` | When the recurring configuration was created |
 
 ## Relationships
 

@@ -7,86 +7,25 @@ category: 'meetings'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Identifiant unique de la réunion',
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
-    { name: 'title', type: 'String', description: 'Titre de la réunion' },
-    {
-      name: 'summary',
-      type: 'String',
-      description: 'Résumé ou notes de la réunion',
-    },
-    {
-      name: 'startDate',
-      type: 'Timestamp',
-      description: 'Date et heure de début de la réunion',
-    },
-    {
-      name: 'endDate',
-      type: 'Timestamp',
-      description: 'Date et heure de fin de la réunion',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'Date de création de la réunion',
-    },
-    {
-      name: 'ended',
-      type: 'Boolean',
-      description: 'Indique si la réunion est terminée (par défaut : false)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Indique si la réunion est archivée (par défaut : false)',
-    },
-    {
-      name: 'private',
-      type: 'Boolean',
-      description: 'Indique si la réunion est privée (par défaut : false)',
-    },
-    {
-      name: 'invitedReadonly',
-      type: 'Boolean',
-      description:
-        'Indique si les membres invités sont en lecture seule (par défaut : false)',
-    },
-    {
-      name: 'currentStepId',
-      type: 'uuid',
-      description: "ID de l'étape active actuelle (optionnel)",
-    },
-    {
-      name: 'stepsConfig',
-      type: '[meeting_step_config]',
-      description:
-        'Tableau de configuration définissant la structure de la réunion',
-    },
-    {
-      name: 'videoConf',
-      type: 'videoconf',
-      description: 'Détails de la visioconférence (optionnel)',
-    },
-    {
-      name: 'recurringId',
-      type: 'uuid',
-      description:
-        'Référence à la configuration de réunion récurrente (optionnel)',
-    },
-    {
-      name: 'recurringDate',
-      type: 'Timestamp',
-      description: 'Date dans la série récurrente (optionnel)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de la réunion |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `circleId` | `uuid` | Référence au cercle |
+| `title` | `String` | Titre de la réunion |
+| `summary` | `String` | Résumé ou notes de la réunion |
+| `startDate` | `Timestamp` | Date et heure de début de la réunion |
+| `endDate` | `Timestamp` | Date et heure de fin de la réunion |
+| `createdAt` | `Timestamp` | Date de création de la réunion |
+| `ended` | `Boolean` | Indique si la réunion est terminée (par défaut : false) |
+| `archived` | `Boolean` | Indique si la réunion est archivée (par défaut : false) |
+| `private` | `Boolean` | Indique si la réunion est privée (par défaut : false) |
+| `invitedReadonly` | `Boolean` | Indique si les membres invités sont en lecture seule (par défaut : false) |
+| `currentStepId` | `uuid` | ID de l'étape active actuelle (optionnel) |
+| `stepsConfig` | `[meeting_step_config]` | Tableau de configuration définissant la structure de la réunion |
+| `videoConf` | `videoconf` | Détails de la visioconférence (optionnel) |
+| `recurringId` | `uuid` | Référence à la configuration de réunion récurrente (optionnel) |
+| `recurringDate` | `Timestamp` | Date dans la série récurrente (optionnel) |
 
 ## Relations
 

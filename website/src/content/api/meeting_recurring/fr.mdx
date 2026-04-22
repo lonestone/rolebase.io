@@ -7,59 +7,19 @@ category: 'meetings'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Identifiant unique de la configuration récurrente',
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    { name: 'circleId', type: 'uuid', description: 'Référence au cercle' },
-    {
-      name: 'templateId',
-      type: 'uuid',
-      description: 'Référence au modèle de réunion',
-    },
-    {
-      name: 'rrule',
-      type: 'String',
-      description: 'Règle de récurrence au format iCal (RFC 5545)',
-    },
-    {
-      name: 'duration',
-      type: 'Smallint',
-      description: 'Durée de la réunion en minutes',
-    },
-    {
-      name: 'scope',
-      type: 'participants_scope',
-      description: 'Configuration pour la sélection des participants',
-    },
-    {
-      name: 'private',
-      type: 'Boolean',
-      description:
-        'Indique si les réunions de la série sont privées (par défaut : false)',
-    },
-    {
-      name: 'invitedReadonly',
-      type: 'Boolean',
-      description:
-        'Indique si les membres invités sont en lecture seule (par défaut : false)',
-    },
-    {
-      name: 'videoConf',
-      type: 'JSON',
-      description: 'Paramètres de visioconférence par défaut (optionnel)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'Date de création de la configuration récurrente',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de la configuration récurrente |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `circleId` | `uuid` | Référence au cercle |
+| `templateId` | `uuid` | Référence au modèle de réunion |
+| `rrule` | `String` | Règle de récurrence au format iCal (RFC 5545) |
+| `duration` | `Smallint` | Durée de la réunion en minutes |
+| `scope` | `participants_scope` | Configuration pour la sélection des participants |
+| `private` | `Boolean` | Indique si les réunions de la série sont privées (par défaut : false) |
+| `invitedReadonly` | `Boolean` | Indique si les membres invités sont en lecture seule (par défaut : false) |
+| `videoConf` | `JSON` | Paramètres de visioconférence par défaut (optionnel) |
+| `createdAt` | `Timestamp` | Date de création de la configuration récurrente |
 
 ## Relations
 

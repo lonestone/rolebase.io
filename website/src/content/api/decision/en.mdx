@@ -7,52 +7,17 @@ category: 'other'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the decision (auto-generated)',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Reference to the circle where the decision was made',
-    },
-    {
-      name: 'memberId',
-      type: 'uuid',
-      description: 'Reference to the member who made the decision',
-    },
-    { name: 'title', type: 'String', description: 'Title of the decision' },
-    {
-      name: 'description',
-      type: 'String',
-      description: 'Detailed description of the decision (supports rich text)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'When the decision was created (defaults to current timestamp)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Whether the decision is archived (defaults to false)',
-    },
-    {
-      name: 'private',
-      type: 'Boolean',
-      description: 'Whether the decision is private (defaults to false)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the decision (auto-generated) |
+| `orgId` | `uuid` | Reference to the organization |
+| `circleId` | `uuid` | Reference to the circle where the decision was made |
+| `memberId` | `uuid` | Reference to the member who made the decision |
+| `title` | `String` | Title of the decision |
+| `description` | `String` | Detailed description of the decision (supports rich text) |
+| `createdAt` | `Timestamp` | When the decision was created (defaults to current timestamp) |
+| `archived` | `Boolean` | Whether the decision is archived (defaults to false) |
+| `private` | `Boolean` | Whether the decision is private (defaults to false) |
 
 ## Relationships
 

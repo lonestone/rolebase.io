@@ -7,67 +7,22 @@ category: 'circles-roles'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    { name: 'id', type: 'uuid', description: 'Identifiant unique du rôle' },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    { name: 'name', type: 'String', description: 'Nom du rôle' },
-    {
-      name: 'purpose',
-      type: 'String',
-      description: "Raison d'être ou mission du rôle",
-    },
-    {
-      name: 'domain',
-      type: 'String',
-      description: "Domaines d'autorité et de contrôle",
-    },
-    {
-      name: 'accountabilities',
-      type: 'String',
-      description: 'Liste des redevabilités',
-    },
-    {
-      name: 'checklist',
-      type: 'String',
-      description: 'Liste de vérification des responsabilités récurrentes',
-    },
-    {
-      name: 'indicators',
-      type: 'String',
-      description: 'Indicateurs de performance à suivre',
-    },
-    { name: 'notes', type: 'String', description: 'Notes supplémentaires' },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Indique si le rôle est archivé (par défaut : false)',
-    },
-    {
-      name: 'base',
-      type: 'Boolean',
-      description: "Indique si c'est un rôle de base (par défaut : false)",
-    },
-    {
-      name: 'singleMember',
-      type: 'Boolean',
-      description:
-        "Indique si le rôle ne peut avoir qu'un seul membre (par défaut : false)",
-    },
-    {
-      name: 'parentLink',
-      type: 'Boolean',
-      description:
-        'Indique si le rôle peut être lié aux cercles parents (par défaut : false)',
-    },
-    {
-      name: 'colorHue',
-      type: 'Smallint',
-      description:
-        'Teinte de couleur pour la représentation visuelle (optionnel)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique du rôle |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `name` | `String` | Nom du rôle |
+| `purpose` | `String` | Raison d'être ou mission du rôle |
+| `domain` | `String` | Domaines d'autorité et de contrôle |
+| `accountabilities` | `String` | Liste des redevabilités |
+| `checklist` | `String` | Liste de vérification des responsabilités récurrentes |
+| `indicators` | `String` | Indicateurs de performance à suivre |
+| `notes` | `String` | Notes supplémentaires |
+| `archived` | `Boolean` | Indique si le rôle est archivé (par défaut : false) |
+| `base` | `Boolean` | Indique si c'est un rôle de base (par défaut : false) |
+| `singleMember` | `Boolean` | Indique si le rôle ne peut avoir qu'un seul membre (par défaut : false) |
+| `parentLink` | `Boolean` | Indique si le rôle peut être lié aux cercles parents (par défaut : false) |
+| `colorHue` | `Smallint` | Teinte de couleur pour la représentation visuelle (optionnel) |
 
 ## Relations
 

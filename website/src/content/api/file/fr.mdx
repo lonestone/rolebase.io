@@ -7,70 +7,19 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Identifiant unique du fichier (généré automatiquement)',
-    },
-    {
-      name: 'bucketId',
-      type: 'String',
-      description: 'Référence au bucket de stockage',
-    },
-    {
-      name: 'name',
-      type: 'String',
-      description: 'Nom original du fichier (optionnel)',
-    },
-    {
-      name: 'mimeType',
-      type: 'String',
-      description: 'Type MIME du fichier (optionnel)',
-    },
-    {
-      name: 'size',
-      type: 'Integer',
-      description: 'Taille du fichier en octets (optionnel)',
-    },
-    {
-      name: 'etag',
-      type: 'String',
-      description:
-        "Balise d'entité pour la mise en cache et les requêtes conditionnelles (optionnel)",
-    },
-    {
-      name: 'isUploaded',
-      type: 'Boolean',
-      description:
-        'Indique si le fichier a été entièrement téléversé (optionnel)',
-    },
-    {
-      name: 'metadata',
-      type: 'JSON',
-      description: 'Métadonnées supplémentaires sur le fichier (optionnel)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'Date de création du fichier (par défaut : horodatage actuel)',
-    },
-    {
-      name: 'updatedAt',
-      type: 'Timestamp',
-      description:
-        'Date de dernière mise à jour du fichier (par défaut : horodatage actuel)',
-    },
-    {
-      name: 'uploadedByUserId',
-      type: 'uuid',
-      description:
-        "Référence à l'utilisateur qui a téléversé le fichier (optionnel)",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique du fichier (généré automatiquement) |
+| `bucketId` | `String` | Référence au bucket de stockage |
+| `name` | `String` | Nom original du fichier (optionnel) |
+| `mimeType` | `String` | Type MIME du fichier (optionnel) |
+| `size` | `Integer` | Taille du fichier en octets (optionnel) |
+| `etag` | `String` | Balise d'entité pour la mise en cache et les requêtes conditionnelles (optionnel) |
+| `isUploaded` | `Boolean` | Indique si le fichier a été entièrement téléversé (optionnel) |
+| `metadata` | `JSON` | Métadonnées supplémentaires sur le fichier (optionnel) |
+| `createdAt` | `Timestamp` | Date de création du fichier (par défaut : horodatage actuel) |
+| `updatedAt` | `Timestamp` | Date de dernière mise à jour du fichier (par défaut : horodatage actuel) |
+| `uploadedByUserId` | `uuid` | Référence à l'utilisateur qui a téléversé le fichier (optionnel) |
 
 ## Relations
 

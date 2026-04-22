@@ -7,28 +7,12 @@ category: 'tasks'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        'Identifiant unique de la vue de tâche (généré automatiquement)',
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    {
-      name: 'key',
-      type: 'String',
-      description:
-        "Clé unique de la vue au sein de l'organisation (ex. : 'backlog', 'sprint')",
-    },
-    {
-      name: 'tasksIds',
-      type: 'uuid[]',
-      description: "Tableau d'identifiants de tâches incluses dans cette vue",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de la vue de tâche (généré automatiquement) |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `key` | `String` | Clé unique de la vue au sein de l'organisation (ex. : 'backlog', 'sprint') |
+| `tasksIds` | `uuid[]` | Tableau d'identifiants de tâches incluses dans cette vue |
 
 ## Relations
 

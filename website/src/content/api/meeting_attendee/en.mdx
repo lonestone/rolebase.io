@@ -7,31 +7,13 @@ category: 'meetings'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the attendee record',
-    },
-    {
-      name: 'meetingId',
-      type: 'uuid',
-      description: 'Reference to the meeting',
-    },
-    { name: 'memberId', type: 'uuid', description: 'Reference to the member' },
-    {
-      name: 'present',
-      type: 'Boolean',
-      description: 'Whether the member is present in the meeting (optional)',
-    },
-    {
-      name: 'startNotified',
-      type: 'Boolean',
-      description: 'Whether a start notification was sent (default: false)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the attendee record |
+| `meetingId` | `uuid` | Reference to the meeting |
+| `memberId` | `uuid` | Reference to the member |
+| `present` | `Boolean` | Whether the member is present in the meeting (optional) |
+| `startNotified` | `Boolean` | Whether a start notification was sent (default: false) |
 
 ## Relationships
 

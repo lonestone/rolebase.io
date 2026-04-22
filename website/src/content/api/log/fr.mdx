@@ -7,86 +7,23 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        "Identifiant unique de l'entrée de journal (généré automatiquement)",
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: 'Utilisateur qui a effectué la modification',
-    },
-    {
-      name: 'memberId',
-      type: 'uuid',
-      description: 'Membre qui a effectué la modification',
-    },
-    {
-      name: 'memberName',
-      type: 'String',
-      description: 'Nom du membre (conservé pour les membres supprimés)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        "Date de création de l'entrée de journal (par défaut : horodatage actuel)",
-    },
-    {
-      name: 'display',
-      type: 'JSON',
-      description: "Type de journal et données à afficher dans l'interface",
-    },
-    {
-      name: 'changes',
-      type: 'JSON',
-      description:
-        "Journal structuré des modifications d'entités pour l'annulation/rétablissement",
-    },
-    {
-      name: 'canceled',
-      type: 'Boolean',
-      description:
-        'Indique si cette entrée de journal a été annulée (par défaut : false)',
-    },
-    {
-      name: 'cancelLogId',
-      type: 'uuid',
-      description:
-        "Référence à l'entrée de journal qui a été annulée (optionnel)",
-    },
-    {
-      name: 'cancelMemberId',
-      type: 'uuid',
-      description: "Membre qui a annulé l'action (optionnel)",
-    },
-    {
-      name: 'cancelMemberName',
-      type: 'String',
-      description: 'Nom du membre qui a annulé (optionnel)',
-    },
-    {
-      name: 'meetingId',
-      type: 'uuid',
-      description: 'Réunion pendant laquelle ce journal a été créé (optionnel)',
-    },
-    {
-      name: 'taskId',
-      type: 'uuid',
-      description: 'Tâche associée à ce journal (optionnel)',
-    },
-    {
-      name: 'threadId',
-      type: 'uuid',
-      description: 'Discussion associée à ce journal (optionnel)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'entrée de journal (généré automatiquement) |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `userId` | `uuid` | Utilisateur qui a effectué la modification |
+| `memberId` | `uuid` | Membre qui a effectué la modification |
+| `memberName` | `String` | Nom du membre (conservé pour les membres supprimés) |
+| `createdAt` | `Timestamp` | Date de création de l'entrée de journal (par défaut : horodatage actuel) |
+| `display` | `JSON` | Type de journal et données à afficher dans l'interface |
+| `changes` | `JSON` | Journal structuré des modifications d'entités pour l'annulation/rétablissement |
+| `canceled` | `Boolean` | Indique si cette entrée de journal a été annulée (par défaut : false) |
+| `cancelLogId` | `uuid` | Référence à l'entrée de journal qui a été annulée (optionnel) |
+| `cancelMemberId` | `uuid` | Membre qui a annulé l'action (optionnel) |
+| `cancelMemberName` | `String` | Nom du membre qui a annulé (optionnel) |
+| `meetingId` | `uuid` | Réunion pendant laquelle ce journal a été créé (optionnel) |
+| `taskId` | `uuid` | Tâche associée à ce journal (optionnel) |
+| `threadId` | `uuid` | Discussion associée à ce journal (optionnel) |
 
 ## Structure des modifications d'entités
 

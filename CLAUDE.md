@@ -149,7 +149,7 @@ When modifying the product, update the documentation accordingly **in both EN an
 - Use markdown image syntax (`![alt](path)`) for images in content. Astro handles the import automatically. Reference images from `src/assets/` with relative paths (e.g., `../../../assets/images/photo.jpg`).
 - When creating page sections, extract layout and styling into reusable Astro components with props for configurable text and children/slots for nested content. Prefer props over Fragment slots when the content is a simple string. Use Fragment slots only for rich content (markdown, nested components).
 - Use `<Callout type="info|warning|tip">` for callouts.
-- Use `<EntityFields fields={[...]} />` for entity field tables in API pages.
+- Use markdown tables for entity field tables in API pages. Columns are `Field | Type | Description` (EN) or `Champ | Type | Description` (FR), with field and type names wrapped in backticks.
 - Keep GraphQL examples up to date with the actual schema.
 - EN pages are written in English; FR pages are written in French.
 - GraphQL code, field names, entity names, and type names stay in English in both locales.

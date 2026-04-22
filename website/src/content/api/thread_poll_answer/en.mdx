@@ -7,36 +7,13 @@ category: 'threads'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the poll answer (auto-generated)',
-    },
-    {
-      name: 'activityId',
-      type: 'uuid',
-      description: 'Reference to the thread activity (poll)',
-    },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: 'Reference to the user who submitted the answer',
-    },
-    {
-      name: 'choicesPoints',
-      type: 'Int[]',
-      description: 'Array of integer points assigned to each poll choice',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'When the answer was submitted (defaults to current timestamp)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the poll answer (auto-generated) |
+| `activityId` | `uuid` | Reference to the thread activity (poll) |
+| `userId` | `uuid` | Reference to the user who submitted the answer |
+| `choicesPoints` | `Int[]` | Array of integer points assigned to each poll choice |
+| `createdAt` | `Timestamp` | When the answer was submitted (defaults to current timestamp) |
 
 ## Relationships
 

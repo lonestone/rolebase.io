@@ -7,27 +7,13 @@ category: 'circles-roles'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the circle membership',
-    },
-    { name: 'circleId', type: 'uuid', description: 'Reference to the circle' },
-    { name: 'memberId', type: 'uuid', description: 'Reference to the member' },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the membership was created',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Whether the membership is archived (default: false)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the circle membership |
+| `circleId` | `uuid` | Reference to the circle |
+| `memberId` | `uuid` | Reference to the member |
+| `createdAt` | `Timestamp` | When the membership was created |
+| `archived` | `Boolean` | Whether the membership is archived (default: false) |
 
 ## Relationships
 

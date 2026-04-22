@@ -7,42 +7,15 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        "Identifiant unique de l'élément d'actualité (généré automatiquement)",
-    },
-    { name: 'orgId', type: 'uuid', description: "Référence à l'organisation" },
-    {
-      name: 'circleId',
-      type: 'uuid',
-      description: 'Référence au cercle (optionnel)',
-    },
-    {
-      name: 'threadId',
-      type: 'uuid',
-      description: 'Référence à la discussion source (le cas échéant)',
-    },
-    {
-      name: 'decisionId',
-      type: 'uuid',
-      description: 'Référence à la décision source (le cas échéant)',
-    },
-    {
-      name: 'meetingId',
-      type: 'uuid',
-      description: 'Référence à la réunion source (le cas échéant)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: "Date de création de l'élément d'actualité",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'élément d'actualité (généré automatiquement) |
+| `orgId` | `uuid` | Référence à l'organisation |
+| `circleId` | `uuid` | Référence au cercle (optionnel) |
+| `threadId` | `uuid` | Référence à la discussion source (le cas échéant) |
+| `decisionId` | `uuid` | Référence à la décision source (le cas échéant) |
+| `meetingId` | `uuid` | Référence à la réunion source (le cas échéant) |
+| `createdAt` | `Timestamp` | Date de création de l'élément d'actualité |
 
 ## Implémentation
 

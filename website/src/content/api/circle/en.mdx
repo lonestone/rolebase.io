@@ -7,36 +7,13 @@ category: 'circles-roles'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the circle',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    {
-      name: 'roleId',
-      type: 'uuid',
-      description: 'Reference to the role associated with this circle',
-    },
-    {
-      name: 'parentId',
-      type: 'uuid',
-      description:
-        'Reference to the parent circle (optional, null for top-level circles)',
-    },
-    {
-      name: 'archived',
-      type: 'Boolean',
-      description: 'Whether the circle is archived (default: false)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the circle |
+| `orgId` | `uuid` | Reference to the organization |
+| `roleId` | `uuid` | Reference to the role associated with this circle |
+| `parentId` | `uuid` | Reference to the parent circle (optional, null for top-level circles) |
+| `archived` | `Boolean` | Whether the circle is archived (default: false) |
 
 ## Relationships
 

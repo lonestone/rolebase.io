@@ -7,37 +7,13 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Identifiant unique de la clé API (généré automatiquement)',
-    },
-    {
-      name: 'userId',
-      type: 'uuid',
-      description: "Référence à l'utilisateur propriétaire de cette clé",
-    },
-    {
-      name: 'name',
-      type: 'String',
-      description: 'Nom descriptif de la clé API',
-    },
-    {
-      name: 'value',
-      type: 'String',
-      description:
-        'Valeur de la clé API (générée automatiquement, affichée une seule fois à la création)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'Date de création de la clé API (par défaut : horodatage actuel)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de la clé API (généré automatiquement) |
+| `userId` | `uuid` | Référence à l'utilisateur propriétaire de cette clé |
+| `name` | `String` | Nom descriptif de la clé API |
+| `value` | `String` | Valeur de la clé API (générée automatiquement, affichée une seule fois à la création) |
+| `createdAt` | `Timestamp` | Date de création de la clé API (par défaut : horodatage actuel) |
 
 ## Relations
 

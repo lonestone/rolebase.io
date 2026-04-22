@@ -7,26 +7,12 @@ category: 'other'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the app connection (auto-generated)',
-    },
-    { name: 'userId', type: 'uuid', description: 'Reference to the user' },
-    {
-      name: 'type',
-      type: 'Text',
-      description: 'Type of application: GoogleCalendar or Office365',
-    },
-    {
-      name: 'config',
-      type: 'JSON',
-      description: 'Public application configuration',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the app connection (auto-generated) |
+| `userId` | `uuid` | Reference to the user |
+| `type` | `Text` | Type of application: GoogleCalendar or Office365 |
+| `config` | `JSON` | Public application configuration |
 
 ## Application Types
 

@@ -7,150 +7,37 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        "Identifiant unique de l'utilisateur (généré automatiquement)",
-    },
-    {
-      name: 'displayName',
-      type: 'String',
-      description: "Nom d'affichage de l'utilisateur",
-    },
-    {
-      name: 'email',
-      type: 'String',
-      description: "Adresse e-mail de l'utilisateur (unique, optionnel)",
-    },
-    {
-      name: 'emailVerified',
-      type: 'Boolean',
-      description:
-        "Indique si l'adresse e-mail a été vérifiée (par défaut : false)",
-    },
-    {
-      name: 'phoneNumber',
-      type: 'String',
-      description: "Numéro de téléphone de l'utilisateur (unique, optionnel)",
-    },
-    {
-      name: 'phoneNumberVerified',
-      type: 'Boolean',
-      description:
-        'Indique si le numéro de téléphone a été vérifié (par défaut : false)',
-    },
-    {
-      name: 'avatarUrl',
-      type: 'String',
-      description: "URL de l'image d'avatar de l'utilisateur",
-    },
-    {
-      name: 'locale',
-      type: 'String',
-      description: "Langue préférée de l'utilisateur",
-    },
-    {
-      name: 'metadata',
-      type: 'JSON',
-      description:
-        "Métadonnées supplémentaires de l'utilisateur (ex. : fuseau horaire, préférences)",
-    },
-    {
-      name: 'newEmail',
-      type: 'String',
-      description:
-        'Nouvelle adresse e-mail en attente de vérification (optionnel)',
-    },
-    {
-      name: 'isAnonymous',
-      type: 'Boolean',
-      description:
-        "Indique si c'est un utilisateur anonyme (par défaut : false)",
-    },
-    {
-      name: 'disabled',
-      type: 'Boolean',
-      description:
-        'Indique si le compte utilisateur est désactivé (par défaut : false)',
-    },
-    {
-      name: 'lastSeen',
-      type: 'Timestamp',
-      description: "Dernière activité de l'utilisateur (optionnel)",
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description:
-        'Date de création du compte (par défaut : horodatage actuel)',
-    },
-    {
-      name: 'updatedAt',
-      type: 'Timestamp',
-      description:
-        'Date de dernière mise à jour du compte (par défaut : horodatage actuel)',
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de l'utilisateur (généré automatiquement) |
+| `displayName` | `String` | Nom d'affichage de l'utilisateur |
+| `email` | `String` | Adresse e-mail de l'utilisateur (unique, optionnel) |
+| `emailVerified` | `Boolean` | Indique si l'adresse e-mail a été vérifiée (par défaut : false) |
+| `phoneNumber` | `String` | Numéro de téléphone de l'utilisateur (unique, optionnel) |
+| `phoneNumberVerified` | `Boolean` | Indique si le numéro de téléphone a été vérifié (par défaut : false) |
+| `avatarUrl` | `String` | URL de l'image d'avatar de l'utilisateur |
+| `locale` | `String` | Langue préférée de l'utilisateur |
+| `metadata` | `JSON` | Métadonnées supplémentaires de l'utilisateur (ex. : fuseau horaire, préférences) |
+| `newEmail` | `String` | Nouvelle adresse e-mail en attente de vérification (optionnel) |
+| `isAnonymous` | `Boolean` | Indique si c'est un utilisateur anonyme (par défaut : false) |
+| `disabled` | `Boolean` | Indique si le compte utilisateur est désactivé (par défaut : false) |
+| `lastSeen` | `Timestamp` | Dernière activité de l'utilisateur (optionnel) |
+| `createdAt` | `Timestamp` | Date de création du compte (par défaut : horodatage actuel) |
+| `updatedAt` | `Timestamp` | Date de dernière mise à jour du compte (par défaut : horodatage actuel) |
 
 ### Champs d'authentification
 
-<EntityFields
-  fields={[
-    {
-      name: 'passwordHash',
-      type: 'String',
-      description:
-        "Mot de passe haché pour l'authentification par mot de passe (jamais exposé via l'API)",
-    },
-    {
-      name: 'activeMfaType',
-      type: 'String',
-      description:
-        "Méthode d'authentification multi-facteurs active (optionnel)",
-    },
-    {
-      name: 'totpSecret',
-      type: 'String',
-      description:
-        'Secret pour le mot de passe à usage unique basé sur le temps (optionnel)',
-    },
-    {
-      name: 'otpHash',
-      type: 'String',
-      description:
-        "Hachage du mot de passe à usage unique (jamais exposé via l'API)",
-    },
-    {
-      name: 'otpHashExpiresAt',
-      type: 'Timestamp',
-      description: "Date d'expiration du hachage OTP",
-    },
-    {
-      name: 'otpMethodLastUsed',
-      type: 'String',
-      description: 'Dernière méthode OTP utilisée (optionnel)',
-    },
-    {
-      name: 'ticket',
-      type: 'String',
-      description: "Ticket d'authentification (optionnel)",
-    },
-    {
-      name: 'ticketExpiresAt',
-      type: 'Timestamp',
-      description: "Date d'expiration du ticket d'authentification",
-    },
-    {
-      name: 'currentChallenge',
-      type: 'String',
-      description: "Défi d'authentification en cours (optionnel)",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `passwordHash` | `String` | Mot de passe haché pour l'authentification par mot de passe (jamais exposé via l'API) |
+| `activeMfaType` | `String` | Méthode d'authentification multi-facteurs active (optionnel) |
+| `totpSecret` | `String` | Secret pour le mot de passe à usage unique basé sur le temps (optionnel) |
+| `otpHash` | `String` | Hachage du mot de passe à usage unique (jamais exposé via l'API) |
+| `otpHashExpiresAt` | `Timestamp` | Date d'expiration du hachage OTP |
+| `otpMethodLastUsed` | `String` | Dernière méthode OTP utilisée (optionnel) |
+| `ticket` | `String` | Ticket d'authentification (optionnel) |
+| `ticketExpiresAt` | `Timestamp` | Date d'expiration du ticket d'authentification |
+| `currentChallenge` | `String` | Défi d'authentification en cours (optionnel) |
 
 ## Relations
 

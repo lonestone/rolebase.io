@@ -7,27 +7,12 @@ category: 'other'
 
 ## Champs
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description:
-        "Identifiant unique de la connexion d'application (généré automatiquement)",
-    },
-    { name: 'userId', type: 'uuid', description: "Référence à l'utilisateur" },
-    {
-      name: 'type',
-      type: 'Text',
-      description: "Type d'application : GoogleCalendar ou Office365",
-    },
-    {
-      name: 'config',
-      type: 'JSON',
-      description: "Configuration publique de l'application",
-    },
-  ]}
-/>
+| Champ | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Identifiant unique de la connexion d'application (généré automatiquement) |
+| `userId` | `uuid` | Référence à l'utilisateur |
+| `type` | `Text` | Type d'application : GoogleCalendar ou Office365 |
+| `config` | `JSON` | Configuration publique de l'application |
 
 ## Types d'application
 

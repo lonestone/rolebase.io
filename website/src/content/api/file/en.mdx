@@ -7,66 +7,19 @@ category: 'other'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the file (auto-generated)',
-    },
-    {
-      name: 'bucketId',
-      type: 'String',
-      description: 'Reference to the storage bucket',
-    },
-    {
-      name: 'name',
-      type: 'String',
-      description: 'Original name of the file (optional)',
-    },
-    {
-      name: 'mimeType',
-      type: 'String',
-      description: 'MIME type of the file (optional)',
-    },
-    {
-      name: 'size',
-      type: 'Integer',
-      description: 'Size of the file in bytes (optional)',
-    },
-    {
-      name: 'etag',
-      type: 'String',
-      description: 'Entity tag for caching and conditional requests (optional)',
-    },
-    {
-      name: 'isUploaded',
-      type: 'Boolean',
-      description: 'Whether the file has been fully uploaded (optional)',
-    },
-    {
-      name: 'metadata',
-      type: 'JSON',
-      description: 'Additional metadata about the file (optional)',
-    },
-    {
-      name: 'createdAt',
-      type: 'Timestamp',
-      description: 'When the file was created (defaults to current timestamp)',
-    },
-    {
-      name: 'updatedAt',
-      type: 'Timestamp',
-      description:
-        'When the file was last updated (defaults to current timestamp)',
-    },
-    {
-      name: 'uploadedByUserId',
-      type: 'uuid',
-      description: 'Reference to the user who uploaded the file (optional)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the file (auto-generated) |
+| `bucketId` | `String` | Reference to the storage bucket |
+| `name` | `String` | Original name of the file (optional) |
+| `mimeType` | `String` | MIME type of the file (optional) |
+| `size` | `Integer` | Size of the file in bytes (optional) |
+| `etag` | `String` | Entity tag for caching and conditional requests (optional) |
+| `isUploaded` | `Boolean` | Whether the file has been fully uploaded (optional) |
+| `metadata` | `JSON` | Additional metadata about the file (optional) |
+| `createdAt` | `Timestamp` | When the file was created (defaults to current timestamp) |
+| `updatedAt` | `Timestamp` | When the file was last updated (defaults to current timestamp) |
+| `uploadedByUserId` | `uuid` | Reference to the user who uploaded the file (optional) |
 
 ## Relationships
 

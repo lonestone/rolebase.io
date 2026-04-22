@@ -50,9 +50,6 @@ sidebar:
 api:
   reference: API Reference
   introduction: Introduction
-  fieldLabel: Field
-  typeLabel: Type
-  descriptionLabel: Description
 
 footer:
   product: Product

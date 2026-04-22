@@ -7,40 +7,14 @@ category: 'org-members'
 
 ## Fields
 
-<EntityFields
-  fields={[
-    {
-      name: 'id',
-      type: 'uuid',
-      description: 'Unique identifier for the subscription',
-    },
-    {
-      name: 'orgId',
-      type: 'uuid',
-      description: 'Reference to the organization',
-    },
-    {
-      name: 'type',
-      type: 'Subscription_Plan_Type_Enum',
-      description: 'Type of subscription plan (Startup or Business)',
-    },
-    {
-      name: 'status',
-      type: 'Subscription_Payment_Status_Enum',
-      description: 'Current payment status of the subscription',
-    },
-    {
-      name: 'stripeCustomerId',
-      type: 'String',
-      description: 'Stripe customer ID for billing',
-    },
-    {
-      name: 'stripeSubscriptionId',
-      type: 'String',
-      description: 'Stripe subscription ID for recurring payments (optional)',
-    },
-  ]}
-/>
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `uuid` | Unique identifier for the subscription |
+| `orgId` | `uuid` | Reference to the organization |
+| `type` | `Subscription_Plan_Type_Enum` | Type of subscription plan (Startup or Business) |
+| `status` | `Subscription_Payment_Status_Enum` | Current payment status of the subscription |
+| `stripeCustomerId` | `String` | Stripe customer ID for billing |
+| `stripeSubscriptionId` | `String` | Stripe subscription ID for recurring payments (optional) |
 
 ## Subscription Plan Types
 
