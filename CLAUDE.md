@@ -54,11 +54,11 @@ The website is built with Astro + MDX + Tailwind CSS with i18n support (English 
 - `src/components/` — Astro display components. All `.astro` components in this folder (recursively) are auto-discovered and available in all MDX content (no import needed).
 - `src/layouts/` — Page layout wrappers (base layouts and content-type-specific wrappers used by page templates)
 - `website.config.ts` — Site URL, supported languages, default language (single source of truth for lang config)
-- `src/i18n.ts` — Language utilities (`getTranslations`, `getLangFromUrl`, `getOtherLangHref`, `langPath`, `getSlugFromId`, `getLangFromId`)
+- `src/utils/i18n.ts` — Language utilities (`getTranslations`, `getLangFromUrl`, `getOtherLangHref`, `langPath`, `getSlugFromId`, `getLangFromId`)
 - `src/pages/[lang]/` — Route templates using `[lang]` param for both locales. No separate `en/` and `fr/` directories.
 - `src/content.config.ts` — Content collection schemas
 - `src/styles/global.css` — Tailwind import, theme tokens, and markdown styles targeting `.md` class
-- `src/rehype-md-class.ts` — Rehype plugin that adds `md` class to all markdown-generated elements
+- `src/utils/rehype-md-class.ts` — Rehype plugin that adds `md` class to all markdown-generated elements
 - `src/redirects.ts` — Static redirects (imported in `astro.config.ts`)
 - `netlify.toml` — Build config and wildcard/language redirects
 
@@ -83,7 +83,7 @@ Collections defined in `src/content.config.ts`:
 - **i18n** — UI translations (`en.yaml`, `fr.yaml`). Schema: `z.record(z.string())`
 - **pages** — Standalone pages (homepage, contact, terms, pricing, partners, legal, privacy). Frontmatter: `title`
 
-The `lang` is NOT stored in frontmatter. It is derived from the filename (`en.mdx` / `fr.mdx`) via the entry ID (e.g., `members/en`). Use `getSlugFromId(entry.id)` and `getLangFromId(entry.id)` from `src/i18n.ts`.
+The `lang` is NOT stored in frontmatter. It is derived from the filename (`en.mdx` / `fr.mdx`) via the entry ID (e.g., `members/en`). Use `getSlugFromId(entry.id)` and `getLangFromId(entry.id)` from `src/utils/i18n.ts`.
 
 Routing pages (`src/pages/[lang]/{section}/[slug].astro`) use a `[lang]` param and loop over both locales in `getStaticPaths()`, filtering entries by ID suffix (`entry.id.endsWith('/${lang}')`) and extracting the slug with `entry.id.replace('/${lang}', '')`.
 
@@ -103,13 +103,13 @@ Routing pages (`src/pages/[lang]/{section}/[slug].astro`) use a `[lang]` param a
 - All URL paths are the same for both languages (e.g., `/en/client-cases/`, `/fr/client-cases/`). No locale-specific path segments.
 - Internal links must include the lang prefix: `/en/docs/members` or `/fr/docs/members`.
 - The lang switcher in TopNav uses `getOtherLangHref()` which swaps the lang prefix. Since all paths and slugs are shared across languages, this works automatically.
-- UI translations are in `src/content/i18n/en.yaml` and `fr.yaml`. Use `await getTranslations(lang)` from `src/i18n.ts` to access them. Translations use nested YAML keys grouped by domain (e.g. `t.blog.label`, `t.cta.title`, `t.footer.alternatives.holaspirit`).
-- Supported languages and default language are defined in `website.config.ts`. Do not hardcode `'en'` or `'fr'` in code; import `langs` from `src/i18n.ts` instead.
+- UI translations are in `src/content/i18n/en.yaml` and `fr.yaml`. Use `await getTranslations(lang)` from `src/utils/i18n.ts` to access them. Translations use nested YAML keys grouped by domain (e.g. `t.blog.label`, `t.cta.title`, `t.footer.alternatives.holaspirit`).
+- Supported languages and default language are defined in `website.config.ts`. Do not hardcode `'en'` or `'fr'` in code; import `config` from `website.config.ts` (or `langs` from `src/utils/i18n.ts`) instead.
 - The root `/` redirects to `/en/`.
 
 ### Adding or modifying content
 
-- **New page**: Create a folder `src/content/{collection}/{slug}/` with `en.mdx` and `fr.mdx`. Add frontmatter (title, description). Update sidebar links in `src/i18n.ts` if applicable.
+- **New page**: Create a folder `src/content/{collection}/{slug}/` with `en.mdx` and `fr.mdx`. Add frontmatter (title, description). Update sidebar links in `src/utils/i18n.ts` if applicable.
 - **New image**: Place the image file directly in the content folder next to the MDX files. Reference it with a relative path (`./image.jpg`) in frontmatter or body. Use `image()` schema helper in `content.config.ts` for frontmatter image fields.
 - **Renamed or removed page**: Delete the folder, add a redirect in `src/redirects.ts`. Update sidebar links.
 - **Modified entity fields**: Update `src/content/api/{entity}/en.mdx` and `fr.mdx`.
@@ -118,7 +118,7 @@ Routing pages (`src/pages/[lang]/{section}/[slug].astro`) use a `[lang]` param a
 
 When modifying the product, update the documentation accordingly **in both EN and FR**:
 
-1. **New feature or entity**: Add docs in `content/docs/{slug}/`, optionally API ref in `content/api/{entity}/`, optionally guide in `content/guides/{slug}/`. Update sidebar links in `src/i18n.ts`.
+1. **New feature or entity**: Add docs in `content/docs/{slug}/`, optionally API ref in `content/api/{entity}/`, optionally guide in `content/guides/{slug}/`. Update sidebar links in `src/utils/i18n.ts`.
 2. **Modified entity fields**: Update `content/api/{entity}/en.mdx` and `fr.mdx`.
 3. **Renamed or removed feature**: Remove or update the corresponding content folder in both locales. Update sidebar links. Add redirect.
 4. **New GraphQL query/mutation**: Add examples to the relevant API reference page in both locales.
@@ -139,9 +139,9 @@ When modifying the product, update the documentation accordingly **in both EN an
 - Always use the `<Button>` component (`src/components/Button.astro`) for buttons and call-to-action links. Use the `label` prop for text (not children). Available variants: `yellow`, `orange`, `primary`, `outline-primary`, `outline`. Sizes: `sm`, `md`.
 - All `.astro` components in `src/components/` (recursively) are automatically available in all MDX content. Do not add import statements for these components in MDX files. To add a new MDX component, place it in `src/components/` and it will be auto-discovered.
 - Documentation and guides are written for non-technical users. Keep developer/technical content (API, GraphQL, self-hosting, code) in the Developers section.
-- Sidebar links for documentation and guides are defined in `src/i18n.ts` (`docsLinks` and `guidesLinks`).
+- Sidebar links for documentation and guides are defined in `src/utils/i18n.ts` (`docsLinks` and `guidesLinks`).
 - Always verify in the webapp code (`packages/webapp`) how a feature actually works before describing it in documentation. Check components, modals, pages, and translations to describe the exact user flow.
-- All user-facing text in Astro components must use translations from `src/content/i18n/` via `await getTranslations(lang)` from `src/i18n.ts`. No hardcoded strings or inline ternaries for EN/FR.
+- All user-facing text in Astro components must use translations from `src/content/i18n/` via `await getTranslations(lang)` from `src/utils/i18n.ts`. No hardcoded strings or inline ternaries for EN/FR.
 - Avoid putting non-generic texts in reusable components (`src/components/`). All content specific to pages belongs in MDX files or in Astro components in `src/pages/`.
 - All content is in MDX files in content collections, not in Astro components or pages.
 - In MDX pages, write content directly using component calls (no JSON arrays or JS logic). Data lives in the markup, not in frontmatter variables or script blocks.

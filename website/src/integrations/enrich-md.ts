@@ -10,7 +10,7 @@ const turndown = new TurndownService({
   codeBlockStyle: 'fenced',
 })
 turndown.remove([
-  'svg',
+  'svg' as any,
   'video',
   'picture',
   'script',

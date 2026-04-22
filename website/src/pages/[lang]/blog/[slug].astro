@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content'
 import BlogPost from '../../../layouts/BlogPost.astro'
-import { langs } from '../../../i18n'
+import config from '../../../../website.config'
 
 export async function getStaticPaths() {
   const paths = []
-  for (const lang of langs) {
+  for (const lang of config.langs) {
     const posts = await getCollection('blog', (p) => p.id.endsWith(`/${lang}`))
     for (const post of posts) {
       paths.push({

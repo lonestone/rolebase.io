@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CirclesBackground from '../components/CirclesBackground.astro'
 import { mdxComponents } from '../components'
-import { getLangFromUrl } from '../i18n'
+import { getLangFromUrl } from '../utils/i18n'
 
 const lang = getLangFromUrl(Astro.url)
 const entries = await getCollection('pages', (e) => e.id === `404/${lang}`)

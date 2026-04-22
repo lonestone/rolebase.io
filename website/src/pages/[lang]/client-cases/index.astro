@@ -1,9 +1,9 @@
 ---
 import ClientCaseIndex from '../../../layouts/ClientCaseIndex.astro'
-import { langs } from '../../../i18n'
+import config from '../../../../website.config'
 
 export function getStaticPaths() {
-  return langs.map(lang => ({ params: { lang } }))
+  return config.langs.map(lang => ({ params: { lang } }))
 }
 
 const { lang } = Astro.params

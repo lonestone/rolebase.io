@@ -1,6 +1,6 @@
 ---
 import Button from './Button.astro'
-import { getLangFromUrl, getTranslations } from '../i18n'
+import { getLangFromUrl, getTranslations } from '../utils/i18n'
 
 const lang = getLangFromUrl(Astro.url)
 const t = await getTranslations(lang)

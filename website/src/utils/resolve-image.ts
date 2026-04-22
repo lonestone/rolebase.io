@@ -10,7 +10,7 @@ import type { ImageMetadata } from 'astro'
 export type ImagePath = string
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  './content/**/*.{png,jpg,jpeg,svg,webp}'
+  '../content/**/*.{png,jpg,jpeg,svg,webp}'
 )
 
 /**

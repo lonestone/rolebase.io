@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content'
 import GlossaryPage from '../../../layouts/GlossaryPage.astro'
-import { langs } from '../../../i18n'
+import config from '../../../../website.config'
 
 export async function getStaticPaths() {
   const paths = []
-  for (const lang of langs) {
+  for (const lang of config.langs) {
     const items = await getCollection('glossary', (item) => item.id.endsWith(`/${lang}`) && !item.data.draft)
     for (const item of items) {
       paths.push({

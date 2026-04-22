@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content'
 import ClientCasePage from '../../../layouts/ClientCasePage.astro'
-import { langs } from '../../../i18n'
+import config from '../../../../website.config'
 
 export async function getStaticPaths() {
   const paths = []
-  for (const lang of langs) {
+  for (const lang of config.langs) {
     const items = await getCollection('client-cases', (item) => item.id.endsWith(`/${lang}`))
     for (const item of items) {
       paths.push({

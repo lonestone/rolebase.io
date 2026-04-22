@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
-import { getLangFromId, getSlugFromId } from '../i18n'
+import { getLangFromId, getSlugFromId } from '../utils/i18n'
 
 const siteUrl = import.meta.env.SITE?.replace(/\/$/, '') || ''
 

@@ -2,11 +2,11 @@
 import { getCollection, render } from 'astro:content'
 import DocPage from '../../../layouts/DocPage.astro'
 import { mdxComponents } from '../../../components'
-import { langs } from '../../../i18n'
+import config from '../../../../website.config'
 
 export async function getStaticPaths() {
   const paths = []
-  for (const lang of langs) {
+  for (const lang of config.langs) {
     const entries = await getCollection('developers', (e) => e.id.endsWith(`/${lang}`))
     for (const entry of entries) {
       const slug = entry.id.replace(`/${lang}`, '')

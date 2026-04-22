@@ -1,8 +1,8 @@
 ---
 import Button from './Button.astro'
 import { Image } from 'astro:assets'
-import { resolveContentImage, type ImagePath } from '../resolve-image'
-import { getLangFromUrl, getTranslations } from '../i18n'
+import { resolveContentImage, type ImagePath } from '../utils/resolve-image'
+import { getLangFromUrl, getTranslations } from '../utils/i18n'
 
 interface Props {
   name: string

@@ -2,7 +2,7 @@
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 import Button from './Button.astro'
-import { getLangFromUrl, getTranslations } from '../i18n'
+import { getLangFromUrl, getTranslations } from '../utils/i18n'
 
 interface Props {
   headings: { depth: number; slug: string; text: string }[]
