@@ -7,6 +7,7 @@ COPY ../../package.json ./
 COPY ../../packages/backend/package.json ./packages/backend/
 COPY ../../packages/shared/package.json ./packages/shared/
 COPY ../../packages/emails/package.json ./packages/emails/
+COPY ../../packages/editor/package.json ./packages/editor/
 
 ENV NODE_OPTIONS=--max-old-space-size=2048
 ENV GENERATE_SOURCEMAP=false
