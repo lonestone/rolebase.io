@@ -17,6 +17,7 @@ packages/*
 !packages/backend
 !packages/shared
 !packages/emails
+!packages/editor
 
 # Builds
 dist
