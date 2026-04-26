@@ -66,6 +66,23 @@ export type Int_Comparison_Exp = {
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
+export type String_Array_Comparison_Exp = {
+  /** is the array contained in the given array value */
+  _contained_in?: InputMaybe<Array<Scalars['String']>>;
+  /** does the array contain the given value */
+  _contains?: InputMaybe<Array<Scalars['String']>>;
+  _eq?: InputMaybe<Array<Scalars['String']>>;
+  _gt?: InputMaybe<Array<Scalars['String']>>;
+  _gte?: InputMaybe<Array<Scalars['String']>>;
+  _in?: InputMaybe<Array<Array<Scalars['String']>>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Array<Scalars['String']>>;
+  _lte?: InputMaybe<Array<Scalars['String']>>;
+  _neq?: InputMaybe<Array<Scalars['String']>>;
+  _nin?: InputMaybe<Array<Array<Scalars['String']>>>;
+};
+
+/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['String']>;
   _gt?: InputMaybe<Scalars['String']>;
@@ -419,6 +436,1285 @@ export type App_Type_Updates = {
   _set?: InputMaybe<App_Type_Set_Input>;
   /** filter the rows which have to be updated */
   where: App_Type_Bool_Exp;
+};
+
+/** In-flight OAuth2 authorization requests. */
+export type AuthOauth2AuthRequests = {
+  __typename?: 'authOauth2AuthRequests';
+  authTime?: Maybe<Scalars['timestamptz']>;
+  /** An array relationship */
+  authorizationCodes: Array<AuthOauth2AuthorizationCodes>;
+  /** An aggregate relationship */
+  authorizationCodes_aggregate: AuthOauth2AuthorizationCodes_Aggregate;
+  /** An object relationship */
+  client: AuthOauth2Clients;
+  clientId: Scalars['String'];
+  codeChallenge?: Maybe<Scalars['String']>;
+  codeChallengeMethod?: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamptz'];
+  done: Scalars['Boolean'];
+  expiresAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  nonce?: Maybe<Scalars['String']>;
+  redirectUri: Scalars['String'];
+  /** An array relationship */
+  refreshTokens: Array<AuthOauth2RefreshTokens>;
+  /** An aggregate relationship */
+  refreshTokens_aggregate: AuthOauth2RefreshTokens_Aggregate;
+  resource?: Maybe<Scalars['String']>;
+  responseType: Scalars['String'];
+  scopes: Array<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  user?: Maybe<Users>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+
+/** In-flight OAuth2 authorization requests. */
+export type AuthOauth2AuthRequestsAuthorizationCodesArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+/** In-flight OAuth2 authorization requests. */
+export type AuthOauth2AuthRequestsAuthorizationCodes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+/** In-flight OAuth2 authorization requests. */
+export type AuthOauth2AuthRequestsRefreshTokensArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+
+/** In-flight OAuth2 authorization requests. */
+export type AuthOauth2AuthRequestsRefreshTokens_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+/** aggregated selection of "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Aggregate = {
+  __typename?: 'authOauth2AuthRequests_aggregate';
+  aggregate?: Maybe<AuthOauth2AuthRequests_Aggregate_Fields>;
+  nodes: Array<AuthOauth2AuthRequests>;
+};
+
+export type AuthOauth2AuthRequests_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_And = {
+  arguments: AuthOauth2AuthRequests_Select_Column_AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: AuthOauth2AuthRequests_Select_Column_AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type AuthOauth2AuthRequests_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Aggregate_Fields = {
+  __typename?: 'authOauth2AuthRequests_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<AuthOauth2AuthRequests_Max_Fields>;
+  min?: Maybe<AuthOauth2AuthRequests_Min_Fields>;
+};
+
+
+/** aggregate fields of "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<AuthOauth2AuthRequests_Max_Order_By>;
+  min?: InputMaybe<AuthOauth2AuthRequests_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Arr_Rel_Insert_Input = {
+  data: Array<AuthOauth2AuthRequests_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<AuthOauth2AuthRequests_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "auth.oauth2_auth_requests". All fields are combined with a logical 'AND'. */
+export type AuthOauth2AuthRequests_Bool_Exp = {
+  _and?: InputMaybe<Array<AuthOauth2AuthRequests_Bool_Exp>>;
+  _not?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  _or?: InputMaybe<Array<AuthOauth2AuthRequests_Bool_Exp>>;
+  authTime?: InputMaybe<Timestamptz_Comparison_Exp>;
+  authorizationCodes?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+  authorizationCodes_aggregate?: InputMaybe<AuthOauth2AuthorizationCodes_Aggregate_Bool_Exp>;
+  client?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+  clientId?: InputMaybe<String_Comparison_Exp>;
+  codeChallenge?: InputMaybe<String_Comparison_Exp>;
+  codeChallengeMethod?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  done?: InputMaybe<Boolean_Comparison_Exp>;
+  expiresAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  nonce?: InputMaybe<String_Comparison_Exp>;
+  redirectUri?: InputMaybe<String_Comparison_Exp>;
+  refreshTokens?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+  refreshTokens_aggregate?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Bool_Exp>;
+  resource?: InputMaybe<String_Comparison_Exp>;
+  responseType?: InputMaybe<String_Comparison_Exp>;
+  scopes?: InputMaybe<String_Array_Comparison_Exp>;
+  state?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "auth.oauth2_auth_requests" */
+export enum AuthOauth2AuthRequests_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  Oauth2AuthRequestsPkey = 'oauth2_auth_requests_pkey'
+}
+
+/** input type for inserting data into table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Insert_Input = {
+  authTime?: InputMaybe<Scalars['timestamptz']>;
+  authorizationCodes?: InputMaybe<AuthOauth2AuthorizationCodes_Arr_Rel_Insert_Input>;
+  client?: InputMaybe<AuthOauth2Clients_Obj_Rel_Insert_Input>;
+  clientId?: InputMaybe<Scalars['String']>;
+  codeChallenge?: InputMaybe<Scalars['String']>;
+  codeChallengeMethod?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  done?: InputMaybe<Scalars['Boolean']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  nonce?: InputMaybe<Scalars['String']>;
+  redirectUri?: InputMaybe<Scalars['String']>;
+  refreshTokens?: InputMaybe<AuthOauth2RefreshTokens_Arr_Rel_Insert_Input>;
+  resource?: InputMaybe<Scalars['String']>;
+  responseType?: InputMaybe<Scalars['String']>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  state?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type AuthOauth2AuthRequests_Max_Fields = {
+  __typename?: 'authOauth2AuthRequests_max_fields';
+  authTime?: Maybe<Scalars['timestamptz']>;
+  clientId?: Maybe<Scalars['String']>;
+  codeChallenge?: Maybe<Scalars['String']>;
+  codeChallengeMethod?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  expiresAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  nonce?: Maybe<Scalars['String']>;
+  redirectUri?: Maybe<Scalars['String']>;
+  resource?: Maybe<Scalars['String']>;
+  responseType?: Maybe<Scalars['String']>;
+  scopes?: Maybe<Array<Scalars['String']>>;
+  state?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Max_Order_By = {
+  authTime?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  codeChallenge?: InputMaybe<Order_By>;
+  codeChallengeMethod?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  nonce?: InputMaybe<Order_By>;
+  redirectUri?: InputMaybe<Order_By>;
+  resource?: InputMaybe<Order_By>;
+  responseType?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  state?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type AuthOauth2AuthRequests_Min_Fields = {
+  __typename?: 'authOauth2AuthRequests_min_fields';
+  authTime?: Maybe<Scalars['timestamptz']>;
+  clientId?: Maybe<Scalars['String']>;
+  codeChallenge?: Maybe<Scalars['String']>;
+  codeChallengeMethod?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  expiresAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  nonce?: Maybe<Scalars['String']>;
+  redirectUri?: Maybe<Scalars['String']>;
+  resource?: Maybe<Scalars['String']>;
+  responseType?: Maybe<Scalars['String']>;
+  scopes?: Maybe<Array<Scalars['String']>>;
+  state?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Min_Order_By = {
+  authTime?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  codeChallenge?: InputMaybe<Order_By>;
+  codeChallengeMethod?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  nonce?: InputMaybe<Order_By>;
+  redirectUri?: InputMaybe<Order_By>;
+  resource?: InputMaybe<Order_By>;
+  responseType?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  state?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Mutation_Response = {
+  __typename?: 'authOauth2AuthRequests_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<AuthOauth2AuthRequests>;
+};
+
+/** input type for inserting object relation for remote table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Obj_Rel_Insert_Input = {
+  data: AuthOauth2AuthRequests_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<AuthOauth2AuthRequests_On_Conflict>;
+};
+
+/** on_conflict condition type for table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_On_Conflict = {
+  constraint: AuthOauth2AuthRequests_Constraint;
+  update_columns?: Array<AuthOauth2AuthRequests_Update_Column>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "auth.oauth2_auth_requests". */
+export type AuthOauth2AuthRequests_Order_By = {
+  authTime?: InputMaybe<Order_By>;
+  authorizationCodes_aggregate?: InputMaybe<AuthOauth2AuthorizationCodes_Aggregate_Order_By>;
+  client?: InputMaybe<AuthOauth2Clients_Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  codeChallenge?: InputMaybe<Order_By>;
+  codeChallengeMethod?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  done?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  nonce?: InputMaybe<Order_By>;
+  redirectUri?: InputMaybe<Order_By>;
+  refreshTokens_aggregate?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Order_By>;
+  resource?: InputMaybe<Order_By>;
+  responseType?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  state?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: auth.oauth2_auth_requests */
+export type AuthOauth2AuthRequests_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "auth.oauth2_auth_requests" */
+export enum AuthOauth2AuthRequests_Select_Column {
+  /** column name */
+  AuthTime = 'authTime',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  CodeChallenge = 'codeChallenge',
+  /** column name */
+  CodeChallengeMethod = 'codeChallengeMethod',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Done = 'done',
+  /** column name */
+  ExpiresAt = 'expiresAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Nonce = 'nonce',
+  /** column name */
+  RedirectUri = 'redirectUri',
+  /** column name */
+  Resource = 'resource',
+  /** column name */
+  ResponseType = 'responseType',
+  /** column name */
+  Scopes = 'scopes',
+  /** column name */
+  State = 'state',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** select "authOauth2AuthRequests_aggregate_bool_exp_bool_and_arguments_columns" columns of table "auth.oauth2_auth_requests" */
+export enum AuthOauth2AuthRequests_Select_Column_AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Done = 'done'
+}
+
+/** select "authOauth2AuthRequests_aggregate_bool_exp_bool_or_arguments_columns" columns of table "auth.oauth2_auth_requests" */
+export enum AuthOauth2AuthRequests_Select_Column_AuthOauth2AuthRequests_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Done = 'done'
+}
+
+/** input type for updating data in table "auth.oauth2_auth_requests" */
+export type AuthOauth2AuthRequests_Set_Input = {
+  authTime?: InputMaybe<Scalars['timestamptz']>;
+  clientId?: InputMaybe<Scalars['String']>;
+  codeChallenge?: InputMaybe<Scalars['String']>;
+  codeChallengeMethod?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  done?: InputMaybe<Scalars['Boolean']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  nonce?: InputMaybe<Scalars['String']>;
+  redirectUri?: InputMaybe<Scalars['String']>;
+  resource?: InputMaybe<Scalars['String']>;
+  responseType?: InputMaybe<Scalars['String']>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  state?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "authOauth2AuthRequests" */
+export type AuthOauth2AuthRequests_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthOauth2AuthRequests_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthOauth2AuthRequests_Stream_Cursor_Value_Input = {
+  authTime?: InputMaybe<Scalars['timestamptz']>;
+  clientId?: InputMaybe<Scalars['String']>;
+  codeChallenge?: InputMaybe<Scalars['String']>;
+  codeChallengeMethod?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  done?: InputMaybe<Scalars['Boolean']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  nonce?: InputMaybe<Scalars['String']>;
+  redirectUri?: InputMaybe<Scalars['String']>;
+  resource?: InputMaybe<Scalars['String']>;
+  responseType?: InputMaybe<Scalars['String']>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  state?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "auth.oauth2_auth_requests" */
+export enum AuthOauth2AuthRequests_Update_Column {
+  /** column name */
+  AuthTime = 'authTime',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  CodeChallenge = 'codeChallenge',
+  /** column name */
+  CodeChallengeMethod = 'codeChallengeMethod',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Done = 'done',
+  /** column name */
+  ExpiresAt = 'expiresAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Nonce = 'nonce',
+  /** column name */
+  RedirectUri = 'redirectUri',
+  /** column name */
+  Resource = 'resource',
+  /** column name */
+  ResponseType = 'responseType',
+  /** column name */
+  Scopes = 'scopes',
+  /** column name */
+  State = 'state',
+  /** column name */
+  UserId = 'userId'
+}
+
+export type AuthOauth2AuthRequests_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<AuthOauth2AuthRequests_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: AuthOauth2AuthRequests_Bool_Exp;
+};
+
+/** OAuth2 authorization codes pending exchange for tokens. */
+export type AuthOauth2AuthorizationCodes = {
+  __typename?: 'authOauth2AuthorizationCodes';
+  /** An object relationship */
+  authRequest: AuthOauth2AuthRequests;
+  authRequestId: Scalars['uuid'];
+  codeHash: Scalars['String'];
+  createdAt: Scalars['timestamptz'];
+  expiresAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+};
+
+/** aggregated selection of "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Aggregate = {
+  __typename?: 'authOauth2AuthorizationCodes_aggregate';
+  aggregate?: Maybe<AuthOauth2AuthorizationCodes_Aggregate_Fields>;
+  nodes: Array<AuthOauth2AuthorizationCodes>;
+};
+
+export type AuthOauth2AuthorizationCodes_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthOauth2AuthorizationCodes_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthOauth2AuthorizationCodes_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Aggregate_Fields = {
+  __typename?: 'authOauth2AuthorizationCodes_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<AuthOauth2AuthorizationCodes_Max_Fields>;
+  min?: Maybe<AuthOauth2AuthorizationCodes_Min_Fields>;
+};
+
+
+/** aggregate fields of "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<AuthOauth2AuthorizationCodes_Max_Order_By>;
+  min?: InputMaybe<AuthOauth2AuthorizationCodes_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Arr_Rel_Insert_Input = {
+  data: Array<AuthOauth2AuthorizationCodes_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<AuthOauth2AuthorizationCodes_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "auth.oauth2_authorization_codes". All fields are combined with a logical 'AND'. */
+export type AuthOauth2AuthorizationCodes_Bool_Exp = {
+  _and?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Bool_Exp>>;
+  _not?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+  _or?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Bool_Exp>>;
+  authRequest?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  authRequestId?: InputMaybe<Uuid_Comparison_Exp>;
+  codeHash?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  expiresAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "auth.oauth2_authorization_codes" */
+export enum AuthOauth2AuthorizationCodes_Constraint {
+  /** unique or primary key constraint on columns "code_hash" */
+  Oauth2AuthorizationCodesCodeHashKey = 'oauth2_authorization_codes_code_hash_key',
+  /** unique or primary key constraint on columns "id" */
+  Oauth2AuthorizationCodesPkey = 'oauth2_authorization_codes_pkey'
+}
+
+/** input type for inserting data into table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Insert_Input = {
+  authRequest?: InputMaybe<AuthOauth2AuthRequests_Obj_Rel_Insert_Input>;
+  authRequestId?: InputMaybe<Scalars['uuid']>;
+  codeHash?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type AuthOauth2AuthorizationCodes_Max_Fields = {
+  __typename?: 'authOauth2AuthorizationCodes_max_fields';
+  authRequestId?: Maybe<Scalars['uuid']>;
+  codeHash?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  expiresAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Max_Order_By = {
+  authRequestId?: InputMaybe<Order_By>;
+  codeHash?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type AuthOauth2AuthorizationCodes_Min_Fields = {
+  __typename?: 'authOauth2AuthorizationCodes_min_fields';
+  authRequestId?: Maybe<Scalars['uuid']>;
+  codeHash?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  expiresAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Min_Order_By = {
+  authRequestId?: InputMaybe<Order_By>;
+  codeHash?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Mutation_Response = {
+  __typename?: 'authOauth2AuthorizationCodes_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<AuthOauth2AuthorizationCodes>;
+};
+
+/** on_conflict condition type for table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_On_Conflict = {
+  constraint: AuthOauth2AuthorizationCodes_Constraint;
+  update_columns?: Array<AuthOauth2AuthorizationCodes_Update_Column>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "auth.oauth2_authorization_codes". */
+export type AuthOauth2AuthorizationCodes_Order_By = {
+  authRequest?: InputMaybe<AuthOauth2AuthRequests_Order_By>;
+  authRequestId?: InputMaybe<Order_By>;
+  codeHash?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: auth.oauth2_authorization_codes */
+export type AuthOauth2AuthorizationCodes_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "auth.oauth2_authorization_codes" */
+export enum AuthOauth2AuthorizationCodes_Select_Column {
+  /** column name */
+  AuthRequestId = 'authRequestId',
+  /** column name */
+  CodeHash = 'codeHash',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  ExpiresAt = 'expiresAt',
+  /** column name */
+  Id = 'id'
+}
+
+/** input type for updating data in table "auth.oauth2_authorization_codes" */
+export type AuthOauth2AuthorizationCodes_Set_Input = {
+  authRequestId?: InputMaybe<Scalars['uuid']>;
+  codeHash?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "authOauth2AuthorizationCodes" */
+export type AuthOauth2AuthorizationCodes_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthOauth2AuthorizationCodes_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthOauth2AuthorizationCodes_Stream_Cursor_Value_Input = {
+  authRequestId?: InputMaybe<Scalars['uuid']>;
+  codeHash?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "auth.oauth2_authorization_codes" */
+export enum AuthOauth2AuthorizationCodes_Update_Column {
+  /** column name */
+  AuthRequestId = 'authRequestId',
+  /** column name */
+  CodeHash = 'codeHash',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  ExpiresAt = 'expiresAt',
+  /** column name */
+  Id = 'id'
+}
+
+export type AuthOauth2AuthorizationCodes_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<AuthOauth2AuthorizationCodes_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: AuthOauth2AuthorizationCodes_Bool_Exp;
+};
+
+/** Registered OAuth2 client applications for the identity provider. */
+export type AuthOauth2Clients = {
+  __typename?: 'authOauth2Clients';
+  /** An array relationship */
+  authRequests: Array<AuthOauth2AuthRequests>;
+  /** An aggregate relationship */
+  authRequests_aggregate: AuthOauth2AuthRequests_Aggregate;
+  clientId: Scalars['String'];
+  clientSecretHash?: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamptz'];
+  createdBy?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  createdByUser?: Maybe<Users>;
+  metadata?: Maybe<Scalars['jsonb']>;
+  metadataDocumentFetchedAt?: Maybe<Scalars['timestamptz']>;
+  /** An array relationship */
+  oauth2RefreshTokens: Array<AuthOauth2RefreshTokens>;
+  /** An aggregate relationship */
+  oauth2RefreshTokens_aggregate: AuthOauth2RefreshTokens_Aggregate;
+  redirectUris: Array<Scalars['String']>;
+  scopes: Array<Scalars['String']>;
+  type: Scalars['String'];
+  updatedAt: Scalars['timestamptz'];
+};
+
+
+/** Registered OAuth2 client applications for the identity provider. */
+export type AuthOauth2ClientsAuthRequestsArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+/** Registered OAuth2 client applications for the identity provider. */
+export type AuthOauth2ClientsAuthRequests_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+/** Registered OAuth2 client applications for the identity provider. */
+export type AuthOauth2ClientsMetadataArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** Registered OAuth2 client applications for the identity provider. */
+export type AuthOauth2ClientsOauth2RefreshTokensArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+
+/** Registered OAuth2 client applications for the identity provider. */
+export type AuthOauth2ClientsOauth2RefreshTokens_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+/** aggregated selection of "auth.oauth2_clients" */
+export type AuthOauth2Clients_Aggregate = {
+  __typename?: 'authOauth2Clients_aggregate';
+  aggregate?: Maybe<AuthOauth2Clients_Aggregate_Fields>;
+  nodes: Array<AuthOauth2Clients>;
+};
+
+/** aggregate fields of "auth.oauth2_clients" */
+export type AuthOauth2Clients_Aggregate_Fields = {
+  __typename?: 'authOauth2Clients_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<AuthOauth2Clients_Max_Fields>;
+  min?: Maybe<AuthOauth2Clients_Min_Fields>;
+};
+
+
+/** aggregate fields of "auth.oauth2_clients" */
+export type AuthOauth2Clients_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<AuthOauth2Clients_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type AuthOauth2Clients_Append_Input = {
+  metadata?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** Boolean expression to filter rows from the table "auth.oauth2_clients". All fields are combined with a logical 'AND'. */
+export type AuthOauth2Clients_Bool_Exp = {
+  _and?: InputMaybe<Array<AuthOauth2Clients_Bool_Exp>>;
+  _not?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+  _or?: InputMaybe<Array<AuthOauth2Clients_Bool_Exp>>;
+  authRequests?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  authRequests_aggregate?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Bool_Exp>;
+  clientId?: InputMaybe<String_Comparison_Exp>;
+  clientSecretHash?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  createdBy?: InputMaybe<Uuid_Comparison_Exp>;
+  createdByUser?: InputMaybe<Users_Bool_Exp>;
+  metadata?: InputMaybe<Jsonb_Comparison_Exp>;
+  metadataDocumentFetchedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  oauth2RefreshTokens?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+  oauth2RefreshTokens_aggregate?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Bool_Exp>;
+  redirectUris?: InputMaybe<String_Array_Comparison_Exp>;
+  scopes?: InputMaybe<String_Array_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "auth.oauth2_clients" */
+export enum AuthOauth2Clients_Constraint {
+  /** unique or primary key constraint on columns "client_id" */
+  Oauth2ClientsPkey = 'oauth2_clients_pkey'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type AuthOauth2Clients_Delete_At_Path_Input = {
+  metadata?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type AuthOauth2Clients_Delete_Elem_Input = {
+  metadata?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type AuthOauth2Clients_Delete_Key_Input = {
+  metadata?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "auth.oauth2_clients" */
+export type AuthOauth2Clients_Insert_Input = {
+  authRequests?: InputMaybe<AuthOauth2AuthRequests_Arr_Rel_Insert_Input>;
+  clientId?: InputMaybe<Scalars['String']>;
+  clientSecretHash?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  createdBy?: InputMaybe<Scalars['uuid']>;
+  createdByUser?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  metadata?: InputMaybe<Scalars['jsonb']>;
+  metadataDocumentFetchedAt?: InputMaybe<Scalars['timestamptz']>;
+  oauth2RefreshTokens?: InputMaybe<AuthOauth2RefreshTokens_Arr_Rel_Insert_Input>;
+  redirectUris?: InputMaybe<Array<Scalars['String']>>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  type?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type AuthOauth2Clients_Max_Fields = {
+  __typename?: 'authOauth2Clients_max_fields';
+  clientId?: Maybe<Scalars['String']>;
+  clientSecretHash?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  createdBy?: Maybe<Scalars['uuid']>;
+  metadataDocumentFetchedAt?: Maybe<Scalars['timestamptz']>;
+  redirectUris?: Maybe<Array<Scalars['String']>>;
+  scopes?: Maybe<Array<Scalars['String']>>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type AuthOauth2Clients_Min_Fields = {
+  __typename?: 'authOauth2Clients_min_fields';
+  clientId?: Maybe<Scalars['String']>;
+  clientSecretHash?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  createdBy?: Maybe<Scalars['uuid']>;
+  metadataDocumentFetchedAt?: Maybe<Scalars['timestamptz']>;
+  redirectUris?: Maybe<Array<Scalars['String']>>;
+  scopes?: Maybe<Array<Scalars['String']>>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "auth.oauth2_clients" */
+export type AuthOauth2Clients_Mutation_Response = {
+  __typename?: 'authOauth2Clients_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<AuthOauth2Clients>;
+};
+
+/** input type for inserting object relation for remote table "auth.oauth2_clients" */
+export type AuthOauth2Clients_Obj_Rel_Insert_Input = {
+  data: AuthOauth2Clients_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<AuthOauth2Clients_On_Conflict>;
+};
+
+/** on_conflict condition type for table "auth.oauth2_clients" */
+export type AuthOauth2Clients_On_Conflict = {
+  constraint: AuthOauth2Clients_Constraint;
+  update_columns?: Array<AuthOauth2Clients_Update_Column>;
+  where?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "auth.oauth2_clients". */
+export type AuthOauth2Clients_Order_By = {
+  authRequests_aggregate?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  clientSecretHash?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  createdBy?: InputMaybe<Order_By>;
+  createdByUser?: InputMaybe<Users_Order_By>;
+  metadata?: InputMaybe<Order_By>;
+  metadataDocumentFetchedAt?: InputMaybe<Order_By>;
+  oauth2RefreshTokens_aggregate?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Order_By>;
+  redirectUris?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: auth.oauth2_clients */
+export type AuthOauth2Clients_Pk_Columns_Input = {
+  clientId: Scalars['String'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type AuthOauth2Clients_Prepend_Input = {
+  metadata?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "auth.oauth2_clients" */
+export enum AuthOauth2Clients_Select_Column {
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  ClientSecretHash = 'clientSecretHash',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  CreatedBy = 'createdBy',
+  /** column name */
+  Metadata = 'metadata',
+  /** column name */
+  MetadataDocumentFetchedAt = 'metadataDocumentFetchedAt',
+  /** column name */
+  RedirectUris = 'redirectUris',
+  /** column name */
+  Scopes = 'scopes',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** input type for updating data in table "auth.oauth2_clients" */
+export type AuthOauth2Clients_Set_Input = {
+  clientId?: InputMaybe<Scalars['String']>;
+  clientSecretHash?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  createdBy?: InputMaybe<Scalars['uuid']>;
+  metadata?: InputMaybe<Scalars['jsonb']>;
+  metadataDocumentFetchedAt?: InputMaybe<Scalars['timestamptz']>;
+  redirectUris?: InputMaybe<Array<Scalars['String']>>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  type?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "authOauth2Clients" */
+export type AuthOauth2Clients_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthOauth2Clients_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthOauth2Clients_Stream_Cursor_Value_Input = {
+  clientId?: InputMaybe<Scalars['String']>;
+  clientSecretHash?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  createdBy?: InputMaybe<Scalars['uuid']>;
+  metadata?: InputMaybe<Scalars['jsonb']>;
+  metadataDocumentFetchedAt?: InputMaybe<Scalars['timestamptz']>;
+  redirectUris?: InputMaybe<Array<Scalars['String']>>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  type?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "auth.oauth2_clients" */
+export enum AuthOauth2Clients_Update_Column {
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  ClientSecretHash = 'clientSecretHash',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  CreatedBy = 'createdBy',
+  /** column name */
+  Metadata = 'metadata',
+  /** column name */
+  MetadataDocumentFetchedAt = 'metadataDocumentFetchedAt',
+  /** column name */
+  RedirectUris = 'redirectUris',
+  /** column name */
+  Scopes = 'scopes',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+export type AuthOauth2Clients_Updates = {
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  _append?: InputMaybe<AuthOauth2Clients_Append_Input>;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  _delete_at_path?: InputMaybe<AuthOauth2Clients_Delete_At_Path_Input>;
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  _delete_elem?: InputMaybe<AuthOauth2Clients_Delete_Elem_Input>;
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  _delete_key?: InputMaybe<AuthOauth2Clients_Delete_Key_Input>;
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  _prepend?: InputMaybe<AuthOauth2Clients_Prepend_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<AuthOauth2Clients_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: AuthOauth2Clients_Bool_Exp;
+};
+
+/** OAuth2 refresh tokens with client and scope binding. */
+export type AuthOauth2RefreshTokens = {
+  __typename?: 'authOauth2RefreshTokens';
+  /** An object relationship */
+  authRequest?: Maybe<AuthOauth2AuthRequests>;
+  authRequestId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  client: AuthOauth2Clients;
+  clientId: Scalars['String'];
+  createdAt: Scalars['timestamptz'];
+  expiresAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  scopes: Array<Scalars['String']>;
+  tokenHash: Scalars['String'];
+  /** An object relationship */
+  user: Users;
+  userId: Scalars['uuid'];
+};
+
+/** aggregated selection of "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Aggregate = {
+  __typename?: 'authOauth2RefreshTokens_aggregate';
+  aggregate?: Maybe<AuthOauth2RefreshTokens_Aggregate_Fields>;
+  nodes: Array<AuthOauth2RefreshTokens>;
+};
+
+export type AuthOauth2RefreshTokens_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthOauth2RefreshTokens_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Aggregate_Fields = {
+  __typename?: 'authOauth2RefreshTokens_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<AuthOauth2RefreshTokens_Max_Fields>;
+  min?: Maybe<AuthOauth2RefreshTokens_Min_Fields>;
+};
+
+
+/** aggregate fields of "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<AuthOauth2RefreshTokens_Max_Order_By>;
+  min?: InputMaybe<AuthOauth2RefreshTokens_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Arr_Rel_Insert_Input = {
+  data: Array<AuthOauth2RefreshTokens_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<AuthOauth2RefreshTokens_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "auth.oauth2_refresh_tokens". All fields are combined with a logical 'AND'. */
+export type AuthOauth2RefreshTokens_Bool_Exp = {
+  _and?: InputMaybe<Array<AuthOauth2RefreshTokens_Bool_Exp>>;
+  _not?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+  _or?: InputMaybe<Array<AuthOauth2RefreshTokens_Bool_Exp>>;
+  authRequest?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  authRequestId?: InputMaybe<Uuid_Comparison_Exp>;
+  client?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+  clientId?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  expiresAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  scopes?: InputMaybe<String_Array_Comparison_Exp>;
+  tokenHash?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "auth.oauth2_refresh_tokens" */
+export enum AuthOauth2RefreshTokens_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  Oauth2RefreshTokensPkey = 'oauth2_refresh_tokens_pkey',
+  /** unique or primary key constraint on columns "token_hash" */
+  Oauth2RefreshTokensTokenHashKey = 'oauth2_refresh_tokens_token_hash_key'
+}
+
+/** input type for inserting data into table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Insert_Input = {
+  authRequest?: InputMaybe<AuthOauth2AuthRequests_Obj_Rel_Insert_Input>;
+  authRequestId?: InputMaybe<Scalars['uuid']>;
+  client?: InputMaybe<AuthOauth2Clients_Obj_Rel_Insert_Input>;
+  clientId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  tokenHash?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type AuthOauth2RefreshTokens_Max_Fields = {
+  __typename?: 'authOauth2RefreshTokens_max_fields';
+  authRequestId?: Maybe<Scalars['uuid']>;
+  clientId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  expiresAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  scopes?: Maybe<Array<Scalars['String']>>;
+  tokenHash?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Max_Order_By = {
+  authRequestId?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  tokenHash?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type AuthOauth2RefreshTokens_Min_Fields = {
+  __typename?: 'authOauth2RefreshTokens_min_fields';
+  authRequestId?: Maybe<Scalars['uuid']>;
+  clientId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  expiresAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  scopes?: Maybe<Array<Scalars['String']>>;
+  tokenHash?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Min_Order_By = {
+  authRequestId?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  tokenHash?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Mutation_Response = {
+  __typename?: 'authOauth2RefreshTokens_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<AuthOauth2RefreshTokens>;
+};
+
+/** on_conflict condition type for table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_On_Conflict = {
+  constraint: AuthOauth2RefreshTokens_Constraint;
+  update_columns?: Array<AuthOauth2RefreshTokens_Update_Column>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "auth.oauth2_refresh_tokens". */
+export type AuthOauth2RefreshTokens_Order_By = {
+  authRequest?: InputMaybe<AuthOauth2AuthRequests_Order_By>;
+  authRequestId?: InputMaybe<Order_By>;
+  client?: InputMaybe<AuthOauth2Clients_Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  expiresAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  scopes?: InputMaybe<Order_By>;
+  tokenHash?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: auth.oauth2_refresh_tokens */
+export type AuthOauth2RefreshTokens_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "auth.oauth2_refresh_tokens" */
+export enum AuthOauth2RefreshTokens_Select_Column {
+  /** column name */
+  AuthRequestId = 'authRequestId',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  ExpiresAt = 'expiresAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Scopes = 'scopes',
+  /** column name */
+  TokenHash = 'tokenHash',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "auth.oauth2_refresh_tokens" */
+export type AuthOauth2RefreshTokens_Set_Input = {
+  authRequestId?: InputMaybe<Scalars['uuid']>;
+  clientId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  tokenHash?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "authOauth2RefreshTokens" */
+export type AuthOauth2RefreshTokens_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthOauth2RefreshTokens_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthOauth2RefreshTokens_Stream_Cursor_Value_Input = {
+  authRequestId?: InputMaybe<Scalars['uuid']>;
+  clientId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  scopes?: InputMaybe<Array<Scalars['String']>>;
+  tokenHash?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "auth.oauth2_refresh_tokens" */
+export enum AuthOauth2RefreshTokens_Update_Column {
+  /** column name */
+  AuthRequestId = 'authRequestId',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  ExpiresAt = 'expiresAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Scopes = 'scopes',
+  /** column name */
+  TokenHash = 'tokenHash',
+  /** column name */
+  UserId = 'userId'
+}
+
+export type AuthOauth2RefreshTokens_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<AuthOauth2RefreshTokens_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: AuthOauth2RefreshTokens_Bool_Exp;
 };
 
 /** Oauth requests, inserted before redirecting to the provider's site. Don't modify its structure as Hasura Auth relies on it to function properly. */
@@ -7975,6 +9271,22 @@ export type Member_Updates = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete single row from the table: "auth.oauth2_auth_requests" */
+  deleteAuthOauth2AuthRequest?: Maybe<AuthOauth2AuthRequests>;
+  /** delete data from the table: "auth.oauth2_auth_requests" */
+  deleteAuthOauth2AuthRequests?: Maybe<AuthOauth2AuthRequests_Mutation_Response>;
+  /** delete single row from the table: "auth.oauth2_authorization_codes" */
+  deleteAuthOauth2AuthorizationCode?: Maybe<AuthOauth2AuthorizationCodes>;
+  /** delete data from the table: "auth.oauth2_authorization_codes" */
+  deleteAuthOauth2AuthorizationCodes?: Maybe<AuthOauth2AuthorizationCodes_Mutation_Response>;
+  /** delete single row from the table: "auth.oauth2_clients" */
+  deleteAuthOauth2Client?: Maybe<AuthOauth2Clients>;
+  /** delete data from the table: "auth.oauth2_clients" */
+  deleteAuthOauth2Clients?: Maybe<AuthOauth2Clients_Mutation_Response>;
+  /** delete single row from the table: "auth.oauth2_refresh_tokens" */
+  deleteAuthOauth2RefreshToken?: Maybe<AuthOauth2RefreshTokens>;
+  /** delete data from the table: "auth.oauth2_refresh_tokens" */
+  deleteAuthOauth2RefreshTokens?: Maybe<AuthOauth2RefreshTokens_Mutation_Response>;
   /** delete single row from the table: "auth.providers" */
   deleteAuthProvider?: Maybe<AuthProviders>;
   /** delete single row from the table: "auth.provider_requests" */
@@ -8167,6 +9479,22 @@ export type Mutation_Root = {
   delete_user_app?: Maybe<User_App_Mutation_Response>;
   /** delete single row from the table: "user_app" */
   delete_user_app_by_pk?: Maybe<User_App>;
+  /** insert a single row into the table: "auth.oauth2_auth_requests" */
+  insertAuthOauth2AuthRequest?: Maybe<AuthOauth2AuthRequests>;
+  /** insert data into the table: "auth.oauth2_auth_requests" */
+  insertAuthOauth2AuthRequests?: Maybe<AuthOauth2AuthRequests_Mutation_Response>;
+  /** insert a single row into the table: "auth.oauth2_authorization_codes" */
+  insertAuthOauth2AuthorizationCode?: Maybe<AuthOauth2AuthorizationCodes>;
+  /** insert data into the table: "auth.oauth2_authorization_codes" */
+  insertAuthOauth2AuthorizationCodes?: Maybe<AuthOauth2AuthorizationCodes_Mutation_Response>;
+  /** insert a single row into the table: "auth.oauth2_clients" */
+  insertAuthOauth2Client?: Maybe<AuthOauth2Clients>;
+  /** insert data into the table: "auth.oauth2_clients" */
+  insertAuthOauth2Clients?: Maybe<AuthOauth2Clients_Mutation_Response>;
+  /** insert a single row into the table: "auth.oauth2_refresh_tokens" */
+  insertAuthOauth2RefreshToken?: Maybe<AuthOauth2RefreshTokens>;
+  /** insert data into the table: "auth.oauth2_refresh_tokens" */
+  insertAuthOauth2RefreshTokens?: Maybe<AuthOauth2RefreshTokens_Mutation_Response>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -8359,6 +9687,22 @@ export type Mutation_Root = {
   insert_user_app?: Maybe<User_App_Mutation_Response>;
   /** insert a single row into the table: "user_app" */
   insert_user_app_one?: Maybe<User_App>;
+  /** update single row of the table: "auth.oauth2_auth_requests" */
+  updateAuthOauth2AuthRequest?: Maybe<AuthOauth2AuthRequests>;
+  /** update data of the table: "auth.oauth2_auth_requests" */
+  updateAuthOauth2AuthRequests?: Maybe<AuthOauth2AuthRequests_Mutation_Response>;
+  /** update single row of the table: "auth.oauth2_authorization_codes" */
+  updateAuthOauth2AuthorizationCode?: Maybe<AuthOauth2AuthorizationCodes>;
+  /** update data of the table: "auth.oauth2_authorization_codes" */
+  updateAuthOauth2AuthorizationCodes?: Maybe<AuthOauth2AuthorizationCodes_Mutation_Response>;
+  /** update single row of the table: "auth.oauth2_clients" */
+  updateAuthOauth2Client?: Maybe<AuthOauth2Clients>;
+  /** update data of the table: "auth.oauth2_clients" */
+  updateAuthOauth2Clients?: Maybe<AuthOauth2Clients_Mutation_Response>;
+  /** update single row of the table: "auth.oauth2_refresh_tokens" */
+  updateAuthOauth2RefreshToken?: Maybe<AuthOauth2RefreshTokens>;
+  /** update data of the table: "auth.oauth2_refresh_tokens" */
+  updateAuthOauth2RefreshTokens?: Maybe<AuthOauth2RefreshTokens_Mutation_Response>;
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
   /** update single row of the table: "auth.provider_requests" */
@@ -8419,6 +9763,14 @@ export type Mutation_Root = {
   update_app_type_by_pk?: Maybe<App_Type>;
   /** update multiples rows of table: "app_type" */
   update_app_type_many?: Maybe<Array<Maybe<App_Type_Mutation_Response>>>;
+  /** update multiples rows of table: "auth.oauth2_auth_requests" */
+  update_authOauth2AuthRequests_many?: Maybe<Array<Maybe<AuthOauth2AuthRequests_Mutation_Response>>>;
+  /** update multiples rows of table: "auth.oauth2_authorization_codes" */
+  update_authOauth2AuthorizationCodes_many?: Maybe<Array<Maybe<AuthOauth2AuthorizationCodes_Mutation_Response>>>;
+  /** update multiples rows of table: "auth.oauth2_clients" */
+  update_authOauth2Clients_many?: Maybe<Array<Maybe<AuthOauth2Clients_Mutation_Response>>>;
+  /** update multiples rows of table: "auth.oauth2_refresh_tokens" */
+  update_authOauth2RefreshTokens_many?: Maybe<Array<Maybe<AuthOauth2RefreshTokens_Mutation_Response>>>;
   /** update multiples rows of table: "auth.provider_requests" */
   update_authProviderRequests_many?: Maybe<Array<Maybe<AuthProviderRequests_Mutation_Response>>>;
   /** update multiples rows of table: "auth.providers" */
@@ -8647,6 +9999,54 @@ export type Mutation_Root = {
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
   /** update multiples rows of table: "storage.virus" */
   update_virus_many?: Maybe<Array<Maybe<Virus_Mutation_Response>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2AuthRequestArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2AuthRequestsArgs = {
+  where: AuthOauth2AuthRequests_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2AuthorizationCodeArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2AuthorizationCodesArgs = {
+  where: AuthOauth2AuthorizationCodes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2ClientArgs = {
+  clientId: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2ClientsArgs = {
+  where: AuthOauth2Clients_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2RefreshTokenArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteAuthOauth2RefreshTokensArgs = {
+  where: AuthOauth2RefreshTokens_Bool_Exp;
 };
 
 
@@ -9223,6 +10623,62 @@ export type Mutation_RootDelete_User_AppArgs = {
 /** mutation root */
 export type Mutation_RootDelete_User_App_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2AuthRequestArgs = {
+  object: AuthOauth2AuthRequests_Insert_Input;
+  on_conflict?: InputMaybe<AuthOauth2AuthRequests_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2AuthRequestsArgs = {
+  objects: Array<AuthOauth2AuthRequests_Insert_Input>;
+  on_conflict?: InputMaybe<AuthOauth2AuthRequests_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2AuthorizationCodeArgs = {
+  object: AuthOauth2AuthorizationCodes_Insert_Input;
+  on_conflict?: InputMaybe<AuthOauth2AuthorizationCodes_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2AuthorizationCodesArgs = {
+  objects: Array<AuthOauth2AuthorizationCodes_Insert_Input>;
+  on_conflict?: InputMaybe<AuthOauth2AuthorizationCodes_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2ClientArgs = {
+  object: AuthOauth2Clients_Insert_Input;
+  on_conflict?: InputMaybe<AuthOauth2Clients_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2ClientsArgs = {
+  objects: Array<AuthOauth2Clients_Insert_Input>;
+  on_conflict?: InputMaybe<AuthOauth2Clients_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2RefreshTokenArgs = {
+  object: AuthOauth2RefreshTokens_Insert_Input;
+  on_conflict?: InputMaybe<AuthOauth2RefreshTokens_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertAuthOauth2RefreshTokensArgs = {
+  objects: Array<AuthOauth2RefreshTokens_Insert_Input>;
+  on_conflict?: InputMaybe<AuthOauth2RefreshTokens_On_Conflict>;
 };
 
 
@@ -9899,6 +11355,72 @@ export type Mutation_RootInsert_User_App_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdateAuthOauth2AuthRequestArgs = {
+  _set?: InputMaybe<AuthOauth2AuthRequests_Set_Input>;
+  pk_columns: AuthOauth2AuthRequests_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2AuthRequestsArgs = {
+  _set?: InputMaybe<AuthOauth2AuthRequests_Set_Input>;
+  where: AuthOauth2AuthRequests_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2AuthorizationCodeArgs = {
+  _set?: InputMaybe<AuthOauth2AuthorizationCodes_Set_Input>;
+  pk_columns: AuthOauth2AuthorizationCodes_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2AuthorizationCodesArgs = {
+  _set?: InputMaybe<AuthOauth2AuthorizationCodes_Set_Input>;
+  where: AuthOauth2AuthorizationCodes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2ClientArgs = {
+  _append?: InputMaybe<AuthOauth2Clients_Append_Input>;
+  _delete_at_path?: InputMaybe<AuthOauth2Clients_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<AuthOauth2Clients_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<AuthOauth2Clients_Delete_Key_Input>;
+  _prepend?: InputMaybe<AuthOauth2Clients_Prepend_Input>;
+  _set?: InputMaybe<AuthOauth2Clients_Set_Input>;
+  pk_columns: AuthOauth2Clients_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2ClientsArgs = {
+  _append?: InputMaybe<AuthOauth2Clients_Append_Input>;
+  _delete_at_path?: InputMaybe<AuthOauth2Clients_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<AuthOauth2Clients_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<AuthOauth2Clients_Delete_Key_Input>;
+  _prepend?: InputMaybe<AuthOauth2Clients_Prepend_Input>;
+  _set?: InputMaybe<AuthOauth2Clients_Set_Input>;
+  where: AuthOauth2Clients_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2RefreshTokenArgs = {
+  _set?: InputMaybe<AuthOauth2RefreshTokens_Set_Input>;
+  pk_columns: AuthOauth2RefreshTokens_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateAuthOauth2RefreshTokensArgs = {
+  _set?: InputMaybe<AuthOauth2RefreshTokens_Set_Input>;
+  where: AuthOauth2RefreshTokens_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdateAuthProviderArgs = {
   _set?: InputMaybe<AuthProviders_Set_Input>;
   pk_columns: AuthProviders_Pk_Columns_Input;
@@ -10159,6 +11681,30 @@ export type Mutation_RootUpdate_App_Type_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_App_Type_ManyArgs = {
   updates: Array<App_Type_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_AuthOauth2AuthRequests_ManyArgs = {
+  updates: Array<AuthOauth2AuthRequests_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_AuthOauth2AuthorizationCodes_ManyArgs = {
+  updates: Array<AuthOauth2AuthorizationCodes_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_AuthOauth2Clients_ManyArgs = {
+  updates: Array<AuthOauth2Clients_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_AuthOauth2RefreshTokens_ManyArgs = {
+  updates: Array<AuthOauth2RefreshTokens_Updates>;
 };
 
 
@@ -12275,6 +13821,30 @@ export type Query_Root = {
   app_type_aggregate: App_Type_Aggregate;
   /** fetch data from the table: "app_type" using primary key columns */
   app_type_by_pk?: Maybe<App_Type>;
+  /** fetch data from the table: "auth.oauth2_auth_requests" using primary key columns */
+  authOauth2AuthRequest?: Maybe<AuthOauth2AuthRequests>;
+  /** fetch data from the table: "auth.oauth2_auth_requests" */
+  authOauth2AuthRequests: Array<AuthOauth2AuthRequests>;
+  /** fetch aggregated fields from the table: "auth.oauth2_auth_requests" */
+  authOauth2AuthRequestsAggregate: AuthOauth2AuthRequests_Aggregate;
+  /** fetch data from the table: "auth.oauth2_authorization_codes" using primary key columns */
+  authOauth2AuthorizationCode?: Maybe<AuthOauth2AuthorizationCodes>;
+  /** fetch data from the table: "auth.oauth2_authorization_codes" */
+  authOauth2AuthorizationCodes: Array<AuthOauth2AuthorizationCodes>;
+  /** fetch aggregated fields from the table: "auth.oauth2_authorization_codes" */
+  authOauth2AuthorizationCodesAggregate: AuthOauth2AuthorizationCodes_Aggregate;
+  /** fetch data from the table: "auth.oauth2_clients" using primary key columns */
+  authOauth2Client?: Maybe<AuthOauth2Clients>;
+  /** fetch data from the table: "auth.oauth2_clients" */
+  authOauth2Clients: Array<AuthOauth2Clients>;
+  /** fetch aggregated fields from the table: "auth.oauth2_clients" */
+  authOauth2ClientsAggregate: AuthOauth2Clients_Aggregate;
+  /** fetch data from the table: "auth.oauth2_refresh_tokens" using primary key columns */
+  authOauth2RefreshToken?: Maybe<AuthOauth2RefreshTokens>;
+  /** fetch data from the table: "auth.oauth2_refresh_tokens" */
+  authOauth2RefreshTokens: Array<AuthOauth2RefreshTokens>;
+  /** fetch aggregated fields from the table: "auth.oauth2_refresh_tokens" */
+  authOauth2RefreshTokensAggregate: AuthOauth2RefreshTokens_Aggregate;
   /** fetch data from the table: "auth.providers" using primary key columns */
   authProvider?: Maybe<AuthProviders>;
   /** fetch data from the table: "auth.provider_requests" using primary key columns */
@@ -12613,6 +14183,98 @@ export type Query_RootApp_Type_AggregateArgs = {
 
 export type Query_RootApp_Type_By_PkArgs = {
   value: Scalars['String'];
+};
+
+
+export type Query_RootAuthOauth2AuthRequestArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootAuthOauth2AuthRequestsArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2AuthRequestsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2AuthorizationCodeArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootAuthOauth2AuthorizationCodesArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2AuthorizationCodesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2ClientArgs = {
+  clientId: Scalars['String'];
+};
+
+
+export type Query_RootAuthOauth2ClientsArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2Clients_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2Clients_Order_By>>;
+  where?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2ClientsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2Clients_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2Clients_Order_By>>;
+  where?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2RefreshTokenArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootAuthOauth2RefreshTokensArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+
+export type Query_RootAuthOauth2RefreshTokensAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
 };
 
 
@@ -14788,6 +16450,38 @@ export type Subscription_Root = {
   app_type_by_pk?: Maybe<App_Type>;
   /** fetch data from the table in a streaming manner: "app_type" */
   app_type_stream: Array<App_Type>;
+  /** fetch data from the table: "auth.oauth2_auth_requests" using primary key columns */
+  authOauth2AuthRequest?: Maybe<AuthOauth2AuthRequests>;
+  /** fetch data from the table: "auth.oauth2_auth_requests" */
+  authOauth2AuthRequests: Array<AuthOauth2AuthRequests>;
+  /** fetch aggregated fields from the table: "auth.oauth2_auth_requests" */
+  authOauth2AuthRequestsAggregate: AuthOauth2AuthRequests_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.oauth2_auth_requests" */
+  authOauth2AuthRequests_stream: Array<AuthOauth2AuthRequests>;
+  /** fetch data from the table: "auth.oauth2_authorization_codes" using primary key columns */
+  authOauth2AuthorizationCode?: Maybe<AuthOauth2AuthorizationCodes>;
+  /** fetch data from the table: "auth.oauth2_authorization_codes" */
+  authOauth2AuthorizationCodes: Array<AuthOauth2AuthorizationCodes>;
+  /** fetch aggregated fields from the table: "auth.oauth2_authorization_codes" */
+  authOauth2AuthorizationCodesAggregate: AuthOauth2AuthorizationCodes_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.oauth2_authorization_codes" */
+  authOauth2AuthorizationCodes_stream: Array<AuthOauth2AuthorizationCodes>;
+  /** fetch data from the table: "auth.oauth2_clients" using primary key columns */
+  authOauth2Client?: Maybe<AuthOauth2Clients>;
+  /** fetch data from the table: "auth.oauth2_clients" */
+  authOauth2Clients: Array<AuthOauth2Clients>;
+  /** fetch aggregated fields from the table: "auth.oauth2_clients" */
+  authOauth2ClientsAggregate: AuthOauth2Clients_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.oauth2_clients" */
+  authOauth2Clients_stream: Array<AuthOauth2Clients>;
+  /** fetch data from the table: "auth.oauth2_refresh_tokens" using primary key columns */
+  authOauth2RefreshToken?: Maybe<AuthOauth2RefreshTokens>;
+  /** fetch data from the table: "auth.oauth2_refresh_tokens" */
+  authOauth2RefreshTokens: Array<AuthOauth2RefreshTokens>;
+  /** fetch aggregated fields from the table: "auth.oauth2_refresh_tokens" */
+  authOauth2RefreshTokensAggregate: AuthOauth2RefreshTokens_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.oauth2_refresh_tokens" */
+  authOauth2RefreshTokens_stream: Array<AuthOauth2RefreshTokens>;
   /** fetch data from the table: "auth.providers" using primary key columns */
   authProvider?: Maybe<AuthProviders>;
   /** fetch data from the table: "auth.provider_requests" using primary key columns */
@@ -15240,6 +16934,126 @@ export type Subscription_RootApp_Type_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<App_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<App_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2AuthRequestArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootAuthOauth2AuthRequestsArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2AuthRequestsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2AuthRequests_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthOauth2AuthRequests_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2AuthorizationCodeArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootAuthOauth2AuthorizationCodesArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2AuthorizationCodesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthorizationCodes_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2AuthorizationCodes_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthOauth2AuthorizationCodes_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthOauth2AuthorizationCodes_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2ClientArgs = {
+  clientId: Scalars['String'];
+};
+
+
+export type Subscription_RootAuthOauth2ClientsArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2Clients_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2Clients_Order_By>>;
+  where?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2ClientsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2Clients_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2Clients_Order_By>>;
+  where?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2Clients_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthOauth2Clients_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthOauth2Clients_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2RefreshTokenArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootAuthOauth2RefreshTokensArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2RefreshTokensAggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthOauth2RefreshTokens_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthOauth2RefreshTokens_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
 };
 
 
@@ -19635,6 +21449,14 @@ export type Users = {
   members_aggregate: Member_Aggregate;
   metadata: Scalars['user_metadata'];
   newEmail?: Maybe<Scalars['citext']>;
+  /** An array relationship */
+  oauth2AuthRequests: Array<AuthOauth2AuthRequests>;
+  /** An aggregate relationship */
+  oauth2AuthRequests_aggregate: AuthOauth2AuthRequests_Aggregate;
+  /** An array relationship */
+  oauth2RefreshTokens: Array<AuthOauth2RefreshTokens>;
+  /** An aggregate relationship */
+  oauth2RefreshTokens_aggregate: AuthOauth2RefreshTokens_Aggregate;
   otpHash?: Maybe<Scalars['String']>;
   otpHashExpiresAt: Scalars['timestamptz'];
   otpMethodLastUsed?: Maybe<Scalars['String']>;
@@ -19707,6 +21529,46 @@ export type UsersMembers_AggregateArgs = {
 /** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type UsersMetadataArgs = {
   path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersOauth2AuthRequestsArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersOauth2AuthRequests_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2AuthRequests_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2AuthRequests_Order_By>>;
+  where?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersOauth2RefreshTokensArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersOauth2RefreshTokens_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<AuthOauth2RefreshTokens_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<AuthOauth2RefreshTokens_Order_By>>;
+  where?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
 };
 
 
@@ -19882,6 +21744,10 @@ export type Users_Bool_Exp = {
   members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   metadata?: InputMaybe<Jsonb_Comparison_Exp>;
   newEmail?: InputMaybe<Citext_Comparison_Exp>;
+  oauth2AuthRequests?: InputMaybe<AuthOauth2AuthRequests_Bool_Exp>;
+  oauth2AuthRequests_aggregate?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Bool_Exp>;
+  oauth2RefreshTokens?: InputMaybe<AuthOauth2RefreshTokens_Bool_Exp>;
+  oauth2RefreshTokens_aggregate?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Bool_Exp>;
   otpHash?: InputMaybe<String_Comparison_Exp>;
   otpHashExpiresAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   otpMethodLastUsed?: InputMaybe<String_Comparison_Exp>;
@@ -19947,6 +21813,8 @@ export type Users_Insert_Input = {
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   metadata?: InputMaybe<Scalars['jsonb']>;
   newEmail?: InputMaybe<Scalars['citext']>;
+  oauth2AuthRequests?: InputMaybe<AuthOauth2AuthRequests_Arr_Rel_Insert_Input>;
+  oauth2RefreshTokens?: InputMaybe<AuthOauth2RefreshTokens_Arr_Rel_Insert_Input>;
   otpHash?: InputMaybe<Scalars['String']>;
   otpHashExpiresAt?: InputMaybe<Scalars['timestamptz']>;
   otpMethodLastUsed?: InputMaybe<Scalars['String']>;
@@ -20104,6 +21972,8 @@ export type Users_Order_By = {
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   metadata?: InputMaybe<Order_By>;
   newEmail?: InputMaybe<Order_By>;
+  oauth2AuthRequests_aggregate?: InputMaybe<AuthOauth2AuthRequests_Aggregate_Order_By>;
+  oauth2RefreshTokens_aggregate?: InputMaybe<AuthOauth2RefreshTokens_Aggregate_Order_By>;
   otpHash?: InputMaybe<Order_By>;
   otpHashExpiresAt?: InputMaybe<Order_By>;
   otpMethodLastUsed?: InputMaybe<Order_By>;
