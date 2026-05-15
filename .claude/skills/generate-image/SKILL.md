@@ -16,19 +16,13 @@ arguments:
 
 # Generate Image
 
-Generate an image using Google Nano Banana Pro (Gemini image generation) styled for the Rolebase brand.
+Generate an image using Google Nano Banana Pro (Gemini image generation), styled for the Rolebase brand. This skill is the source of truth for all image generation on the project — other skills (`write-blog-post`, `post-alternative`) reference it instead of duplicating these conventions.
+
+The script auto-injects the Rolebase brand into every prompt (warm cream background `#FDF6EA`, primary purple `#9870F0`, warm orange `#FB9803`, warm gray neutrals, friendly human-centric mood). You do not need to restate brand colors in your prompt.
 
 Two modes:
-- **Illustration** (default): no text, conceptual editorial style. For thumbnails, hero images, metaphors.
-- **Infographic** (`--infographic`): renders text, numbers, labels. For breakdowns, comparisons, numbered steps, decision matrices.
-
-The script automatically injects Rolebase brand guidelines into every prompt:
-- Warm cream backgrounds (#FDF6EA)
-- Primary purple accent (#9870F0)
-- Secondary warm orange (#FB9803)
-- Warm gray neutrals (hue ~31, slightly orange-tinted)
-- Clean, slightly rounded sans-serif aesthetic (Basier Circle vibe)
-- Friendly, human-centric, collaboration-oriented mood
+- **Illustration** (default) — no text, conceptual editorial style. Thumbnails, hero visuals, metaphors.
+- **Infographic** (`--infographic`) — renders text, numbers, labels. Breakdowns, comparisons, numbered steps, decision matrices.
 
 ## Usage
 
@@ -40,48 +34,71 @@ cd website
 # Illustration (default — no text)
 npx tsx scripts/generate-image.ts "<prompt>" <output-path> [WxH]
 
-# Infographic (text labels and numbers rendered as written in the prompt)
+# Infographic (text and numbers rendered as written in the prompt)
 npx tsx scripts/generate-image.ts "<prompt>" <output-path> [WxH] --infographic
 ```
 
 Examples:
 ```bash
-# Blog thumbnail (1200x630, conceptual)
-npx tsx scripts/generate-image.ts "A modern isometric scene of two teams handing off a project..." src/content/blog/my-post/thumbnail.jpg 1200x630
+# Blog thumbnail (1200x630, conceptual, no text)
+npx tsx scripts/generate-image.ts "A modern isometric scene of two teams handing off..." src/content/blog/my-post/thumbnail.jpg 1200x630
 
-# Numbered-steps infographic
-npx tsx scripts/generate-image.ts "Four numbered cards in a horizontal row, each showing a step of a handover..." src/content/blog/my-post/steps.jpg 1600x900 --infographic
+# In-article infographic (labels and numbers visible)
+npx tsx scripts/generate-image.ts "Four numbered cards showing handover steps..." src/content/blog/my-post/steps.jpg 1600x900 --infographic
 
 # Square format
 npx tsx scripts/generate-image.ts "An icon..." src/assets/icon.png 1080x1080
 ```
 
-## When to use each mode
+## Picking the mode
 
-Use `--infographic` when:
-- The content is data-driven (numbers, %, ranking)
-- A comparison would be more impactful as visual than tabular
-- A breakdown (steps, components, phases)
-- A decision matrix with labels
+| Use **infographic** when… | Use **illustration** when… |
+|---|---|
+| Numbers, %, ranks need to be visible | The concept is metaphorical or abstract |
+| A comparison table would be more impactful as a visual | The point is mood, not data |
+| Decomposition (steps, components, phases) | A simple table already does the data job |
+| Decision matrix with labels | The visual must be readable at 300px (e.g. thumbnail) |
 
-Default (illustration without text) when:
-- Abstract or metaphorical concept
-- Blog thumbnail (legible at 300px — text never fits)
-- Mood/atmosphere visual
+Default to infographics for cost/feature comparisons, breakdowns, and process steps in articles — text in images becomes a featured snippet candidate and LinkedIn previews surface the numbers.
 
 ## Prompt writing tips
 
 - Be specific about composition, perspective, and spatial layout
-- Mention "isometric" or "bird's eye view" for clean tech illustrations
+- Mention "isometric" or "bird's eye view" for clean staged scenes
 - Describe contrast or duality if the article compares two approaches
+- Lean into Rolebase themes: roles, org chart, governance, self-management, collaboration, peer feedback. Avoid corporate-pyramid imagery; for people, prefer diverse, casual, modern professionals over stock-suited executives
 - **Illustration mode**: no text (the script forbids it explicitly)
-- **Infographic mode**: write the labels and numbers EXACTLY as they should appear (Nano Banana Pro reproduces text verbatim, French accents included). Specify the typeface (sans-serif), text color, and position
-- Lean into Rolebase themes: roles, circles (org chart), governance, self-management, collaboration, peer feedback. Avoid corporate-pyramid imagery
-- For people, prefer diverse, casual, modern professionals over stock-suited executives
+- **Infographic mode**: write EXACTLY the labels and numbers to render — Nano Banana Pro reproduces text as-is, French diacritics included. Specify the typeface (sans-serif), text color, and position
+
+## Blog thumbnail conventions (1200x630)
+
+Thumbnails appear in the blog grid at ~300px wide and as Open Graph previews. They must stand out and stay readable at small sizes. The Rolebase visual language for thumbnails (on top of the brand auto-injection):
+
+- **Light, warm cream background** — never dark. The brand reads warm and human, not corporate or moody.
+- **Purple + orange as focal accents** — most objects/figures in warm gray, with purple (`#9870F0`) and orange (`#FB9803`) glowing on the key element to anchor the eye.
+- **Soft, warm directional lighting** — gentle bloom, smooth gradients. No harsh contrast, no neon.
+- **Conceptual, not literal** — metaphor for the subject (handover, alignment, governance, energy, roles) rather than a direct depiction.
+- **Human-centric when possible** — soft 3D human figures in collaborative postures. Abstract shapes stay organic (rounded, soft, slightly chunky) rather than sharp/technical.
+- **Single clear focal point** — one scene with a strong silhouette, readable at 300px.
+- **3D isometric or staged scene** — soft, slightly stylized, friendly. Not hyper-realistic, not gamey, not flat illustration.
+- **No text, no UI elements, no watermarks.**
+
+After generation, show the thumbnail to the user. If it lands flat, washed-out, too dark, or too corporate, regenerate with more warmth and a clearer focal accent.
+
+## Infographics in MDX articles (data-coupling comment)
+
+When inserting a data-driven infographic into an MDX article, add a one-line MDX comment immediately above the image so a future editor knows when to regenerate:
+
+```mdx
+{/* INFOGRAPHIC: regenerate if the numbers in <section X> change. Last data sync: YYYY-MM-DD. */}
+![alt text](./image-name.jpg)
+```
+
+The goal is to make the data-image coupling visible, not to document the prompt verbatim.
 
 ## Shell quoting (IMPORTANT)
 
-Prompts containing apostrophes or accents (`'`, `é`, `è`, `à`, `€`...) break inline shell quoting. Workaround:
+Prompts containing apostrophes or French accents (`'`, `é`, `è`, `à`, `€`...) break inline shell quoting. Workaround:
 
 ```bash
 # Write the prompt to a temp file first
@@ -95,25 +112,6 @@ PROMPT="$(cat /tmp/prompt.txt)" && npx tsx scripts/generate-image.ts "$PROMPT" s
 # Clean up
 rm /tmp/prompt.txt
 ```
-
-## Wiring the image into a blog post
-
-After generation, reference the image in the MDX frontmatter:
-
-```yaml
----
-title: '...'
-image: './thumbnail.jpg'
----
-```
-
-Or inline in the body using markdown syntax:
-
-```markdown
-![Alt text](./thumbnail.jpg)
-```
-
-If the image replaces an existing one, delete the old file from the content folder.
 
 ## Requirements
 
