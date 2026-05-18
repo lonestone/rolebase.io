@@ -19,6 +19,9 @@ export async function sendBrevoEmail(...messages: EmailMessage[]) {
       to: message.To.map((r) => `"${r.Name}" <${r.Email}>`).join(', '),
       subject: message.Subject,
       html: message.HTMLPart,
+      headers: {
+        'Auto-Submitted': 'auto-generated',
+      },
     })
   }
 }

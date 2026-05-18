@@ -54,8 +54,9 @@ export default {
   mail: {
     sender: {
       name: 'Rolebase.io',
-      email: 'contact@rolebase.io',
+      email: 'noreply@rolebase.io',
     },
+    contact: 'contact@rolebase.io',
   },
 
   sentry: {

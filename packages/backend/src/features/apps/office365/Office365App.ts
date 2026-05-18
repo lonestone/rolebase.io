@@ -301,7 +301,7 @@ export default class Office365App
             },
             To: [
               {
-                Email: settings.mail.sender.email,
+                Email: settings.mail.contact,
                 Name: settings.mail.sender.name,
               },
             ],

@@ -186,7 +186,7 @@ capacity = 10
 [provider.smtp]
 user = '{{ secrets.MAILJET_PUBIC_KEY }}'
 password = '{{ secrets.MAILJET_SMTP_PASSWORD }}'
-sender = 'contact@rolebase.io'
+sender = 'noreply@rolebase.io'
 host = 'smtp-relay.brevo.com'
 port = 465
 secure = true

@@ -4,7 +4,7 @@ dotenv.config()
 export default {
   sender: {
     name: 'Rolebase.io',
-    email: 'contact@rolebase.io',
+    email: 'noreply@rolebase.io',
   },
 
   mailjet: {

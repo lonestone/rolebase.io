@@ -8,7 +8,14 @@ export async function sendMailjetEmail(
     apiKey: settings.mailjet.public,
     apiSecret: settings.mailjet.private,
   })
+  const messagesWithHeaders = messages.map((message) => ({
+    ...message,
+    Headers: {
+      ...message.Headers,
+      'Auto-Submitted': 'auto-generated',
+    },
+  }))
   await client
     .post('send', { version: 'v3.1' })
-    .request<any>({ Messages: messages })
+    .request<any>({ Messages: messagesWithHeaders })
 }
