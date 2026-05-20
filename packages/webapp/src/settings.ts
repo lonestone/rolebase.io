@@ -7,7 +7,7 @@ export const isShareApp = /^\/share(\/|$)/.test(location.pathname)
 export default {
   // Webapp url
   url: isLocal
-    ? 'http://localhost:3000'
+    ? 'http://localhost:5175'
     : isStaging
     ? 'https://staging--rolebase.netlify.app'
     : 'https://rolebase.io',
