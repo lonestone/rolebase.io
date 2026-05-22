@@ -286,3 +286,10 @@ Before sending your pull request, please:
 ## Help & issues
 
 If you're having an issue with Rolebase, feel free to [contact us](https://rolebase.io/contact) or to open an issue on this Github project.
+
+## License
+
+This repository uses two licenses:
+
+- The Rolebase application (everything outside `website/`) is licensed under the [MIT License](./LICENSE).
+- The `website/` directory is proprietary and governed by [`website/LICENSE`](./website/LICENSE). Its source is publicly visible but not licensed for reuse.
