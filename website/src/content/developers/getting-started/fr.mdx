@@ -77,18 +77,21 @@ Démarrez l'application web en mode développement :
 npm run dev
 ```
 
-Puis ouvrez votre navigateur à l'adresse **[http://localhost:3000](http://localhost:3000)**.
+Puis ouvrez votre navigateur à l'adresse **[http://localhost:5175](http://localhost:5175)**.
 
 ## Structure du projet
 
 Le dépôt est organisé comme un monorepo avec des workspaces npm :
 
-| Package            | Description                          |
-| ------------------ | ------------------------------------ |
-| `packages/webapp`  | Frontend React (Vite, Chakra UI)     |
-| `packages/backend` | Backend tRPC et fonctions serverless |
-| `packages/shared`  | Types et utilitaires partagés        |
-| `packages/website` | Site de documentation (Astro)        |
+| Package            | Description                                   |
+| ------------------ | --------------------------------------------- |
+| `packages/webapp`  | Frontend React (Vite, Chakra UI)              |
+| `packages/backend` | Backend tRPC et fonctions serverless          |
+| `packages/shared`  | Types et utilitaires partagés                 |
+| `packages/editor`  | Éditeur de texte riche headless (Lexical)     |
+| `packages/collab`  | Serveur de collaboration en temps réel (Yjs)  |
+| `packages/emails`  | Templates d'emails transactionnels (React Email) |
+| `website`          | Site marketing et de documentation (Astro)    |
 
 ## Prochaines étapes
 

@@ -76,18 +76,21 @@ Start the webapp in development mode:
 npm run dev
 ```
 
-Then open your browser at **[http://localhost:3000](http://localhost:3000)**.
+Then open your browser at **[http://localhost:5175](http://localhost:5175)**.
 
 ## Project Structure
 
 The repository is organized as an npm workspace monorepo:
 
-| Package            | Description                           |
-| ------------------ | ------------------------------------- |
-| `packages/webapp`  | React frontend (Vite, Chakra UI)      |
-| `packages/backend` | tRPC backend and serverless functions |
-| `packages/shared`  | Shared types and utilities            |
-| `packages/website` | Documentation site (Astro)            |
+| Package            | Description                                  |
+| ------------------ | -------------------------------------------- |
+| `packages/webapp`  | React frontend (Vite, Chakra UI)             |
+| `packages/backend` | tRPC backend and serverless functions        |
+| `packages/shared`  | Shared types and utilities                   |
+| `packages/editor`  | Headless rich-text editor (Lexical)          |
+| `packages/collab`  | Real-time collaboration server (Yjs)         |
+| `packages/emails`  | Transactional email templates (React Email)  |
+| `website`          | Marketing and documentation site (Astro)     |
 
 ## Next Steps
 
