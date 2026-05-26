@@ -126,6 +126,14 @@ When modifying the product, update the documentation accordingly **in both EN an
 6. **New integration or app**: Update `content/docs/apps-integrations/` in both locales.
 7. **Changed subscription plans**: Update `content/docs/subscriptions/` and `content/api/org_subscription/` in both locales.
 
+#### Before every commit
+
+Before creating any commit, review the staged product changes (`packages/`, `nhost/`, etc.) against the rules above and update the affected documentation and guides (in both EN and FR) as part of the same change.
+
+- If updating the product makes any documentation or guide change necessary, make those doc edits **before** committing.
+- Whenever a commit includes documentation or guide changes (whether you just made them or they were already staged), do not create the commit straight away. First ask the user to review the doc changes, and only create the commit once they confirm.
+- If the product changes require no documentation update, commit normally.
+
 ### Development
 
 - Assume Astro is already running.
