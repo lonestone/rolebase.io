@@ -28,7 +28,7 @@ const t = await getTranslations(lang)
 )}
 
 <div id="toc-sentinel"></div>
-<div class="grid gap-6 md:sticky md:top-8">
+<div id="toc-sticky" class="grid gap-6 md:sticky md:top-8">
   {h2s.length > 0 && (
     <div>
       <nav
@@ -80,13 +80,47 @@ const t = await getTranslations(lang)
   const nav = document.getElementById("toc-nav")
   const select = document.getElementById("toc-select") as HTMLSelectElement | null
   const sentinel = document.getElementById("toc-sentinel")
+  const sticky = document.getElementById("toc-sticky")
 
-  if (nav && select && sentinel) {
+  if (nav && select && sentinel && sticky) {
     const links = nav.querySelectorAll<HTMLAnchorElement>("a[data-heading]")
     const slugs = Array.from(links).map((a) => a.dataset.heading!)
     const headings = slugs
       .map((s) => document.getElementById(s))
       .filter(Boolean) as HTMLElement[]
+
+    let isStuck = false
+
+    function collapse() {
+      nav!.style.opacity = "0"
+      nav!.style.maxHeight = "0"
+      nav!.style.paddingTop = "0"
+      nav!.style.paddingBottom = "0"
+      select!.style.opacity = "1"
+      select!.style.height = "3rem"
+    }
+
+    function expand() {
+      nav!.style.opacity = "1"
+      nav!.style.maxHeight = "9999px"
+      nav!.style.paddingTop = ""
+      nav!.style.paddingBottom = ""
+      select!.style.opacity = "0"
+      select!.style.height = "0"
+    }
+
+    // Collapse the table of contents into the compact <select> only while the
+    // sidebar is stuck AND its full height overflows the viewport. When the
+    // sidebar fits on screen the nav stays visible, so there is nothing to gain
+    // from collapsing it.
+    function render() {
+      // Expand first so scrollHeight reflects the full content, then apply the
+      // final state. Both style writes happen in the same frame, so the browser
+      // only paints the final one (no flicker).
+      expand()
+      const tallerThanWindow = sticky!.scrollHeight > window.innerHeight
+      if (isStuck && tallerThanWindow) collapse()
+    }
 
     select.addEventListener("change", () => {
       const target = document.getElementById(select.value)
@@ -111,28 +145,15 @@ const t = await getTranslations(lang)
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const isSticky = !entry.isIntersecting
-        if (isSticky) {
-          nav.style.opacity = "0"
-          nav.style.maxHeight = "0"
-          nav.style.paddingTop = "0"
-          nav.style.paddingBottom = "0"
-          select.style.opacity = "1"
-          select.style.height = "3rem"
-        } else {
-          nav.style.opacity = "1"
-          nav.style.maxHeight = "9999px"
-          nav.style.paddingTop = ""
-          nav.style.paddingBottom = ""
-          select.style.opacity = "0"
-          select.style.height = "0"
-        }
+        isStuck = !entry.isIntersecting
+        render()
       },
       { threshold: 0, rootMargin: "-1px 0px 0px 0px" },
     )
 
     if (window.matchMedia("(min-width: 768px)").matches) {
       observer.observe(sentinel)
+      window.addEventListener("resize", render, { passive: true })
       updateActive()
       document.addEventListener("scroll", updateActive, { passive: true })
     }
