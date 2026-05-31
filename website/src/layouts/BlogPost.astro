@@ -4,6 +4,7 @@ import { getCollection, render } from 'astro:content'
 import BlogLayout from './BlogLayout.astro'
 import BlogSidebar from '../components/BlogSidebar.astro'
 import BlogCard from '../components/BlogCard.astro'
+import KeyTakeaways from '../components/KeyTakeaways.astro'
 import InlineCta from '../components/InlineCta.astro'
 import { mdxComponents } from '../components'
 import Breadcrumb from '../components/Breadcrumb.astro'
@@ -22,7 +23,7 @@ const dateLang = lang === 'fr' ? 'fr-FR' : 'en-US'
 const similarSlugs = post.data.similarPosts ?? []
 let similarPosts: CollectionEntry<'blog'>[] = []
 if (similarSlugs.length > 0) {
-  const allPosts = await getCollection('blog', (p) => p.id.endsWith(`/${lang}`))
+  const allPosts = await getCollection('blog', (p) => p.id.endsWith(`/${lang}`) && !p.data.draft)
   similarPosts = similarSlugs
     .map((slug) => allPosts.find((p) => getSlugFromId(p.id) === slug))
     .filter((p): p is CollectionEntry<'blog'> => !!p)
@@ -34,7 +35,7 @@ if (similarSlugs.length > 0) {
     <header class="mb-10 pb-6 border-b border-gray-100">
       <Breadcrumb category={t.blog.label} categoryUrl={langPath(lang, '/blog')} title={post.data.title} hideTitle class="mb-3" />
       <h1 class="mb-4 font-medium text-3xl md:text-4xl lg:text-5xl">
-        {post.data.title}
+        {post.data.h1 ?? post.data.title}
       </h1>
       <p class="text-lg text-gray-500 mb-4">{post.data.summary}</p>
       <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-400">
@@ -53,6 +54,7 @@ if (similarSlugs.length > 0) {
         </p>
       )}
     </header>
+    <KeyTakeaways items={post.data.takeaways} />
     <div>
       <Content components={mdxComponents} />
     </div>
@@ -61,7 +63,7 @@ if (similarSlugs.length > 0) {
   <aside class="md:w-80 md:shrink-0 lg:w-88">
     <BlogSidebar headings={headings} image={post.data.image} />
   </aside>
-  <InlineCta />
+  {!post.data.hideInlineCta && <InlineCta />}
   {similarPosts.length > 0 && (
     <section slot="after" class="mt-16 pt-10 border-t border-gray-100">
       <h2 class="text-2xl font-medium mb-8">{t.blog.similarPosts}</h2>

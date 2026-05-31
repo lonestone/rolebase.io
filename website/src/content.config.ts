@@ -7,12 +7,21 @@ const blog = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      // Optional SEO `<title>` / headline split: `title` stays the document
+      // title and JSON-LD headline, `h1` overrides the visible on-page H1.
+      h1: z.string().optional(),
       summary: z.string(),
       date: z.coerce.date().optional(),
       update: z.coerce.date().optional(),
       image: image().optional(),
       author: z.string().optional(),
       similarPosts: z.array(z.string()).optional(),
+      // Key takeaways rendered as a highlighted box at the top of the article.
+      takeaways: z.array(z.string()).default([]),
+      // Drafts are excluded from the blog index and from the generated pages.
+      draft: z.boolean().default(false),
+      // Opt a single post out of the auto-inserted mid-article CTA.
+      hideInlineCta: z.boolean().default(false),
     }),
 })
 

@@ -6,7 +6,7 @@ import config from '../../../../website.config'
 export async function getStaticPaths() {
   const paths = []
   for (const lang of config.langs) {
-    const posts = await getCollection('blog', (p) => p.id.endsWith(`/${lang}`))
+    const posts = await getCollection('blog', (p) => p.id.endsWith(`/${lang}`) && !p.data.draft)
     for (const post of posts) {
       paths.push({
         params: { lang, slug: post.id.replace(`/${lang}`, '') },

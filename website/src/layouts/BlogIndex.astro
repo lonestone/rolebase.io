@@ -11,8 +11,9 @@ interface Props {
 const { lang } = Astro.props
 const t = await getTranslations(lang)
 
-const posts = (await getCollection('blog', (post) => post.id.endsWith(`/${lang}`)))
-  .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
+const posts = (
+  await getCollection('blog', (post) => post.id.endsWith(`/${lang}`) && !post.data.draft)
+).sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
 ---
 
 <WebsiteLayout title={t.blog.title}>

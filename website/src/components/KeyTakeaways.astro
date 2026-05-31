@@ -1,0 +1,24 @@
+---
+import { getLangFromUrl, getTranslations } from '../utils/i18n'
+
+interface Props {
+  items: string[]
+}
+
+const { items } = Astro.props
+const lang = getLangFromUrl(Astro.url)
+const t = await getTranslations(lang)
+---
+
+{
+  items.length > 0 && (
+    <div class="mb-10 rounded-2xl bg-yellow-50 p-6">
+      <div class="mb-3 text-xl font-medium">{t.blog.keyTakeaways}</div>
+      <ul class="list-disc space-y-1 pl-5 leading-relaxed">
+        {items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}

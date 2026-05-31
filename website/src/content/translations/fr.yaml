@@ -18,6 +18,7 @@ blog:
   title: Blog de Rolebase
   subtitle: "Restez informé des dernières actualités, mises à jour produit et réflexions sur l'auto-gouvernance."
   similarPosts: Continuer la lecture
+  keyTakeaways: Points clés
 
 clientCases:
   label: Cas clients
